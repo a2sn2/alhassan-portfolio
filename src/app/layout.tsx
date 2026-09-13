@@ -4,7 +4,9 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/ui/SkipLink";
-import { siteConfig } from "@/data/siteConfig";
+import { siteMetadata } from "@/content/siteMetadata";
+import { identityContent } from "@/content/identity";
+import { socialLinks } from "@/content/social";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,46 +21,48 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0c0d0e",
+  themeColor: siteMetadata.themeColor,
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://a2sn2.github.io/alhassan-portfolio"),
+  metadataBase: new URL(siteMetadata.siteUrl),
   title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.name}`,
+    default: siteMetadata.defaultTitle,
+    template: siteMetadata.titleTemplate,
   },
-  description: siteConfig.bioBrief,
-  authors: [{ name: siteConfig.name, url: siteConfig.githubUrl }],
-  creator: siteConfig.name,
-  keywords: [
-    "ALHassan Baligh ALShami",
-    "ALHassan ALShami",
-    "Software Engineer",
-    "Frontend Architecture",
-    "Fullstack Engineer",
-    "Portfolio",
-    "Systems Engineering",
-  ],
+  description: siteMetadata.defaultDescription,
+  authors: [{ name: siteMetadata.author.name, url: siteMetadata.author.url }],
+  creator: siteMetadata.author.name,
+  keywords: siteMetadata.keywords,
+  alternates: {
+    canonical: siteMetadata.siteUrl,
+  },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://a2sn2.github.io/alhassan-portfolio",
-    title: siteConfig.title,
-    description: siteConfig.bioBrief,
-    siteName: `${siteConfig.name} Portfolio`,
+    locale: siteMetadata.locale,
+    url: siteMetadata.siteUrl,
+    title: siteMetadata.defaultTitle,
+    description: siteMetadata.defaultDescription,
+    siteName: `${siteMetadata.author.name} — Portfolio`,
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.title,
-    description: siteConfig.bioBrief,
+    title: siteMetadata.defaultTitle,
+    description: siteMetadata.defaultDescription,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -67,8 +71,40 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": `${siteMetadata.siteUrl}/#person`,
+        name: identityContent.fullName,
+        alternateName: identityContent.shortName,
+        jobTitle: identityContent.role,
+        description: identityContent.bioBrief,
+        url: siteMetadata.siteUrl,
+        sameAs: socialLinks.map((link) => link.url),
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteMetadata.siteUrl}/#website`,
+        url: siteMetadata.siteUrl,
+        name: `${identityContent.fullName} — Portfolio`,
+        description: siteMetadata.defaultDescription,
+        publisher: {
+          "@id": `${siteMetadata.siteUrl}/#person`,
+        },
+      },
+    ],
+  };
+
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="app-shell">
         <SkipLink targetId="main-content" />
         <Header />
