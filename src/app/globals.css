@@ -1,0 +1,21 @@
+@import "../styles/tokens.css";
+@import "../styles/reset.css";
+
+/* App Shell Layout */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Subtle selection styling */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+}

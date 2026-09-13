@@ -1,0 +1,16 @@
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-gutter);
+  padding-right: var(--container-gutter);
+}
+
+.narrow {
+  max-width: var(--container-prose-width);
+}
+
+.full {
+  max-width: 100%;
+}
