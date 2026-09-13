@@ -1,124 +1,96 @@
-# alhassan-portfolio
+# ALHassan Baligh ALShami — Personal Portfolio Platform
 
-> Personal interactive portfolio website for **ALHassan Baligh ALShami** — Software Engineer.
+[![CI Pipeline](https://github.com/a2sn2/alhassan-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/a2sn2/alhassan-portfolio/actions/workflows/ci.yml)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Production-black?logo=vercel)](https://alhassan-portfolio-phi.vercel.app)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.3.5-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript Strict](https://img.shields.io/badge/TypeScript-5.x_Strict-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![WCAG 2.1 AA](https://img.shields.io/badge/Accessibility-WCAG_2.1_AA-green)](docs/quality/TEST-STRATEGY.md)
 
-A premium, bespoke digital portfolio built with architectural restraint, intentional typography, and performance-first engineering.
-
----
-
-## ✦ Core Design Principles
-
-- **Human-Crafted & Intentional**: Designed with typographic rhythm, purposeful whitespace, and refined tonal contrast. Avoids generic AI template tropes, excessive cards, and gratuitous glow/neon effects.
-- **Narrative Storytelling Flow**:
-  1. **Who I am** — Identity, background, perspective
-  2. **What I do** — Engineering discipline & problem domains
-  3. **Experience** — Career trajectory and real-world ownership
-  4. **Projects** — Rigorous case studies (Problem → Role → Solution → Technologies → Result)
-  5. **Skills** — Systems, languages, frameworks, and architecture competencies
-  6. **Proof** — Recommendations, metrics, technical writing, and peer endorsements
-  7. **Contact** — Friction-free direct communication channels
-- **Inclusive Accessibility**: Full keyboard navigation, visible focus indicators, skip-to-content accessibility link, and semantic HTML5 throughout.
-- **Content Integrity**: Zero hallucinated claims or fabricated metrics. All biographical and professional entries are grounded strictly in verified CV data.
+Production URL: [https://alhassan-portfolio-phi.vercel.app](https://alhassan-portfolio-phi.vercel.app)  
+Repository: [https://github.com/a2sn2/alhassan-portfolio](https://github.com/a2sn2/alhassan-portfolio)  
+Owner: **ALHassan Baligh ALShami**
 
 ---
 
-## 🛠 Tech Stack
+## 🧭 Documentation Navigation Hub
 
-- **Framework**: [Next.js](https://nextjs.org/) (App Router, React Server Components)
-- **Language**: [TypeScript](https://www.typescriptlang.org/) (Strict Mode)
-- **Styling**: Modern Vanilla CSS with CSS Modules & CSS Custom Properties (Design Tokens)
-- **Typography**: Geist Sans & Geist Mono via `next/font`
-- **SEO**: Metadata API, OpenGraph protocols, structured semantics
+This repository is governed by the **Universal Software Project Execution Playbook** and structured under Clean Front-End Architecture principles. All technical specifications, architectural decision records, and operational runbooks are cataloged below:
 
----
+### 1. Project Charter & Governance
+- [Project Charter](docs/PROJECT-CHARTER.md) — Mission, ownership, and consumer-ready standards.
+- [Project Execution Profile](docs/PROJECT-EXECUTION-PROFILE.md) — Playbook capability classification (Applicable, Conditionally Applicable, Not Applicable).
+- [Universal Execution Playbook](docs/standards/UNIVERSAL_SOFTWARE_PROJECT_EXECUTION_PLAYBOOK_AR.md) — Core engineering methodology.
 
-## 📂 Project Structure
+### 2. Requirements & Standards
+- [Functional Requirements](docs/REQUIREMENTS.md) — Personas, section specifications, and scope boundaries.
+- [Non-Functional Requirements](docs/NON-FUNCTIONAL-REQUIREMENTS.md) — Web Vitals budgets, WCAG 2.1 AA standards, security baselines.
 
-```text
-alhassan-portfolio/
-├── .agents/
-│   └── rules/                  # Workspace-level agent rules
-│       ├── design-system.md    # Aesthetics, rhythm, motion, and visual restraint
-│       ├── frontend-quality.md # Semantic HTML, modularity, and zero magic numbers
-│       ├── responsive-accessibility.md # Viewport resilience and WCAG AA standards
-│       ├── content-integrity.md# Zero-invention policy & verified data guidelines
-│       └── visual-qa.md        # Mandatory browser testing checklist
-├── src/
-│   ├── app/
-│   │   ├── globals.css         # Global shell layout & imports
-│   │   ├── layout.tsx          # Root layout, metadata, SEO, and shell
-│   │   └── page.tsx            # Composition of narrative storytelling sections
-│   ├── components/
-│   │   ├── layout/             # Header, Footer, and Navigation
-│   │   ├── sections/           # Hero, About, Experience, Projects, Skills, Proof, Contact
-│   │   └── ui/                 # Container, Button, Badge, SkipLink, SectionHeader
-│   ├── data/
-│   │   ├── siteConfig.ts       # Verified site metadata and navigation
-│   │   └── types.ts            # TypeScript data contracts
-│   ├── styles/
-│   │   ├── reset.css           # Modern CSS reset & reduced-motion queries
-│   │   └── tokens.css          # Design token primitives (colors, fluid clamp fonts, spaces)
-│   └── utils/
-│       └── cn.ts               # Zero-dependency classname utility
-├── public/                     # Static assets
-└── package.json
-```
+### 3. Architecture & Decisions
+- [Clean Architecture Specification](docs/architecture/ARCHITECTURE.md) — Layer boundaries, dependency flow, Server/Client component rules.
+- **Architecture Decision Records (ADRs):**
+  - [ADR-0001: Next.js 16 App Router](docs/architecture/ADR-0001-nextjs-app-router.md)
+  - [ADR-0002: TypeScript Strict Mode & Schema Contracts](docs/architecture/ADR-0002-typescript-strict-mode.md)
+  - [ADR-0003: Vanilla CSS Modules & Design Tokens](docs/architecture/ADR-0003-vanilla-css-modules-design-tokens.md)
+  - [ADR-0004: Canonical Typed Content Architecture](docs/architecture/ADR-0004-canonical-typed-content-contracts.md)
+  - [ADR-0005: Playwright E2E & Axe Accessibility Testing](docs/architecture/ADR-0005-playwright-e2e-and-axe-accessibility-testing.md)
+  - [ADR-0006: GitHub Actions CI Pipeline](docs/architecture/ADR-0006-github-actions-ci-pipeline.md)
+  - [ADR-0007: Vercel Edge Deployment](docs/architecture/ADR-0007-vercel-edge-deployment.md)
+  - [ADR-0008: Minimalist Production Observability](docs/architecture/ADR-0008-minimalist-production-observability.md)
+
+### 4. Content & Design Guides
+- [Content Editing Guide](docs/CONTENT-EDITING-GUIDE.md) — Step-by-step instructions for editing verified bio, roles, projects, and skills without touching UI code.
+- [Design Extension Guide](docs/DESIGN-EXTENSION-GUIDE.md) — Token definitions, fluid typography scale, and motion rules.
+
+### 5. Quality, Testing & Release
+- [Test Strategy & Quality Plan](docs/quality/TEST-STRATEGY.md) — E2E suite, multi-viewport tests, automated Axe a11y audit.
+- [Definition of Done](docs/quality/DEFINITION-OF-DONE.md) — Verifiable exit criteria for pull requests.
+- [Release Gate Specification](docs/quality/RELEASE-GATE.md) — 12-point release gate before merging into `main`.
+- [Production Readiness Review](docs/quality/PRODUCTION-READINESS.md) — Production audit across security, hosting, and performance.
+
+### 6. Operations & Deployment
+- [Local Development Runbook](docs/operations/LOCAL-DEVELOPMENT.md) — Setup, scripts, and local debugging.
+- [Deployment Runbook](docs/operations/DEPLOYMENT.md) — CI/CD automation, preview environments, and production promotion.
+- [Rollback Runbook](docs/operations/ROLLBACK.md) — Instant Vercel recovery and Git synchronization.
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js `20.x` or higher (tested with Node `22.x`)
-- npm `10.x` or higher
-
-### Installation
+## ⚡ Quickstart
 
 ```bash
-# Clone the repository
+# 1. Clone repository
 git clone https://github.com/a2sn2/alhassan-portfolio.git
 cd alhassan-portfolio
 
-# Install dependencies
-npm install
-```
+# 2. Clean install dependencies
+npm ci
 
-### Local Development
-
-```bash
-# Start development server with Turbopack
+# 3. Start local development server
 npm run dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Quality Verification
-
-```bash
-# Run TypeScript type check
-npx tsc --noEmit
-
-# Run ESLint check
-npm run lint
-
-# Build production bundle
-npm run build
-
-# Run production server locally
-npm start
+# 4. Run automated verification suite
+npm run lint          # ESLint code style
+npm run typecheck     # TypeScript strict checks
+npm run build         # Next.js static prerender
+npx playwright test   # E2E and WCAG 2.1 AA accessibility suite
 ```
 
 ---
 
-## 🌐 Deployment
+## 🏛 Clean Front-End Dependency Boundary
 
-### Vercel (Recommended)
-1. Push the repository to GitHub: `a2sn2/alhassan-portfolio`.
-2. Import the repository in [Vercel](https://vercel.com/new).
-3. Next.js App Router defaults are automatically detected and deployed.
+```
+src/content/ (Canonical Data) ── satisfies ──► src/contracts/ (TypeScript Types)
+            │
+            ▼ (injected into)
+src/app/page.tsx (Composition Shell)
+  ├──► src/components/layout/   (Header, Footer, Navigation Drawer)
+  └──► src/components/sections/ (Hero, About, Experience, Projects, Skills, Proof, Contact)
+            │
+            ▼ (consumes)
+src/components/ui/ (Primitives) ◄── styled via ── src/styles/tokens.css
+```
 
 ---
 
 ## 📜 License
-
-Private personal portfolio repository © ALHassan Baligh ALShami.
+Private personal portfolio repository © **ALHassan Baligh ALShami**. All rights reserved.
