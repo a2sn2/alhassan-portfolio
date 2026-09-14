@@ -1,20 +1,94 @@
-import { ContactContent } from "@/contracts/contact";
+import { ContactContent } from "@/contracts";
 
-export const contactContent = {
-  kicker: "06 / Direct Connect",
-  title: "Get In Touch",
-  description: "Open for software engineering opportunities, architecture consultations, and technical collaborations.",
+export const contactContent: ContactContent = {
+  kicker: "Direct Communication & Access",
+  title: "Get in Touch & Access Official Documents",
+  description:
+    "Direct contact channels, verified professional profiles, and official multi-language curriculum vitae packages.",
+  directEmail: "hassan1alshami6@gmail.com",
+  directPhone: "+967 772 765 120",
+  location: "Sana'a, Yemen",
   methods: [
     {
-      id: "github",
-      label: "GitHub",
-      value: "@a2sn2",
-      href: "https://github.com/a2sn2",
+      id: "email",
+      label: "Direct Email",
+      value: "hassan1alshami6@gmail.com",
+      href: "mailto:hassan1alshami6@gmail.com",
       isPrimary: true,
+    },
+    {
+      id: "linkedin",
+      label: "LinkedIn Profile",
+      value: "linkedin.com/in/a2sn4",
+      href: "https://www.linkedin.com/in/a2sn4",
+      isExternal: true,
+      isPrimary: true,
+    },
+    {
+      id: "github",
+      label: "GitHub Repositories",
+      value: "github.com/a2sn2",
+      href: "https://github.com/a2sn2",
+      isExternal: true,
+    },
+    {
+      id: "instagram",
+      label: "Instagram",
+      value: "@a2s.n4",
+      href: "https://www.instagram.com/a2s.n4",
       isExternal: true,
     },
   ],
-  status: "placeholder",
-  placeholderNotice: "Additional verified direct contact and professional channels will be published shortly.",
-  placeholderText: "Connect directly via verified public channels:",
-} satisfies ContactContent;
+  cvDocuments: [
+    {
+      label: "English Curriculum Vitae (Standard)",
+      language: "English",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      filesize: "8.3 MB",
+    },
+    {
+      label: "English Curriculum Vitae (ATS-Optimized)",
+      language: "English",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      filesize: "3.2 MB",
+    },
+    {
+      label: "Lebenslauf Deutsch (Standardversion)",
+      language: "German",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      filesize: "8.5 MB",
+    },
+    {
+      label: "Lebenslauf Deutsch (ATS-Version)",
+      language: "German",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      filesize: "3.2 MB",
+    },
+    {
+      label: "السيرة الذاتية بالعربية (النسخة العادية)",
+      language: "Arabic",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      filesize: "7.5 MB",
+    },
+    {
+      label: "السيرة الذاتية بالعربية (نسخة ATS)",
+      language: "Arabic",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+      filesize: "2.5 MB",
+    },
+  ],
+  referencesNote:
+    "Formal academic and industry references from university department chairs, engineering supervisors, and executive directors are available upon request.",
+};
