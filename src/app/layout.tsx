@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -8,8 +8,8 @@ import { siteMetadata } from "@/content/siteMetadata";
 import { identityContent } from "@/content/identity";
 import { socialLinks } from "@/content/social";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
@@ -21,8 +21,11 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: siteMetadata.themeColor,
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F3F2F7" },
+    { media: "(prefers-color-scheme: dark)", color: "#121316" },
+  ],
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -98,8 +101,13 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${geistMono.variable}`}>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t)}else if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.setAttribute("data-theme","dark")}else{document.documentElement.setAttribute("data-theme","light")}}catch(e){}})();`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -6,7 +6,7 @@ export const skillsContent = {
   description: "Languages, frameworks, tooling, and architectural practices.",
   groups: [],
   status: "placeholder",
-  placeholderNotice: "[Section Architecture: Awaiting Verified Technical Inventory]",
+  placeholderNotice: "Technical Inventory Ingestion in Progress",
   placeholderText:
-    "Structured capability domains (e.g. Core Languages, Frontend Architecture, Backend & Distributed Systems, DevOps & Tooling) awaiting verified proficiencies from CV data.",
+    "Comprehensive capability inventory covering distributed systems, frontend architectures, runtime environments, and tooling is being verified.",
 } satisfies SkillsContent;

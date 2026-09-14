@@ -10,7 +10,7 @@ interface ExperienceSectionProps {
 
 export function ExperienceSection({ content }: ExperienceSectionProps) {
   return (
-    <section id="experience" className={styles.section} aria-label="Experience">
+    <section id="experience" className={`${styles.section} ${styles.sectionAlternate}`} aria-label="Experience">
       <Container>
         <SectionHeader
           kicker={content.kicker}

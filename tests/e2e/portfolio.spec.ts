@@ -139,4 +139,32 @@ test.describe("Portfolio Core User Experience & Technical Quality", () => {
 
     expect(accessibilityScanResults.violations).toEqual([]);
   });
+
+  test("TC-08: Dual-theme toggle updates data-theme attribute and persists preference", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+
+    const toggle = page.locator('button[aria-label*="Switch to"]').first();
+    await expect(toggle).toBeVisible();
+
+    const initialTheme = await page.evaluate(() =>
+      document.documentElement.getAttribute("data-theme")
+    );
+
+    // Click toggle to flip theme
+    await toggle.click();
+
+    const newTheme = await page.evaluate(() =>
+      document.documentElement.getAttribute("data-theme")
+    );
+    expect(newTheme).not.toBe(initialTheme);
+    expect(["light", "dark"]).toContain(newTheme);
+
+    // Verify localStorage persistence
+    const storedTheme = await page.evaluate(() => localStorage.getItem("theme"));
+    expect(storedTheme).toBe(newTheme);
+  });
 });
+

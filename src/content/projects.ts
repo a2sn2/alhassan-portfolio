@@ -19,7 +19,7 @@ export const projectsContent = {
     },
   ],
   status: "placeholder",
-  placeholderNotice: "[Section Architecture: Awaiting Verified Project Data]",
+  placeholderNotice: "Case Studies Under Active Curation",
   placeholderText:
-    "Production case study cards will be populated using verified project data, repository links, and live demos without inventing facts.",
+    "Comprehensive case studies with verified architectural metrics, system diagrams, and measured performance outcomes will be featured here.",
 } satisfies ProjectsContent;

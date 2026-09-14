@@ -11,7 +11,7 @@ interface ContactSectionProps {
 
 export function ContactSection({ content }: ContactSectionProps) {
   return (
-    <section id="contact" className={styles.section} aria-label="Contact">
+    <section id="contact" className={`${styles.section} ${styles.sectionAlternate}`} aria-label="Contact">
       <Container>
         <SectionHeader
           kicker={content.kicker}

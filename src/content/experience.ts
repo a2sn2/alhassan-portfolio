@@ -6,7 +6,7 @@ export const experienceContent = {
   description: "Career chronology, engineering leadership, and shipped software impact.",
   items: [],
   status: "placeholder",
-  placeholderNotice: "[Section Architecture: Awaiting Verified Career History]",
+  placeholderNotice: "Career Trajectory Ingestion in Progress",
   placeholderText:
-    "Structured chronological timeline component ready to receive verified roles, dates, company details, responsibilities, and technical deliverables from official CV records.",
+    "Structured chronology, engineering leadership roles, and shipped software impact are currently being staged from verified CV records.",
 } satisfies ExperienceContent;
