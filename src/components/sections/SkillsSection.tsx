@@ -18,33 +18,20 @@ export function SkillsSection({ content }: SkillsSectionProps) {
           description={content.description}
         />
 
-        {content.status === "placeholder" || content.groups.length === 0 ? (
-          <div className={styles.placeholderBox}>
-            {content.placeholderNotice && (
-              <span className={styles.placeholderNotice}>
-                {content.placeholderNotice}
-              </span>
-            )}
-            {content.placeholderText && (
-              <p className={styles.placeholderText}>{content.placeholderText}</p>
-            )}
-          </div>
-        ) : (
-          <div className={styles.skillsGrid}>
-            {content.groups.map((group) => (
-              <div key={group.category} className={styles.skillGroup}>
-                <h3 className={styles.skillCategory}>{group.category}</h3>
-                <div className={styles.techList}>
-                  {group.skills.map((skill) => (
-                    <span key={skill} className={styles.techTag}>
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+        <div className={styles.skillsGrid}>
+          {content.groups.map((group) => (
+            <div key={group.category} className={styles.skillGroup}>
+              <h3 className={styles.skillCategory}>{group.category}</h3>
+              <div className={styles.techList}>
+                {group.skills.map((skill) => (
+                  <span key={skill} className={styles.techTag}>
+                    {skill}
+                  </span>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
       </Container>
     </section>
   );

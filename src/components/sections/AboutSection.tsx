@@ -18,26 +18,13 @@ export function AboutSection({ content }: AboutSectionProps) {
           description={content.description}
         />
 
-        {content.status === "placeholder" ? (
-          <div className={styles.placeholderBox}>
-            {content.placeholderNotice && (
-              <span className={styles.placeholderNotice}>
-                {content.placeholderNotice}
-              </span>
-            )}
-            {content.placeholderText && (
-              <p className={styles.placeholderText}>{content.placeholderText}</p>
-            )}
-          </div>
-        ) : (
-          <div className={styles.aboutContent}>
-            {content.paragraphs.map((p, idx) => (
-              <p key={idx} className={styles.paragraph}>
-                {p}
-              </p>
-            ))}
-          </div>
-        )}
+        <div className={styles.aboutContent}>
+          {content.paragraphs.map((p, idx) => (
+            <p key={idx} className={styles.paragraph}>
+              {p}
+            </p>
+          ))}
+        </div>
       </Container>
     </section>
   );

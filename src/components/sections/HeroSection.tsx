@@ -1,21 +1,15 @@
 import React from "react";
+import Link from "next/link";
 import styles from "./Sections.module.css";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
 import { Identity } from "@/contracts/identity";
 
 interface HeroSectionProps {
   content: Identity;
-  primaryAction?: { label: string; href: string };
-  secondaryAction?: { label: string; href: string };
 }
 
-export function HeroSection({
-  content,
-  primaryAction = { label: "View Work", href: "#projects" },
-  secondaryAction = { label: "Get in Touch", href: "#contact" },
-}: HeroSectionProps) {
+export function HeroSection({ content }: HeroSectionProps) {
   return (
     <section id="top" className={styles.heroSection} aria-label="Introduction">
       <Container>
@@ -53,46 +47,64 @@ export function HeroSection({
 
             <p className={styles.heroLead}>{content.headline}</p>
 
+            <p className={styles.heroBioBrief}>{content.bioBrief}</p>
+
             <div className={styles.heroActions}>
-              <Button href={primaryAction.href} variant="primary">
-                {primaryAction.label}
-              </Button>
-              <Button href={secondaryAction.href} variant="secondary">
-                {secondaryAction.label}
-              </Button>
+              <Link href="/projects" className={styles.btnPrimary}>
+                <span>Explore Selected Work</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link href="/about" className={styles.btnSecondary}>
+                <span>Read Profile & Principles</span>
+              </Link>
+            </div>
+
+            <div className={styles.commandHint}>
+              <span className={styles.kbdHint}>⌘K</span>
+              <span>or</span>
+              <span className={styles.kbdHint}>Ctrl+K</span>
+              <span>opens the Portfolio Navigator from anywhere</span>
             </div>
           </div>
 
-          {/* Desktop Architectural Showcase Panel */}
+          {/* Desktop Architectural Showcase Panel with Verified Pillars */}
           <aside className={styles.heroShowcase} aria-label="Engineering Focus">
             <div className={styles.showcaseGlow} aria-hidden="true" />
             <div className={styles.showcaseHeader}>
-              <span className={styles.showcaseTitle}>Core Focus</span>
+              <span className={styles.showcaseTitle}>Verified Focus</span>
               <span className={styles.showcaseStatus}>Active Practice</span>
             </div>
 
             <div className={styles.showcasePillars}>
               <div className={styles.pillarCard}>
-                <span className={styles.pillarIndex}>01 / ARCHITECTURE</span>
-                <span className={styles.pillarTitle}>Distributed & System Design</span>
+                <span className={styles.pillarIndex}>01 / SYSTEMS</span>
+                <span className={styles.pillarTitle}>Software Systems & Integration</span>
                 <span className={styles.pillarDesc}>
-                  Designing resilient, scalable backends and robust data contracts.
+                  Fintech accounting systems, operational workflows, and institutional integrations.
                 </span>
               </div>
 
               <div className={styles.pillarCard}>
-                <span className={styles.pillarIndex}>02 / USER INTERFACE</span>
-                <span className={styles.pillarTitle}>Design Systems & Precision</span>
+                <span className={styles.pillarIndex}>02 / FULL-STACK</span>
+                <span className={styles.pillarTitle}>Application Engineering</span>
                 <span className={styles.pillarDesc}>
-                  Engineered front-ends, zero-layout-shift performance, and accessible UI.
+                  Responsive web interfaces, Flutter mobile clients, and backend REST microservices.
                 </span>
               </div>
 
               <div className={styles.pillarCard}>
-                <span className={styles.pillarIndex}>03 / QUALITY</span>
-                <span className={styles.pillarTitle}>Rigor & Automated QA</span>
+                <span className={styles.pillarIndex}>03 / AI & VISION</span>
+                <span className={styles.pillarTitle}>Applied AI & Computer Vision</span>
                 <span className={styles.pillarDesc}>
-                  End-to-end verification, strict typing, and regression-free delivery.
+                  Live camera stream object detection and tracking algorithms on Linux with OpenCV.
+                </span>
+              </div>
+
+              <div className={styles.pillarCard}>
+                <span className={styles.pillarIndex}>04 / QUALITY</span>
+                <span className={styles.pillarTitle}>Quality Assurance & Review Rigor</span>
+                <span className={styles.pillarDesc}>
+                  Testing protocols, feasibility reviews, and quality benchmarks for production releases.
                 </span>
               </div>
             </div>
