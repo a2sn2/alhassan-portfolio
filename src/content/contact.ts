@@ -15,6 +15,6 @@ export const contactContent = {
     },
   ],
   status: "placeholder",
-  placeholderNotice: "[Awaiting verified professional email & LinkedIn link]",
+  placeholderNotice: "Additional verified direct contact and professional channels will be published shortly.",
   placeholderText: "Connect directly via verified public channels:",
 } satisfies ContactContent;

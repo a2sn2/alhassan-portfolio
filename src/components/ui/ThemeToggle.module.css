@@ -1,0 +1,43 @@
+.toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-primary);
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
+  box-shadow: var(--shadow-subtle);
+}
+
+.toggle:hover {
+  color: var(--color-brand);
+  border-color: var(--color-brand-border);
+  background-color: var(--color-surface-hover);
+  transform: translateY(-1px);
+}
+
+.toggle:active {
+  transform: scale(0.96);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.toggle:hover .icon {
+  transform: rotate(15deg);
+}

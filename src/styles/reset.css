@@ -19,11 +19,13 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-bg);
+  background-color: var(--color-canvas);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   font-size: var(--text-base);
   overflow-x: hidden;
+  transition: background-color var(--duration-base) var(--ease-standard),
+              color var(--duration-base) var(--ease-standard);
 }
 
 /* Accessible focus styling */

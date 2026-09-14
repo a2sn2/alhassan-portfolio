@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./Header.module.css";
 import { Container } from "@/components/ui/Container";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { identityContent, navigationContent, socialLinks } from "@/content";
 import { cn } from "@/utils/cn";
 
@@ -64,43 +65,62 @@ export function Header() {
     <header className={styles.header}>
       <Container>
         <div className={styles.inner}>
+          {/* JAIB Brand Identity Signature */}
           <a
             href="#top"
             className={styles.brand}
             aria-label={`${identityContent.fullName} - Home`}
             onClick={handleLinkClick}
           >
-            <span className={styles.brandDot} aria-hidden="true" />
-            <span className={styles.brandText}>{identityContent.fullName}</span>
+            <div className={styles.brandmark} aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m18 16 4-4-4-4" />
+                <path d="m6 8-4 4 4 4" />
+                <path d="m14.5 4-5 16" />
+              </svg>
+            </div>
+            <div className={styles.brandTextGroup}>
+              <span className={styles.brandTitle}>{identityContent.fullName}</span>
+              <span className={styles.brandRole}>{identityContent.role}</span>
+            </div>
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className={styles.desktopNav} aria-label="Main Navigation">
-            {navigationContent.navItems.map((item) => (
-              <a key={item.href} href={item.href} className={styles.navLink}>
-                {item.label}
-              </a>
-            ))}
-          </nav>
+          {/* Desktop Navigation & Controls */}
+          <div className={styles.navGroup}>
+            <nav className={styles.desktopNav} aria-label="Main Navigation">
+              {navigationContent.navItems.map((item) => (
+                <a key={item.href} href={item.href} className={styles.navLink}>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
 
-          {/* Mobile Menu Toggle Button */}
-          <button
-            ref={toggleButtonRef}
-            type="button"
-            className={styles.menuToggle}
-            onClick={() => setIsOpen((prev) => !prev)}
-            aria-expanded={isOpen}
-            aria-controls="mobile-nav-drawer"
-            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-          >
-            <span
-              className={cn(styles.hamburgerIcon, isOpen && styles.hamburgerOpen)}
-              aria-hidden="true"
+            <div className={styles.desktopNav}>
+              <ThemeToggle />
+            </div>
+          </div>
+
+          {/* Mobile Header Controls */}
+          <div className={styles.mobileControls}>
+            <ThemeToggle />
+            <button
+              ref={toggleButtonRef}
+              type="button"
+              className={styles.menuToggle}
+              onClick={() => setIsOpen((prev) => !prev)}
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav-drawer"
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
             >
-              <span className={styles.hamburgerLine} />
-              <span className={styles.hamburgerLine} />
-            </span>
-          </button>
+              <span
+                className={cn(styles.hamburgerIcon, isOpen && styles.hamburgerOpen)}
+                aria-hidden="true"
+              >
+                <span className={styles.hamburgerLine} />
+                <span className={styles.hamburgerLine} />
+              </span>
+            </button>
+          </div>
         </div>
       </Container>
 
@@ -128,8 +148,12 @@ export function Header() {
             </a>
           ))}
 
-          {github && (
-            <div className={styles.drawerFooter}>
+          <div className={styles.drawerFooter}>
+            <div className={styles.drawerThemeRow}>
+              <span>Appearance</span>
+              <ThemeToggle />
+            </div>
+            {github && (
               <a
                 href={github.url}
                 target="_blank"
@@ -141,8 +165,8 @@ export function Header() {
                 <span>GitHub (@{github.username})</span>
                 <span aria-hidden="true">↗</span>
               </a>
-            </div>
-          )}
+            )}
+          </div>
         </nav>
       </div>
     </header>

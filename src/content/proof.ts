@@ -6,7 +6,7 @@ export const proofContent = {
   description: "Verified recommendations, published writing, and peer evaluations.",
   items: [],
   status: "placeholder",
-  placeholderNotice: "[Section Architecture: Awaiting Verified Endorsements & Proof]",
+  placeholderNotice: "Endorsements & Publications Staged",
   placeholderText:
-    "This section reserves layout for verified testimonials, public speaking, certifications, or peer endorsements. No mock quotes or fabricated recommendations are created.",
+    "Verified technical writing, certifications, and peer evaluations will appear in this space as they are validated.",
 } satisfies ProofContent;

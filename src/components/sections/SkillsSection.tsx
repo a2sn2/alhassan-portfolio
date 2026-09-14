@@ -10,7 +10,7 @@ interface SkillsSectionProps {
 
 export function SkillsSection({ content }: SkillsSectionProps) {
   return (
-    <section id="skills" className={styles.section} aria-label="Technical Skills">
+    <section id="skills" className={`${styles.section} ${styles.sectionAlternate}`} aria-label="Technical Skills">
       <Container>
         <SectionHeader
           kicker={content.kicker}

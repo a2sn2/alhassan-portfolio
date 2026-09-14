@@ -6,7 +6,7 @@ export const aboutContent = {
   description: "A principled approach to building reliable systems and thoughtful user interfaces.",
   paragraphs: [],
   status: "placeholder",
-  placeholderNotice: "[Section Architecture: Awaiting Verified Biography & Perspective]",
+  placeholderNotice: "Verified Perspective Ingestion in Progress",
   placeholderText:
-    "This structural area will house verified biographical narrative, engineering background, and philosophical principles. No placeholder facts or invented achievements are populated per content integrity rules.",
+    "Biographical narrative, engineering philosophy, and architectural perspective are currently being compiled from verified career records.",
 } satisfies AboutContent;
