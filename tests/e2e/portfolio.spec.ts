@@ -352,7 +352,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(aboutText).not.toContain("Graduated with honors");
     expect(aboutText).not.toContain("Grade: Excellent");
 
-    // 3. Check /experience for verified roles and absence of fabricated metrics
+    // 3. Check /experience for verified roles and absence of fabricated metrics & stale roles
     await page.goto("/experience");
     const expText = await page.innerText("body");
     expect(expText).toContain("Co-Founder & Director of Quality Assurance");
@@ -360,7 +360,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(expText).toContain("Control Engineer Trainee");
     expect(expText).toContain("Network Engineer Trainee");
 
-    // Assert zero presence of banned unverified metrics/titles
+    // Assert zero presence of banned unverified metrics, titles, and stale unsupported roles
     const bannedTerms = [
       "99.7% uptime",
       "34% reduction",
@@ -374,10 +374,25 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       "Robotics Software Developer",
       "Google Cybersecurity",
       "Jetson Orin",
+      "Project Developer — Freelance",
+      "Assistant Supervisor",
+      "TeleYemen",
+      "International Youth Council",
     ];
 
     for (const term of bannedTerms) {
       expect(expText, `Found unverified banned term: ${term}`).not.toContain(term);
     }
+
+    // 4. Check /contact for canonical email and zero presence of old outlook address
+    await page.goto("/contact");
+    const contactText = await page.innerText("body");
+    expect(contactText).toContain("hassan1alshami6@gmail.com");
+    expect(contactText).not.toContain("eng.al-hassan.al-shami@outlook.com");
+
+    // 5. Check /projects/real-time-object-detection has no unsupported role
+    await page.goto("/projects/real-time-object-detection");
+    const projectDetailText = await page.innerText("body");
+    expect(projectDetailText).not.toContain("Lead Developer & Researcher");
   });
 });

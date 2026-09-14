@@ -1,7 +1,7 @@
 # Content Source Reconciliation Matrix
 
 **Document:** Canonical Professional Information Source Reconciliation  
-**Primary Source Package:** [docs/ALHassan_Baligh_ALShami_CV_Package/](file:///D:/Projects/alhassan-portfolio/docs/ALHassan_Baligh_ALShami_CV_Package/)  
+**Primary Source Package:** [docs/ALHassan_Baligh_ALShami_CV_Package/](file:///docs/ALHassan_Baligh_ALShami_CV_Package/)  
 **Sources Analyzed:**
 1. `English/ALHassan_Baligh_ALShami_CV_Standard.pdf`
 2. `English/ALHassan_Baligh_ALShami_CV_ATS.pdf`
@@ -20,7 +20,7 @@
 | **Full Name (AR)** | الحسن بليغ الشامي | All Arabic CVs | Arabic | **VERIFIED & CONSISTENT** | Canonical Arabic script across all CVs |
 | **Professional Role** | Software Engineer | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Stated as "Software Engineer" / "Softwareentwickler" / "مهندس برمجيات" |
 | **Location** | Haddah, Sana'a, Yemen | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Concise public display: "Sana'a, Yemen" |
-| **Email** | `hassan1alshami6@gmail.com` | All CV variants | All | **VERIFIED & CONSISTENT** | Primary direct contact |
+| **Email** | `hassan1alshami6@gmail.com` | All CV variants | All | **VERIFIED & CONSISTENT** | Canonical direct public contact |
 | **Phone** | `+967 772 765 120` | All CV variants | All | **VERIFIED & CONSISTENT** | Direct mobile contact |
 | **Date of Birth** | 01 Oct 2002 | All CV variants | All | **VERIFIED & CONSISTENT** | Private CV detail (withheld from public web UI) |
 | **LinkedIn** | `linkedin.com/in/a2sn4` | All CV variants | All | **VERIFIED & CONSISTENT** | Professional network profile |
@@ -30,30 +30,36 @@
 
 ---
 
-## 2. Professional Summary & Narrative Positioning
+## 2. Professional Summary & Derived Copy Register
 
-| Field | Canonical Value | Source File(s) | Source Language(s) | Status | Notes |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **CV Summary (EN)** | Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces. | `English/ALHassan_Baligh_ALShami_CV_Standard.pdf` | English | **VERIFIED & CONSISTENT** | Verbatim text from official CV profile |
-| **Homepage Headline** | Software Systems, Full-Stack Engineering & Applied AI | Derived from CV Summary & verified project scope | English | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Concise professional headline adhering to verified technical pillars |
-| **Homepage Bio Brief** | Software engineer combining academic foundations with hands-on systems implementation, full-stack application development, and quality assurance. | Derived from CV Summary & experience | English | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Summary of verified core competencies |
-| **About Narrative** | Multi-paragraph editorial journey detailing Twintech Computer Science education, Linux OpenCV graduation thesis, Jaib Wallet fintech development, and Asaas AI QA leadership. | Derived strictly from verified CV facts | English | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Editorial perspective containing zero unverified claims |
+To maintain absolute transparency, content that represents editorial synthesis or stylistic framing rather than verbatim source text is cataloged here as **DERIVED COPY — REQUIRES OWNER APPROVAL**:
 
----
-
-## 3. Education
-
-| Field | Canonical Value | Source File(s) | Source Language(s) | Status | Notes |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Institution** | International University of Technology Twintech | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | University name |
-| **Degree** | B.Sc. in Computer Science | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | "B.Sc. in Computer Science" / "B.Sc. in Informatik" / "بكالوريوس في علوم الحاسوب" |
-| **Period** | 2021 – 2025 | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | 4-year academic period |
-| **Graduation Project** | Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results. | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Repository includes final report, transcript, specialization plan, recommendation letters |
-| **GPA / Honors / Thesis Grade** | *None* | *None* | *None* | **MISSING** | **REMOVED**: Fabricated claims ("GPA 89.26%", "Graduated with honors", "Grade: Excellent") were purged completely |
+| Field | Current Implementation | Source Grounding / Basis | Status | Owner Approval Required |
+| :--- | :--- | :--- | :--- | :--- |
+| **CV Summary (EN)** | Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces. | `English/ALHassan_Baligh_ALShami_CV_Standard.pdf` | **VERIFIED & CONSISTENT** | No (Verbatim from CV) |
+| **Homepage Headline** | "Software Systems, Full-Stack Engineering & Applied AI" | Synthesis of verified engineering scope (systems, web, computer vision) | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
+| **Homepage Bio Brief** | "Software engineer combining academic foundations with hands-on systems implementation, full-stack application development, and quality assurance." | Editorial synthesis of CV profile + verified roles | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
+| **About Narrative: "robust, measurable digital products"** | Sentence phrase in paragraph 1 of `/about` | Editorial styling of "turn theoretical ideas into tangible outcomes" | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
+| **About Narrative: "engineering ethos"** | Sentence in paragraph 3 of `/about` | Editorial framing of multi-disciplinary technical curiosity | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
+| **Professional Principles** | "Pragmatic Implementation", "End-to-End System Visibility", "Quality & Review Rigor" | Synthesized principles reflecting verified experience | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
+| **Project 3 Problem / Solution / Result** | Narrative framing in `src/content/projects.ts` (`real-time-object-detection`) | Editorial expansion of "Live Python/PyTorch + OpenCV pipeline" | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
+| **Experience Role Summaries** | 1-sentence overviews for each of the 9 roles in `src/content/experience.ts` | Editorial condensation of verbatim responsibility bullets | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
 
 ---
 
-## 4. Professional Experience (Strict CV Grounding)
+## 3. Education & Graduation Project Disambiguation
+
+| Field | Canonical Value | Source File(s) | Source Language(s) | Status | Notes |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Institution** | International University of Technology Twintech | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Canonical university name |
+| **Degree** | B.Sc. in Computer Science | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | "B.Sc. in Computer Science" (2021–2025) |
+| **Graduation Project** | Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results. | All CV variants (Education section) | English, German, Arabic | **VERIFIED & CONSISTENT** | Modeled under Education on `/about`. Repository includes final report, transcript, specialization plan, recommendation letters. |
+| **Disambiguation vs Project 3** | Sourced separately: Graduation Project is an academic degree milestone on Linux using Python/OpenCV. Project 3 in "Projects & Work" is a personal project: "Real-Time Object Detection: Live Python/PyTorch + OpenCV pipeline." | Official CV (Education vs Projects & Work #3) | English | **VERIFIED & CONSISTENT** | Not conflated. Project 3 does not claim to be the graduation project. |
+| **GPA / Honors / Thesis Grade** | *None* | *None* | *None* | **MISSING** | **PURGED**: Fabricated claims ("GPA 89.26%", "Graduated with honors", "Grade: Excellent") were purged completely. |
+
+---
+
+## 4. Professional Experience (Strict CV Grounding — All 9 Canonical Roles)
 
 | Role & Organization | Period | Location | Source File(s) | Status | Key Verified Deliverables |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -69,26 +75,28 @@
 
 ---
 
-## 5. Projects (16 Projects — Strict Evidence Depth Tiers)
+## 5. Projects & Strict Technology Attachment (16 Projects)
 
-| ID / Slug | Title | Category | Verified Evidence Depth | Verified CV Scope & Technologies | Status |
+Technologies are attached to projects **only** where explicitly supported by the project entry in the official CV:
+
+| ID / Slug | Title | Category | Verified Evidence Depth | Strictly Attached Technologies (Explicitly Sourced) | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `real-time-object-detection` | Real-Time Object Detection | Computer Vision & AI | **RICH VERIFIED** | Live Python/PyTorch + OpenCV pipeline implemented on a live camera feed with real-time visualization of results (Twintech graduation project). | **VERIFIED & CONSISTENT** |
-| `pump-station-analytics` | Pump Station Analytics | Systems & Robotics | **BASIC VERIFIED** | Predictive maintenance system for wastewater pumps. Tech: PLC, Sensors, Predictive Maintenance, Industrial Control. | **VERIFIED & CONSISTENT** |
-| `real-time-image-classification-api` | Real-Time Image Classification API | Computer Vision & AI | **BASIC VERIFIED** | Lightweight Flask service that accepts an image and returns the top three classes. Tech: Python, Flask, REST API, Machine Learning. | **VERIFIED & CONSISTENT** |
-| `robocam-controller` | ROBOCAM Controller | Systems & Robotics | **BASIC VERIFIED** | Android application for controlling a camera-equipped robot via an on-screen joystick. Tech: Flutter, Dart, Android. | **VERIFIED & CONSISTENT** |
-| `mikrotik-hotspot-portal` | MikroTik Hotspot Portal | Embedded & IoT | **BASIC VERIFIED** | Dual-WAN RouterOS setup with PPPoE links, a Hotspot portal, and RADIUS. Tech: MikroTik RouterOS, Dual-WAN, PPPoE, RADIUS. | **VERIFIED & CONSISTENT** |
-| `arduino-traffic-light` | Arduino Traffic Light Controller | Embedded & IoT | **BASIC VERIFIED** | Two-way intersection with safety protections and a pedestrian crossing button. Tech: Arduino, Embedded C/C++, Hardware Logic, Sensors. | **VERIFIED & CONSISTENT** |
-| `obstacle-avoidance` | Obstacle Avoidance | Computer Vision & AI | **BASIC VERIFIED** | Real-time monocular depth estimation with TensorFlow for detection and avoidance. Tech: TensorFlow, Python, Depth Estimation. | **VERIFIED & CONSISTENT** |
-| `ai-tic-tac-toe` | AI Tic-Tac-Toe | Computer Vision & AI | **BASIC VERIFIED** | Unbeatable Minimax AI with an interactive Pygame interface. Tech: Python, Pygame, Minimax Algorithm. | **VERIFIED & CONSISTENT** |
-| `pacman-pygame` | Pac-Man with Pygame | Full-Stack & Web | **BASIC VERIFIED** | Version with animation, collision detection, ghost AI, and power-ups. Tech: Python, Pygame. | **VERIFIED & CONSISTENT** |
-| `text-summarizer` | Text Summarizer | Computer Vision & AI | **BASIC VERIFIED** | Desktop application for extractive summarization with adjustable output length. Tech: Python, NLP, Desktop. | **VERIFIED & CONSISTENT** |
-| `user-role-manager` | User & Role Manager | Full-Stack & Web | **BASIC VERIFIED** | Create and update users, reset passwords, and assign permissions using Oracle Forms 6i and PL/SQL. | **VERIFIED & CONSISTENT** |
-| `inventory-sales-manager` | Inventory & Sales Manager | Full-Stack & Web | **BASIC VERIFIED** | CRUD web application for electronics (laptops/phones/PS5). Tech: Web, CRUD, Databases. | **VERIFIED & CONSISTENT** |
-| `student-evaluation-system` | Student Evaluation System | Full-Stack & Web | **BASIC VERIFIED** | Attendance and grades system with role-based access (Admin/Teacher/Student) — C# Desktop + PHP Web. | **VERIFIED & CONSISTENT** |
-| `cafe-pos-system` | Café POS System | Full-Stack & Web | **BASIC VERIFIED** | Point-of-sale system with login, CRUD items, sales, and reports (Java Swing + JDBC). | **VERIFIED & CONSISTENT** |
-| `omnifood-landing-page` | OMNIFOOD — Responsive Landing Page | Full-Stack & Web | **BASIC VERIFIED** | Single-page layout with a hero section and anchor navigation. Tech: HTML, CSS, JavaScript. | **VERIFIED & CONSISTENT** |
-| `urbanmindos` | URBANMINDOS — Smart City Operating System | Systems & Robotics | **BASIC VERIFIED** | Smart-city concept showcasing autonomous aerial mobility. Tech: Systems Architecture, Concept Design. | **VERIFIED & CONSISTENT** |
+| `real-time-object-detection` | Real-Time Object Detection | Computer Vision & AI | **RICH** | `Python`, `PyTorch`, `OpenCV` | **VERIFIED & CONSISTENT** (Source bullet) / **DERIVED** (Narrative chapters) |
+| `pump-station-analytics` | Pump Station Analytics | Systems & Robotics | **BASIC** | `Predictive Maintenance` | **VERIFIED & CONSISTENT** |
+| `real-time-image-classification-api` | Real-Time Image Classification API | Computer Vision & AI | **BASIC** | `Python`, `Flask`, `API` | **VERIFIED & CONSISTENT** |
+| `robocam-controller` | ROBOCAM Controller | Systems & Robotics | **BASIC** | `Flutter`, `Dart`, `Android` | **VERIFIED & CONSISTENT** |
+| `mikrotik-hotspot-portal` | MikroTik Hotspot Portal | Embedded & IoT | **BASIC** | `MikroTik RouterOS`, `Dual-WAN`, `PPPoE`, `Hotspot Portal`, `RADIUS` | **VERIFIED & CONSISTENT** |
+| `arduino-traffic-light` | Arduino Traffic Light Controller | Embedded & IoT | **BASIC** | `Arduino` | **VERIFIED & CONSISTENT** |
+| `obstacle-avoidance` | Obstacle Avoidance | Computer Vision & AI | **BASIC** | `TensorFlow`, `Depth Estimation` | **VERIFIED & CONSISTENT** |
+| `ai-tic-tac-toe` | AI Tic-Tac-Toe | Computer Vision & AI | **BASIC** | `Python`, `Pygame`, `Minimax AI` | **VERIFIED & CONSISTENT** |
+| `pacman-pygame` | Pac-Man with Pygame | Full-Stack & Web | **BASIC** | `Python`, `Pygame`, `Collision Detection` | **VERIFIED & CONSISTENT** |
+| `text-summarizer` | Text Summarizer | Computer Vision & AI | **BASIC** | `Desktop Application`, `Extractive Summarization` | **VERIFIED & CONSISTENT** |
+| `user-role-manager` | User & Role Manager | Full-Stack & Web | **BASIC** | `Oracle Forms 6i`, `PL/SQL` | **VERIFIED & CONSISTENT** |
+| `inventory-sales-manager` | Inventory & Sales Manager | Full-Stack & Web | **BASIC** | `Web Application`, `CRUD` | **VERIFIED & CONSISTENT** |
+| `student-evaluation-system` | Student Evaluation System | Full-Stack & Web | **BASIC** | `C#`, `Desktop`, `PHP`, `Web` | **VERIFIED & CONSISTENT** |
+| `cafe-pos-system` | Café POS System | Full-Stack & Web | **BASIC** | `Java Swing`, `JDBC` | **VERIFIED & CONSISTENT** |
+| `omnifood-landing-page` | OMNIFOOD — Responsive Landing Page | Full-Stack & Web | **BASIC** | `Responsive Web` | **VERIFIED & CONSISTENT** |
+| `urbanmindos` | URBANMINDOS — Smart City Operating System | Systems & Robotics | **BASIC** | `Concept Design`, `Urban Air Mobility` | **VERIFIED & CONSISTENT** |
 
 ---
 
@@ -155,12 +163,16 @@
 
 The following claims were identified as unsupported by the official CV package and have been **purged completely**:
 
-1. **Unsupported Engineering Roles:**
-   - ❌ "Computer Systems & AI Engineer" → Purged (Replaced by canonical "Software Engineer")
+1. **Stale / Incorrect Contact Data:**
+   - ❌ `eng.al-hassan.al-shami@outlook.com` → Purged. Canonical email is `hassan1alshami6@gmail.com`.
+2. **Unsupported Engineering Roles & Stale Report Items:**
+   - ❌ "Computer Systems & AI Engineer" → Purged
    - ❌ "Senior AI Solutions Engineer" → Purged
    - ❌ "Systems Automation Engineer" → Purged
    - ❌ "Robotics Software Developer" → Purged
-2. **Fabricated Metrics & Numbers:**
+   - ❌ "Lead Developer & Researcher" on Project 3 → Purged
+   - ❌ Stale report roles: "Project Developer — Freelance", "Assistant Supervisor — Al-Rowad", "Technical Assistant & System Setup Specialist", "TeleYemen", "Maintenance & Technical Support Specialist", "International Youth Council Yemen (IYCY)" → Purged from reports and walkthroughs.
+3. **Fabricated Metrics & Numbers:**
    - ❌ "GPA 89.26%" → Purged
    - ❌ "Graduated with honors" → Purged
    - ❌ "Grade: Excellent" → Purged
@@ -172,29 +184,21 @@ The following claims were identified as unsupported by the official CV package a
    - ❌ "500k+ events" → Purged
    - ❌ "sub-50ms query response" → Purged
    - ❌ "12-station lines" → Purged
-3. **Unsupported Technologies & Frameworks:**
-   - ❌ "ROS" / "ROS2" → Purged
-   - ❌ "LiDAR SLAM" → Purged
-   - ❌ "EKF sensor fusion" → Purged
-   - ❌ "Nav2" → Purged
-   - ❌ "Jetson Orin" → Purged
-4. **Unsupported External Certifications:**
+4. **Inferred / Ungrounded Project Technology Attachments:**
+   - ❌ `REST API` attached to `real-time-image-classification-api` → Purged
+   - ❌ `Machine Learning` attached to `real-time-image-classification-api` → Purged
+   - ❌ `Robot Control` attached to `robocam-controller` → Purged
+   - ❌ `Sensors`, `PLC`, `Industrial Control` attached to `pump-station-analytics` → Purged
+   - ❌ `Embedded C/C++`, `Sensors`, `Hardware Logic` attached to `arduino-traffic-light` → Purged
+   - ❌ `SQL`, `Point of Sale` attached to `cafe-pos-system` → Purged
+   - ❌ `Databases`, `Inventory Management` attached to `inventory-sales-manager` → Purged
+   - ❌ `Systems Architecture` attached to `urbanmindos` → Purged
+5. **Unsupported External Certifications:**
    - ❌ "Google Cybersecurity certification" → Purged
    - ❌ "IBM certification" → Purged
    - ❌ "DeepLearning.AI certification" → Purged
    - ❌ "Michigan Python credential" → Purged
    - ❌ "NVIDIA certification" → Purged
-5. **Inflated Language Proficiency:**
+6. **Inflated Language Proficiency:**
    - ❌ English "Fluent / Professional" → Corrected to **B2**
    - ❌ German "Intermediate B1+" → Corrected to **B1**
-6. **Speculative Implementation Details:**
-   - ❌ Speculative architecture blocks on 15 basic projects (PCC load balancing rules, hardware debounce, concurrent Flask payloads, predictive vibration/thermal creep bounds) → Purged (Gracefully degraded to clean Project Profiles).
-
----
-
-## 10. Chronology & Confidentiality Discrepancies Requiring Owner Review
-
-1. **Chronological Forward Date at AHD Financial Services:**
-   - The role `Deputy Development Manager` is recorded as `Jul 2026 – Present` across all official CV variants (both ATS and Standard in English, German, and Arabic). The portfolio preserves this date verbatim as documented in the official CV.
-2. **Reference Protection:**
-   - All 6 CV documents list 6 professional/academic references with direct phone numbers and personal emails. To maintain privacy, personal phone numbers and direct contact details are kept confidential with the note: *"Formal academic and industry references from university department chairs, engineering supervisors, and executive directors are available upon request."*
