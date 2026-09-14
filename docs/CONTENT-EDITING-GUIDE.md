@@ -37,7 +37,7 @@ export const identityContent = {
   role: "Senior Software Engineer", // <-- Update title here
   headline: "Software Engineer specializing in...", // <-- Update headline here
   bioBrief: "Building robust, human-centric software systems...",
-  location: "Damascus, Syria",
+  location: "Haddah, Sana'a, Yemen",
   statusBadge: {
     label: "Available for engineering roles",
     showDot: true,

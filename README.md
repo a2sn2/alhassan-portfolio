@@ -19,6 +19,7 @@ This repository is governed by the **Universal Software Project Execution Playbo
 ### 1. Project Charter & Governance
 - [Project Charter](docs/PROJECT-CHARTER.md) — Mission, ownership, and consumer-ready standards.
 - [Project Execution Profile](docs/PROJECT-EXECUTION-PROFILE.md) — Playbook capability classification (Applicable, Conditionally Applicable, Not Applicable).
+- [Repository Asset Manifest](docs/REPOSITORY-ASSET-MANIFEST.md) — SHA-256 integrity baseline for tracked CV and theme assets.
 - [Universal Execution Playbook](docs/standards/UNIVERSAL_SOFTWARE_PROJECT_EXECUTION_PLAYBOOK_AR.md) — Core engineering methodology.
 
 ### 2. Requirements & Standards
