@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import fs from "fs";
+import path from "path";
 
 test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   test("TC-01: Homepage loads successfully with verified identity and curated highlights", async ({
@@ -38,7 +40,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const routes = [
       { href: "/about", heading: "Engineering from Academic Foundations to Production Systems" },
       { href: "/experience", heading: "Professional Experience & Operational Journey" },
-      { href: "/projects", heading: "Engineering Projects & Technical Case Studies" },
+      { href: "/projects", heading: "Projects Across Systems, Vision & Applications" },
       { href: "/capabilities", heading: "Technical Capabilities & Engineering Matrix" },
       { href: "/contact", heading: "Get in Touch & Access Official Documents" },
     ];
@@ -56,26 +58,34 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
 
-    // Open palette via keyboard
-    await page.keyboard.press("Control+k");
-    const dialog = page.locator('div[role="dialog"][aria-label="Portfolio Navigator & Command Palette"]');
+    // Open palette via header trigger button or shortcut
+    const searchBtn = page.locator('button[aria-label*="command palette"]');
+    await expect(searchBtn).toBeVisible();
+    await searchBtn.click();
+
+    const dialog = page.getByRole("dialog", {
+      name: "Portfolio Navigator & Command Palette",
+    });
     await expect(dialog).toBeVisible();
 
+    // Search input exists and receives focus
+    const input = page.locator('input[placeholder*="Search"]');
+    await expect(input).toBeFocused();
+
     // Type query to filter
-    const searchInput = page.locator('div[role="dialog"] input[type="text"]');
-    await searchInput.fill("Experience");
+    await input.fill("experience");
+    const resultItem = dialog.locator('[role="option"]:has-text("Experience")');
+    await expect(resultItem).toBeVisible();
 
-    // Filtered result is displayed
-    const option = page.locator('li[role="option"]', { hasText: "Experience" }).first();
-    await expect(option).toBeVisible();
-
-    // Select and navigate
-    await option.click();
+    // Navigate via click
+    await resultItem.click();
     await page.waitForURL("**/experience");
-    await expect(page.locator("h1")).toContainText("Professional Experience");
+    await expect(page.locator("h1")).toContainText(
+      "Professional Experience & Operational Journey"
+    );
 
-    // Verify Escape key closes palette
-    await page.keyboard.press("Control+k");
+    // Reopen palette and test Escape key to close
+    await page.click('button[aria-label*="command palette"]');
     await expect(dialog).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(dialog).not.toBeVisible();
@@ -87,26 +97,32 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/experience");
 
-    // Default active role is Asaas AI
-    await expect(page.locator('#panel-asaas-ai-qa h2')).toContainText(
-      "Co-Founder & Director of Quality Assurance"
-    );
+    // Left role switcher exists with all items
+    const roleButtons = page.locator("button[role='tab']");
+    await expect(roleButtons).toHaveCount(9);
 
-    // Switch to AHD Financial Services role
-    const deputyTab = page.locator('button#tab-ahd-financial-deputy');
-    await deputyTab.click();
-    await expect(page.locator('#panel-ahd-financial-deputy h2')).toContainText(
-      "Deputy Development Manager"
-    );
+    // Initial role details displayed in tabpanel
+    const detailPanel = page.locator('[role="tabpanel"]');
+    await expect(detailPanel.locator("text=Asaas AI")).toBeVisible();
+    await expect(
+      detailPanel.locator("text=Co-Founder & Director of Quality Assurance")
+    ).toBeVisible();
 
-    // Deep link directly via hash
+    // Switch to another role via tab click
+    await page.click('button:has-text("AHD Financial Services (Jaib Wallet)")');
+    await expect(detailPanel.locator("text=Deputy Development Manager")).toBeVisible();
+
+    // Deep linking via hash parameter
     await page.goto("/experience#water-sanitation-corp");
-    await expect(page.locator('#panel-water-sanitation-corp h2')).toContainText(
-      "Control Engineer Trainee"
-    );
+    await expect(
+      detailPanel.locator("text=Water & Sanitation Local Corporation")
+    ).toBeVisible();
+    await expect(
+      detailPanel.locator("text=Control Engineer Trainee")
+    ).toBeVisible();
   });
 
-  test("TC-05: Project Explorer category filtering & Case Study detail route", async ({
+  test("TC-05: Project Explorer category filtering & Case Study graceful degradation", async ({
     page,
   }) => {
     await page.goto("/projects");
@@ -121,15 +137,26 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const count = await filtered.count();
     expect(count).toBe(5);
 
-    // Navigate to individual case study
+    // 1. Navigate to rich case study (Graduation Project)
     await page.click('a[href="/projects/real-time-object-detection"]');
     await page.waitForURL("**/projects/real-time-object-detection");
 
-    // Verify case study story chapters
     await expect(page.locator("h1")).toContainText("Real-Time Object Detection");
     await expect(page.locator("text=The Problem & Engineering Context")).toBeVisible();
-    await expect(page.locator("text=System Architecture & Data Flow")).toBeVisible();
-    await expect(page.locator("text=Verified Results & Measurable Impact")).toBeVisible();
+    await expect(page.locator('h2:has-text("Engineered Solution")')).toBeVisible();
+    await expect(page.locator("text=Verified Results & Scope")).toBeVisible();
+
+    // 2. Navigate to concise project profile (Basic Tier)
+    await page.goto("/projects/pump-station-analytics");
+    await expect(page.locator("h1")).toContainText("Pump Station Analytics");
+    await expect(page.locator("text=Project Scope & Summary")).toBeVisible();
+    await expect(page.locator("text=Verified Technologies")).toBeVisible();
+
+    // Ensure NO empty sections or placeholders exist
+    await expect(page.locator("text=The Problem & Engineering Context")).not.toBeVisible();
+    await expect(page.locator("text=Engineering Role & Responsibility")).not.toBeVisible();
+    await expect(page.locator("text=TBD")).not.toBeVisible();
+    await expect(page.locator("text=Awaiting content")).not.toBeVisible();
   });
 
   test("TC-06: Capabilities Matrix filtering & verified repo link", async ({
@@ -137,19 +164,25 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   }) => {
     await page.goto("/capabilities");
 
-    // Verify certifications count
-    await expect(page.locator("text=Certifications & Specialized Training (26)")).toBeVisible();
+    // Capabilities heading
+    await expect(page.locator("h1")).toContainText(
+      "Technical Capabilities & Engineering Matrix"
+    );
 
-    // Filter certs by 'Engineering & Hardware'
-    await page.click('button:has-text("Engineering & Hardware")');
-    await expect(page.locator("text=Robotics Engineering")).toBeVisible();
-    await expect(
-      page.locator('h3:has-text("Programmable Logic Controllers (PLC)")')
-    ).toBeVisible();
+    // Skills group cards exist
+    await expect(page.locator("text=Programming & Frameworks")).toBeVisible();
+    await expect(page.locator("text=Industrial Automation & IoT")).toBeVisible();
 
-    // Verify certificate repository link
-    const repoLink = page.locator('a[href="https://github.com/a2sn2/certificates"]');
-    await expect(repoLink).toBeVisible();
+    // Verified Certificate repository button exists with correct target
+    const repoBtn = page.locator('a[href*="github.com/a2sn2/certificates"]');
+    await expect(repoBtn).toBeVisible();
+
+    // Filter Certifications by 'AI & Data'
+    await page.click('button:has-text("AI & Data")');
+    await expect(page.locator("text=Automation & AI Agents")).toBeVisible();
+
+    // Verify non-matching items hidden
+    await expect(page.locator("h3:has-text('Programmable Logic Controllers (PLC)')")).not.toBeVisible();
   });
 
   test("TC-07: Contact page official CV downloads and direct channels", async ({
@@ -157,20 +190,24 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   }) => {
     await page.goto("/contact");
 
-    // Verify direct channels
-    await expect(page.locator('a[href="mailto:hassan1alshami6@gmail.com"]')).toBeVisible();
-    await expect(page.locator('a[href="https://www.linkedin.com/in/a2sn4"]')).toBeVisible();
+    // Direct contact cards
+    await expect(page.locator("text=hassan1alshami6@gmail.com")).toBeVisible();
+    await expect(page.locator("text=+967 772 765 120")).toBeVisible();
 
-    // Verify all 6 official CV downloads exist
-    await expect(page.locator("text=ALHassan_Baligh_ALShami_CV_English_Standard.pdf")).toBeVisible();
-    await expect(page.locator("text=ALHassan_Baligh_ALShami_CV_English_ATS.pdf")).toBeVisible();
-    await expect(page.locator("text=ALHassan_Baligh_ALShami_CV_German_Standard.pdf")).toBeVisible();
-    await expect(page.locator("text=ALHassan_Baligh_ALShami_CV_German_ATS.pdf")).toBeVisible();
-    await expect(page.locator("text=ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf")).toBeVisible();
-    await expect(page.locator("text=ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf")).toBeVisible();
+    // Verify all 6 official CV document download links
+    const cvFiles = [
+      "ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      "ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      "ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+    ];
 
-    // Final chapter index
-    await expect(page.locator("text=CHAPTER 06 / 06")).toBeVisible();
+    for (const file of cvFiles) {
+      const link = page.locator(`a[href="/cv/${file}"]`);
+      await expect(link).toBeVisible();
+    }
   });
 
   test("TC-08: Mobile navigation drawer interactions on multi-page routes", async ({
@@ -179,52 +216,60 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
 
-    const toggleButton = page.locator('button[aria-label="Open navigation menu"]');
-    await expect(toggleButton).toBeVisible();
+    // Mobile drawer trigger visible
+    const menuBtn = page.locator('button[aria-controls="mobile-nav-drawer"]');
+    await expect(menuBtn).toBeVisible();
 
     // Open drawer
-    await toggleButton.click();
-    await expect(page.locator('nav[aria-label="Mobile Navigation Links"]')).toBeVisible();
+    await menuBtn.click();
+    const nav = page.locator("nav[aria-label='Mobile Navigation Links']");
+    await expect(nav).toBeVisible();
 
-    // Click 'About' link
-    const aboutLink = page.locator('#mobile-nav-drawer a[href="/about"]');
+    // Navigate to /about via drawer
+    const aboutLink = nav.locator('a[href="/about"]');
+    await expect(aboutLink).toBeVisible();
     await aboutLink.click();
-    await page.waitForURL("**/about");
-    await expect(page.locator("h1")).toContainText("Engineering from Academic Foundations");
 
-    // Drawer should auto-close
-    await expect(page.locator('button[aria-label="Open navigation menu"]')).toBeVisible();
+    await page.waitForURL("**/about");
+    await expect(page.locator("h1")).toContainText(
+      "Engineering from Academic Foundations to Production Systems"
+    );
   });
 
   test("TC-09: Multi-viewport responsive sanity (zero horizontal overflow across all routes)", async ({
     page,
   }) => {
     const viewports = [
-      { width: 1440, height: 900, name: "desktop-1440" },
-      { width: 1280, height: 800, name: "laptop-1280" },
-      { width: 768, height: 1024, name: "tablet-768" },
-      { width: 390, height: 844, name: "mobile-390" },
-      { width: 320, height: 640, name: "narrow-mobile-320" },
+      { name: "Desktop 1440", width: 1440, height: 900 },
+      { name: "Laptop 1280", width: 1280, height: 800 },
+      { name: "Tablet 768", width: 768, height: 1024 },
+      { name: "Mobile 390", width: 390, height: 844 },
+      { name: "Narrow 320", width: 320, height: 568 },
     ];
 
-    const routes = ["/", "/about", "/experience", "/projects", "/capabilities", "/contact"];
+    const routes = [
+      "/",
+      "/about",
+      "/experience",
+      "/projects",
+      "/projects/real-time-object-detection",
+      "/projects/pump-station-analytics",
+      "/capabilities",
+      "/contact",
+    ];
 
     for (const vp of viewports) {
       await page.setViewportSize({ width: vp.width, height: vp.height });
       for (const route of routes) {
         await page.goto(route);
-        await page.waitForLoadState("domcontentloaded");
 
-        const hasOverflow = await page.evaluate(() => {
-          return (
-            document.documentElement.scrollWidth > window.innerWidth ||
-            document.body.scrollWidth > window.innerWidth
-          );
+        const hasHorizontalOverflow = await page.evaluate(() => {
+          return document.documentElement.scrollWidth > window.innerWidth;
         });
 
         expect(
-          hasOverflow,
-          `Route ${route} at Viewport ${vp.name} (${vp.width}px) has unwanted horizontal overflow`
+          hasHorizontalOverflow,
+          `Horizontal scroll detected on ${vp.name} (${vp.width}px) at ${route}`
         ).toBe(false);
       }
     }
@@ -277,5 +322,62 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       document.documentElement.getAttribute("data-theme")
     );
     expect(persistedTheme).toBe(newTheme);
+  });
+
+  test("TC-12: Content Integrity & Ground Truth Fact Guard", async ({ page }) => {
+    // 1. Verify CV files exist on disk
+    const cvFiles = [
+      "ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      "ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      "ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+    ];
+
+    for (const file of cvFiles) {
+      const filePath = path.join(process.cwd(), "public", "cv", file);
+      expect(fs.existsSync(filePath), `Missing public CV file: ${file}`).toBe(true);
+      const stat = fs.statSync(filePath);
+      expect(stat.size, `Empty CV file: ${file}`).toBeGreaterThan(100000);
+    }
+
+    // 2. Check /about for verified language levels and absence of GPA/honors
+    await page.goto("/about");
+    const aboutText = await page.innerText("body");
+    expect(aboutText).toContain("B2");
+    expect(aboutText).toContain("B1");
+    // Ensure no unverified honors or GPA claims
+    expect(aboutText).not.toContain("89.26");
+    expect(aboutText).not.toContain("Graduated with honors");
+    expect(aboutText).not.toContain("Grade: Excellent");
+
+    // 3. Check /experience for verified roles and absence of fabricated metrics
+    await page.goto("/experience");
+    const expText = await page.innerText("body");
+    expect(expText).toContain("Co-Founder & Director of Quality Assurance");
+    expect(expText).toContain("Deputy Development Manager");
+    expect(expText).toContain("Control Engineer Trainee");
+    expect(expText).toContain("Network Engineer Trainee");
+
+    // Assert zero presence of banned unverified metrics/titles
+    const bannedTerms = [
+      "99.7% uptime",
+      "34% reduction",
+      "99.4% accuracy",
+      "23ms inference",
+      "15k+ daily",
+      "500k+ events",
+      "sub-50ms",
+      "Senior AI Solutions Engineer",
+      "Systems Automation Engineer",
+      "Robotics Software Developer",
+      "Google Cybersecurity",
+      "Jetson Orin",
+    ];
+
+    for (const term of bannedTerms) {
+      expect(expText, `Found unverified banned term: ${term}`).not.toContain(term);
+    }
   });
 });

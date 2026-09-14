@@ -17,6 +17,13 @@ export const contactContent: ContactContent = {
       isPrimary: true,
     },
     {
+      id: "phone",
+      label: "Direct Phone",
+      value: "+967 772 765 120",
+      href: "tel:+967772765120",
+      isPrimary: true,
+    },
+    {
       id: "linkedin",
       label: "LinkedIn Profile",
       value: "linkedin.com/in/a2sn4",

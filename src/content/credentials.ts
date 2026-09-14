@@ -17,7 +17,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-yeb-research-2025",
-      title: "Research Development Program",
+      title: "Research Development",
       issuer: "Yemen Elite Bloc",
       year: "2025",
       category: "Professional & Management",
@@ -33,23 +33,23 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-yeb-ai-2025",
-      title: "Artificial Intelligence Program",
-      issuer: "Yemen Elite Bloc (Tech & IT)",
+      title: "Artificial Intelligence Program (Ongoing)",
+      issuer: "Yemen Elite Bloc (Technology & IT Sector)",
       year: "2025",
       category: "AI & Data",
       status: "Ongoing",
     },
     {
       id: "cert-yeb-frontend-2025",
-      title: "Front-End Development Bootcamp",
-      issuer: "Yemen Elite Bloc (Tech & IT)",
+      title: "Front-End Development Bootcamp (Ongoing)",
+      issuer: "Yemen Elite Bloc (Technology & IT Sector)",
       year: "2025",
       category: "AI & Data",
       status: "Ongoing",
     },
     {
       id: "cert-nh-design-2025",
-      title: "Graphic Design Diploma",
+      title: "Graphic Design Diploma (In Progress)",
       issuer: "New Horizons Institutes",
       year: "2025",
       category: "Foundation",
@@ -65,7 +65,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-su-robotics-2025",
-      title: "Robotics Engineering",
+      title: "Robotics",
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
       category: "Engineering & Hardware",
@@ -81,7 +81,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-su-matlab-2025",
-      title: "MATLAB for Engineers",
+      title: "MATLAB",
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
       category: "Engineering & Hardware",
@@ -105,7 +105,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-nh-aplus-2025",
-      title: "CompTIA A+ Hardware & IT Support",
+      title: "CompTIA A+",
       issuer: "New Horizons Institutes",
       year: "2025",
       category: "Systems & Networks",
@@ -121,7 +121,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-alhamdi-med-2024",
-      title: "Medical Support Program (First Aid & Emergency)",
+      title: "Medical Program (First Aid, Injection Types, Vital Signs)",
       issuer: "Al-Hamdi Foundation for Human Development",
       year: "2024",
       category: "Foundation",
@@ -129,7 +129,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-nh-mikrotik-2024",
-      title: "MikroTik RouterOS Fundamentals",
+      title: "MikroTik Fundamentals",
       issuer: "New Horizons Institutes",
       year: "2024",
       category: "Systems & Networks",
@@ -137,7 +137,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-su-networks-2024",
-      title: "Computer Networks & Architecture",
+      title: "Networks",
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2024",
       category: "Systems & Networks",
@@ -153,7 +153,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-su-arduino-2024",
-      title: "Arduino Microcontrollers & Automation",
+      title: "Arduino",
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2024",
       category: "Engineering & Hardware",
@@ -161,7 +161,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-su-solar-2024",
-      title: "Solar Energy & Inverter Systems",
+      title: "Solar Energy",
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2024",
       category: "Engineering & Hardware",
@@ -185,7 +185,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-alhamdi-admin-2024",
-      title: "Administrative Systems (Business, HR, Customer Service)",
+      title: "Administrative Program (Business, Human Resources, Customer Service)",
       issuer: "Al-Hamdi Foundation for Human Development",
       year: "2024",
       category: "Professional & Management",
@@ -209,7 +209,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-phone-maint-2019",
-      title: "Mobile Hardware Maintenance Diploma",
+      title: "Mobile Phone Maintenance Diploma",
       issuer: "Science & Technology Center",
       year: "2019",
       category: "Engineering & Hardware",
@@ -220,37 +220,37 @@ export const credentialsContent: CredentialsContent = {
     {
       id: "membership-cyberai",
       organization: "CYBERAI CLUB",
-      role: "Member of Artificial Intelligence & Projects Committees",
+      role: "Member of the Artificial Intelligence and Projects Committees",
       description:
-        "Participated in applied AI discussions, technical workshops, and exploratory machine learning projects.",
+        "Member of the Artificial Intelligence and Projects Committees.",
     },
     {
       id: "membership-spe",
       organization: "Society of Petroleum Engineers (SPE)",
-      role: "Active Member",
+      role: "Technical Program Participant",
       description:
-        "Utilized SPE technical resources and seminars to broaden understanding of energy infrastructure and industrial control applications.",
-    },
-    {
-      id: "membership-yeb",
-      organization: "Yemen Elite Bloc",
-      role: "Member of AI, Robotics & Programming Units",
-      description:
-        "Collaborated with engineering peers on robotics projects, software bootcamps, and technical mentoring initiatives.",
+        "Used SPE technical programs to broaden understanding of petroleum engineering and operations.",
     },
     {
       id: "membership-alhamdi",
       organization: "Al-Hamdi Foundation for Human Development",
-      role: "Program Participant & Community Volunteer",
+      role: "Program Participant & Volunteer",
       description:
-        "Contributed to organizational logistics, peer learning initiatives, and community service workshops.",
+        "Program participant and volunteer; supported events and peer learning.",
     },
     {
       id: "membership-nastatee",
       organization: "Nastatee Charity Association",
       role: "Community Volunteer",
       description:
-        "Supported youth education and technology literacy events through logistical and technical coordination.",
+        "Community volunteer supporting youth technology initiatives and event logistics.",
+    },
+    {
+      id: "membership-yeb",
+      organization: "Yemen Elite Bloc",
+      role: "Active Member",
+      description:
+        "Active in AI/robotics and programming units; peer mentoring and event logistics support.",
     },
   ],
 };

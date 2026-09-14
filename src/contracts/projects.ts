@@ -13,16 +13,17 @@ export interface ProjectItem {
   category: "Computer Vision & AI" | "Full-Stack & Web" | "Systems & Robotics" | "Embedded & IoT";
   badge?: string;
   period?: string;
-  problem: string;
-  role: string;
-  solution: string;
+  role?: string;
+  problem?: string;
+  solution?: string;
   technologies: string[];
-  result: string;
+  result?: string;
   architecture?: string;
   implementationHighlights?: string[];
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
+  evidenceDepth?: "rich" | "basic" | "minimal";
 }
 
 export interface ProjectsContent {

@@ -7,7 +7,38 @@ interface ProjectCaseStudyProps {
   project: ProjectItem;
 }
 
+interface Chapter {
+  id: string;
+  label: string;
+}
+
 export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
+  // Dynamically assemble chapters based purely on verified available content
+  const chapters: Chapter[] = [];
+  if (project.problem) {
+    chapters.push({ id: "problem", label: "Problem & Context" });
+  }
+  if (project.role) {
+    chapters.push({ id: "role", label: "Role & Responsibility" });
+  }
+  if (project.architecture) {
+    chapters.push({ id: "architecture", label: "System Architecture" });
+  }
+  if (project.solution) {
+    chapters.push({ id: "solution", label: "Engineered Solution" });
+  }
+  if (project.implementationHighlights && project.implementationHighlights.length > 0) {
+    chapters.push({ id: "implementation", label: "Implementation" });
+  }
+  if (project.technologies && project.technologies.length > 0) {
+    chapters.push({ id: "technologies", label: "Verified Technologies" });
+  }
+  if (project.result) {
+    chapters.push({ id: "outcomes", label: "Verified Outcomes" });
+  }
+
+  const isRichCaseStudy = chapters.length >= 3;
+
   return (
     <article className={styles.caseStudy}>
       <div className={styles.backLinkRow}>
@@ -28,116 +59,163 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
         <p className={styles.tagline}>{project.tagline}</p>
       </header>
 
-      <div className={styles.contentLayout}>
-        {/* Sticky Anchor Rail on Desktop */}
-        <aside className={styles.stickyRail} aria-label="Case Study Sections">
-          <span className={styles.railHeading}>Chapters</span>
-          <a href="#context-problem" className={styles.railLink}>
-            01. Problem & Context
-          </a>
-          <a href="#role-scope" className={styles.railLink}>
-            02. Role & Scope
-          </a>
-          {project.architecture && (
-            <a href="#architecture" className={styles.railLink}>
-              03. Architecture
-            </a>
-          )}
-          <a href="#solution" className={styles.railLink}>
-            04. Solution
-          </a>
-          {project.implementationHighlights && (
-            <a href="#implementation" className={styles.railLink}>
-              05. Implementation
-            </a>
-          )}
-          <a href="#technologies" className={styles.railLink}>
-            06. Technologies
-          </a>
-          <a href="#outcomes" className={styles.railLink}>
-            07. Verified Outcomes
-          </a>
-        </aside>
+      {isRichCaseStudy ? (
+        <div className={styles.contentLayout}>
+          {/* Sticky Anchor Rail on Desktop */}
+          <aside className={styles.stickyRail} aria-label="Case Study Sections">
+            <span className={styles.railHeading}>Chapters</span>
+            {chapters.map((ch, idx) => (
+              <a key={ch.id} href={`#${ch.id}`} className={styles.railLink}>
+                {String(idx + 1).padStart(2, "0")}. {ch.label}
+              </a>
+            ))}
+          </aside>
 
-        {/* Storytelling Body */}
-        <div className={styles.bodyContent}>
-          <section id="context-problem" className={styles.storySection}>
+          {/* Storytelling Body */}
+          <div className={styles.bodyContent}>
+            {project.problem && (
+              <section id="problem" className={styles.storySection}>
+                <h2 className={styles.sectionTitle}>
+                  <span className={styles.sectionNumber}>01.</span>
+                  <span>The Problem & Engineering Context</span>
+                </h2>
+                <p className={styles.sectionText}>{project.problem}</p>
+              </section>
+            )}
+
+            {project.role && (
+              <section id="role" className={styles.storySection}>
+                <h2 className={styles.sectionTitle}>
+                  <span className={styles.sectionNumber}>
+                    {String(chapters.findIndex((c) => c.id === "role") + 1).padStart(2, "0")}.
+                  </span>
+                  <span>Engineering Role & Responsibility</span>
+                </h2>
+                <p className={styles.sectionText}>
+                  Served as <strong>{project.role}</strong>, focusing on development, testing, and verified implementation.
+                </p>
+              </section>
+            )}
+
+            {project.architecture && (
+              <section id="architecture" className={styles.storySection}>
+                <h2 className={styles.sectionTitle}>
+                  <span className={styles.sectionNumber}>
+                    {String(chapters.findIndex((c) => c.id === "architecture") + 1).padStart(2, "0")}.
+                  </span>
+                  <span>System Architecture & Data Flow</span>
+                </h2>
+                <div className={styles.architectureBlock}>{project.architecture}</div>
+              </section>
+            )}
+
+            {project.solution && (
+              <section id="solution" className={styles.storySection}>
+                <h2 className={styles.sectionTitle}>
+                  <span className={styles.sectionNumber}>
+                    {String(chapters.findIndex((c) => c.id === "solution") + 1).padStart(2, "0")}.
+                  </span>
+                  <span>Engineered Solution</span>
+                </h2>
+                <p className={styles.sectionText}>{project.solution}</p>
+              </section>
+            )}
+
+            {project.implementationHighlights && project.implementationHighlights.length > 0 && (
+              <section id="implementation" className={styles.storySection}>
+                <h2 className={styles.sectionTitle}>
+                  <span className={styles.sectionNumber}>
+                    {String(chapters.findIndex((c) => c.id === "implementation") + 1).padStart(2, "0")}.
+                  </span>
+                  <span>Implementation Highlights</span>
+                </h2>
+                <ul className={styles.highlightsList}>
+                  {project.implementationHighlights.map((highlight, idx) => (
+                    <li key={idx} className={styles.highlightItem}>
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {project.technologies && project.technologies.length > 0 && (
+              <section id="technologies" className={styles.storySection}>
+                <h2 className={styles.sectionTitle}>
+                  <span className={styles.sectionNumber}>
+                    {String(chapters.findIndex((c) => c.id === "technologies") + 1).padStart(2, "0")}.
+                  </span>
+                  <span>Verified Technologies</span>
+                </h2>
+                <div className={styles.techList}>
+                  {project.technologies.map((tech) => (
+                    <span key={tech} className={styles.techBadge}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {project.result && (
+              <section id="outcomes" className={styles.storySection}>
+                <h2 className={styles.sectionTitle}>
+                  <span className={styles.sectionNumber}>
+                    {String(chapters.findIndex((c) => c.id === "outcomes") + 1).padStart(2, "0")}.
+                  </span>
+                  <span>Verified Results & Scope</span>
+                </h2>
+                <div className={styles.resultCallout}>
+                  <span className={styles.resultTitle}>Verified Deliverable</span>
+                  <p className={styles.resultText}>{project.result}</p>
+                </div>
+              </section>
+            )}
+
+            <div className={styles.actionsRow}>
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.btnPrimary}
+                >
+                  <span>View on GitHub</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              )}
+              <Link href="/projects" className={styles.backLink}>
+                <span>← Explore more engineering projects</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Concise Project Profile for Basic Evidence Tier */
+        <div className={styles.contentLayoutSingle}>
+          <section className={styles.storySection}>
             <h2 className={styles.sectionTitle}>
-              <span className={styles.sectionNumber}>01.</span>
-              <span>The Problem & Engineering Context</span>
+              <span>Project Scope & Summary</span>
             </h2>
-            <p className={styles.sectionText}>{project.problem}</p>
+            <div className={styles.overviewCard}>
+              <p className={styles.sectionText}>{project.tagline}</p>
+            </div>
           </section>
 
-          <section id="role-scope" className={styles.storySection}>
-            <h2 className={styles.sectionTitle}>
-              <span className={styles.sectionNumber}>02.</span>
-              <span>Engineering Role & Responsibility</span>
-            </h2>
-            <p className={styles.sectionText}>
-              Served as <strong>{project.role}</strong>, owning the technical delivery,
-              system design, and implementation from requirements through verification.
-            </p>
-          </section>
-
-          {project.architecture && (
-            <section id="architecture" className={styles.storySection}>
+          {project.technologies && project.technologies.length > 0 && (
+            <section className={styles.storySection}>
               <h2 className={styles.sectionTitle}>
-                <span className={styles.sectionNumber}>03.</span>
-                <span>System Architecture & Data Flow</span>
+                <span>Verified Technologies</span>
               </h2>
-              <div className={styles.architectureBlock}>{project.architecture}</div>
-            </section>
-          )}
-
-          <section id="solution" className={styles.storySection}>
-            <h2 className={styles.sectionTitle}>
-              <span className={styles.sectionNumber}>04.</span>
-              <span>Engineered Solution</span>
-            </h2>
-            <p className={styles.sectionText}>{project.solution}</p>
-          </section>
-
-          {project.implementationHighlights && project.implementationHighlights.length > 0 && (
-            <section id="implementation" className={styles.storySection}>
-              <h2 className={styles.sectionTitle}>
-                <span className={styles.sectionNumber}>05.</span>
-                <span>Implementation Highlights & Rigor</span>
-              </h2>
-              <ul className={styles.highlightsList}>
-                {project.implementationHighlights.map((highlight, idx) => (
-                  <li key={idx} className={styles.highlightItem}>
-                    {highlight}
-                  </li>
+              <div className={styles.techList}>
+                {project.technologies.map((tech) => (
+                  <span key={tech} className={styles.techBadge}>
+                    {tech}
+                  </span>
                 ))}
-              </ul>
+              </div>
             </section>
           )}
-
-          <section id="technologies" className={styles.storySection}>
-            <h2 className={styles.sectionTitle}>
-              <span className={styles.sectionNumber}>06.</span>
-              <span>Verified Technologies</span>
-            </h2>
-            <div className={styles.techList}>
-              {project.technologies.map((tech) => (
-                <span key={tech} className={styles.techBadge}>
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          <section id="outcomes" className={styles.storySection}>
-            <h2 className={styles.sectionTitle}>
-              <span className={styles.sectionNumber}>07.</span>
-              <span>Verified Results & Measurable Impact</span>
-            </h2>
-            <div className={styles.resultCallout}>
-              <span className={styles.resultTitle}>Operational Outcome</span>
-              <p className={styles.resultText}>{project.result}</p>
-            </div>
-          </section>
 
           <div className={styles.actionsRow}>
             {project.githubUrl && (
@@ -147,7 +225,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                 rel="noopener noreferrer"
                 className={styles.btnPrimary}
               >
-                <span>View Source on GitHub</span>
+                <span>View on GitHub</span>
                 <span aria-hidden="true">↗</span>
               </a>
             )}
@@ -156,7 +234,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
             </Link>
           </div>
         </div>
-      </div>
+      )}
     </article>
   );
 }

@@ -14,144 +14,187 @@
 
 ## 1. Professional Identity & Contact
 
-| Field | Value | Source File(s) | Source Language(s) | Status | Notes |
+| Field | Canonical Value | Source File(s) | Source Language(s) | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Full Name (EN)** | ALHassan Baligh ALShami | All English/German CVs | English, German | **VERIFIED & CONSISTENT** | Canonical Latin spelling |
-| **Full Name (AR)** | الحسن بليغ الشامي | All Arabic CVs | Arabic | **VERIFIED & CONSISTENT** | Canonical Arabic script |
-| **Professional Role** | Software Engineer / Softwareentwickler / مهندس برمجيات | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | High-level engineering designation |
-| **Location** | Haddah, Sana'a, Yemen | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Never Syrian / strictly Yemeni residency |
-| **Email** | `hassan1alshami6@gmail.com` | All CV variants | All | **VERIFIED & CONSISTENT** | Verified public direct contact |
-| **Phone** | `+967 772 765 120` | All CV variants | All | **VERIFIED & CONSISTENT** | Stored in contract; public web display may format gracefully |
-| **Date of Birth** | 01 Oct 2002 | All CV variants | All | **VERIFIED & CONSISTENT** | Private CV detail (not exposed on web unnecessarily) |
-| **LinkedIn** | `linkedin.com/in/a2sn4` | All CV variants | All | **VERIFIED & CONSISTENT** | Public professional network profile |
-| **GitHub** | `github.com/a2sn2` | English ATS CV & footer links | English, German, Arabic | **VERIFIED & CONSISTENT** | Code repository hub |
-| **Instagram** | `@a2s.n4` | All CV variants | All | **VERIFIED & CONSISTENT** | Social link |
-| **Certificates Repo**| `github.com/a2sn2/certificates.git` | English ATS CV (p. 1) | English | **VERIFIED** | Direct proof repository link |
+| **Full Name (EN)** | ALHassan Baligh ALShami | All English/German CVs | English, German | **VERIFIED & CONSISTENT** | Canonical Latin spelling across all CVs |
+| **Full Name (AR)** | الحسن بليغ الشامي | All Arabic CVs | Arabic | **VERIFIED & CONSISTENT** | Canonical Arabic script across all CVs |
+| **Professional Role** | Software Engineer | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Stated as "Software Engineer" / "Softwareentwickler" / "مهندس برمجيات" |
+| **Location** | Haddah, Sana'a, Yemen | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Concise public display: "Sana'a, Yemen" |
+| **Email** | `hassan1alshami6@gmail.com` | All CV variants | All | **VERIFIED & CONSISTENT** | Primary direct contact |
+| **Phone** | `+967 772 765 120` | All CV variants | All | **VERIFIED & CONSISTENT** | Direct mobile contact |
+| **Date of Birth** | 01 Oct 2002 | All CV variants | All | **VERIFIED & CONSISTENT** | Private CV detail (withheld from public web UI) |
+| **LinkedIn** | `linkedin.com/in/a2sn4` | All CV variants | All | **VERIFIED & CONSISTENT** | Professional network profile |
+| **GitHub** | `github.com/a2sn2` | English ATS CV & footer links | English, German, Arabic | **VERIFIED & CONSISTENT** | Verified code repository profile |
+| **Instagram** | `@a2s.n4` | All CV variants | All | **VERIFIED & CONSISTENT** | Social profile handle |
+| **Certificates Repo**| `github.com/a2sn2/certificates.git` | English ATS CV (p. 1) | English | **VERIFIED & CONSISTENT** | Official certificate proof repository |
 
 ---
 
-## 2. Professional Summary & Narrative
+## 2. Professional Summary & Narrative Positioning
 
-| Field | Value | Source File(s) | Source Language(s) | Status | Notes |
+| Field | Canonical Value | Source File(s) | Source Language(s) | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **CV Summary (EN)** | Software engineer combining academic knowledge with hands-on implementation to turn theoretical ideas into practical outcomes in engineering environments. Strong focus on teamwork, time management, effective delivery, continuous self-development, and contributing in dynamic workplaces. | `English/ALHassan_Baligh_ALShami_CV_Standard.pdf` | English | **VERIFIED** | Verbatim from CV |
-| **Homepage Positioning (Derived)** | Software Engineer specializing in software systems, full-stack application development, and practical engineering solutions. | Derived from CV Summary & technical capabilities | English | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Replaces unverified placeholder claims ("scalable architecture / distributed systems") with verified engineering positioning |
-| **About Narrative (Derived)** | Editorial perspective expanding on graduation project (real-time computer vision on Linux), fintech operational development at Jaib Wallet, and QA leadership at Asaas AI. | Derived strictly from CV facts | English | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Concise narrative without inventing facts |
+| **CV Summary (EN)** | Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces. | `English/ALHassan_Baligh_ALShami_CV_Standard.pdf` | English | **VERIFIED & CONSISTENT** | Verbatim text from official CV profile |
+| **Homepage Headline** | Software Systems, Full-Stack Engineering & Applied AI | Derived from CV Summary & verified project scope | English | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Concise professional headline adhering to verified technical pillars |
+| **Homepage Bio Brief** | Software engineer combining academic foundations with hands-on systems implementation, full-stack application development, and quality assurance. | Derived from CV Summary & experience | English | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Summary of verified core competencies |
+| **About Narrative** | Multi-paragraph editorial journey detailing Twintech Computer Science education, Linux OpenCV graduation thesis, Jaib Wallet fintech development, and Asaas AI QA leadership. | Derived strictly from verified CV facts | English | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Editorial perspective containing zero unverified claims |
 
 ---
 
 ## 3. Education
 
-| Field | Value | Source File(s) | Source Language(s) | Status | Notes |
+| Field | Canonical Value | Source File(s) | Source Language(s) | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Institution** | International University of Technology Twintech | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Primary undergraduate alma mater |
-| **Degree** | B.Sc. in Computer Science (B.Sc. in Informatik / بكالوريوس في علوم الحاسوب) | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Computer Science discipline |
-| **Period** | 2021 – 2025 | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | 4-year degree completion |
-| **Graduation Project** | Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results. | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Complete project documentation and repository |
+| **Institution** | International University of Technology Twintech | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | University name |
+| **Degree** | B.Sc. in Computer Science | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | "B.Sc. in Computer Science" / "B.Sc. in Informatik" / "بكالوريوس في علوم الحاسوب" |
+| **Period** | 2021 – 2025 | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | 4-year academic period |
+| **Graduation Project** | Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results. | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Repository includes final report, transcript, specialization plan, recommendation letters |
+| **GPA / Honors / Thesis Grade** | *None* | *None* | *None* | **MISSING** | **REMOVED**: Fabricated claims ("GPA 89.26%", "Graduated with honors", "Grade: Excellent") were purged completely |
 
 ---
 
-## 4. Professional Experience
+## 4. Professional Experience (Strict CV Grounding)
 
 | Role & Organization | Period | Location | Source File(s) | Status | Key Verified Deliverables |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Asaas AI** — Co-Founder & Director of Quality Assurance | Jan 2026 – Present | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Established testing and review standards; evaluated software-system and AI-solution quality; reviewed feasibility studies and product readiness before launch. |
-| **AHD Financial Services (Jaib Wallet)** — Deputy Development Manager | Jul 2026 – Present | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Organized and managed projects; analyzed internal development requirements; delivered system integrations with external institutions. *(Note: Recorded as Jul 2026–Present across all official CVs)* |
-| **AHD Financial Services (Jaib Wallet)** — Developer, Development Dept. | Jan – Jul 2026 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Built production operations/accounting system integrated with Jaib Wallet workflows; contributed to software development. |
+| **Asaas AI** — Co-Founder & Director of Quality Assurance | Jan 2026 – Present | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Set testing and review standards and policies; evaluated software-system and AI-solution quality; reviewed plans, feasibility studies, and product readiness before approval and launch. |
+| **AHD Financial Services (Jaib Wallet)** — Deputy Development Manager | Jul 2026 – Present | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Organize and manage projects; analyze internal development requirements; deliver system integrations with external institutions. |
+| **AHD Financial Services (Jaib Wallet)** — Developer, Development Dept. | Jan – Jul 2026 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Built a production operations/accounting product integrated with Jaib Wallet workflows; contributed to software development. |
 | **AHD Financial Services (Jaib Wallet)** — Development Trainee | Dec 2025 – Jan 2026 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Worked with .NET backend logic, SQL databases, web features, testing, and troubleshooting. |
-| **AHD Financial Services (Jaib Wallet)** — Customer Service Trainee | Sep – Dec 2025 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Handled ticketing-system calls; applied regulatory compliance policies. |
-| **Water & Sanitation Local Corporation** — Control Engineer Trainee | Aug – Dec 2024 | Al Hudaydah | All CV variants | **VERIFIED & CONSISTENT** | Monitored PLC panels and field signals (pumps, levels, alarms); preventive maintenance, wiring, control-loop troubleshooting; fault documentation and safe restart. |
-| **Al-Rahma Foundation** — Network Engineer Trainee | Jan – Dec 2023 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Operated and maintained internal LAN/Wi-Fi networks and router/switch settings; cabling, follow-up, logs; stability improvements. |
-| **Private Project (Healthcare & Apparel)** — Sales | 2020 – 2022 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Managed customer relationships, orders, invoices, inventory data, simple sales reports, supplier purchasing communication. |
-| **Glory of Civilization Schools** — Administrative Assistant Trainee | Jan – Dec 2019 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Supported daily school operations, events, schedules, interdepartmental communication. |
+| **AHD Financial Services (Jaib Wallet)** — Customer Service Trainee | Sep – Dec 2025 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Handled ticketing-system calls; applied compliance policies. |
+| **Water & Sanitation Local Corporation** — Control Engineer Trainee | Aug – Dec 2024 | Al Hudaydah | All CV variants | **VERIFIED & CONSISTENT** | Monitored PLC panels and field signals (pumps, levels, alarms); supported preventive maintenance, wiring, and control-loop troubleshooting; coordinated with technicians, documented faults, and ensured safe restart procedures. |
+| **Al-Rahma Foundation** — Network Engineer Trainee | Jan – Dec 2023 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Operated and maintained internal LAN/Wi-Fi networks and basic router/switch configurations; supported cabling, routine follow-up, and logs; documented incidents and suggested stability improvements. |
+| **Private Project (Healthcare & Apparel)** — Sales | 2020 – 2022 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Managed customer relationships, orders, and invoices; organized inventory data and prepared simple sales reports; followed up on purchasing and supplier communication. |
+| **Glory of Civilization Schools** — Administrative Assistant Trainee | Jan – Dec 2019 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Supported daily school operations, events, schedules, and interdepartmental coordination. |
 
 ---
 
-## 5. Verified Projects (16 Projects from Official Sources)
+## 5. Projects (16 Projects — Strict Evidence Depth Tiers)
 
-| ID / Slug | Title | Core Focus / Category | Verified Technologies | Verified Scope & Description | Status |
+| ID / Slug | Title | Category | Verified Evidence Depth | Verified CV Scope & Technologies | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `pump-station-analytics` | Pump Station Analytics | Automation & Analytics | PLC, Sensors, Predictive Algorithms | Predictive maintenance system for municipal wastewater pumps. | **VERIFIED** |
-| `real-time-image-classification-api` | Real-Time Image Classification API | AI & Backend Services | Python, Flask, ML Classifier | Lightweight Flask microservice accepting image inputs and returning top 3 predicted classes. | **VERIFIED** |
-| `real-time-object-detection` | Real-Time Object Detection | Computer Vision | Python, PyTorch, OpenCV | Live camera feed object detection pipeline with real-time bounding box visualization. | **VERIFIED** |
-| `omnifood-landing-page` | OMNIFOOD | Web Development | HTML, CSS, JavaScript | Responsive landing page with structured anchor navigation and dynamic hero section. | **VERIFIED** |
-| `urbanmindos` | URBANMINDOS | Systems & Concept Design | Systems Architecture, UI Concept | Smart-city operating system concept showcasing autonomous urban air mobility coordination. | **VERIFIED** |
-| `obstacle-avoidance` | Obstacle Avoidance | Computer Vision / Robotics | TensorFlow, Python, Depth Estimation | Real-time monocular depth estimation with TensorFlow for obstacle detection and avoidance. | **VERIFIED** |
-| `ai-tic-tac-toe` | AI Tic-Tac-Toe | Algorithms & Game AI | Python, Pygame, Minimax Algorithm | Unbeatable game agent implementing Minimax decision tree with interactive Pygame UI. | **VERIFIED** |
-| `pacman-pygame` | Pac-Man with Pygame | Game Development | Python, Pygame | Game recreation featuring 2D animations, collision physics, ghost pathfinding AI, and power-ups. | **VERIFIED** |
-| `text-summarizer` | Text Summarizer | NLP & Desktop Tools | Python, NLP | Desktop tool for extractive document summarization with configurable output length. | **VERIFIED** |
-| `inventory-sales-manager` | Inventory & Sales Manager | Web Application | CRUD Web Stack, Databases | Web application managing inventory and sales operations for consumer electronics (Laptops, Phones, PS5). | **VERIFIED** |
-| `user-role-manager` | User & Role Manager | Enterprise Systems | Oracle Forms 6i, PL/SQL | Administrative portal to create/update users, reset credentials, and assign granular role permissions. | **VERIFIED** |
-| `robocam-controller` | ROBOCAM Controller | Mobile & Robotics Interop | Flutter, Dart, Android | Mobile application controlling camera-equipped robot with live video stream and on-screen joystick. | **VERIFIED** |
-| `student-evaluation-system` | Student Evaluation System | Multi-Tier Application | C# Desktop, PHP Web, MySQL | Unified educational portal managing attendance, grading, and role-based access for Admins, Teachers, and Students. | **VERIFIED** |
-| `cafe-pos-system` | Café POS System | Desktop Application | Java Swing, JDBC, SQL | Point-of-sale desktop system handling user authentication, menu catalog CRUD, receipts, and sales reports. | **VERIFIED** |
-| `mikrotik-hotspot-portal` | MikroTik Hotspot Portal | Network Engineering | RouterOS, Dual-WAN, PPPoE, RADIUS | Enterprise network setup with dual-WAN load balancing, captive Hotspot portal, and RADIUS accounting. | **VERIFIED** |
-| `arduino-traffic-light` | Arduino Traffic Light Controller | Embedded Systems | Arduino, C/C++, Hardware Logic | Two-way traffic intersection controller with hardware safety interlocks and pedestrian crossing button. | **VERIFIED** |
+| `real-time-object-detection` | Real-Time Object Detection | Computer Vision & AI | **RICH VERIFIED** | Live Python/PyTorch + OpenCV pipeline implemented on a live camera feed with real-time visualization of results (Twintech graduation project). | **VERIFIED & CONSISTENT** |
+| `pump-station-analytics` | Pump Station Analytics | Systems & Robotics | **BASIC VERIFIED** | Predictive maintenance system for wastewater pumps. Tech: PLC, Sensors, Predictive Maintenance, Industrial Control. | **VERIFIED & CONSISTENT** |
+| `real-time-image-classification-api` | Real-Time Image Classification API | Computer Vision & AI | **BASIC VERIFIED** | Lightweight Flask service that accepts an image and returns the top three classes. Tech: Python, Flask, REST API, Machine Learning. | **VERIFIED & CONSISTENT** |
+| `robocam-controller` | ROBOCAM Controller | Systems & Robotics | **BASIC VERIFIED** | Android application for controlling a camera-equipped robot via an on-screen joystick. Tech: Flutter, Dart, Android. | **VERIFIED & CONSISTENT** |
+| `mikrotik-hotspot-portal` | MikroTik Hotspot Portal | Embedded & IoT | **BASIC VERIFIED** | Dual-WAN RouterOS setup with PPPoE links, a Hotspot portal, and RADIUS. Tech: MikroTik RouterOS, Dual-WAN, PPPoE, RADIUS. | **VERIFIED & CONSISTENT** |
+| `arduino-traffic-light` | Arduino Traffic Light Controller | Embedded & IoT | **BASIC VERIFIED** | Two-way intersection with safety protections and a pedestrian crossing button. Tech: Arduino, Embedded C/C++, Hardware Logic, Sensors. | **VERIFIED & CONSISTENT** |
+| `obstacle-avoidance` | Obstacle Avoidance | Computer Vision & AI | **BASIC VERIFIED** | Real-time monocular depth estimation with TensorFlow for detection and avoidance. Tech: TensorFlow, Python, Depth Estimation. | **VERIFIED & CONSISTENT** |
+| `ai-tic-tac-toe` | AI Tic-Tac-Toe | Computer Vision & AI | **BASIC VERIFIED** | Unbeatable Minimax AI with an interactive Pygame interface. Tech: Python, Pygame, Minimax Algorithm. | **VERIFIED & CONSISTENT** |
+| `pacman-pygame` | Pac-Man with Pygame | Full-Stack & Web | **BASIC VERIFIED** | Version with animation, collision detection, ghost AI, and power-ups. Tech: Python, Pygame. | **VERIFIED & CONSISTENT** |
+| `text-summarizer` | Text Summarizer | Computer Vision & AI | **BASIC VERIFIED** | Desktop application for extractive summarization with adjustable output length. Tech: Python, NLP, Desktop. | **VERIFIED & CONSISTENT** |
+| `user-role-manager` | User & Role Manager | Full-Stack & Web | **BASIC VERIFIED** | Create and update users, reset passwords, and assign permissions using Oracle Forms 6i and PL/SQL. | **VERIFIED & CONSISTENT** |
+| `inventory-sales-manager` | Inventory & Sales Manager | Full-Stack & Web | **BASIC VERIFIED** | CRUD web application for electronics (laptops/phones/PS5). Tech: Web, CRUD, Databases. | **VERIFIED & CONSISTENT** |
+| `student-evaluation-system` | Student Evaluation System | Full-Stack & Web | **BASIC VERIFIED** | Attendance and grades system with role-based access (Admin/Teacher/Student) — C# Desktop + PHP Web. | **VERIFIED & CONSISTENT** |
+| `cafe-pos-system` | Café POS System | Full-Stack & Web | **BASIC VERIFIED** | Point-of-sale system with login, CRUD items, sales, and reports (Java Swing + JDBC). | **VERIFIED & CONSISTENT** |
+| `omnifood-landing-page` | OMNIFOOD — Responsive Landing Page | Full-Stack & Web | **BASIC VERIFIED** | Single-page layout with a hero section and anchor navigation. Tech: HTML, CSS, JavaScript. | **VERIFIED & CONSISTENT** |
+| `urbanmindos` | URBANMINDOS — Smart City Operating System | Systems & Robotics | **BASIC VERIFIED** | Smart-city concept showcasing autonomous aerial mobility. Tech: Systems Architecture, Concept Design. | **VERIFIED & CONSISTENT** |
 
 ---
 
-## 6. Technical Skills & Capability Matrix
+## 6. Technical Skills & Languages
 
 | Domain | Verified Skills from CV | Source Language(s) | Status |
 | :--- | :--- | :--- | :--- |
-| **Programming & Applications** | Dart, Flutter, Android Studio, Python, HTML, CSS, JavaScript, C, C++, Java, .NET, C# | English, German, Arabic | **VERIFIED** |
-| **Data & Computer Science** | Databases (SQL, Oracle PL/SQL, MySQL), OOP, Data Structures, Algorithms, Data Mining (Weka, Orange) | English, German, Arabic | **VERIFIED** |
-| **Systems, Networks & Hardware**| Routing & Switching (MikroTik RouterOS, PPPoE, RADIUS), Structured Cabling, Linux & Operating Systems, Hardware Diagnostics & Troubleshooting | English, German, Arabic | **VERIFIED** |
-| **Automation & Industrial Control** | PLC (Programmable Logic Controllers), Arduino, Sensor Monitoring, Solar Energy Systems | English, German, Arabic | **VERIFIED** |
-| **Languages** | Arabic (Native / لغة أم), English (B2 CEFR), German (B1 CEFR) | English, German, Arabic | **VERIFIED** |
+| **Programming & Applications** | Dart/Flutter, Android Studio, Python, HTML/CSS/JS, C/C++, Java, .NET, C# | English, German, Arabic | **VERIFIED & CONSISTENT** |
+| **Data & Computer Science** | Databases (SQL, Oracle Forms 6i + PL/SQL), OOP, Data Structures, Algorithms, Data Mining (Weka/Orange) | English, German, Arabic | **VERIFIED & CONSISTENT** |
+| **Systems & Networks** | Routing/Switching & Structured Cabling, Linux & Operating Systems, Hardware & Troubleshooting, MikroTik RouterOS, PPPoE, RADIUS | English, German, Arabic | **VERIFIED & CONSISTENT** |
+| **Automation & Control** | PLC (Programmable Logic Controllers), Arduino, Control Loops & Wiring, Solar Energy, Sensors | English, German, Arabic | **VERIFIED & CONSISTENT** |
+| **Arabic Language** | Native / Mother tongue (لغة أم) | English, German, Arabic | **VERIFIED & CONSISTENT** |
+| **English Language** | B2 (CEFR) | English, German, Arabic | **VERIFIED & CONSISTENT** |
+| **German Language** | B1 (CEFR) | English, German, Arabic | **VERIFIED & CONSISTENT** |
 
 ---
 
 ## 7. Certifications & Courses (26 Verified Records)
 
-| Year | Institution / Issuer | Title / Program | Status |
+| Year | Issuer | Title / Program | Status |
 | :--- | :--- | :--- | :--- |
-| **2026** | CYBERAI Club | Automation & AI Agents | **VERIFIED** |
-| **2025** | Yemen Elite Bloc | Research Development | **VERIFIED** |
-| **2025** | Yemen Intern Platform | Work Ethics, Professional Environment & Teamwork | **VERIFIED** |
-| **2025** | Yemen Elite Bloc (Tech & IT) | Artificial Intelligence Program (Ongoing) | **VERIFIED** |
-| **2025** | Yemen Elite Bloc (Tech & IT) | Front-End Development Bootcamp (Ongoing) | **VERIFIED** |
-| **2025** | New Horizons Institutes | Graphic Design Diploma (In Progress) | **VERIFIED** |
-| **2025** | Sana'a University – Engineering | Deep Learning & Computer Vision | **VERIFIED** |
-| **2025** | Sana'a University – Engineering | Robotics | **VERIFIED** |
-| **2025** | Sana'a University – Engineering | Embedded Systems | **VERIFIED** |
-| **2025** | Sana'a University – Engineering | MATLAB | **VERIFIED** |
-| **2025** | Sana'a University – Engineering | Network Administration | **VERIFIED** |
-| **2025** | Sana'a University – Engineering | Artificial Intelligence & Raspberry Pi | **VERIFIED** |
-| **2025** | New Horizons Institutes | CompTIA A+ | **VERIFIED** |
-| **2025** | AI APPROACH CLUB | Data Analysis & Machine Learning | **VERIFIED** |
-| **2024** | Al-Hamdi Foundation | Medical Program (First Aid, Injections, Vital Signs) | **VERIFIED** |
-| **2024** | New Horizons Institutes | MikroTik Fundamentals | **VERIFIED** |
-| **2024** | Sana'a University – Engineering | Networks | **VERIFIED** |
-| **2024** | Sana'a University – Engineering | Programmable Logic Controllers (PLC) | **VERIFIED** |
-| **2024** | Sana'a University – Engineering | Arduino | **VERIFIED** |
-| **2024** | Sana'a University – Engineering | Solar Energy | **VERIFIED** |
-| **2024** | Al-Hamdi Foundation | Advanced Digital Marketing | **VERIFIED** |
-| **2024** | Al-Hamdi Foundation | Small Project Management | **VERIFIED** |
-| **2024** | Al-Hamdi Foundation | Administrative Program (Business, HR, Customer Service) | **VERIFIED** |
-| **2023** | Al-Hamdi Foundation | Emergency Humanitarian Response — SPHERE Standards | **VERIFIED** |
-| **2020** | New Horizons Institutes | ICDL (International Computer Driving Licence) | **VERIFIED** |
-| **2019** | Science & Technology Center | Mobile Phone Maintenance Diploma | **VERIFIED** |
+| **2026** | CYBERAI Club | Automation & AI Agents | **VERIFIED & CONSISTENT** |
+| **2025** | Yemen Elite Bloc | Research Development | **VERIFIED & CONSISTENT** |
+| **2025** | Yemen Intern Platform | Work Ethics, Professional Environment & Teamwork | **VERIFIED & CONSISTENT** |
+| **2025** | Yemen Elite Bloc (Technology & IT Sector) | Artificial Intelligence Program (Ongoing) | **VERIFIED & CONSISTENT** |
+| **2025** | Yemen Elite Bloc (Technology & IT Sector) | Front-End Development Bootcamp (Ongoing) | **VERIFIED & CONSISTENT** |
+| **2025** | New Horizons Institutes | Graphic Design Diploma (In Progress) | **VERIFIED & CONSISTENT** |
+| **2025** | Sana'a University – Faculty of Engineering | Deep Learning & Computer Vision | **VERIFIED & CONSISTENT** |
+| **2025** | Sana'a University – Faculty of Engineering | Robotics | **VERIFIED & CONSISTENT** |
+| **2025** | Sana'a University – Faculty of Engineering | Embedded Systems | **VERIFIED & CONSISTENT** |
+| **2025** | Sana'a University – Faculty of Engineering | MATLAB | **VERIFIED & CONSISTENT** |
+| **2025** | Sana'a University – Faculty of Engineering | Network Administration | **VERIFIED & CONSISTENT** |
+| **2025** | Sana'a University – Faculty of Engineering | Artificial Intelligence & Raspberry Pi | **VERIFIED & CONSISTENT** |
+| **2025** | New Horizons Institutes | CompTIA A+ | **VERIFIED & CONSISTENT** |
+| **2025** | AI APPROACH CLUB | Data Analysis & Machine Learning | **VERIFIED & CONSISTENT** |
+| **2024** | Al-Hamdi Foundation | Medical Program (First Aid, Injection Types, Vital Signs) | **VERIFIED & CONSISTENT** |
+| **2024** | New Horizons Institutes | MikroTik Fundamentals | **VERIFIED & CONSISTENT** |
+| **2024** | Sana'a University – Faculty of Engineering | Networks | **VERIFIED & CONSISTENT** |
+| **2024** | Sana'a University – Faculty of Engineering | Programmable Logic Controllers (PLC) | **VERIFIED & CONSISTENT** |
+| **2024** | Sana'a University – Faculty of Engineering | Arduino | **VERIFIED & CONSISTENT** |
+| **2024** | Sana'a University – Faculty of Engineering | Solar Energy | **VERIFIED & CONSISTENT** |
+| **2024** | Al-Hamdi Foundation | Advanced Digital Marketing | **VERIFIED & CONSISTENT** |
+| **2024** | Al-Hamdi Foundation | Small Project Management | **VERIFIED & CONSISTENT** |
+| **2024** | Al-Hamdi Foundation | Administrative Program (Business, Human Resources, Customer Service) | **VERIFIED & CONSISTENT** |
+| **2023** | Al-Hamdi Foundation | Emergency Humanitarian Response — SPHERE Standards | **VERIFIED & CONSISTENT** |
+| **2020** | New Horizons Institutes | ICDL (International Computer Driving Licence) | **VERIFIED & CONSISTENT** |
+| **2019** | Science & Technology Center | Mobile Phone Maintenance Diploma | **VERIFIED & CONSISTENT** |
 
 ---
 
-## 8. Memberships & Community Engagement
+## 8. Memberships & Community Engagement (5 Verified Records)
 
-| Organization | Role / Involvement | Status |
+| Organization | Canonical Role / Engagement | Status |
 | :--- | :--- | :--- |
-| **CYBERAI CLUB** | Member of Artificial Intelligence and Projects Committees | **VERIFIED** |
-| **Society of Petroleum Engineers (SPE)** | Used SPE technical programs to broaden understanding of petroleum engineering and operations | **VERIFIED** |
-| **Al-Hamdi Foundation for Human Development** | Program participant and volunteer supporting events and peer learning | **VERIFIED** |
-| **Nastatee Charity Association** | Community volunteer supporting youth technology initiatives and event logistics | **VERIFIED** |
-| **Yemen Elite Bloc** | Active in AI/robotics and programming units; peer mentoring and event logistics | **VERIFIED** |
+| **CYBERAI CLUB** | Member of the Artificial Intelligence and Projects Committees. | **VERIFIED & CONSISTENT** |
+| **Society of Petroleum Engineers (SPE)** | Used SPE technical programs to broaden understanding of petroleum engineering and operations. | **VERIFIED & CONSISTENT** |
+| **Al-Hamdi Foundation for Human Development** | Program participant and volunteer; supported events and peer learning. | **VERIFIED & CONSISTENT** |
+| **Nastatee Charity Association** | Community volunteer supporting youth technology initiatives and event logistics. | **VERIFIED & CONSISTENT** |
+| **Yemen Elite Bloc** | Active in AI/robotics and programming units; peer mentoring and event logistics support. | **VERIFIED & CONSISTENT** |
 
 ---
 
-## 9. Conflicts & Discrepancies Requiring Owner Review
+## 9. Purged Unsupported / Fabricated Claims (Audit Register)
 
-1. **Date Representation in AHD Financial Services:**
-   - The role `Deputy Development Manager` is listed as `Jul 2026 – Present` across all official CV documents. We will preserve this exact chronology as stated in the CV without alteration.
-2. **References Exposure:**
-   - The CV packages list 6 professional and academic references with personal mobile phone numbers and email addresses. Per Privacy & Public Portfolio principles, we will **NOT** publicly expose third-party personal phone numbers on the web. Instead, the references section on `/capabilities` or `/about` will state: *"Academic and professional references available upon request"* with verified contact channels.
-3. **Removal of Temporary Marketing Claims:**
-   - Previous placeholder copy in the hero and mock showcase cards used terms like "Scalable Architecture", "Distributed Systems", and "Engineering Rigor". These are replaced by verified capabilities: "Software Systems Engineering", "Full-Stack Development", and "Applied AI & Automation".
+The following claims were identified as unsupported by the official CV package and have been **purged completely**:
+
+1. **Unsupported Engineering Roles:**
+   - ❌ "Computer Systems & AI Engineer" → Purged (Replaced by canonical "Software Engineer")
+   - ❌ "Senior AI Solutions Engineer" → Purged
+   - ❌ "Systems Automation Engineer" → Purged
+   - ❌ "Robotics Software Developer" → Purged
+2. **Fabricated Metrics & Numbers:**
+   - ❌ "GPA 89.26%" → Purged
+   - ❌ "Graduated with honors" → Purged
+   - ❌ "Grade: Excellent" → Purged
+   - ❌ "99.7% uptime" → Purged
+   - ❌ "34% reduction" → Purged
+   - ❌ "99.4% accuracy" → Purged
+   - ❌ "23ms inference" → Purged
+   - ❌ "15k+ items" → Purged
+   - ❌ "500k+ events" → Purged
+   - ❌ "sub-50ms query response" → Purged
+   - ❌ "12-station lines" → Purged
+3. **Unsupported Technologies & Frameworks:**
+   - ❌ "ROS" / "ROS2" → Purged
+   - ❌ "LiDAR SLAM" → Purged
+   - ❌ "EKF sensor fusion" → Purged
+   - ❌ "Nav2" → Purged
+   - ❌ "Jetson Orin" → Purged
+4. **Unsupported External Certifications:**
+   - ❌ "Google Cybersecurity certification" → Purged
+   - ❌ "IBM certification" → Purged
+   - ❌ "DeepLearning.AI certification" → Purged
+   - ❌ "Michigan Python credential" → Purged
+   - ❌ "NVIDIA certification" → Purged
+5. **Inflated Language Proficiency:**
+   - ❌ English "Fluent / Professional" → Corrected to **B2**
+   - ❌ German "Intermediate B1+" → Corrected to **B1**
+6. **Speculative Implementation Details:**
+   - ❌ Speculative architecture blocks on 15 basic projects (PCC load balancing rules, hardware debounce, concurrent Flask payloads, predictive vibration/thermal creep bounds) → Purged (Gracefully degraded to clean Project Profiles).
+
+---
+
+## 10. Chronology & Confidentiality Discrepancies Requiring Owner Review
+
+1. **Chronological Forward Date at AHD Financial Services:**
+   - The role `Deputy Development Manager` is recorded as `Jul 2026 – Present` across all official CV variants (both ATS and Standard in English, German, and Arabic). The portfolio preserves this date verbatim as documented in the official CV.
+2. **Reference Protection:**
+   - All 6 CV documents list 6 professional/academic references with direct phone numbers and personal emails. To maintain privacy, personal phone numbers and direct contact details are kept confidential with the note: *"Formal academic and industry references from university department chairs, engineering supervisors, and executive directors are available upon request."*

@@ -15,25 +15,25 @@ export const aboutContent: AboutContent = {
     degree: "B.Sc. in Computer Science",
     period: "2021 – 2025",
     location: "Sana'a, Yemen",
-    thesisTitle: "Real-Time Object-Tracking Algorithm on Linux",
+    thesisTitle: "Object-Tracking Algorithm on Linux Using Python and OpenCV",
     thesisDescription:
-      "Designed and deployed a live object-tracking algorithm on Linux using Python and OpenCV, achieving real-time detection, tracking, and coordinate bounding-box visualization on streaming video feeds.",
+      "Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results.",
   },
   languages: [
     {
       language: "Arabic",
-      level: "Native / Mother Tongue (لغة أم)",
-      proficiency: "Native proficiency in technical and professional communication.",
+      level: "Native (لغة أم)",
+      proficiency: "Native speaker.",
     },
     {
       language: "English",
-      level: "B2 (CEFR)",
-      proficiency: "Professional working proficiency in engineering, documentation, and technical discourse.",
+      level: "B2",
+      proficiency: "CEFR B2 Level.",
     },
     {
       language: "German",
-      level: "B1 (CEFR)",
-      proficiency: "Intermediate proficiency (Zertifikat B1), capable of technical and professional communication.",
+      level: "B1",
+      proficiency: "CEFR B1 Level.",
     },
   ],
   principles: [

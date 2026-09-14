@@ -51,9 +51,9 @@ export const skillsContent: SkillsContent = {
       skills: [
         "Programmable Logic Controllers (PLC)",
         "Arduino Microcontrollers",
-        "Sensor Telemetry & Monitoring",
-        "Embedded C/C++",
-        "Control Loops & Interlocks",
+        "Sensor Monitoring",
+        "Embedded Systems",
+        "Control Loops & Wiring",
         "Solar Energy Systems",
       ],
     },

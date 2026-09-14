@@ -50,9 +50,11 @@ export default function HomePage() {
                 <h3 className={styles.projectTitle}>{project.title}</h3>
                 <p className={styles.projectTagline}>{project.tagline}</p>
 
-                <div className={styles.projectSnippet}>
-                  <strong>Outcome:</strong> {project.result}
-                </div>
+                {project.result && (
+                  <div className={styles.projectSnippet}>
+                    <strong>Outcome:</strong> {project.result}
+                  </div>
+                )}
 
                 <div className={styles.techPills}>
                   {project.technologies.slice(0, 3).map((tech) => (

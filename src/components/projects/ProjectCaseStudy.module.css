@@ -79,6 +79,21 @@
   align-items: start;
 }
 
+.contentLayoutSingle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 820px;
+}
+
+.overviewCard {
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-subtle);
+}
+
 .stickyRail {
   position: sticky;
   top: 5.5rem;

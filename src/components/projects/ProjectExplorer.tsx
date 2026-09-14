@@ -60,16 +60,22 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
               <p className={styles.cardTagline}>{project.tagline}</p>
             </div>
 
-            <div className={styles.narrativeSnippet}>
-              <div>
-                <span className={styles.narrativeLabel}>Problem: </span>
-                {project.problem}
+            {(project.problem || project.solution) && (
+              <div className={styles.narrativeSnippet}>
+                {project.problem && (
+                  <div>
+                    <span className={styles.narrativeLabel}>Problem: </span>
+                    {project.problem}
+                  </div>
+                )}
+                {project.solution && (
+                  <div>
+                    <span className={styles.narrativeLabel}>Solution: </span>
+                    {project.solution}
+                  </div>
+                )}
               </div>
-              <div>
-                <span className={styles.narrativeLabel}>Solution: </span>
-                {project.solution}
-              </div>
-            </div>
+            )}
 
             <div className={styles.techPills}>
               {project.technologies.slice(0, 4).map((tech) => (
