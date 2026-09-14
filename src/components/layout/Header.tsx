@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
 import { Container } from "@/components/ui/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -9,6 +11,7 @@ import { cn } from "@/utils/cn";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const firstDrawerLinkRef = useRef<HTMLAnchorElement>(null);
 
@@ -61,13 +64,24 @@ export function Header() {
     setIsOpen(false);
   };
 
+  const handleOpenPalette = () => {
+    window.dispatchEvent(new CustomEvent("open-command-palette"));
+  };
+
+  const isLinkActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(href);
+  };
+
   return (
     <header className={styles.header}>
       <Container>
         <div className={styles.inner}>
           {/* JAIB Brand Identity Signature */}
-          <a
-            href="#top"
+          <Link
+            href="/"
             className={styles.brand}
             aria-label={`${identityContent.fullName} - Home`}
             onClick={handleLinkClick}
@@ -83,25 +97,61 @@ export function Header() {
               <span className={styles.brandTitle}>{identityContent.fullName}</span>
               <span className={styles.brandRole}>{identityContent.role}</span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation & Controls */}
           <div className={styles.navGroup}>
             <nav className={styles.desktopNav} aria-label="Main Navigation">
-              {navigationContent.navItems.map((item) => (
-                <a key={item.href} href={item.href} className={styles.navLink}>
-                  {item.label}
-                </a>
-              ))}
+              {navigationContent.navItems.map((item) => {
+                const active = isLinkActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(styles.navLink, active && styles.navLinkActive)}
+                    aria-current={active ? "page" : undefined}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
 
             <div className={styles.desktopNav}>
+              {/* Command Palette Trigger */}
+              <button
+                type="button"
+                className={styles.searchTrigger}
+                onClick={handleOpenPalette}
+                aria-label="Open command palette (Ctrl+K)"
+                title="Search portfolio (Ctrl+K)"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                </svg>
+                <span>Navigate</span>
+                <kbd className={styles.searchKbd}>⌘K</kbd>
+              </button>
+
               <ThemeToggle />
             </div>
           </div>
 
           {/* Mobile Header Controls */}
           <div className={styles.mobileControls}>
+            <button
+              type="button"
+              className={styles.searchTriggerMobile}
+              onClick={handleOpenPalette}
+              aria-label="Search & Navigator"
+              title="Quick Search"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+            </button>
             <ThemeToggle />
             <button
               ref={toggleButtonRef}
@@ -134,19 +184,23 @@ export function Header() {
         aria-hidden={!isOpen}
       >
         <nav className={styles.drawerNav} aria-label="Mobile Navigation Links">
-          {navigationContent.navItems.map((item, index) => (
-            <a
-              key={item.href}
-              ref={index === 0 ? firstDrawerLinkRef : undefined}
-              href={item.href}
-              className={styles.drawerLink}
-              onClick={handleLinkClick}
-              tabIndex={isOpen ? 0 : -1}
-            >
-              <span className={styles.drawerLinkIndex}>0{index + 1}</span>
-              <span>{item.label}</span>
-            </a>
-          ))}
+          {navigationContent.navItems.map((item, index) => {
+            const active = isLinkActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                ref={index === 0 ? firstDrawerLinkRef : undefined}
+                href={item.href}
+                className={cn(styles.drawerLink, active && styles.drawerLinkActive)}
+                onClick={handleLinkClick}
+                tabIndex={isOpen ? 0 : -1}
+                aria-current={active ? "page" : undefined}
+              >
+                <span className={styles.drawerLinkIndex}>0{index + 1}</span>
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
 
           <div className={styles.drawerFooter}>
             <div className={styles.drawerThemeRow}>
