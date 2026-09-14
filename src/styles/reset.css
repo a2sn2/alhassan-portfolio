@@ -80,6 +80,7 @@ h4,
 h5,
 h6 {
   text-wrap: balance;
+  overflow-wrap: break-word;
   color: var(--color-text-primary);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
@@ -87,6 +88,7 @@ h6 {
 
 p {
   text-wrap: pretty;
+  overflow-wrap: break-word;
   max-width: 72ch;
 }
 

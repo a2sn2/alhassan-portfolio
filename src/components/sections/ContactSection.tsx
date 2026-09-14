@@ -3,37 +3,46 @@ import styles from "./Sections.module.css";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
-import { siteConfig } from "@/data/siteConfig";
+import { ContactContent } from "@/contracts/contact";
 
-export function ContactSection() {
+interface ContactSectionProps {
+  content: ContactContent;
+}
+
+export function ContactSection({ content }: ContactSectionProps) {
   return (
     <section id="contact" className={styles.section} aria-label="Contact">
       <Container>
         <SectionHeader
-          kicker="06 / Direct Connect"
-          title="Get In Touch"
-          description="Open for software engineering opportunities, architecture consultations, and technical collaborations."
+          kicker={content.kicker}
+          title={content.title}
+          description={content.description}
         />
 
         <div className={styles.placeholderBox}>
-          <p className={styles.placeholderText}>
-            Connect directly via verified public channels:
-          </p>
+          {content.placeholderText && (
+            <p className={styles.placeholderText}>{content.placeholderText}</p>
+          )}
 
           <div className={styles.heroActions}>
-            <Button
-              href={siteConfig.githubUrl}
-              variant="primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub (@{siteConfig.githubUsername})
-            </Button>
+            {content.methods.map((method) => (
+              <Button
+                key={method.id}
+                href={method.href}
+                variant={method.isPrimary ? "primary" : "secondary"}
+                target={method.isExternal ? "_blank" : undefined}
+                rel={method.isExternal ? "noopener noreferrer" : undefined}
+              >
+                {method.label} ({method.value})
+              </Button>
+            ))}
           </div>
 
-          <span className={styles.placeholderNotice}>
-            [Awaiting verified professional email & LinkedIn link]
-          </span>
+          {content.placeholderNotice && (
+            <span className={styles.placeholderNotice}>
+              {content.placeholderNotice}
+            </span>
+          )}
         </div>
       </Container>
     </section>

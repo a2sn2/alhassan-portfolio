@@ -31,11 +31,11 @@
   --text-sm: clamp(0.8438rem, 0.81rem + 0.17vw, 0.9375rem); /* 13.5px -> 15px */
   --text-base: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem); /* 15px -> 17px */
   --text-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem); /* 18px -> 20px */
-  --text-xl: clamp(1.3125rem, 1.2rem + 0.55vw, 1.625rem); /* 21px -> 26px */
-  --text-2xl: clamp(1.625rem, 1.45rem + 0.9vw, 2.125rem); /* 26px -> 34px */
-  --text-3xl: clamp(2rem, 1.7rem + 1.5vw, 2.875rem); /* 32px -> 46px */
-  --text-4xl: clamp(2.5rem, 2rem + 2.5vw, 4rem); /* 40px -> 64px */
-  --text-hero: clamp(2.875rem, 2.2rem + 3.5vw, 5.25rem); /* 46px -> 84px */
+  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.625rem); /* 20px -> 26px */
+  --text-2xl: clamp(1.375rem, 1.25rem + 0.8vw, 2.125rem); /* 22px -> 34px */
+  --text-3xl: clamp(1.75rem, 1.5rem + 1.2vw, 2.875rem); /* 28px -> 46px */
+  --text-4xl: clamp(2.25rem, 1.85rem + 2vw, 4rem); /* 36px -> 64px */
+  --text-hero: clamp(2.125rem, 1.6rem + 2.8vw, 5rem); /* 34px -> 80px */
 
   /* Font Weights */
   --weight-regular: 400;
@@ -71,7 +71,7 @@
   /* Container System */
   --container-max-width: 1200px;
   --container-prose-width: 680px;
-  --container-gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --container-gutter: clamp(1rem, 3.5vw, 2.5rem);
 
   /* Borders & Radii */
   --radius-sm: 4px;

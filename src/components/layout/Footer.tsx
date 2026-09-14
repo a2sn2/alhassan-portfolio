@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "./Footer.module.css";
 import { Container } from "@/components/ui/Container";
-import { siteConfig } from "@/data/siteConfig";
+import { identityContent, socialLinks } from "@/content";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const github = socialLinks.find((s) => s.platform === "GitHub");
 
   return (
     <footer className={styles.footer}>
@@ -12,19 +13,21 @@ export function Footer() {
         <div className={styles.inner}>
           <div className={styles.top}>
             <div className={styles.identity}>
-              <span className={styles.name}>{siteConfig.name}</span>
-              <span className={styles.role}>{siteConfig.role}</span>
+              <span className={styles.name}>{identityContent.fullName}</span>
+              <span className={styles.role}>{identityContent.role}</span>
             </div>
 
             <div className={styles.links}>
-              <a
-                href={siteConfig.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.link}
-              >
-                GitHub ({siteConfig.githubUsername})
-              </a>
+              {github && (
+                <a
+                  href={github.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.link}
+                >
+                  GitHub ({github.username})
+                </a>
+              )}
               <a href="#top" className={styles.link}>
                 Back to top ↑
               </a>
@@ -32,7 +35,9 @@ export function Footer() {
           </div>
 
           <div className={styles.bottom}>
-            <span>© {currentYear} {siteConfig.name}. All rights reserved.</span>
+            <span>
+              © {currentYear} {identityContent.fullName}. All rights reserved.
+            </span>
             <span>Crafted with intentionality & restraint.</span>
           </div>
         </div>

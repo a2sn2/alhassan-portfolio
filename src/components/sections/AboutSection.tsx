@@ -2,25 +2,42 @@ import React from "react";
 import styles from "./Sections.module.css";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { AboutContent } from "@/contracts/about";
 
-export function AboutSection() {
+interface AboutSectionProps {
+  content: AboutContent;
+}
+
+export function AboutSection({ content }: AboutSectionProps) {
   return (
     <section id="about" className={styles.section} aria-label="About">
       <Container>
         <SectionHeader
-          kicker="01 / Perspective"
-          title="About & Engineering Philosophy"
-          description="A principled approach to building reliable systems and thoughtful user interfaces."
+          kicker={content.kicker}
+          title={content.title}
+          description={content.description}
         />
 
-        <div className={styles.placeholderBox}>
-          <span className={styles.placeholderNotice}>
-            [Section Architecture: Awaiting Verified Biography & Perspective]
-          </span>
-          <p className={styles.placeholderText}>
-            This structural area will house verified biographical narrative, engineering background, and philosophical principles. No placeholder facts or invented achievements are populated per content integrity rules.
-          </p>
-        </div>
+        {content.status === "placeholder" ? (
+          <div className={styles.placeholderBox}>
+            {content.placeholderNotice && (
+              <span className={styles.placeholderNotice}>
+                {content.placeholderNotice}
+              </span>
+            )}
+            {content.placeholderText && (
+              <p className={styles.placeholderText}>{content.placeholderText}</p>
+            )}
+          </div>
+        ) : (
+          <div className={styles.aboutContent}>
+            {content.paragraphs.map((p, idx) => (
+              <p key={idx} className={styles.paragraph}>
+                {p}
+              </p>
+            ))}
+          </div>
+        )}
       </Container>
     </section>
   );

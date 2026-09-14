@@ -50,6 +50,8 @@
   letter-spacing: -0.03em;
   line-height: 1.08;
   color: var(--color-text-primary);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .heroLead {
