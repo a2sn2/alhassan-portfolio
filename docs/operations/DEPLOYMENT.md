@@ -46,9 +46,15 @@ Production Smoke Test
 
 ## 3. Post-Deployment Verification Checklist
 
-Immediately after production deployment:
-1. Open `https://alhassan-portfolio-phi.vercel.app`.
-2. Verify HTTP status is `200 OK`.
-3. Check browser DevTools console for zero runtime errors or failed assets.
-4. Verify `/robots.txt` and `/sitemap.xml` return valid responses.
-5. Click primary calls-to-action to confirm smooth navigation.
+Immediately after production deployment, or when validating release parity:
+1. Run the automated production verification script:
+   ```bash
+   npm run verify:production
+   ```
+   **When to run it:**
+   - **After Production Deployment:** Confirms that the latest build deployed cleanly to edge nodes.
+   - **After Routing Changes:** Validates all 7 canonical routes and project slugs return HTTP 200 without breakage.
+   - **After Navigation/Interaction Changes:** Validates accessible project filters, desktop tabs, mobile accordions, mobile drawers, command palettes, and theme toggling.
+   - **Before Closing a Release:** Validates zero horizontal overflow across 28 route-viewport matrix combinations and confirms all 6 public CV downloads return HTTP 200.
+2. Verify browser DevTools console shows zero runtime errors or unhandled rejections.
+3. Verify `/robots.txt` and `/sitemap.xml` return valid XML/text responses.
