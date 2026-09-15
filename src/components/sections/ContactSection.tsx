@@ -20,9 +20,7 @@ export function ContactSection({ content }: ContactSectionProps) {
         />
 
         <div className={styles.placeholderBox}>
-          {content.placeholderText && (
-            <p className={styles.placeholderText}>{content.placeholderText}</p>
-          )}
+          <p className={styles.placeholderText}>{content.description}</p>
 
           <div className={styles.heroActions}>
             {content.methods.map((method) => (
@@ -37,12 +35,6 @@ export function ContactSection({ content }: ContactSectionProps) {
               </Button>
             ))}
           </div>
-
-          {content.placeholderNotice && (
-            <span className={styles.placeholderNotice}>
-              {content.placeholderNotice}
-            </span>
-          )}
         </div>
       </Container>
     </section>

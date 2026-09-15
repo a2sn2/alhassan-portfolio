@@ -63,17 +63,6 @@ export function ProjectsSection({ content }: ProjectsSectionProps) {
               </div>
             </article>
           ))}
-
-          {content.placeholderNotice && (
-            <div className={styles.placeholderBox}>
-              <span className={styles.placeholderNotice}>
-                {content.placeholderNotice}
-              </span>
-              {content.placeholderText && (
-                <p className={styles.placeholderText}>{content.placeholderText}</p>
-              )}
-            </div>
-          )}
         </div>
       </Container>
     </section>

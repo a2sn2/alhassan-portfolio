@@ -3,11 +3,11 @@ export interface ExperienceItem {
   company: string;
   role: string;
   period: string;
-  location?: string;
+  location: string;
   description: string;
-  responsibilities?: string[];
+  responsibilities: string[];
   technologies: string[];
-  status: "verified" | "placeholder";
+  isCurrent?: boolean;
 }
 
 export interface ExperienceContent {
@@ -15,7 +15,4 @@ export interface ExperienceContent {
   title: string;
   description: string;
   items: ExperienceItem[];
-  status: "verified" | "placeholder";
-  placeholderNotice?: string;
-  placeholderText?: string;
 }

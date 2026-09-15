@@ -3,13 +3,28 @@ export interface PrincipleItem {
   description: string;
 }
 
+export interface EducationInfo {
+  institution: string;
+  degree: string;
+  period: string;
+  location: string;
+  thesisTitle: string;
+  thesisDescription: string;
+}
+
+export interface LanguageProficiency {
+  language: string;
+  level: string;
+  proficiency: string;
+}
+
 export interface AboutContent {
   kicker: string;
   title: string;
   description: string;
   paragraphs: string[];
-  principles?: PrincipleItem[];
-  status: "verified" | "placeholder";
-  placeholderNotice?: string;
-  placeholderText?: string;
+  education: EducationInfo;
+  languages: LanguageProficiency[];
+  principles: PrincipleItem[];
+  referencesNote: string;
 }

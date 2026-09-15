@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/ui/SkipLink";
+import { CommandPalette } from "@/components/ui/CommandPalette";
 import { siteMetadata } from "@/content/siteMetadata";
 import { identityContent } from "@/content/identity";
 import { socialLinks } from "@/content/social";
@@ -115,6 +116,7 @@ export default function RootLayout({
       </head>
       <body className="app-shell">
         <SkipLink targetId="main-content" />
+        <CommandPalette />
         <Header />
         <main id="main-content" className="main-content">
           {children}

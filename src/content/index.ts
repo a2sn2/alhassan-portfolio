@@ -4,6 +4,7 @@ export * from "./about";
 export * from "./experience";
 export * from "./projects";
 export * from "./skills";
+export * from "./credentials";
 export * from "./proof";
 export * from "./contact";
 export * from "./social";

@@ -1,5 +1,6 @@
 export interface SkillGroup {
   category: string;
+  description?: string;
   skills: string[];
 }
 
@@ -8,7 +9,4 @@ export interface SkillsContent {
   title: string;
   description: string;
   groups: SkillGroup[];
-  status: "verified" | "placeholder";
-  placeholderNotice?: string;
-  placeholderText?: string;
 }
