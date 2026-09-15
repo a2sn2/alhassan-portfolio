@@ -1,3 +1,10 @@
+export interface FocusPillar {
+  id: string;
+  index: string;
+  title: string;
+  description: string;
+}
+
 export interface Identity {
   fullName: string;
   shortName: string;
@@ -12,4 +19,8 @@ export interface Identity {
     showDot: boolean;
   };
   educationHighlight: string;
+  focusHeading?: string;
+  focusSubheading?: string;
+  focusPillars?: FocusPillar[];
 }
+

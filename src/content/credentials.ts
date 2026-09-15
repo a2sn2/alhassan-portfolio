@@ -5,6 +5,8 @@ export const credentialsContent: CredentialsContent = {
   title: "Professional Credentials & Community Engagement",
   description:
     "Verified technical certifications, engineering programs, and professional community memberships across AI, networks, embedded systems, and management.",
+  overviewText:
+    "Deep learning, computer vision, robotics, embedded systems, network routing, and project management.",
   certificationsRepoUrl: "https://github.com/a2sn2/certificates",
   certifications: [
     {

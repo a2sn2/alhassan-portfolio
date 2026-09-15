@@ -20,6 +20,7 @@
 | **Full Name (AR)** | الحسن بليغ الشامي | All Arabic CVs | Arabic | **VERIFIED & CONSISTENT** | Canonical Arabic script across all CVs |
 | **Professional Role** | Software Engineer | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Stated as "Software Engineer" / "Softwareentwickler" / "مهندس برمجيات" |
 | **Location** | Haddah, Sana'a, Yemen | All CV variants | English, German, Arabic | **VERIFIED & CONSISTENT** | Concise public display: "Sana'a, Yemen" |
+| **Availability Status Badge** | "Available for Engineering Opportunities" | Active public availability declaration | All | **OWNER-APPROVED CURRENT STATE** | Declared and approved by repository owner for current professional representation; not a historical CV fact |
 | **Email** | `hassan1alshami6@gmail.com` | All CV variants | All | **VERIFIED & CONSISTENT** | Canonical direct public contact |
 | **Phone** | `+967 772 765 120` | All CV variants | All | **VERIFIED & CONSISTENT** | Direct mobile contact |
 | **Date of Birth** | 01 Oct 2002 | All CV variants | All | **VERIFIED & CONSISTENT** | Private CV detail (withheld from public web UI) |
@@ -30,20 +31,24 @@
 
 ---
 
-## 2. Professional Summary & Derived Copy Register
+## 2. Professional Summary, Positioning & Derived Copy Register
 
-To maintain absolute transparency, content that represents editorial synthesis or stylistic framing rather than verbatim source text is cataloged here as **DERIVED COPY — REQUIRES OWNER APPROVAL**:
+To maintain absolute transparency and integrity, content across the portfolio is strictly partitioned into three verifiable tiers:
+1. **VERIFIED SOURCE FACT**: Sourced directly and verifiably from the official CV package.
+2. **OWNER-APPROVED CURRENT STATE**: Current active status approved by the portfolio owner (e.g. availability badge).
+3. **OWNER-APPROVED DERIVED COPY**: Editorial synthesis, high-level positioning, and architectural framing approved by the portfolio owner.
 
-| Field | Current Implementation | Source Grounding / Basis | Status | Owner Approval Required |
+| Field | Current Implementation | Source Grounding / Basis | Status | Classification |
 | :--- | :--- | :--- | :--- | :--- |
-| **CV Summary (EN)** | Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces. | `English/ALHassan_Baligh_ALShami_CV_Standard.pdf` | **VERIFIED & CONSISTENT** | No (Verbatim from CV) |
-| **Homepage Headline** | "Software Systems, Full-Stack Engineering & Applied AI" | Synthesis of verified engineering scope (systems, web, computer vision) | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
-| **Homepage Bio Brief** | "Software engineer combining academic foundations with hands-on systems implementation, full-stack application development, and quality assurance." | Editorial synthesis of CV profile + verified roles | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
-| **About Narrative: "robust, measurable digital products"** | Sentence phrase in paragraph 1 of `/about` | Editorial styling of "turn theoretical ideas into tangible outcomes" | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
-| **About Narrative: "engineering ethos"** | Sentence in paragraph 3 of `/about` | Editorial framing of multi-disciplinary technical curiosity | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
-| **Professional Principles** | "Pragmatic Implementation", "End-to-End System Visibility", "Quality & Review Rigor" | Synthesized principles reflecting verified experience | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
-| **Project 3 Problem / Solution / Result** | Narrative framing in `src/content/projects.ts` (`real-time-object-detection`) | Editorial expansion of "Live Python/PyTorch + OpenCV pipeline" | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
-| **Experience Role Summaries** | 1-sentence overviews for each of the 9 roles in `src/content/experience.ts` | Editorial condensation of verbatim responsibility bullets | **DERIVED COPY — REQUIRES OWNER APPROVAL** | Yes |
+| **CV Summary (EN)** | Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces. | `English/ALHassan_Baligh_ALShami_CV_Standard.pdf` | **VERIFIED & CONSISTENT** | **VERIFIED SOURCE FACT** |
+| **Homepage Headline** | "Software Systems, Full-Stack Engineering & Applied AI" | Synthesis of verified engineering scope (systems, web, computer vision) | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
+| **Homepage Bio Brief** | "Software engineer combining academic foundations with hands-on systems implementation, full-stack application development, and quality assurance." | Editorial synthesis of CV profile + verified roles | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
+| **Hero Focus Pillars (01–04)** | 1. **01 / SYSTEMS**: Software Systems & Integration — Fintech accounting systems, operational workflows, and institutional integrations.<br>2. **02 / FULL-STACK**: Application Engineering — Responsive web interfaces, Flutter mobile clients, and backend service integrations.<br>3. **03 / AI & VISION**: Applied AI & Computer Vision — Live camera stream object detection and tracking algorithms on Linux with OpenCV.<br>4. **04 / QUALITY**: Quality Assurance & Review Rigor — Testing protocols, feasibility reviews, and software quality evaluations. | Canonical 4 focus pillars in `src/content/identity.ts` reflecting verified technical areas; unsupported claims purged | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
+| **About Narrative: "practical, reliable digital solutions"** | "turning theoretical concepts into practical, reliable digital solutions" in paragraph 1 of `/about` | Source-grounded refinement of "turn theoretical ideas into tangible outcomes" | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
+| **About Narrative: "engineering ethos"** | Sentence in paragraph 3 of `/about` | Editorial framing of multi-disciplinary technical curiosity | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
+| **Professional Principles** | "Pragmatic Implementation", "End-to-End System Visibility", "Quality & Review Rigor" | Synthesized working principles reflecting verified experience | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
+| **Project 3 Narrative Framing** | Problem/Context: "Real-time object detection on a live video stream."<br>Solution: "Python/PyTorch + OpenCV pipeline for live object detection."<br>Result: "Live pipeline with real-time visual output." | Strict conservative source-grounded framing in `src/content/projects.ts` (`real-time-object-detection`) | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
+| **Experience Role Summaries** | 1-sentence overviews for each of the 9 roles in `src/content/experience.ts` | Editorial condensation of verbatim responsibility bullets | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
 
 ---
 
@@ -202,3 +207,10 @@ The following claims were identified as unsupported by the official CV package a
 6. **Inflated Language Proficiency:**
    - ❌ English "Fluent / Professional" → Corrected to **B2**
    - ❌ German "Intermediate B1+" → Corrected to **B1**
+7. **Unsupported UI Claims & Phrases Purged in Pre-Merge SSOT Fix:**
+   - ❌ "backend REST microservices" → Purged from Hero Focus Pillar 2 (`02 / FULL-STACK`). Replaced with verified "backend service integrations".
+   - ❌ "quality benchmarks for production releases" → Purged from Hero Focus Pillar 4 (`04 / QUALITY`). Replaced with verified "software quality evaluations".
+   - ❌ "low-latency visual tracking" → Purged from Project 3 (`real-time-object-detection`). Replaced with conservative source-grounded copy: "Real-time object detection on a live video stream."
+   - ❌ "turning theoretical concepts into robust, measurable digital products" → Refined to "turning theoretical concepts into practical, reliable digital solutions" on `/about`.
+   - ❌ Public label "VERIFIED FOCUS" → Replaced with neutral, accurate label "CORE FOCUS" in Hero showcase header.
+

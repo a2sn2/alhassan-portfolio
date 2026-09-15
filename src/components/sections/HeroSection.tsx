@@ -67,48 +67,30 @@ export function HeroSection({ content }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* Desktop Architectural Showcase Panel with Verified Pillars */}
-          <aside className={styles.heroShowcase} aria-label="Engineering Focus">
-            <div className={styles.showcaseGlow} aria-hidden="true" />
-            <div className={styles.showcaseHeader}>
-              <span className={styles.showcaseTitle}>Verified Focus</span>
-              <span className={styles.showcaseStatus}>Active Practice</span>
-            </div>
-
-            <div className={styles.showcasePillars}>
-              <div className={styles.pillarCard}>
-                <span className={styles.pillarIndex}>01 / SYSTEMS</span>
-                <span className={styles.pillarTitle}>Software Systems & Integration</span>
-                <span className={styles.pillarDesc}>
-                  Fintech accounting systems, operational workflows, and institutional integrations.
+          {/* Desktop Architectural Showcase Panel with Core Focus Pillars */}
+          {content.focusPillars && content.focusPillars.length > 0 && (
+            <aside className={styles.heroShowcase} aria-label="Engineering Focus">
+              <div className={styles.showcaseGlow} aria-hidden="true" />
+              <div className={styles.showcaseHeader}>
+                <span className={styles.showcaseTitle}>
+                  {content.focusHeading || "Core Focus"}
+                </span>
+                <span className={styles.showcaseStatus}>
+                  {content.focusSubheading || "Active Practice"}
                 </span>
               </div>
 
-              <div className={styles.pillarCard}>
-                <span className={styles.pillarIndex}>02 / FULL-STACK</span>
-                <span className={styles.pillarTitle}>Application Engineering</span>
-                <span className={styles.pillarDesc}>
-                  Responsive web interfaces, Flutter mobile clients, and backend REST microservices.
-                </span>
+              <div className={styles.showcasePillars}>
+                {content.focusPillars.map((pillar) => (
+                  <div key={pillar.id} className={styles.pillarCard}>
+                    <span className={styles.pillarIndex}>{pillar.index}</span>
+                    <span className={styles.pillarTitle}>{pillar.title}</span>
+                    <span className={styles.pillarDesc}>{pillar.description}</span>
+                  </div>
+                ))}
               </div>
-
-              <div className={styles.pillarCard}>
-                <span className={styles.pillarIndex}>03 / AI & VISION</span>
-                <span className={styles.pillarTitle}>Applied AI & Computer Vision</span>
-                <span className={styles.pillarDesc}>
-                  Live camera stream object detection and tracking algorithms on Linux with OpenCV.
-                </span>
-              </div>
-
-              <div className={styles.pillarCard}>
-                <span className={styles.pillarIndex}>04 / QUALITY</span>
-                <span className={styles.pillarTitle}>Quality Assurance & Review Rigor</span>
-                <span className={styles.pillarDesc}>
-                  Testing protocols, feasibility reviews, and quality benchmarks for production releases.
-                </span>
-              </div>
-            </div>
-          </aside>
+            </aside>
+          )}
         </div>
       </Container>
     </section>

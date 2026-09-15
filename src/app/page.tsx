@@ -152,7 +152,7 @@ export default function HomePage() {
                 {credentialsContent.certifications.length} Specialized Credentials
               </h3>
               <p className={styles.capText}>
-                Deep learning, computer vision, robotics, embedded systems, network routing, and project management.
+                {credentialsContent.overviewText}
               </p>
             </div>
 

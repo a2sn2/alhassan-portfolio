@@ -25,6 +25,7 @@ export interface CredentialsContent {
   kicker: string;
   title: string;
   description: string;
+  overviewText?: string;
   certificationsRepoUrl: string;
   certifications: CredentialItem[];
   memberships: MembershipItem[];

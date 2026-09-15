@@ -342,11 +342,13 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       expect(stat.size, `Empty CV file: ${file}`).toBeGreaterThan(100000);
     }
 
-    // 2. Check /about for verified language levels and absence of GPA/honors
+    // 2. Check /about for verified language levels, practical solutions phrasing, and absence of GPA/honors
     await page.goto("/about");
     const aboutText = await page.innerText("body");
     expect(aboutText).toContain("B2");
     expect(aboutText).toContain("B1");
+    expect(aboutText).toContain("turning theoretical concepts into practical, reliable digital solutions");
+    expect(aboutText).not.toContain("turning theoretical concepts into robust, measurable digital products");
     // Ensure no unverified honors or GPA claims
     expect(aboutText).not.toContain("89.26");
     expect(aboutText).not.toContain("Graduated with honors");
@@ -378,21 +380,41 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       "Assistant Supervisor",
       "TeleYemen",
       "International Youth Council",
+      "backend REST microservices",
+      "quality benchmarks for production releases",
+      "low-latency visual tracking",
+      "robust, measurable digital products",
     ];
 
     for (const term of bannedTerms) {
       expect(expText, `Found unverified banned term: ${term}`).not.toContain(term);
     }
 
-    // 4. Check /contact for canonical email and zero presence of old outlook address
+    // 4. Check / for Core Focus neutral label and presence of 4 canonical focus pillars
+    await page.goto("/");
+    const homeText = await page.innerText("body");
+    expect(homeText).toContain("CORE FOCUS");
+    expect(homeText.toUpperCase()).not.toContain("VERIFIED FOCUS");
+    expect(homeText).not.toContain("backend REST microservices");
+    expect(homeText).not.toContain("quality benchmarks for production releases");
+    expect(homeText).toContain("Software Systems & Integration");
+    expect(homeText).toContain("Application Engineering");
+    expect(homeText).toContain("Applied AI & Computer Vision");
+    expect(homeText).toContain("Quality Assurance & Review Rigor");
+
+    // 5. Check /contact for canonical email and zero presence of old outlook address
     await page.goto("/contact");
     const contactText = await page.innerText("body");
     expect(contactText).toContain("hassan1alshami6@gmail.com");
     expect(contactText).not.toContain("eng.al-hassan.al-shami@outlook.com");
 
-    // 5. Check /projects/real-time-object-detection has no unsupported role
+    // 6. Check /projects/real-time-object-detection has conservative copy and no unsupported phrasing
     await page.goto("/projects/real-time-object-detection");
     const projectDetailText = await page.innerText("body");
     expect(projectDetailText).not.toContain("Lead Developer & Researcher");
+    expect(projectDetailText).not.toContain("low-latency visual tracking");
+    expect(projectDetailText).toContain("Real-time object detection on a live video stream.");
+    expect(projectDetailText).toContain("Python/PyTorch + OpenCV pipeline for live object detection.");
+    expect(projectDetailText).toContain("Live pipeline with real-time visual output.");
   });
 });

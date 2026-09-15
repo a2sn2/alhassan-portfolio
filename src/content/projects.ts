@@ -10,12 +10,12 @@ export const projectItems: ProjectItem[] = [
     category: "Computer Vision & AI",
     badge: "Vision Pipeline",
     problem:
-      "Need for low-latency visual tracking and object identification on live video streams.",
+      "Real-time object detection on a live video stream.",
     solution:
-      "Engineered an object detection pipeline using Python, PyTorch, and OpenCV to process live camera input with real-time feedback.",
+      "Python/PyTorch + OpenCV pipeline for live object detection.",
     technologies: ["Python", "PyTorch", "OpenCV"],
     result:
-      "Demonstrated live camera stream processing with real-time video display of detected objects.",
+      "Live pipeline with real-time visual output.",
     githubUrl: "https://github.com/a2sn2",
     featured: true,
     evidenceDepth: "rich",

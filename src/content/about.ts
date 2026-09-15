@@ -6,7 +6,7 @@ export const aboutContent: AboutContent = {
   description:
     "Software engineer based in Sana'a, Yemen, specializing in software systems, full-stack application development, and practical engineering solutions.",
   paragraphs: [
-    "I am a software engineer combining academic rigor with hands-on systems implementation. Having completed my B.Sc. in Computer Science at the International University of Technology Twintech (2021–2025), my engineering journey focuses on turning theoretical concepts into robust, measurable digital products.",
+    "I am a software engineer combining academic rigor with hands-on systems implementation. Having completed my B.Sc. in Computer Science at the International University of Technology Twintech (2021–2025), my engineering journey focuses on turning theoretical concepts into practical, reliable digital solutions.",
     "My hands-on experience extends across fintech development, quality leadership, and network systems. At AHD Financial Services (Jaib Wallet), I advanced through developer and operational roles, building internal accounting systems and managing institutional integrations. At Asaas AI, as Co-Founder & Director of Quality Assurance, I established review standards and evaluated system readiness for AI-powered solutions.",
     "My engineering ethos is rooted in end-to-end curiosity: from industrial PLC control loops and network routing (MikroTik RouterOS) to desktop architectures, full-stack web platforms, and real-time computer vision pipelines.",
   ],
