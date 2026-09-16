@@ -18,6 +18,7 @@ export const projectItems: ProjectItem[] = [
       "Live pipeline with real-time visual output.",
     githubUrl: "https://github.com/a2sn2",
     featured: true,
+    presentationTier: "featured",
     evidenceDepth: "rich",
   },
   {
@@ -30,6 +31,20 @@ export const projectItems: ProjectItem[] = [
     badge: "Industrial Automation",
     technologies: ["Predictive Maintenance"],
     featured: true,
+    presentationTier: "featured",
+    evidenceDepth: "basic",
+  },
+  {
+    id: "urbanmindos",
+    slug: "urbanmindos",
+    title: "URBANMINDOS — Smart City Operating System",
+    tagline:
+      "Smart-city concept showcasing autonomous urban air mobility coordination.",
+    category: "Systems & Robotics",
+    badge: "Concept Design",
+    technologies: ["Concept Design", "Urban Air Mobility"],
+    featured: true,
+    presentationTier: "featured",
     evidenceDepth: "basic",
   },
   {
@@ -42,7 +57,8 @@ export const projectItems: ProjectItem[] = [
     badge: "Microservice API",
     technologies: ["Python", "Flask", "API"],
     githubUrl: "https://github.com/a2sn2",
-    featured: true,
+    featured: false,
+    presentationTier: "core",
     evidenceDepth: "basic",
   },
   {
@@ -55,7 +71,8 @@ export const projectItems: ProjectItem[] = [
     badge: "Mobile & Robotics",
     technologies: ["Flutter", "Dart", "Android"],
     githubUrl: "https://github.com/a2sn2",
-    featured: true,
+    featured: false,
+    presentationTier: "core",
     evidenceDepth: "basic",
   },
   {
@@ -67,7 +84,8 @@ export const projectItems: ProjectItem[] = [
     category: "Embedded & IoT",
     badge: "Network Engineering",
     technologies: ["MikroTik RouterOS", "Dual-WAN", "PPPoE", "Hotspot Portal", "RADIUS"],
-    featured: true,
+    featured: false,
+    presentationTier: "core",
     evidenceDepth: "basic",
   },
   {
@@ -80,6 +98,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Embedded Systems",
     technologies: ["Arduino"],
     featured: false,
+    presentationTier: "core",
     evidenceDepth: "basic",
   },
   {
@@ -92,6 +111,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Robotics & AI",
     technologies: ["TensorFlow", "Depth Estimation"],
     featured: false,
+    presentationTier: "core",
     evidenceDepth: "basic",
   },
   {
@@ -104,6 +124,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Game AI",
     technologies: ["Python", "Pygame", "Minimax AI"],
     featured: false,
+    presentationTier: "archive",
     evidenceDepth: "basic",
   },
   {
@@ -116,6 +137,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Game Development",
     technologies: ["Python", "Pygame", "Collision Detection"],
     featured: false,
+    presentationTier: "archive",
     evidenceDepth: "basic",
   },
   {
@@ -128,6 +150,7 @@ export const projectItems: ProjectItem[] = [
     badge: "NLP Tool",
     technologies: ["Desktop Application", "Extractive Summarization"],
     featured: false,
+    presentationTier: "archive",
     evidenceDepth: "basic",
   },
   {
@@ -140,6 +163,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Enterprise Systems",
     technologies: ["Oracle Forms 6i", "PL/SQL"],
     featured: false,
+    presentationTier: "archive",
     evidenceDepth: "basic",
   },
   {
@@ -152,6 +176,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Web Application",
     technologies: ["Web Application", "CRUD"],
     featured: false,
+    presentationTier: "archive",
     evidenceDepth: "basic",
   },
   {
@@ -164,6 +189,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Multi-Tier Application",
     technologies: ["C#", "Desktop", "PHP", "Web"],
     featured: false,
+    presentationTier: "archive",
     evidenceDepth: "basic",
   },
   {
@@ -176,6 +202,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Desktop Application",
     technologies: ["Java Swing", "JDBC"],
     featured: false,
+    presentationTier: "archive",
     evidenceDepth: "basic",
   },
   {
@@ -188,18 +215,7 @@ export const projectItems: ProjectItem[] = [
     badge: "Web Design",
     technologies: ["Responsive Web"],
     featured: false,
-    evidenceDepth: "basic",
-  },
-  {
-    id: "urbanmindos",
-    slug: "urbanmindos",
-    title: "URBANMINDOS — Smart City Operating System",
-    tagline:
-      "Smart-city concept showcasing autonomous urban air mobility coordination.",
-    category: "Systems & Robotics",
-    badge: "Concept Design",
-    technologies: ["Concept Design", "Urban Air Mobility"],
-    featured: false,
+    presentationTier: "archive",
     evidenceDepth: "basic",
   },
 ];
@@ -222,7 +238,7 @@ export const projectsContent: ProjectsContent = {
 };
 
 export function getFeaturedProjects(): ProjectItem[] {
-  return projectItems.filter((p) => p.featured);
+  return projectItems.filter((p) => p.presentationTier === "featured" || p.featured);
 }
 
 export function getProjectBySlug(slug: string): ProjectItem | undefined {

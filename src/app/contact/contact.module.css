@@ -60,7 +60,19 @@
 .channelCards {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
+}
+
+.channelItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.copyEmailAffordance {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: var(--space-1);
 }
 
 .channelCard {

@@ -23,8 +23,11 @@ export interface ProjectItem {
   githubUrl?: string;
   liveUrl?: string;
   featured: boolean;
+  presentationTier?: "featured" | "core" | "archive";
   evidenceDepth?: "rich" | "basic" | "minimal";
 }
+
+export type PresentationTier = "featured" | "core" | "archive";
 
 export interface ProjectsContent {
   kicker: string;

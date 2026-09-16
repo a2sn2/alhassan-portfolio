@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ChapterNav } from "@/components/ui/ChapterNav";
+import { Badge } from "@/components/ui/Badge";
 import {
   identityContent,
   getFeaturedProjects,
@@ -41,9 +42,9 @@ export default function HomePage() {
             {featuredProjects.map((project) => (
               <article key={project.id} className={styles.projectCard}>
                 <div className={styles.cardHeader}>
-                  <span className={styles.categoryBadge}>{project.category}</span>
+                  <Badge variant="category">{project.category}</Badge>
                   {project.badge && (
-                    <span className={styles.featuredBadge}>{project.badge}</span>
+                    <Badge variant="tech">{project.badge}</Badge>
                   )}
                 </div>
 
