@@ -69,10 +69,11 @@ npm ci
 npm run dev
 
 # 4. Run automated verification suite
-npm run lint          # ESLint code style
-npm run typecheck     # TypeScript strict checks
-npm run build         # Next.js static prerender
-npx playwright test   # E2E and WCAG 2.1 AA accessibility suite
+npm run lint                 # ESLint code style
+npm run typecheck            # TypeScript strict checks
+npm run build                # Next.js static prerender
+npx playwright test          # E2E and WCAG 2.1 AA accessibility suite
+npm run verify:production    # Live production route, overflow, and content verification
 ```
 
 ---
