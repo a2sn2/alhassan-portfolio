@@ -416,5 +416,14 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(projectDetailText).toContain("Real-time object detection on a live video stream.");
     expect(projectDetailText).toContain("Python/PyTorch + OpenCV pipeline for live object detection.");
     expect(projectDetailText).toContain("Live pipeline with real-time visual output.");
+
+    // 7. Check /projects for absence of fabricated system status labels and flow arrows
+    await page.goto("/projects");
+    const projectsBody = await page.innerText("body");
+    expect(projectsBody).not.toContain("SPECIFICATION ACTIVE");
+    expect(projectsBody).not.toContain("VERIFIED PIPELINE");
+    expect(projectsBody).not.toContain("SYS.REF");
+    const connectorArrows = page.locator('span[class*="schematicConnector"]');
+    await expect(connectorArrows).toHaveCount(0);
   });
 });

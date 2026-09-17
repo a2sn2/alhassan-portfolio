@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: "default" | "subtle" | "accent";
+  variant?: "default" | "subtle" | "accent" | "category" | "tech" | "index" | "status";
   showDot?: boolean;
   className?: string;
 }
@@ -21,6 +21,10 @@ export function Badge({
         styles.badge,
         variant === "subtle" && styles.subtle,
         variant === "accent" && styles.accent,
+        variant === "category" && styles.category,
+        variant === "tech" && styles.tech,
+        variant === "index" && styles.index,
+        variant === "status" && styles.status,
         className
       )}
     >

@@ -14,6 +14,7 @@ export function HeroSection({ content }: HeroSectionProps) {
     <section id="top" className={styles.heroSection} aria-label="Introduction">
       <Container>
         <div className={styles.heroGrid}>
+          {/* Main Identity & Positioning Column */}
           <div className={styles.heroContent}>
             <div className={styles.heroMeta}>
               <Badge variant="accent" showDot={content.statusBadge.showDot}>
@@ -65,29 +66,70 @@ export function HeroSection({ content }: HeroSectionProps) {
               <span className={styles.kbdHint}>Ctrl+K</span>
               <span>opens the Portfolio Navigator from anywhere</span>
             </div>
+
+            {/* Compact Focus Rail for Mobile: fits cleanly within first screen rhythm */}
+            {content.focusPillars && content.focusPillars.length > 0 && (
+              <div className={styles.heroMobileFocusRail} aria-label="Core Engineering Domains">
+                <span className={styles.focusRailKicker}>Core Focus Domains</span>
+                <div className={styles.focusRailGrid}>
+                  {content.focusPillars.map((pillar) => {
+                    const mobileLabels: Record<string, string> = {
+                      systems: "Software Systems",
+                      fullstack: "Full-Stack Engineering",
+                      "ai-vision": "Applied AI",
+                      quality: "Quality Engineering",
+                    };
+                    const label = mobileLabels[pillar.id] || pillar.title;
+                    const indexStr = pillar.index.split(" / ")[0];
+                    return (
+                      <div key={pillar.id} className={styles.focusRailItem}>
+                        <span className={styles.focusRailIndex}>{indexStr}</span>
+                        <span className={styles.focusRailName}>{label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Desktop Architectural Showcase Panel with Core Focus Pillars */}
+          {/* Desktop Editorial Engineering Field Map */}
           {content.focusPillars && content.focusPillars.length > 0 && (
-            <aside className={styles.heroShowcase} aria-label="Engineering Focus">
-              <div className={styles.showcaseGlow} aria-hidden="true" />
-              <div className={styles.showcaseHeader}>
-                <span className={styles.showcaseTitle}>
-                  {content.focusHeading || "Core Focus"}
-                </span>
-                <span className={styles.showcaseStatus}>
+            <aside className={styles.heroFieldMap} aria-label="Engineering Focus Architecture">
+              <div className={styles.fieldMapFrame} aria-hidden="true">
+                <span className={styles.cornerTickTL}>+</span>
+                <span className={styles.cornerTickTR}>+</span>
+                <span className={styles.cornerTickBL}>+</span>
+                <span className={styles.cornerTickBR}>+</span>
+              </div>
+
+              <div className={styles.fieldMapHeader}>
+                <div className={styles.fieldMapKickerGroup}>
+                  <span className={styles.fieldMapIndex}>[ 01 — 04 ]</span>
+                  <span className={styles.fieldMapTitle}>
+                    {content.focusHeading || "Core Focus"}
+                  </span>
+                </div>
+                <span className={styles.fieldMapStatus}>
                   {content.focusSubheading || "Active Practice"}
                 </span>
               </div>
 
-              <div className={styles.showcasePillars}>
+              <div className={styles.fieldMapGrid}>
                 {content.focusPillars.map((pillar) => (
-                  <div key={pillar.id} className={styles.pillarCard}>
-                    <span className={styles.pillarIndex}>{pillar.index}</span>
-                    <span className={styles.pillarTitle}>{pillar.title}</span>
-                    <span className={styles.pillarDesc}>{pillar.description}</span>
+                  <div key={pillar.id} className={styles.fieldMapNode}>
+                    <div className={styles.nodeIndicatorRow}>
+                      <span className={styles.nodeIndexMarker}>{pillar.index}</span>
+                      <span className={styles.nodeRule} aria-hidden="true" />
+                    </div>
+                    <span className={styles.nodeTitle}>{pillar.title}</span>
+                    <span className={styles.nodeDesc}>{pillar.description}</span>
                   </div>
                 ))}
+              </div>
+
+              <div className={styles.fieldMapFooter}>
+                <span className={styles.fieldMapFooterMeta}>Engineering Scope · Core Disciplines</span>
               </div>
             </aside>
           )}

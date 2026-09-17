@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
+import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 import { contactContent, siteMetadata } from "@/content";
 import { cn } from "@/utils/cn";
 import styles from "./contact.module.css";
@@ -37,24 +38,30 @@ export default function ContactPage() {
             <h2 className={styles.sectionTitle}>Direct Communication Channels</h2>
             <div className={styles.channelCards}>
               {contactContent.methods.map((method) => (
-                <a
-                  key={method.id}
-                  href={method.href}
-                  target={method.isExternal ? "_blank" : undefined}
-                  rel={method.isExternal ? "noopener noreferrer" : undefined}
-                  className={cn(
-                    styles.channelCard,
-                    method.isPrimary && styles.channelCardPrimary
+                <div key={method.id} className={styles.channelItem}>
+                  <a
+                    href={method.href}
+                    target={method.isExternal ? "_blank" : undefined}
+                    rel={method.isExternal ? "noopener noreferrer" : undefined}
+                    className={cn(
+                      styles.channelCard,
+                      method.isPrimary && styles.channelCardPrimary
+                    )}
+                  >
+                    <div className={styles.channelText}>
+                      <span className={styles.channelLabel}>{method.label}</span>
+                      <span className={styles.channelValue}>{method.value}</span>
+                    </div>
+                    <span className={styles.channelArrow} aria-hidden="true">
+                      {method.isExternal ? "↗" : "→"}
+                    </span>
+                  </a>
+                  {method.id === "email" && (
+                    <div className={styles.copyEmailAffordance}>
+                      <CopyEmailButton email={method.value} variant="compact" />
+                    </div>
                   )}
-                >
-                  <div className={styles.channelText}>
-                    <span className={styles.channelLabel}>{method.label}</span>
-                    <span className={styles.channelValue}>{method.value}</span>
-                  </div>
-                  <span className={styles.channelArrow} aria-hidden="true">
-                    {method.isExternal ? "↗" : "→"}
-                  </span>
-                </a>
+                </div>
               ))}
             </div>
 

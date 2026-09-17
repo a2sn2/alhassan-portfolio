@@ -3,6 +3,7 @@ import styles from "./Sections.module.css";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
+import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 import { ContactContent } from "@/contracts/contact";
 
 interface ContactSectionProps {
@@ -10,6 +11,9 @@ interface ContactSectionProps {
 }
 
 export function ContactSection({ content }: ContactSectionProps) {
+  const emailMethod = content.methods.find((m) => m.id === "email");
+  const otherMethods = content.methods.filter((m) => m.id !== "email");
+
   return (
     <section id="contact" className={`${styles.section} ${styles.sectionAlternate}`} aria-label="Contact">
       <Container>
@@ -19,15 +23,24 @@ export function ContactSection({ content }: ContactSectionProps) {
           description={content.description}
         />
 
-        <div className={styles.placeholderBox}>
-          <p className={styles.placeholderText}>{content.description}</p>
+        <div className={styles.contactEditorialPlate}>
+          <div className={styles.contactActionRow}>
+            {emailMethod && (
+              <Button
+                href={emailMethod.href}
+                variant="primary"
+              >
+                Send Email ({emailMethod.value})
+              </Button>
+            )}
 
-          <div className={styles.heroActions}>
-            {content.methods.map((method) => (
+            <CopyEmailButton email="hassan1alshami6@gmail.com" />
+
+            {otherMethods.map((method) => (
               <Button
                 key={method.id}
                 href={method.href}
-                variant={method.isPrimary ? "primary" : "secondary"}
+                variant="secondary"
                 target={method.isExternal ? "_blank" : undefined}
                 rel={method.isExternal ? "noopener noreferrer" : undefined}
               >
