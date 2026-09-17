@@ -64,7 +64,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
             <div className={styles.tierHeaderLeft}>
               <span className={styles.tierKicker}>[ 01 — SELECTED WORK ]</span>
               <h2 id="tier-selected-heading" className={styles.tierTitle}>
-                Flagship Systems & Applied Implementations
+                Selected Systems & Technical Projects
               </h2>
             </div>
             <span className={styles.tierCount}>
@@ -78,28 +78,24 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                 key={project.id}
                 className={cn(styles.projectCard, styles.selectedCard)}
               >
-                {/* Technical schematic plate derived solely from verified technologies */}
+                {/* Technical profile plate derived solely from verified technologies */}
                 <div className={styles.techPlate} aria-hidden="true">
                   <div className={styles.techPlateHeader}>
-                    <span className={styles.techPlateIndex}>SYS.REF // 0{idx + 1}</span>
+                    <span className={styles.techPlateIndex}>PROJECT PROFILE // 0{idx + 1}</span>
                     <span className={styles.techPlateCategory}>{project.category}</span>
                   </div>
                   <div className={styles.techPlateBody}>
-                    <div className={styles.schematicNodes}>
-                      {project.technologies.slice(0, 3).map((tech, i) => (
-                        <React.Fragment key={tech}>
-                          <span className={styles.schematicNode}>{tech}</span>
-                          {i < Math.min(project.technologies.length, 3) - 1 && (
-                            <span className={styles.schematicConnector}>→</span>
-                          )}
-                        </React.Fragment>
+                    <div className={styles.techMatrix}>
+                      {project.technologies.map((tech, i) => (
+                        <div key={tech} className={styles.techMatrixCell}>
+                          <span className={styles.techMatrixIndex}>0{i + 1}</span>
+                          <span className={styles.techMatrixName}>{tech}</span>
+                        </div>
                       ))}
                     </div>
                   </div>
                   <div className={styles.techPlateFooter}>
-                    <span className={styles.techPlateStatus}>
-                      {project.evidenceDepth === "rich" ? "VERIFIED PIPELINE" : "SPECIFICATION ACTIVE"}
-                    </span>
+                    <span className={styles.techPlateStatus}>TECHNICAL STACK</span>
                     <span className={styles.techPlateTicks}>+ +</span>
                   </div>
                 </div>
@@ -118,7 +114,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
 
                   {project.result && (
                     <div className={styles.verifiedOutcome}>
-                      <span className={styles.outcomeLabel}>Verified Result:</span>
+                      <span className={styles.outcomeLabel}>Project Outcome:</span>
                       <p className={styles.outcomeText}>{project.result}</p>
                     </div>
                   )}
@@ -168,7 +164,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
             <div className={styles.tierHeaderLeft}>
               <span className={styles.tierKicker}>[ 02 — CORE ENGINEERING ]</span>
               <h2 id="tier-core-heading" className={styles.tierTitle}>
-                Specialized Systems & Microservices
+                Core Engineering Projects
               </h2>
             </div>
             <span className={styles.tierCount}>
@@ -239,7 +235,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
             <div className={styles.tierHeaderLeft}>
               <span className={styles.tierKicker}>[ 03 — ENGINEERING ARCHIVE ]</span>
               <h2 id="tier-archive-heading" className={styles.tierTitle}>
-                Technical Catalogue & Foundation Work
+                Engineering Archive & Academic Work
               </h2>
             </div>
             <span className={styles.tierCount}>

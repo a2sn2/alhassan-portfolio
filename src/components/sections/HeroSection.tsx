@@ -129,7 +129,7 @@ export function HeroSection({ content }: HeroSectionProps) {
               </div>
 
               <div className={styles.fieldMapFooter}>
-                <span className={styles.fieldMapFooterMeta}>Disciplinary Scope · Verified Practice</span>
+                <span className={styles.fieldMapFooterMeta}>Engineering Scope · Core Disciplines</span>
               </div>
             </aside>
           )}

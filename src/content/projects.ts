@@ -22,6 +22,20 @@ export const projectItems: ProjectItem[] = [
     evidenceDepth: "rich",
   },
   {
+    id: "robocam-controller",
+    slug: "robocam-controller",
+    title: "ROBOCAM Controller",
+    tagline:
+      "Android application for controlling a camera-equipped robot via an on-screen joystick.",
+    category: "Systems & Robotics",
+    badge: "Mobile & Robotics",
+    technologies: ["Flutter", "Dart", "Android"],
+    githubUrl: "https://github.com/a2sn2",
+    featured: true,
+    presentationTier: "featured",
+    evidenceDepth: "basic",
+  },
+  {
     id: "pump-station-analytics",
     slug: "pump-station-analytics",
     title: "Pump Station Analytics",
@@ -30,19 +44,6 @@ export const projectItems: ProjectItem[] = [
     category: "Systems & Robotics",
     badge: "Industrial Automation",
     technologies: ["Predictive Maintenance"],
-    featured: true,
-    presentationTier: "featured",
-    evidenceDepth: "basic",
-  },
-  {
-    id: "urbanmindos",
-    slug: "urbanmindos",
-    title: "URBANMINDOS — Smart City Operating System",
-    tagline:
-      "Smart-city concept showcasing autonomous urban air mobility coordination.",
-    category: "Systems & Robotics",
-    badge: "Concept Design",
-    technologies: ["Concept Design", "Urban Air Mobility"],
     featured: true,
     presentationTier: "featured",
     evidenceDepth: "basic",
@@ -62,15 +63,14 @@ export const projectItems: ProjectItem[] = [
     evidenceDepth: "basic",
   },
   {
-    id: "robocam-controller",
-    slug: "robocam-controller",
-    title: "ROBOCAM Controller",
+    id: "urbanmindos",
+    slug: "urbanmindos",
+    title: "URBANMINDOS — Smart City Operating System",
     tagline:
-      "Android application for controlling a camera-equipped robot via an on-screen joystick.",
+      "Smart-city concept showcasing autonomous urban air mobility coordination.",
     category: "Systems & Robotics",
-    badge: "Mobile & Robotics",
-    technologies: ["Flutter", "Dart", "Android"],
-    githubUrl: "https://github.com/a2sn2",
+    badge: "Concept Design",
+    technologies: ["Concept Design", "Urban Air Mobility"],
     featured: false,
     presentationTier: "core",
     evidenceDepth: "basic",
@@ -238,7 +238,7 @@ export const projectsContent: ProjectsContent = {
 };
 
 export function getFeaturedProjects(): ProjectItem[] {
-  return projectItems.filter((p) => p.presentationTier === "featured" || p.featured);
+  return projectItems.filter((p) => p.presentationTier === "featured");
 }
 
 export function getProjectBySlug(slug: string): ProjectItem | undefined {

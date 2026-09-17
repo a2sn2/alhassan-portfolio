@@ -40,7 +40,7 @@ export function CommandPalette() {
     }));
 
     const projectNav: PaletteItem[] = projectItems
-      .filter((p) => p.featured)
+      .filter((p) => p.presentationTier === "featured")
       .map((proj) => ({
         id: `proj-${proj.slug}`,
         category: "Featured Case Studies",

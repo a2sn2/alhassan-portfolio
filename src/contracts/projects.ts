@@ -22,8 +22,17 @@ export interface ProjectItem {
   implementationHighlights?: string[];
   githubUrl?: string;
   liveUrl?: string;
+  /**
+   * Presentation tier defining the display hierarchy across the portfolio:
+   * - 'featured': Selected Work showcase (flagship & primary selected systems)
+   * - 'core': Core Engineering scan-friendly panels
+   * - 'archive': Technical catalogue & foundation work index
+   */
+  presentationTier: PresentationTier;
+  /**
+   * @deprecated Single source of truth is `presentationTier === 'featured'`. Retained for external interface compatibility.
+   */
   featured: boolean;
-  presentationTier?: "featured" | "core" | "archive";
   evidenceDepth?: "rich" | "basic" | "minimal";
 }
 
