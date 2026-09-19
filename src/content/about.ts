@@ -6,8 +6,8 @@ export const aboutContent: AboutContent = {
   description:
     "Software engineer based in Sana'a, Yemen, specializing in software systems, full-stack application development, and practical engineering solutions.",
   paragraphs: [
-    "I am a software engineer combining academic rigor with hands-on systems implementation. Having completed my B.Sc. in Computer Science at the International University of Technology Twintech (2021–2025), my engineering journey focuses on turning theoretical concepts into practical, reliable digital solutions.",
-    "My hands-on experience extends across fintech development, quality leadership, and network systems. At AHD Financial Services (Jaib Wallet), I advanced through developer and operational roles, building internal accounting systems and managing institutional integrations. At Asaas AI, as Co-Founder & Director of Quality Assurance, I established review standards and evaluated system readiness for AI-powered solutions.",
+    "Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces.",
+    "My hands-on experience extends across fintech development, quality leadership, and network systems. At AHD for Financial Services – Jaib Wallet, I advanced through developer and operational roles, building internal accounting systems and managing institutional integrations. At Asaas AI, as Co-Founder & Director of Quality Assurance, I established review standards and evaluated system readiness for AI-powered solutions.",
     "My engineering ethos is rooted in end-to-end curiosity: from industrial PLC control loops and network routing (MikroTik RouterOS) to desktop architectures, full-stack web platforms, and real-time computer vision pipelines.",
   ],
   education: {
@@ -18,22 +18,50 @@ export const aboutContent: AboutContent = {
     thesisTitle: "Object-Tracking Algorithm on Linux Using Python and OpenCV",
     thesisDescription:
       "Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results.",
+    repositoryNote:
+      "See the repository for the final report, transcript, specialization plan, and recommendation letters.",
   },
   languages: [
     {
       language: "Arabic",
-      level: "Native (لغة أم)",
-      proficiency: "Native speaker.",
+      level: "Native",
+      proficiency: "Native speaker (لغة أم).",
     },
     {
       language: "English",
       level: "B2",
-      proficiency: "CEFR B2 Level.",
+      proficiency: "Professional working proficiency (CEFR B2).",
     },
     {
       language: "German",
       level: "B1",
-      proficiency: "CEFR B1 Level.",
+      proficiency: "Independent user (CEFR B1).",
+    },
+  ],
+  interests: [
+    {
+      id: "interest-community",
+      category: "Community",
+      summary: "Open source, hackathons, tech club events, mentoring.",
+      items: ["Open source", "Hackathons", "Tech club events", "Mentoring"],
+    },
+    {
+      id: "interest-personal",
+      category: "Personal",
+      summary: "Technical reading, sports, scientific research, languages.",
+      items: ["Technical reading", "Sports", "Scientific research", "Languages"],
+    },
+    {
+      id: "interest-technical",
+      category: "Technical",
+      summary:
+        "Web/mobile, modeling & simulation, cloud computing, electrical systems & control.",
+      items: [
+        "Web/mobile",
+        "Modeling & simulation",
+        "Cloud computing",
+        "Electrical systems & control",
+      ],
     },
   ],
   principles: [

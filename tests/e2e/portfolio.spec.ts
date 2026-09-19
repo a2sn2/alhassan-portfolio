@@ -109,7 +109,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     ).toBeVisible();
 
     // Switch to another role via tab click
-    await page.click('button:has-text("AHD Financial Services (Jaib Wallet)")');
+    await page.click('button:has-text("AHD for Financial Services – Jaib Wallet")');
     await expect(detailPanel.locator("text=Deputy Development Manager")).toBeVisible();
 
     // Deep linking via hash parameter
@@ -347,7 +347,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const aboutText = await page.innerText("body");
     expect(aboutText).toContain("B2");
     expect(aboutText).toContain("B1");
-    expect(aboutText).toContain("turning theoretical concepts into practical, reliable digital solutions");
+    expect(aboutText).toContain("turn theoretical ideas into tangible outcomes in engineering environments");
     expect(aboutText).not.toContain("turning theoretical concepts into robust, measurable digital products");
     // Ensure no unverified honors or GPA claims
     expect(aboutText).not.toContain("89.26");
@@ -425,5 +425,60 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(projectsBody).not.toContain("SYS.REF");
     const connectorArrows = page.locator('span[class*="schematicConnector"]');
     await expect(connectorArrows).toHaveCount(0);
+  });
+
+  test("TC-13: Comprehensive high-level English CV coverage across public pages", async ({
+    page,
+  }) => {
+    // 1. /about exposes official Profile, Education, Languages, and Interests
+    await page.goto("/about");
+    const aboutBody = await page.innerText("body");
+    expect(aboutBody).toContain("Software engineer combining academic knowledge");
+    expect(aboutBody).toContain("International University of Technology Twintech");
+    expect(aboutBody).toContain("Object-Tracking Algorithm on Linux Using Python and OpenCV");
+    expect(aboutBody.toLowerCase()).toContain("languages & communication");
+    expect(aboutBody).toContain("Arabic");
+    expect(aboutBody).toContain("English");
+    expect(aboutBody).toContain("German");
+    expect(aboutBody).toContain("Engineering Interests & Broader Pursuits");
+    expect(aboutBody.toLowerCase()).toContain("community focus");
+    expect(aboutBody.toLowerCase()).toContain("personal focus");
+    expect(aboutBody.toLowerCase()).toContain("technical focus");
+    expect(aboutBody).toContain("Open source");
+
+    // 2. /experience exposes all verified organizations
+    await page.goto("/experience");
+    const expBody = await page.innerText("body");
+    expect(expBody).toContain("Asaas AI");
+    expect(expBody).toContain("AHD for Financial Services – Jaib Wallet");
+    expect(expBody).toContain("Water & Sanitation Local Corporation");
+    expect(expBody).toContain("Al-Rahma Foundation");
+    expect(expBody).toContain("Private Project (Healthcare & Apparel)");
+    expect(expBody).toContain("Glory of Civilization Schools");
+
+    // 3. /capabilities exposes technical skills, certifications, and memberships
+    await page.goto("/capabilities");
+    const capBody = await page.innerText("body");
+    expect(capBody).toContain("CYBERAI CLUB");
+    expect(capBody).toContain("Society of Petroleum Engineers");
+    expect(capBody).toContain("Al-Hamdi Foundation for Human Development");
+    expect(capBody).toContain("Nastatee Charity Association");
+    expect(capBody).toContain("Yemen Elite Bloc");
+    expect(capBody).toContain("Automation & AI Agents");
+
+    // 4. /contact exposes verified channels, socials, and protects references privacy
+    await page.goto("/contact");
+    const contactBody = await page.innerText("body");
+    expect(contactBody).toContain("hassan1alshami6@gmail.com");
+    expect(contactBody).toContain("+967 772 765 120");
+    expect(contactBody).toContain("Haddah, Sana'a, Yemen");
+    expect(contactBody).toContain("linkedin.com/in/a2sn4");
+    expect(contactBody).toContain("github.com/a2sn2");
+    expect(contactBody).toContain("@a2s.n4");
+    expect(contactBody).toContain("References Policy");
+    expect(contactBody).toContain("available upon request");
+    // Ensure third-party private phone numbers are not published
+    expect(contactBody).not.toContain("+967 774 760 761");
+    expect(contactBody).not.toContain("+967 777 877 766");
   });
 });

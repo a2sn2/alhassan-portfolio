@@ -7,7 +7,7 @@ export const identityContent: Identity = {
   headline: "Software Systems, Full-Stack Engineering & Applied AI",
   bioBrief:
     "Software engineer combining rigorous academic foundations with hands-on systems implementation, full-stack application development, and quality assurance.",
-  location: "Sana'a, Yemen",
+  location: "Haddah, Sana'a, Yemen",
   email: "hassan1alshami6@gmail.com",
   phone: "+967 772 765 120",
   statusBadge: {

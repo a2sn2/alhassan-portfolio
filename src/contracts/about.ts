@@ -10,12 +10,20 @@ export interface EducationInfo {
   location: string;
   thesisTitle: string;
   thesisDescription: string;
+  repositoryNote?: string;
 }
 
 export interface LanguageProficiency {
   language: string;
   level: string;
   proficiency: string;
+}
+
+export interface InterestGroup {
+  id: string;
+  category: string;
+  summary: string;
+  items: string[];
 }
 
 export interface AboutContent {
@@ -25,6 +33,8 @@ export interface AboutContent {
   paragraphs: string[];
   education: EducationInfo;
   languages: LanguageProficiency[];
+  interests?: InterestGroup[];
   principles: PrincipleItem[];
   referencesNote: string;
 }
+
