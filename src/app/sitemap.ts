@@ -43,6 +43,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/official-cv`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
 
   const projectRoutes: MetadataRoute.Sitemap = projectSlugs.map((slug) => ({
