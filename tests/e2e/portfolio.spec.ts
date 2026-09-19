@@ -437,7 +437,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       "ENGLISH-CV-CANONICAL.txt"
     );
     const canonicalText = fs.readFileSync(canonicalPath, "utf-8");
-    const normalize = (value: string) => value.replace(/\\s+/g, " ").trim();
+    const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
 
     await page.goto("/official-cv");
     const record = page.locator("[data-cv-verbatim]");
