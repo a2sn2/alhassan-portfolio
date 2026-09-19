@@ -25,7 +25,7 @@ export const experienceContent: ExperienceContent = {
     },
     {
       id: "ahd-financial-deputy",
-      company: "AHD Financial Services (Jaib Wallet)",
+      company: "AHD for Financial Services – Jaib Wallet",
       role: "Deputy Development Manager",
       period: "Jul 2026 – Present",
       location: "Sana'a",
@@ -42,7 +42,7 @@ export const experienceContent: ExperienceContent = {
     },
     {
       id: "ahd-financial-developer",
-      company: "AHD Financial Services (Jaib Wallet)",
+      company: "AHD for Financial Services – Jaib Wallet",
       role: "Developer, Development Dept.",
       period: "Jan – Jul 2026",
       location: "Sana'a",
@@ -53,7 +53,7 @@ export const experienceContent: ExperienceContent = {
     },
     {
       id: "ahd-financial-dev-trainee",
-      company: "AHD Financial Services (Jaib Wallet)",
+      company: "AHD for Financial Services – Jaib Wallet",
       role: "Development Trainee",
       period: "Dec 2025 – Jan 2026",
       location: "Sana'a",
@@ -64,7 +64,7 @@ export const experienceContent: ExperienceContent = {
     },
     {
       id: "ahd-financial-support-trainee",
-      company: "AHD Financial Services (Jaib Wallet)",
+      company: "AHD for Financial Services – Jaib Wallet",
       role: "Customer Service Trainee",
       period: "Sep – Dec 2025",
       location: "Sana'a",
