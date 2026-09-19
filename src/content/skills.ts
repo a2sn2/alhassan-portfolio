@@ -8,46 +8,34 @@ export const skillsContent: SkillsContent = {
   groups: [
     {
       category: "Programming & Frameworks",
-      description: "Modern languages, client SDKs, and application frameworks.",
+      description: "Official CV wording retained, with portfolio context around the same capability set.",
       skills: [
-        "Python",
-        "Dart / Flutter",
-        "Android Studio",
-        "JavaScript",
-        "HTML5 / CSS3",
-        "C# / .NET",
-        "Java",
-        "C / C++",
+        "Dart/Flutter, Android Studio",
+        "Python, HTML/CSS/JS",
+        "C/C++, Java",
       ],
     },
     {
       category: "Data & Computer Science",
-      description: "Database architectures, data structures, and analytics.",
+      description: "Official CV wording retained for data and computer-science foundations.",
       skills: [
-        "Relational SQL",
-        "Oracle PL/SQL",
-        "MySQL",
-        "Database Design",
-        "Data Structures & Algorithms",
-        "Object-Oriented Design (OOP)",
-        "Data Mining (Weka, Orange)",
+        "Databases",
+        "OOP / Data Structures / Algorithms",
+        "Data Mining: Weka/Orange",
       ],
     },
     {
       category: "Systems & Networking",
-      description: "Operating systems, routing infrastructure, and security protocols.",
+      description: "Official CV wording retained for infrastructure and operating-system skills.",
       skills: [
-        "Linux Environments",
-        "MikroTik RouterOS",
-        "Routing & Switching",
-        "PPPoE & RADIUS",
-        "Structured Cabling",
-        "Hardware Diagnostics",
+        "Routing/Switching & Structured Cabling",
+        "Linux & Operating Systems",
+        "Hardware & Troubleshooting",
       ],
     },
     {
       category: "Industrial Automation & IoT",
-      description: "Embedded microcontrollers, sensor telemetry, and industrial controllers.",
+      description: "Portfolio extension grounded in verified experience and training.",
       skills: [
         "Programmable Logic Controllers (PLC)",
         "Arduino Microcontrollers",
@@ -59,7 +47,7 @@ export const skillsContent: SkillsContent = {
     },
     {
       category: "Engineering & Quality Assurance",
-      description: "Testing methodologies, operational workflows, and review rigor.",
+      description: "Portfolio extension grounded in verified professional responsibilities.",
       skills: [
         "Software Testing & QA",
         "Code Review Standards",
