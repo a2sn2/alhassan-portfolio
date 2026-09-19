@@ -11,9 +11,9 @@ export const experienceContent: ExperienceContent = {
       company: "Asaas AI",
       role: "Co-Founder & Director of Quality Assurance",
       period: "Jan 2026 – Present",
-      location: "Sana'a, Yemen",
+      location: "Sana'a",
       description:
-        "Directing quality assurance protocols and software verification standards for AI solutions and software systems.",
+        "Established testing and review standards and policies; evaluated software-system and AI-solution quality; and reviewed plans, feasibility studies, and product readiness before approval and launch.",
       responsibilities: [
         "Set testing and review standards and policies across engineering teams.",
         "Evaluated software-system and AI-solution quality before approval.",
@@ -29,12 +29,12 @@ export const experienceContent: ExperienceContent = {
     },
     {
       id: "ahd-financial-deputy",
-      company: "AHD Financial Services (Jaib Wallet)",
+      company: "AHD for Financial Services – Jaib Wallet",
       role: "Deputy Development Manager",
       period: "Jul 2026 – Present",
-      location: "Sana'a, Yemen",
+      location: "Sana'a",
       description:
-        "Organizing technical projects, analyzing development requirements, and delivering external system integrations.",
+        "Managed projects, analyzed internal development requirements, and delivered external system integrations.",
       responsibilities: [
         "Organize and manage software and technical projects.",
         "Analyze internal development requirements across departments.",
@@ -50,12 +50,12 @@ export const experienceContent: ExperienceContent = {
     },
     {
       id: "ahd-financial-developer",
-      company: "AHD Financial Services (Jaib Wallet)",
-      role: "Developer, Development Department",
-      period: "Jan 2026 – Jul 2026",
-      location: "Sana'a, Yemen",
+      company: "AHD for Financial Services – Jaib Wallet",
+      role: "Developer, Development Dept.",
+      period: "Jan – Jul 2026",
+      location: "Sana'a",
       description:
-        "Engineered production operations and accounting systems integrated with Jaib Wallet workflows.",
+        "Built a production operations/accounting system integrated with Jaib Wallet workflows.",
       responsibilities: [
         "Built a production operations and accounting system integrated with Jaib Wallet workflows.",
         "Contributed to software development across core financial modules.",
@@ -69,10 +69,10 @@ export const experienceContent: ExperienceContent = {
     },
     {
       id: "ahd-financial-dev-trainee",
-      company: "AHD Financial Services (Jaib Wallet)",
+      company: "AHD for Financial Services – Jaib Wallet",
       role: "Development Trainee",
       period: "Dec 2025 – Jan 2026",
-      location: "Sana'a, Yemen",
+      location: "Sana'a",
       description:
         "Worked with .NET backend logic, SQL databases, web features, testing, and troubleshooting.",
       responsibilities: [
@@ -90,12 +90,12 @@ export const experienceContent: ExperienceContent = {
     },
     {
       id: "ahd-financial-support-trainee",
-      company: "AHD Financial Services (Jaib Wallet)",
+      company: "AHD for Financial Services – Jaib Wallet",
       role: "Customer Service Trainee",
-      period: "Sep 2025 – Dec 2025",
-      location: "Sana'a, Yemen",
+      period: "Sep – Dec 2025",
+      location: "Sana'a",
       description:
-        "Handled customer support calls through the ticketing system and applied compliance policies.",
+        "Handled ticketing-system calls and applied compliance policies.",
       responsibilities: [
         "Handled customer inquiries and issues through the ticketing system.",
         "Applied institutional and regulatory compliance policies.",
@@ -110,10 +110,10 @@ export const experienceContent: ExperienceContent = {
       id: "water-sanitation-corp",
       company: "Water & Sanitation Local Corporation",
       role: "Control Engineer Trainee",
-      period: "Aug 2024 – Dec 2024",
-      location: "Al Hudaydah, Yemen",
+      period: "Aug – Dec 2024",
+      location: "Al Hudaydah",
       description:
-        "Monitored industrial PLC control panels, sensor readings, and supported preventive maintenance.",
+        "Monitored PLC panels and field signals (pumps, levels, alarms); supported preventive maintenance, wiring, and control-loop troubleshooting; coordinated with technicians, documented faults, and ensured safe restart procedures.",
       responsibilities: [
         "Monitored PLC panels and field signals (pumps, fluid levels, and alarms).",
         "Supported preventive maintenance, electrical wiring, and control-loop troubleshooting.",
@@ -131,10 +131,10 @@ export const experienceContent: ExperienceContent = {
       id: "al-rahma-foundation",
       company: "Al-Rahma Foundation",
       role: "Network Engineer Trainee",
-      period: "Jan 2023 – Dec 2023",
-      location: "Sana'a, Yemen",
+      period: "Jan – Dec 2023",
+      location: "Sana'a",
       description:
-        "Operated and maintained institutional LAN/Wi-Fi networks and basic router/switch configurations.",
+        "Operated and maintained internal LAN/Wi-Fi networks and basic router/switch configurations; supported cabling, routine follow-up and logs; documented incidents and suggested stability improvements.",
       responsibilities: [
         "Operated and maintained internal LAN/Wi-Fi networks and basic router/switch configurations.",
         "Supported structured cabling, routine follow-up, and maintenance logs.",
@@ -152,9 +152,9 @@ export const experienceContent: ExperienceContent = {
       company: "Private Project (Healthcare & Apparel)",
       role: "Sales",
       period: "2020 – 2022",
-      location: "Sana'a, Yemen",
+      location: "Sana'a",
       description:
-        "Managed customer relationships, orders, invoices, and inventory control data.",
+        "Managed customer relationships, orders and invoices; organized inventory data and prepared simple sales reports; followed up on purchasing and supplier communication.",
       responsibilities: [
         "Managed customer relationships, inbound orders, and invoicing.",
         "Organized inventory data and prepared periodic sales reports.",
@@ -171,10 +171,10 @@ export const experienceContent: ExperienceContent = {
       id: "glory-civilization-schools",
       company: "Glory of Civilization Schools",
       role: "Administrative Assistant Trainee",
-      period: "Jan 2019 – Dec 2019",
-      location: "Sana'a, Yemen",
+      period: "Jan – Dec 2019",
+      location: "Sana'a",
       description:
-        "Supported daily school operations, event organization, schedules, and interdepartmental coordination.",
+        "Supported daily school operations, events, schedules, and interdepartmental coordination.",
       responsibilities: [
         "Supported daily school operations and institutional events.",
         "Coordinated schedules and interdepartmental communication.",

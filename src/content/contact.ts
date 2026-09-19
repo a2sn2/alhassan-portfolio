@@ -7,7 +7,7 @@ export const contactContent: ContactContent = {
     "Direct contact channels, verified professional profiles, and official multi-language curriculum vitae packages.",
   directEmail: "hassan1alshami6@gmail.com",
   directPhone: "+967 772 765 120",
-  location: "Sana'a, Yemen",
+  location: "Haddah, Sana'a, Yemen",
   methods: [
     {
       id: "email",

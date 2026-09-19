@@ -9,3 +9,5 @@ export * from "./proof";
 export * from "./contact";
 export * from "./social";
 export * from "./siteMetadata";
+export * from "./cv";
+

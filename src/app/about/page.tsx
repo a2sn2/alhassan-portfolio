@@ -60,6 +60,18 @@ export default function AboutPage() {
                 <p style={{ marginTop: "var(--space-2)", margin: 0 }}>
                   {aboutContent.education.thesisDescription}
                 </p>
+                {aboutContent.education.repositoryNote && (
+                  <p
+                    style={{
+                      marginTop: "var(--space-2)",
+                      fontSize: "var(--text-xs)",
+                      color: "var(--color-text-secondary)",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {aboutContent.education.repositoryNote}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -95,6 +107,32 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
+
+        {/* Engineering Interests & Broader Pursuits */}
+        {aboutContent.interests && aboutContent.interests.length > 0 && (
+          <section className={styles.interestsSection} aria-labelledby="heading-interests">
+            <h2 id="heading-interests" className={styles.sectionTitle}>
+              Engineering Interests & Broader Pursuits
+            </h2>
+            <div className={styles.interestsGrid}>
+              {aboutContent.interests.map((interest) => (
+                <div key={interest.id} className={styles.interestCard}>
+                  <div className={styles.interestHeader}>
+                    <span className={styles.interestCategory}>{interest.category} Focus</span>
+                  </div>
+                  <p className={styles.interestSummary}>{interest.summary}</p>
+                  <div className={styles.interestChips}>
+                    {interest.items.map((item) => (
+                      <span key={item} className={styles.interestChip}>
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* References Policy */}
         <div className={styles.referencesBanner} style={{ marginTop: "var(--space-10)" }}>
