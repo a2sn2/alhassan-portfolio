@@ -74,7 +74,18 @@ npm run typecheck            # TypeScript strict checks
 npm run build                # Next.js static prerender
 npx playwright test          # E2E and WCAG 2.1 AA accessibility suite
 npm run verify:production    # Live production route, overflow, and content verification
+npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (7 routes x 5 viewports x 2 themes + interactive states)
 ```
+
+### 🔬 Strict Visual Parity Verifier (`npm run verify:visual-parity`)
+Performs deterministic, pixel-level visual diff auditing between local development (`http://localhost:3000`) and live production (`https://alhassan-portfolio-phi.vercel.app`):
+- **7 Canonical Routes**: `/`, `/about`, `/experience`, `/projects`, `/capabilities`, `/contact`, `/projects/real-time-object-detection`
+- **5 Viewports**: Desktop Large (1440×900), Desktop Medium (1280×800), Tablet (768×1024), Mobile (390×844), Narrow Mobile (320×700)
+- **2 Themes**: Light and Dark modes
+- **5 Interactive States**: Category filter selection, Experience role selection, Mobile drawer open, Command Palette open, Theme toggled
+- **Exact Pixel Comparison**: Uncompressed raw RGB byte inspection calculating exact changed-pixel counts, percentages, max channel deltas, and visual difference bounding boxes
+- **Geometry & Typography Checks**: Validates `getBoundingClientRect()` dimensions and computed typography (`font-family`, `font-size`, `font-weight`, `line-height`, `letter-spacing`, `color`)
+- **Dev-Only Masking**: Masks strictly Next.js development artifacts (`nextjs-portal`, `#nextjs-dev-overlay`, `[data-nextjs-toast]`, etc.) while leaving all application UI and content unmasked
 
 ---
 
