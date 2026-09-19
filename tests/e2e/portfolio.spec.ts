@@ -256,6 +256,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       "/projects/pump-station-analytics",
       "/capabilities",
       "/contact",
+      "/official-cv",
     ];
 
     for (const vp of viewports) {
@@ -286,6 +287,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       "/projects/real-time-object-detection",
       "/capabilities",
       "/contact",
+      "/official-cv",
     ];
 
     for (const route of routes) {
@@ -347,7 +349,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const aboutText = await page.innerText("body");
     expect(aboutText).toContain("B2");
     expect(aboutText).toContain("B1");
-    expect(aboutText).toContain("turning theoretical concepts into practical, reliable digital solutions");
+    expect(aboutText).toContain("turn theoretical ideas into tangible outcomes in engineering environments");
     expect(aboutText).not.toContain("turning theoretical concepts into robust, measurable digital products");
     // Ensure no unverified honors or GPA claims
     expect(aboutText).not.toContain("89.26");
@@ -425,5 +427,23 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(projectsBody).not.toContain("SYS.REF");
     const connectorArrows = page.locator('span[class*="schematicConnector"]');
     await expect(connectorArrows).toHaveCount(0);
+  });
+
+  test("TC-13: Official English CV web record matches the canonical PDF text baseline exactly", async ({ page }) => {
+    const canonicalPath = path.join(
+      process.cwd(),
+      "docs",
+      "content",
+      "ENGLISH-CV-CANONICAL.txt"
+    );
+    const canonicalText = fs.readFileSync(canonicalPath, "utf-8");
+    const normalize = (value: string) => value.replace(/\\s+/g, " ").trim();
+
+    await page.goto("/official-cv");
+    const record = page.locator("[data-cv-verbatim]");
+    await expect(record).toBeVisible();
+
+    const renderedText = await record.innerText();
+    expect(normalize(renderedText)).toBe(normalize(canonicalText));
   });
 });
