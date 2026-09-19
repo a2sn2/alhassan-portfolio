@@ -39,7 +39,7 @@ export const canonicalExperienceOrganizations: CanonicalOrganizationItem[] = [
   },
   {
     id: "ahd-financial-services",
-    company: "AHD for Financial Services – Jaib Wallet",
+    company: "AHD for Financial Services Jaib Wallet",
     period: "Sep 2025 – Present",
     location: "Sana'a",
     headline: "Multiple Roles",

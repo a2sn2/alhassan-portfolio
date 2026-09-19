@@ -15,7 +15,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "CYBERAI Club",
       year: "2026",
       category: "AI & Data",
-      status: "Completed",
     },
     {
       id: "cert-yeb-research-2025",
@@ -23,7 +22,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Yemen Elite Bloc",
       year: "2025",
       category: "Professional & Management",
-      status: "Completed",
     },
     {
       id: "cert-yemen-intern-2025",
@@ -31,11 +29,10 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Yemen Intern Platform",
       year: "2025",
       category: "Professional & Management",
-      status: "Completed",
     },
     {
       id: "cert-yeb-ai-2025",
-      title: "Artificial Intelligence Program (Ongoing)",
+      title: "Artificial Intelligence Program",
       issuer: "Yemen Elite Bloc (Technology & IT Sector)",
       year: "2025",
       category: "AI & Data",
@@ -43,7 +40,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-yeb-frontend-2025",
-      title: "Front-End Development Bootcamp (Ongoing)",
+      title: "Front-End Development Bootcamp",
       issuer: "Yemen Elite Bloc (Technology & IT Sector)",
       year: "2025",
       category: "AI & Data",
@@ -51,7 +48,7 @@ export const credentialsContent: CredentialsContent = {
     },
     {
       id: "cert-nh-design-2025",
-      title: "Graphic Design Diploma (In Progress)",
+      title: "Graphic Design Diploma",
       issuer: "New Horizons Institutes",
       year: "2025",
       category: "Foundation",
@@ -63,7 +60,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
       category: "AI & Data",
-      status: "Completed",
     },
     {
       id: "cert-su-robotics-2025",
@@ -71,7 +67,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
       category: "Engineering & Hardware",
-      status: "Completed",
     },
     {
       id: "cert-su-embedded-2025",
@@ -79,7 +74,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
       category: "Engineering & Hardware",
-      status: "Completed",
     },
     {
       id: "cert-su-matlab-2025",
@@ -87,7 +81,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
       category: "Engineering & Hardware",
-      status: "Completed",
     },
     {
       id: "cert-su-netadmin-2025",
@@ -95,7 +88,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
       category: "Systems & Networks",
-      status: "Completed",
     },
     {
       id: "cert-su-ai-rpi-2025",
@@ -103,7 +95,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
       category: "AI & Data",
-      status: "Completed",
     },
     {
       id: "cert-nh-aplus-2025",
@@ -111,7 +102,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "New Horizons Institutes",
       year: "2025",
       category: "Systems & Networks",
-      status: "Completed",
     },
     {
       id: "cert-ai-approach-2025",
@@ -119,15 +109,13 @@ export const credentialsContent: CredentialsContent = {
       issuer: "AI APPROACH CLUB",
       year: "2025",
       category: "AI & Data",
-      status: "Completed",
     },
     {
       id: "cert-alhamdi-med-2024",
       title: "Medical Program (First Aid, Injection Types, Vital Signs)",
-      issuer: "Al-Hamdi Foundation for Human Development",
+      issuer: "Al-Hamdi Foundation",
       year: "2024",
       category: "Foundation",
-      status: "Completed",
     },
     {
       id: "cert-nh-mikrotik-2024",
@@ -135,7 +123,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "New Horizons Institutes",
       year: "2024",
       category: "Systems & Networks",
-      status: "Completed",
     },
     {
       id: "cert-su-networks-2024",
@@ -143,7 +130,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2024",
       category: "Systems & Networks",
-      status: "Completed",
     },
     {
       id: "cert-su-plc-2024",
@@ -151,7 +137,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2024",
       category: "Engineering & Hardware",
-      status: "Completed",
     },
     {
       id: "cert-su-arduino-2024",
@@ -159,7 +144,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2024",
       category: "Engineering & Hardware",
-      status: "Completed",
     },
     {
       id: "cert-su-solar-2024",
@@ -167,39 +151,34 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2024",
       category: "Engineering & Hardware",
-      status: "Completed",
     },
     {
       id: "cert-alhamdi-marketing-2024",
       title: "Advanced Digital Marketing",
-      issuer: "Al-Hamdi Foundation for Human Development",
+      issuer: "Al-Hamdi Foundation",
       year: "2024",
       category: "Foundation",
-      status: "Completed",
     },
     {
       id: "cert-alhamdi-projmgmt-2024",
       title: "Small Project Management",
-      issuer: "Al-Hamdi Foundation for Human Development",
+      issuer: "Al-Hamdi Foundation",
       year: "2024",
       category: "Professional & Management",
-      status: "Completed",
     },
     {
       id: "cert-alhamdi-admin-2024",
       title: "Administrative Program (Business, Human Resources, Customer Service)",
-      issuer: "Al-Hamdi Foundation for Human Development",
+      issuer: "Al-Hamdi Foundation",
       year: "2024",
       category: "Professional & Management",
-      status: "Completed",
     },
     {
       id: "cert-sphere-2023",
       title: "Emergency Humanitarian Response — SPHERE Standards",
-      issuer: "Al-Hamdi Foundation for Human Development",
+      issuer: "Al-Hamdi Foundation",
       year: "2023",
       category: "Foundation",
-      status: "Completed",
     },
     {
       id: "cert-nh-icdl-2020",
@@ -207,7 +186,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "New Horizons Institutes",
       year: "2020",
       category: "Foundation",
-      status: "Completed",
     },
     {
       id: "cert-phone-maint-2019",
@@ -215,7 +193,6 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Science & Technology Center",
       year: "2019",
       category: "Engineering & Hardware",
-      status: "Completed",
     },
   ],
   memberships: [

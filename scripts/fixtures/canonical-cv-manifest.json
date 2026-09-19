@@ -1,0 +1,358 @@
+{
+  "pdfSha256": "e49a9ce438d04e537f5aef8c478c74d947e6a5a4df7bb360b915f7861b7eb63c",
+  "identity": {
+    "fullName": "ALHassan Baligh ALShami",
+    "role": "Software Engineer",
+    "location": "Haddah, Sana'a, Yemen",
+    "phone": "+967 772 765 120",
+    "dateOfBirth": "01 Oct 2002",
+    "email": "hassan1alshami6@gmail.com",
+    "linkedin": "linkedin.com/in/a2sn4",
+    "instagram": "@a2s.n4",
+    "github": "github.com/a2sn2"
+  },
+  "profile": {
+    "raw": "Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces."
+  },
+  "education": {
+    "institution": "International University of Technology Twintech",
+    "degree": "B.Sc. in Computer Science",
+    "period": "2021 – 2025",
+    "graduationProjectTitle": "Object-tracking algorithm on Linux using Python and OpenCV",
+    "graduationProjectDescription": "Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results.",
+    "graduationProjectRepositoryNotice": "See the repository for the final report, transcript, specialization plan, and recommendation letters."
+  },
+  "organizations": [
+    {
+      "company": "Asaas AI",
+      "period": "Jan 2026 – Present",
+      "location": "Sana'a"
+    },
+    {
+      "company": "AHD for Financial Services Jaib Wallet",
+      "period": "Sep 2025 – Present",
+      "location": "Sana'a",
+      "headline": "Multiple Roles"
+    },
+    {
+      "company": "Water & Sanitation Local Corporation",
+      "period": "Aug – Dec 2024",
+      "location": "Al Hudaydah"
+    },
+    {
+      "company": "Al-Rahma Foundation",
+      "period": "Jan – Dec 2023",
+      "location": "Sana'a"
+    },
+    {
+      "company": "Private Project (Healthcare & Apparel)",
+      "period": "2020 – 2022",
+      "location": "Sana'a"
+    },
+    {
+      "company": "Glory of Civilization Schools",
+      "period": "Jan – Dec 2019",
+      "location": "Sana'a"
+    }
+  ],
+  "experienceRoles": [
+    {
+      "company": "Asaas AI",
+      "role": "Co-Founder & Director of Quality Assurance",
+      "period": "Jan 2026 – Present",
+      "location": "Sana'a",
+      "summary": "Established testing and review standards and policies; evaluated software-system and AI-solution quality; and reviewed plans, feasibility studies, and product readiness before approval and launch."
+    },
+    {
+      "company": "AHD for Financial Services Jaib Wallet",
+      "role": "Deputy Development Manager",
+      "period": "Jul 2026 – Present",
+      "location": "Sana'a",
+      "summary": "Managed projects, analyzed internal development requirements, and delivered external system integrations."
+    },
+    {
+      "company": "AHD for Financial Services Jaib Wallet",
+      "role": "Developer, Development Dept.",
+      "period": "Jan – Jul 2026",
+      "location": "Sana'a",
+      "summary": "Built a production operations/accounting system integrated with Jaib Wallet workflows."
+    },
+    {
+      "company": "AHD for Financial Services Jaib Wallet",
+      "role": "Development Trainee",
+      "period": "Dec 2025 – Jan 2026",
+      "location": "Sana'a",
+      "summary": "Worked with .NET backend logic, SQL databases, web features, testing, and troubleshooting."
+    },
+    {
+      "company": "AHD for Financial Services Jaib Wallet",
+      "role": "Customer Service Trainee",
+      "period": "Sep – Dec 2025",
+      "location": "Sana'a",
+      "summary": "Handled ticketing-system calls and applied compliance policies."
+    },
+    {
+      "company": "Water & Sanitation Local Corporation",
+      "role": "Control Engineer Trainee",
+      "period": "Aug – Dec 2024",
+      "location": "Al Hudaydah",
+      "summary": "Monitored PLC panels and field signals (pumps, levels, alarms); supported preventive maintenance, wiring, and control-loop troubleshooting; coordinated with technicians, documented faults, and ensured safe restart procedures."
+    },
+    {
+      "company": "Al-Rahma Foundation",
+      "role": "Network Engineer Trainee",
+      "period": "Jan – Dec 2023",
+      "location": "Sana'a",
+      "summary": "Operated and maintained internal LAN/Wi-Fi networks and basic router/switch configurations; supported cabling, routine follow-up and logs; documented incidents and suggested stability improvements."
+    },
+    {
+      "company": "Private Project (Healthcare & Apparel)",
+      "role": "Sales",
+      "period": "2020 – 2022",
+      "location": "Sana'a",
+      "summary": "Managed customer relationships, orders and invoices; organized inventory data and prepared simple sales reports; followed up on purchasing and supplier communication."
+    },
+    {
+      "company": "Glory of Civilization Schools",
+      "role": "Administrative Assistant Trainee",
+      "period": "Jan – Dec 2019",
+      "location": "Sana'a",
+      "summary": "Supported daily school operations, events, schedules, and interdepartmental coordination."
+    }
+  ],
+  "memberships": [
+    {
+      "organization": "CYBERAI CLUB",
+      "description": "Member of the Artificial Intelligence and Projects Committees."
+    },
+    {
+      "organization": "SOCIETY OF PETROLEUM ENGINEERS (SPE)",
+      "description": "Used SPE technical programs to broaden understanding of petroleum engineering and operations."
+    },
+    {
+      "organization": "Al-Hamdi Foundation for Human Development",
+      "description": "Program participant and volunteer; supported events and peer learning."
+    },
+    {
+      "organization": "Nastatee Charity Association",
+      "description": "Community volunteer supporting youth technology initiatives and event logistics."
+    },
+    {
+      "organization": "Yemen Elite Bloc",
+      "description": "Active in AI/robotics and programming units; peer mentoring and event logistics support."
+    }
+  ],
+  "languages": [
+    {
+      "language": "Arabic",
+      "level": "Native",
+      "ratingStars": 5,
+      "officialLine": "Arabic — Native"
+    },
+    {
+      "language": "English",
+      "level": "B2",
+      "ratingStars": 4,
+      "officialLine": "English — B2"
+    },
+    {
+      "language": "German",
+      "level": "B1",
+      "ratingStars": 3,
+      "officialLine": "German — B1"
+    }
+  ],
+  "technicalSkillLines": [
+    {
+      "officialLine": "Dart/Flutter, Android Studio",
+      "atomicSkills": ["Dart", "Flutter", "Android Studio"]
+    },
+    {
+      "officialLine": "Python, HTML/CSS/JS",
+      "atomicSkills": ["Python", "HTML", "CSS", "JavaScript"]
+    },
+    {
+      "officialLine": "C/C++, Java",
+      "atomicSkills": ["C", "C++", "Java"]
+    },
+    {
+      "officialLine": "Databases",
+      "atomicSkills": ["Databases"]
+    },
+    {
+      "officialLine": "OOP / Data Structures / Algorithms",
+      "atomicSkills": ["OOP", "Data Structures", "Algorithms"]
+    },
+    {
+      "officialLine": "Data Mining: Weka/Orange",
+      "atomicSkills": ["Data Mining", "Weka", "Orange"]
+    },
+    {
+      "officialLine": "Routing/Switching & Structured Cabling",
+      "atomicSkills": ["Routing/Switching", "Structured Cabling"]
+    },
+    {
+      "officialLine": "Linux & Operating Systems",
+      "atomicSkills": ["Linux", "Operating Systems"]
+    },
+    {
+      "officialLine": "Hardware & Troubleshooting",
+      "atomicSkills": ["Hardware", "Troubleshooting"]
+    }
+  ],
+  "interests": [
+    {
+      "category": "Community",
+      "rawText": "Open source, hackathons, tech club events, mentoring."
+    },
+    {
+      "category": "Personal",
+      "rawText": "Technical reading, sports, scientific research, languages."
+    },
+    {
+      "category": "Technical",
+      "rawText": "Web/mobile, modeling & simulation, cloud computing, electrical systems & control."
+    }
+  ],
+  "references": [
+    {
+      "name": "Eng. Mohammed Al-Hazmi",
+      "phone": "+967 774 760 761"
+    },
+    {
+      "name": "Mohammed Al Sanea",
+      "phone": "+967 775 148 168"
+    },
+    {
+      "name": "Prof. Dr. Fadl Baalawi",
+      "phone": "+967 777 877 766",
+      "email": "dr.fadlbaalwi@gmail.com"
+    },
+    {
+      "name": "Eng. Mohammed Al Aghbari",
+      "phone": "+967 771 170 176"
+    },
+    {
+      "name": "Eng. Mohammed Al Ashwal",
+      "phone": "+967 777 196 979",
+      "email": "moahmmed_alashwal@asas-realestate.com"
+    },
+    {
+      "name": "Ms. Rabab Al Ashwal",
+      "phone": "+967 770 013 304",
+      "email": "ahrab1981@gmail.com"
+    }
+  ],
+  "certifications": [
+    { "year": "2026", "issuer": "CYBERAI Club", "title": "Automation & AI Agents" },
+    { "year": "2025", "issuer": "Yemen Elite Bloc", "title": "Research Development" },
+    { "year": "2025", "issuer": "Yemen Intern Platform", "title": "Work Ethics, Professional Environment & Teamwork" },
+    { "year": "2025", "issuer": "Yemen Elite Bloc (Technology & IT Sector)", "title": "Artificial Intelligence Program", "explicitStatus": "Ongoing" },
+    { "year": "2025", "issuer": "Yemen Elite Bloc (Technology & IT Sector)", "title": "Front-End Development Bootcamp", "explicitStatus": "Ongoing" },
+    { "year": "2025", "issuer": "New Horizons Institutes", "title": "Graphic Design Diploma", "explicitStatus": "In Progress" },
+    { "year": "2025", "issuer": "Sana'a University – Faculty of Engineering", "title": "Deep Learning & Computer Vision" },
+    { "year": "2025", "issuer": "Sana'a University – Faculty of Engineering", "title": "Robotics" },
+    { "year": "2025", "issuer": "Sana'a University – Faculty of Engineering", "title": "Embedded Systems" },
+    { "year": "2025", "issuer": "Sana'a University – Faculty of Engineering", "title": "MATLAB" },
+    { "year": "2025", "issuer": "Sana'a University – Faculty of Engineering", "title": "Network Administration" },
+    { "year": "2025", "issuer": "Sana'a University – Faculty of Engineering", "title": "Artificial Intelligence & Raspberry Pi" },
+    { "year": "2025", "issuer": "New Horizons Institutes", "title": "CompTIA A+" },
+    { "year": "2025", "issuer": "AI APPROACH CLUB", "title": "Data Analysis & Machine Learning" },
+    { "year": "2024", "issuer": "Al-Hamdi Foundation", "title": "Medical Program (First Aid, Injection Types, Vital Signs)" },
+    { "year": "2024", "issuer": "New Horizons Institutes", "title": "MikroTik Fundamentals" },
+    { "year": "2024", "issuer": "Sana'a University – Faculty of Engineering", "title": "Networks" },
+    { "year": "2024", "issuer": "Sana'a University – Faculty of Engineering", "title": "Programmable Logic Controllers (PLC)" },
+    { "year": "2024", "issuer": "Sana'a University – Faculty of Engineering", "title": "Arduino" },
+    { "year": "2024", "issuer": "Sana'a University – Faculty of Engineering", "title": "Solar Energy" },
+    { "year": "2024", "issuer": "Al-Hamdi Foundation", "title": "Advanced Digital Marketing" },
+    { "year": "2024", "issuer": "Al-Hamdi Foundation", "title": "Small Project Management" },
+    { "year": "2024", "issuer": "Al-Hamdi Foundation", "title": "Administrative Program (Business, Human Resources, Customer Service)" },
+    { "year": "2023", "issuer": "Al-Hamdi Foundation", "title": "Emergency Humanitarian Response — SPHERE Standards" },
+    { "year": "2020", "issuer": "New Horizons Institutes", "title": "ICDL (International Computer Driving Licence)" },
+    { "year": "2019", "issuer": "Science & Technology Center", "title": "Mobile Phone Maintenance Diploma" }
+  ],
+  "certificationsRepositoryNotice": "Open --< Certificate Documents >-- to view them in the repository.",
+  "projects": [
+    {
+      "index": 1,
+      "officialTitle": "Pump Station Analytics",
+      "officialDescription": "Predictive maintenance for wastewater pumps."
+    },
+    {
+      "index": 2,
+      "officialTitle": "Real-Time Image Classification API",
+      "officialDescription": "Lightweight Flask service that accepts an image and returns the top three classes."
+    },
+    {
+      "index": 3,
+      "officialTitle": "Real-Time Object Detection",
+      "officialDescription": "Live Python/PyTorch + OpenCV pipeline."
+    },
+    {
+      "index": 4,
+      "officialTitle": "OMNIFOOD — Responsive Landing Page",
+      "officialDescription": "Single-page layout with a hero section and anchor navigation."
+    },
+    {
+      "index": 5,
+      "officialTitle": "URBANMINDOS — Smart City Operating System",
+      "officialDescription": "Showcases autonomous aerial mobility."
+    },
+    {
+      "index": 6,
+      "officialTitle": "Obstacle Avoidance",
+      "officialDescription": "Real-time monocular depth estimation with TensorFlow for detection and avoidance."
+    },
+    {
+      "index": 7,
+      "officialTitle": "AI Tic-Tac-Toe",
+      "officialDescription": "Unbeatable Minimax AI with an interactive Pygame interface."
+    },
+    {
+      "index": 8,
+      "officialTitle": "Pac-Man with PYGAME",
+      "officialDescription": "Version with animation, collision detection, ghost AI, and power-ups."
+    },
+    {
+      "index": 9,
+      "officialTitle": "Text Summarizer",
+      "officialDescription": "Desktop application for extractive summarization with adjustable output length."
+    },
+    {
+      "index": 10,
+      "officialTitle": "Inventory & Sales Manager",
+      "officialDescription": "CRUD web application for electronics (laptops/phones/PS5)."
+    },
+    {
+      "index": 11,
+      "officialTitle": "User & Role Manager",
+      "officialDescription": "Create/update users, reset passwords, and assign permissions (Oracle Forms 6i + PL/SQL)."
+    },
+    {
+      "index": 12,
+      "officialTitle": "ROBOCAM CONTROLLER (FLUTTER + DART)",
+      "officialDescription": "Android application for controlling a camera-equipped robot via an on-screen joystick."
+    },
+    {
+      "index": 13,
+      "officialTitle": "Student Evaluation System",
+      "officialDescription": "Attendance and grades system with role-based access (Admin/Teacher/Student) C# Desktop + PHP Web."
+    },
+    {
+      "index": 14,
+      "officialTitle": "Café POS System",
+      "officialDescription": "Login, CRUD items, sales, and reports (Java Swing + JDBC)."
+    },
+    {
+      "index": 15,
+      "officialTitle": "MIKROTIK Hotspot Portal",
+      "officialDescription": "Dual-WAN RouterOS setup with PPPoE links, a Hotspot portal, and RADIUS."
+    },
+    {
+      "index": 16,
+      "officialTitle": "ARDUINO Traffic Light Controller",
+      "officialDescription": "Two-way intersection with safety protections and a pedestrian crossing button."
+    }
+  ],
+  "projectsFooterNotice": "Explore my future projects in programming, engineering, and graphic design on --< GITHUB >--"
+}

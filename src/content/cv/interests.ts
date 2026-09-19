@@ -14,8 +14,8 @@ export const canonicalInterests: CanonicalInterestGroup[] = [
   {
     id: "interest-community",
     category: "Community",
-    rawText: "Open source, hackathons, tech-club events, mentoring.",
-    items: ["Open source", "Hackathons", "Tech-club events", "Mentoring"],
+    rawText: "Open source, hackathons, tech club events, mentoring.",
+    items: ["Open source", "Hackathons", "Tech club events", "Mentoring"],
   },
   {
     id: "interest-personal",

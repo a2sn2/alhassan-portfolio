@@ -1,29 +1,41 @@
 #!/usr/bin/env node
 
 /**
- * Semantic English CV Content Parity Verifier
+ * Deterministic English CV Content Parity & Semantic Verifier
  *
  * Verifies that:
  * 1. Official English Standard CV PDF SHA-256 matches the verified source baseline.
- * 2. Canonical CV data model (src/content/cv/) represents 100% of verified facts:
- *    - 6 Organizations & 9 Experience Roles
- *    - 5 Memberships
- *    - 3 Languages
- *    - 9 Technical Skill Group Lines
- *    - 3 Interest Groups
- *    - 6 Canonical References
- *    - 26 Certifications & Courses
- *    - 16 Projects
- * 3. Portfolio content layer (src/content/) exposes all required verified facts.
- * 4. Experience roles retain rich active-voice responsibilities (not stripped).
- * 5. Third-party reference contact info (phones/emails) remains strictly private
- *    and is NOT exposed in public portfolio content files.
- * 6. Content integrity: banned/unverified claims remain absent.
+ * 2. Canonical CV data model (src/content/cv/) matches the exact source manifest
+ *    (scripts/fixtures/canonical-cv-manifest.json) string-by-string:
+ *    - Exact organizations, roles, locations, periods, and summaries
+ *    - Exact AHD organization name without en dash
+ *    - Exact reference names (no spurious hyphens)
+ *    - Exact interest rawText ("tech club events" without hyphen)
+ *    - Exact Project #13 description (no em dash)
+ *    - Exact repository notices with ASCII markers (--< Certificate Documents >--, --< GITHUB >--)
+ *    - Exact technical skills official lines and pure atomic splits (zero inferred skills)
+ *    - Exact certification issuers ("Al-Hamdi Foundation") and explicit statuses (no invented "Completed")
+ *    - Education source purity (no location attached to canonical education)
+ * 3. Portfolio presentation layer (src/content/):
+ *    - All 9 experience roles retain active-voice responsibilities (not stripped)
+ *    - All 16 projects, 26 certifications, 5 memberships, 3 interests present
+ *    - Certifications do not assign invented "Completed" statuses
+ *    - Certifications use "Al-Hamdi Foundation"
+ *    - Social channels and contact details align
+ * 4. Reference Display Policy:
+ *    - Reference phone numbers and personal emails are NOT rendered in public content files
+ *    - Accurately reported as not rendered in public interface
+ * 5. Clean typography & absence of OCR layout artifacts
+ * 6. Zero presence of ungrounded / banned claims
  */
 
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { createRequire } from "node:module";
+import ts from "typescript";
+
+const baseRequire = createRequire(import.meta.url);
 
 const root = process.cwd();
 const sourcePdfPath = path.join(
@@ -34,20 +46,19 @@ const sourcePdfPath = path.join(
   "ALHassan_Baligh_ALShami_CV_Standard.pdf"
 );
 
-const EXPECTED_PDF_SHA256 =
-  "e49a9ce438d04e537f5aef8c478c74d947e6a5a4df7bb360b915f7861b7eb63c";
+const manifestPath = path.join(
+  root,
+  "scripts",
+  "fixtures",
+  "canonical-cv-manifest.json"
+);
 
-const EXPECTED_COUNTS = {
-  organizations: 6,
-  experienceRoles: 9,
-  memberships: 5,
-  languages: 3,
-  technicalSkillLines: 9,
-  interestGroups: 3,
-  references: 6,
-  certifications: 26,
-  projects: 16,
-};
+if (!fs.existsSync(manifestPath)) {
+  console.error("❌ Manifest fixture missing at:", manifestPath);
+  process.exit(1);
+}
+
+const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 
 const BANNED_UNVERIFIED_PHRASES = [
   "backend REST microservices",
@@ -81,9 +92,41 @@ function check(condition, message) {
   }
 }
 
+function loadTsModule(relativePath) {
+  const fullPath = path.join(root, relativePath);
+  const dir = path.dirname(fullPath);
+  const src = fs.readFileSync(fullPath, "utf8");
+  const js = ts.transpileModule(src, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  const mod = { exports: {} };
+
+  const customRequire = (reqPath) => {
+    let resolved = reqPath;
+    if (resolved.startsWith("@/")) {
+      resolved = path.join(root, "src", resolved.slice(2));
+    } else if (resolved.startsWith(".")) {
+      resolved = path.join(dir, resolved);
+    }
+    if (!path.extname(resolved)) {
+      if (fs.existsSync(`${resolved}.ts`)) resolved = `${resolved}.ts`;
+      else if (fs.existsSync(`${resolved}.tsx`)) resolved = `${resolved}.tsx`;
+      else if (fs.existsSync(path.join(resolved, "index.ts"))) resolved = path.join(resolved, "index.ts");
+    }
+    if (resolved.endsWith(".ts") || resolved.endsWith(".tsx")) {
+      return loadTsModule(path.relative(root, resolved));
+    }
+    return baseRequire(resolved);
+  };
+
+  const fn = new Function("exports", "require", "module", js);
+  fn(mod.exports, customRequire, mod);
+  return mod.exports;
+}
+
 async function run() {
   console.log("============================================================");
-  console.log("🔍 ENGLISH CV CONTENT PARITY & INTEGRITY VERIFICATION");
+  console.log("🔍 ENGLISH CV DETERMINISTIC CONTENT PARITY VERIFICATION");
   console.log("============================================================\n");
 
   // 1. PDF Hash Verification
@@ -93,154 +136,326 @@ async function run() {
     const pdfBytes = fs.readFileSync(sourcePdfPath);
     const pdfHash = crypto.createHash("sha256").update(pdfBytes).digest("hex");
     check(
-      pdfHash === EXPECTED_PDF_SHA256,
-      `Source PDF SHA-256 (${pdfHash}) matches baseline (${EXPECTED_PDF_SHA256})`
+      pdfHash === manifest.pdfSha256,
+      `Source PDF SHA-256 (${pdfHash}) matches baseline (${manifest.pdfSha256})`
     );
   }
 
-  // 2. Canonical Model Verification (read directly or load)
-  console.log("\n▶ [2/6] Verifying Canonical CV Content Model (src/content/cv/)...");
+  // 2. Canonical Model Deep Semantic Verification against Manifest
+  console.log("\n▶ [2/6] Verifying Canonical CV Content Model (src/content/cv/) against Exact Source Manifest...");
   const cvDir = path.join(root, "src", "content", "cv");
-  const requiredCvFiles = [
-    "identity.ts",
-    "profile.ts",
-    "education.ts",
-    "experience.ts",
-    "memberships.ts",
-    "languages.ts",
-    "technicalSkills.ts",
-    "interests.ts",
-    "references.ts",
-    "certifications.ts",
-    "projects.ts",
-    "index.ts",
-  ];
+  check(fs.existsSync(cvDir), "Canonical CV directory src/content/cv/ exists");
 
-  for (const file of requiredCvFiles) {
+  // Load modules
+  const identityMod = loadTsModule("src/content/cv/identity.ts");
+  const profileMod = loadTsModule("src/content/cv/profile.ts");
+  const educationMod = loadTsModule("src/content/cv/education.ts");
+  const experienceMod = loadTsModule("src/content/cv/experience.ts");
+  const membershipsMod = loadTsModule("src/content/cv/memberships.ts");
+  const languagesMod = loadTsModule("src/content/cv/languages.ts");
+  const skillsMod = loadTsModule("src/content/cv/technicalSkills.ts");
+  const interestsMod = loadTsModule("src/content/cv/interests.ts");
+  const referencesMod = loadTsModule("src/content/cv/references.ts");
+  const certsMod = loadTsModule("src/content/cv/certifications.ts");
+  const projectsMod = loadTsModule("src/content/cv/projects.ts");
+  const indexMod = loadTsModule("src/content/cv/index.ts");
+
+  check(
+    indexMod.canonicalCvMeta?.sourcePdfSha256 === manifest.pdfSha256,
+    `Canonical index metadata sourcePdfSha256 matches manifest baseline`
+  );
+
+  // A. Identity & Profile
+  check(
+    identityMod.canonicalIdentity?.fullName === manifest.identity.fullName,
+    `Canonical fullName matches: "${manifest.identity.fullName}"`
+  );
+  check(
+    identityMod.canonicalIdentity?.role === manifest.identity.role,
+    `Canonical role matches: "${manifest.identity.role}"`
+  );
+  check(
+    identityMod.canonicalIdentity?.location === manifest.identity.location,
+    `Canonical location matches: "${manifest.identity.location}"`
+  );
+  check(
+    profileMod.canonicalProfile?.raw === manifest.profile.raw,
+    `Canonical profile statement matches exact verbatim CV source text`
+  );
+
+  // B. Education Purity
+  check(
+    educationMod.canonicalEducation?.institution === manifest.education.institution,
+    `Canonical education institution matches: "${manifest.education.institution}"`
+  );
+  check(
+    educationMod.canonicalEducation?.degree === manifest.education.degree,
+    `Canonical education degree matches: "${manifest.education.degree}"`
+  );
+  check(
+    educationMod.canonicalEducation?.period === manifest.education.period,
+    `Canonical education period matches: "${manifest.education.period}"`
+  );
+  check(
+    !("location" in educationMod.canonicalEducation),
+    `Canonical education maintains source purity (no location attached to education block)`
+  );
+  check(
+    educationMod.canonicalEducation?.graduationProject?.title === manifest.education.graduationProjectTitle,
+    `Canonical graduation project title matches exact CV wording`
+  );
+
+  // C. Organizations & Experience Roles (AHD naming exactness)
+  const canonicalOrgs = experienceMod.canonicalExperienceOrganizations || [];
+  check(
+    canonicalOrgs.length === manifest.organizations.length,
+    `Canonical organizations count: ${canonicalOrgs.length} (expected ${manifest.organizations.length})`
+  );
+
+  const ahdOrg = canonicalOrgs.find((o) => o.id === "ahd-financial-services");
+  check(
+    ahdOrg?.company === "AHD for Financial Services Jaib Wallet",
+    `Canonical AHD organization uses exact source text without en dash ("AHD for Financial Services Jaib Wallet")`
+  );
+
+  const canonicalRoles = experienceMod.canonicalExperienceRoles || [];
+  check(
+    canonicalRoles.length === manifest.experienceRoles.length,
+    `Canonical experience roles count: ${canonicalRoles.length} (expected ${manifest.experienceRoles.length})`
+  );
+
+  manifest.experienceRoles.forEach((expectedRole, idx) => {
+    const actual = canonicalRoles[idx];
     check(
-      fs.existsSync(path.join(cvDir, file)),
-      `Canonical module exists: src/content/cv/${file}`
+      actual?.role === expectedRole.role &&
+      actual?.company === expectedRole.company &&
+      actual?.period === expectedRole.period &&
+      actual?.location === expectedRole.location &&
+      actual?.summary === expectedRole.summary,
+      `Canonical role #${idx + 1} (${expectedRole.role} @ ${expectedRole.company}) matches manifest exactly`
     );
-  }
+  });
 
-  // Import canonical index dynamically via compiled / ts-compatible loader or inspect source
-  const experienceTs = fs.readFileSync(path.join(cvDir, "experience.ts"), "utf8");
-  const membershipsTs = fs.readFileSync(path.join(cvDir, "memberships.ts"), "utf8");
-  const languagesTs = fs.readFileSync(path.join(cvDir, "languages.ts"), "utf8");
-  const skillsTs = fs.readFileSync(path.join(cvDir, "technicalSkills.ts"), "utf8");
-  const interestsTs = fs.readFileSync(path.join(cvDir, "interests.ts"), "utf8");
-  const referencesTs = fs.readFileSync(path.join(cvDir, "references.ts"), "utf8");
-  const certsTs = fs.readFileSync(path.join(cvDir, "certifications.ts"), "utf8");
-  const projectsTs = fs.readFileSync(path.join(cvDir, "projects.ts"), "utf8");
+  // D. Memberships
+  const canonicalMemberships = membershipsMod.canonicalMemberships || [];
+  check(
+    canonicalMemberships.length === manifest.memberships.length,
+    `Canonical memberships count: ${canonicalMemberships.length} (expected ${manifest.memberships.length})`
+  );
+  manifest.memberships.forEach((expMember, idx) => {
+    const actual = canonicalMemberships[idx];
+    check(
+      actual?.organization === expMember.organization &&
+      actual?.description === expMember.description,
+      `Canonical membership #${idx + 1} (${expMember.organization}) matches manifest exactly`
+    );
+  });
 
-  // Count items from canonical source
-  const orgMatches = (experienceTs.match(/company:\s*"/g) || []).length;
-  const roleMatches = (experienceTs.match(/role:\s*"/g) || []).length;
-  const memberMatches = (membershipsTs.match(/organization:\s*"/g) || []).length;
-  const langMatches = (languagesTs.match(/language:\s*"/g) || []).length;
-  const skillLineMatches = (skillsTs.match(/officialLine:\s*"/g) || []).length;
-  const interestMatches = (interestsTs.match(/id:\s*"interest-/g) || []).length;
-  const refMatches = (referencesTs.match(/name:\s*"/g) || []).length;
-  const certMatches = (certsTs.match(/title:\s*"/g) || []).length;
-  const projMatches = (projectsTs.match(/officialTitle:\s*"/g) || []).length;
+  // E. Languages
+  const canonicalLangs = languagesMod.canonicalLanguages || [];
+  check(
+    canonicalLangs.length === manifest.languages.length,
+    `Canonical languages count: ${canonicalLangs.length} (expected ${manifest.languages.length})`
+  );
+  manifest.languages.forEach((expLang, idx) => {
+    const actual = canonicalLangs[idx];
+    check(
+      actual?.language === expLang.language &&
+      actual?.level === expLang.level &&
+      actual?.ratingStars === expLang.ratingStars &&
+      actual?.officialLine === expLang.officialLine,
+      `Canonical language (${expLang.language} - ${expLang.level}) matches manifest exactly`
+    );
+  });
+
+  // F. Technical Skills (Purity & Exact Lines)
+  const canonicalSkillLines = skillsMod.canonicalTechnicalSkillLines || [];
+  check(
+    canonicalSkillLines.length === manifest.technicalSkillLines.length,
+    `Canonical technical skill lines count: ${canonicalSkillLines.length} (expected ${manifest.technicalSkillLines.length})`
+  );
+
+  manifest.technicalSkillLines.forEach((expLine, idx) => {
+    const actual = canonicalSkillLines[idx];
+    check(
+      actual?.officialLine === expLine.officialLine,
+      `Canonical skill line #${idx + 1} matches: "${expLine.officialLine}"`
+    );
+    const actualAtomics = JSON.stringify(actual?.atomicSkills || []);
+    const expectedAtomics = JSON.stringify(expLine.atomicSkills);
+    check(
+      actualAtomics === expectedAtomics,
+      `Canonical atomic skills for "${expLine.officialLine}" are source-pure: ${actualAtomics}`
+    );
+  });
+
+  // Check no forbidden inferred skills in canonical technical skills
+  const allCanonicalAtomics = canonicalSkillLines.flatMap((g) => g.atomicSkills);
+  const bannedInferredSkills = [
+    "MySQL",
+    "Oracle PL/SQL",
+    "Database Design",
+    "MikroTik RouterOS",
+    "PPPoE",
+    "RADIUS",
+    "Operating Systems Architecture",
+    "Hardware Diagnostics",
+  ];
+  const foundInferredSkills = allCanonicalAtomics.filter((s) => bannedInferredSkills.includes(s));
+  check(
+    foundInferredSkills.length === 0,
+    `Canonical technical skills contain zero inferred/context skills (${foundInferredSkills.length} found)`
+  );
+
+  // G. Interests (exact rawText with "tech club events")
+  const canonicalInterests = interestsMod.canonicalInterests || [];
+  check(
+    canonicalInterests.length === manifest.interests.length,
+    `Canonical interests count: ${canonicalInterests.length} (expected ${manifest.interests.length})`
+  );
+  const communityInterest = canonicalInterests.find((i) => i.category === "Community");
+  check(
+    communityInterest?.rawText === "Open source, hackathons, tech club events, mentoring.",
+    `Canonical Community interest rawText uses exact source text without hyphen: "${communityInterest?.rawText}"`
+  );
+
+  // H. References (exact names without unwanted hyphens)
+  const canonicalRefs = referencesMod.canonicalReferences || [];
+  check(
+    canonicalRefs.length === manifest.references.length,
+    `Canonical references count: ${canonicalRefs.length} (expected ${manifest.references.length})`
+  );
+  manifest.references.forEach((expRef, idx) => {
+    const actual = canonicalRefs[idx];
+    check(
+      actual?.name === expRef.name && actual?.phone === expRef.phone,
+      `Canonical reference #${idx + 1} matches exact source name: "${expRef.name}"`
+    );
+  });
+
+  // I. Certifications & Courses (issuers, explicitStatus, notices)
+  const canonicalCerts = certsMod.canonicalCertifications || [];
+  check(
+    canonicalCerts.length === manifest.certifications.length,
+    `Canonical certifications count: ${canonicalCerts.length} (expected ${manifest.certifications.length})`
+  );
+
+  let statusDriftCount = 0;
+  let issuerDriftCount = 0;
+  canonicalCerts.forEach((cert, idx) => {
+    const exp = manifest.certifications[idx];
+    if (cert.explicitStatus !== exp.explicitStatus) {
+      statusDriftCount++;
+      failures.push(`Certification "${cert.title}" has status "${cert.explicitStatus}", expected "${exp.explicitStatus}"`);
+    }
+    if (cert.issuer !== exp.issuer) {
+      issuerDriftCount++;
+      failures.push(`Certification "${cert.title}" has issuer "${cert.issuer}", expected "${exp.issuer}"`);
+    }
+  });
+
+  check(statusDriftCount === 0, `All certifications preserve exact explicit status with zero invented "Completed" claims`);
+  check(issuerDriftCount === 0, `All certifications use exact source issuer wording (including "Al-Hamdi Foundation")`);
 
   check(
-    orgMatches === EXPECTED_COUNTS.organizations,
-    `Canonical organizations: ${orgMatches} (expected ${EXPECTED_COUNTS.organizations})`
+    certsMod.canonicalCertificatesRepositoryNotice?.text === manifest.certificationsRepositoryNotice,
+    `Canonical certificates footer notice preserves exact ASCII markers: "${manifest.certificationsRepositoryNotice}"`
   );
+
+  // J. Projects & Work (Project 13 and footer notice)
+  const canonicalProjects = projectsMod.canonicalProjects || [];
   check(
-    roleMatches === EXPECTED_COUNTS.experienceRoles,
-    `Canonical experience roles: ${roleMatches} (expected ${EXPECTED_COUNTS.experienceRoles})`
+    canonicalProjects.length === manifest.projects.length,
+    `Canonical projects count: ${canonicalProjects.length} (expected ${manifest.projects.length})`
   );
+
+  const proj13 = canonicalProjects.find((p) => p.index === 13);
   check(
-    memberMatches === EXPECTED_COUNTS.memberships,
-    `Canonical memberships: ${memberMatches} (expected ${EXPECTED_COUNTS.memberships})`
+    proj13?.officialDescription === manifest.projects[12].officialDescription,
+    `Project #13 description matches exact source text without em dash: "${proj13?.officialDescription}"`
   );
+
   check(
-    langMatches === EXPECTED_COUNTS.languages,
-    `Canonical languages: ${langMatches} (expected ${EXPECTED_COUNTS.languages})`
+    projectsMod.canonicalProjectsFooterNotice?.text === manifest.projectsFooterNotice,
+    `Canonical projects footer notice preserves exact ASCII markers: "${manifest.projectsFooterNotice}"`
   );
-  check(
-    skillLineMatches === EXPECTED_COUNTS.technicalSkillLines,
-    `Canonical technical skill lines: ${skillLineMatches} (expected ${EXPECTED_COUNTS.technicalSkillLines})`
-  );
-  check(
-    interestMatches === EXPECTED_COUNTS.interestGroups,
-    `Canonical interest categories: ${interestMatches} (expected ${EXPECTED_COUNTS.interestGroups})`
-  );
-  check(
-    refMatches === EXPECTED_COUNTS.references,
-    `Canonical references stored: ${refMatches} (expected ${EXPECTED_COUNTS.references})`
-  );
-  check(
-    certMatches === EXPECTED_COUNTS.certifications,
-    `Canonical certifications: ${certMatches} (expected ${EXPECTED_COUNTS.certifications})`
-  );
-  check(
-    projMatches === EXPECTED_COUNTS.projects,
-    `Canonical projects: ${projMatches} (expected ${EXPECTED_COUNTS.projects})`
-  );
+
 
   // 3. Portfolio Editorial Layer Integrity (src/content/)
   console.log("\n▶ [3/6] Verifying Portfolio Presentation Layer (src/content/)...");
-  const pubExpTs = fs.readFileSync(path.join(root, "src", "content", "experience.ts"), "utf8");
-  const pubProjectsTs = fs.readFileSync(path.join(root, "src", "content", "projects.ts"), "utf8");
-  const pubCertsTs = fs.readFileSync(path.join(root, "src", "content", "credentials.ts"), "utf8");
-  const pubAboutTs = fs.readFileSync(path.join(root, "src", "content", "about.ts"), "utf8");
-  const pubContactTs = fs.readFileSync(path.join(root, "src", "content", "contact.ts"), "utf8");
-  const pubSocialTs = fs.readFileSync(path.join(root, "src", "content", "social.ts"), "utf8");
+  const pubExpMod = loadTsModule("src/content/experience.ts");
+  const pubProjectsMod = loadTsModule("src/content/projects.ts");
+  const pubCertsMod = loadTsModule("src/content/credentials.ts");
+  const pubAboutMod = loadTsModule("src/content/about.ts");
+  const pubContactMod = loadTsModule("src/content/contact.ts");
+  const pubSocialMod = loadTsModule("src/content/social.ts");
 
   // Experience roles in portfolio presentation
-  const pubRoleMatches = (pubExpTs.match(/role:\s*"/g) || []).length;
+  const pubRoles = pubExpMod.experienceContent?.items || [];
   check(
-    pubRoleMatches === EXPECTED_COUNTS.experienceRoles,
-    `Portfolio experience items count: ${pubRoleMatches} (expected ${EXPECTED_COUNTS.experienceRoles})`
+    pubRoles.length === manifest.experienceRoles.length,
+    `Portfolio experience items count: ${pubRoles.length} (expected ${manifest.experienceRoles.length})`
   );
 
-  // Check responsibilities are not empty
-  const emptyRespCount = (pubExpTs.match(/responsibilities:\s*\[\s*\]/g) || []).length;
+  // Check responsibilities are not empty in presentation layer
+  const emptyRespCount = pubRoles.filter((r) => !r.responsibilities || r.responsibilities.length === 0).length;
   check(
     emptyRespCount === 0,
-    `All experience items retain active responsibilities (${emptyRespCount} empty arrays found)`
+    `All experience items retain active responsibilities (${emptyRespCount} empty items found)`
   );
 
   // Projects in portfolio presentation
-  const pubProjMatches = (pubProjectsTs.match(/slug:\s*"/g) || []).length;
+  const pubProjects = pubProjectsMod.projectItems || pubProjectsMod.projectsContent?.items || [];
   check(
-    pubProjMatches === EXPECTED_COUNTS.projects,
-    `Portfolio project catalogue count: ${pubProjMatches} (expected ${EXPECTED_COUNTS.projects})`
+    pubProjects.length === manifest.projects.length,
+    `Portfolio project catalogue count: ${pubProjects.length} (expected ${manifest.projects.length})`
   );
 
   // Certifications in portfolio presentation
-  const pubCertCount = (pubCertsTs.match(/category:\s*"/g) || []).length;
+  const pubCerts = pubCertsMod.credentialsContent?.certifications || [];
   check(
-    pubCertCount === EXPECTED_COUNTS.certifications,
-    `Portfolio certifications count: ${pubCertCount} (expected ${EXPECTED_COUNTS.certifications})`
+    pubCerts.length === manifest.certifications.length,
+    `Portfolio certifications count: ${pubCerts.length} (expected ${manifest.certifications.length})`
+  );
+
+  // Check no invented "Completed" in portfolio presentation credentials
+  const inventedCompleted = pubCerts.filter((c) => c.status === "Completed");
+  check(
+    inventedCompleted.length === 0,
+    `Portfolio certifications do not assign unverified "Completed" status (${inventedCompleted.length} found)`
+  );
+
+  // Check Al-Hamdi Foundation issuer wording in portfolio presentation credentials
+  const wrongAlHamdi = pubCerts.filter((c) => c.issuer.includes("Al-Hamdi") && c.issuer !== "Al-Hamdi Foundation");
+  check(
+    wrongAlHamdi.length === 0,
+    `Portfolio certifications use exact "Al-Hamdi Foundation" issuer wording (${wrongAlHamdi.length} drift found)`
   );
 
   // Memberships in portfolio presentation
-  const pubMemberCount = (pubCertsTs.match(/organization:\s*"/g) || []).length;
+  const pubMemberships = pubCertsMod.credentialsContent?.memberships || [];
   check(
-    pubMemberCount === EXPECTED_COUNTS.memberships,
-    `Portfolio memberships count: ${pubMemberCount} (expected ${EXPECTED_COUNTS.memberships})`
+    pubMemberships.length === manifest.memberships.length,
+    `Portfolio memberships count: ${pubMemberships.length} (expected ${manifest.memberships.length})`
   );
 
   // Interests in portfolio presentation (about.ts)
-  const pubInterestsCount = (pubAboutTs.match(/category:\s*"/g) || []).length;
+  const pubInterests = pubAboutMod.aboutContent?.interests || [];
   check(
-    pubInterestsCount === EXPECTED_COUNTS.interestGroups,
-    `Portfolio interests count on /about: ${pubInterestsCount} (expected ${EXPECTED_COUNTS.interestGroups})`
+    pubInterests.length === manifest.interests.length,
+    `Portfolio interests count on /about: ${pubInterests.length} (expected ${manifest.interests.length})`
   );
 
   // Social channels include GitHub, LinkedIn, Instagram
-  check(pubSocialTs.includes("github.com/a2sn2"), "Portfolio social channels include GitHub (a2sn2)");
-  check(pubSocialTs.includes("linkedin.com/in/a2sn4"), "Portfolio social channels include LinkedIn (a2sn4)");
-  check(pubSocialTs.includes("instagram.com/a2s.n4"), "Portfolio social channels include Instagram (@a2s.n4)");
-  check(pubContactTs.includes("Haddah, Sana'a, Yemen"), "Portfolio contact location includes Haddah, Sana'a, Yemen");
+  const socials = pubSocialMod.socialLinks || [];
+  check(socials.some((s) => s.url?.includes("github.com/a2sn2")), "Portfolio social channels include GitHub (a2sn2)");
+  check(socials.some((s) => s.url?.includes("linkedin.com/in/a2sn4")), "Portfolio social channels include LinkedIn (a2sn4)");
+  check(socials.some((s) => s.url?.includes("instagram.com/a2s.n4")), "Portfolio social channels include Instagram (@a2s.n4)");
+  check(pubContactMod.contactContent?.location?.includes("Haddah, Sana'a, Yemen"), "Portfolio contact location includes Haddah, Sana'a, Yemen");
 
 
-  // 4. Reference Privacy Policy Verification
-  console.log("\n▶ [4/6] Verifying Reference Privacy Protection...");
+  // 4. Reference Display Policy Verification
+  console.log("\n▶ [4/6] Verifying Reference Display Policy (Not Rendered in Public UI)...");
   const publicFiles = [
     "src/content/about.ts",
     "src/content/contact.ts",
@@ -252,54 +467,47 @@ async function run() {
     "src/content/social.ts",
   ];
 
-  const privatePhoneNumbers = [
-    "+967 774 760 761",
-    "+967 775 148 168",
-    "+967 777 877 766",
-    "+967 771 170 176",
-    "+967 777 196 979",
-    "+967 770 013 304",
-  ];
+  const referencePhoneNumbers = manifest.references.map((r) => r.phone);
+  const referenceEmails = manifest.references.filter((r) => r.email).map((r) => r.email);
 
-  const privateEmails = [
-    "dr.fadlbaalwi@gmail.com",
-    "moahmmed_alashwal@asas-realestate.com",
-    "ahrab1981@gmail.com",
-  ];
-
-  let leakedContactCount = 0;
+  let renderedContactCount = 0;
   for (const relFile of publicFiles) {
     const content = fs.readFileSync(path.join(root, relFile), "utf8");
-    for (const phone of privatePhoneNumbers) {
+    for (const phone of referencePhoneNumbers) {
       if (content.includes(phone)) {
-        leakedContactCount++;
-        failures.push(`Third-party private phone "${phone}" detected in public content file ${relFile}`);
+        renderedContactCount++;
+        failures.push(`Reference phone "${phone}" detected in public content file ${relFile}`);
       }
     }
-    for (const email of privateEmails) {
+    for (const email of referenceEmails) {
       if (content.includes(email)) {
-        leakedContactCount++;
-        failures.push(`Third-party private email "${email}" detected in public content file ${relFile}`);
+        renderedContactCount++;
+        failures.push(`Reference email "${email}" detected in public content file ${relFile}`);
       }
     }
   }
 
   check(
-    leakedContactCount === 0,
-    `Third-party reference phone numbers and personal emails are strictly shielded from public content files`
+    renderedContactCount === 0,
+    `Reference phone numbers and personal emails are not rendered in public portfolio content files`
   );
+
 
   // 5. Clean Typography & Data Modeling
   console.log("\n▶ [5/6] Verifying Clean Typography & Absence of Layout Artifacts...");
+  const pubAboutSrc = fs.readFileSync(path.join(root, "src", "content", "about.ts"), "utf8");
+  const pubProjectsSrc = fs.readFileSync(path.join(root, "src", "content", "projects.ts"), "utf8");
+
   check(
-    !pubAboutTs.includes("Native |") && !pubAboutTs.includes("B2 |"),
+    !pubAboutSrc.includes("Native |") && !pubAboutSrc.includes("B2 |"),
     `Language levels are free of literal pipe separator characters ("|")`
   );
   check(
-    !pubProjectsTs.includes("ROBOCAM CONTROLLER (FLUTTER + DART)") ||
-      pubProjectsTs.includes("ROBOCAM Controller"),
+    !pubProjectsSrc.includes("ROBOCAM CONTROLLER (FLUTTER + DART)") ||
+      pubProjectsSrc.includes("ROBOCAM Controller"),
     `Project titles in portfolio presentation maintain human-readable case styling`
   );
+
 
   // 6. Content Integrity: Banned Phrases Scan
   console.log("\n▶ [6/6] Scanning Content Files for Banned Unverified Claims...");
@@ -319,10 +527,11 @@ async function run() {
     `All ${BANNED_UNVERIFIED_PHRASES.length} ungrounded phrases are strictly absent across all public content files`
   );
 
+
   // Final Summary
   console.log("\n============================================================");
   if (failures.length === 0) {
-    console.log("✅ ALL ENGLISH CV CONTENT PARITY & INTEGRITY CHECKS PASSED!");
+    console.log("✅ ALL ENGLISH CV DETERMINISTIC CONTENT PARITY CHECKS PASSED!");
     console.log("============================================================\n");
     process.exit(0);
   } else {

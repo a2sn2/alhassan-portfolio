@@ -175,6 +175,6 @@ export const canonicalCertifications: CanonicalCertificationItem[] = [
 ];
 
 export const canonicalCertificatesRepositoryNotice = {
-  text: "Open Certificate Documents to view them in the repository.",
+  text: "Open --< Certificate Documents >-- to view them in the repository.",
   repoUrl: "https://github.com/a2sn2/certificates.git",
 };

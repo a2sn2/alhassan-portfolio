@@ -97,7 +97,7 @@ export const canonicalProjects: CanonicalProjectItem[] = [
     slug: "student-evaluation-system",
     officialTitle: "Student Evaluation System",
     officialDescription:
-      "Attendance and grades system with role-based access (Admin/Teacher/Student) — C# Desktop + PHP Web.",
+      "Attendance and grades system with role-based access (Admin/Teacher/Student) C# Desktop + PHP Web.",
   },
   {
     index: 14,
@@ -123,6 +123,6 @@ export const canonicalProjects: CanonicalProjectItem[] = [
 ];
 
 export const canonicalProjectsFooterNotice = {
-  text: "Explore my future projects in programming, engineering, and graphic design on GITHUB",
+  text: "Explore my future projects in programming, engineering, and graphic design on --< GITHUB >--",
   url: "https://github.com/a2sn2",
 };

@@ -18,7 +18,7 @@ export const canonicalTechnicalSkillLines: CanonicalSkillGroupLine[] = [
   {
     id: "python-web",
     officialLine: "Python, HTML/CSS/JS",
-    atomicSkills: ["Python", "HTML5", "CSS3", "JavaScript"],
+    atomicSkills: ["Python", "HTML", "CSS", "JavaScript"],
   },
   {
     id: "compiled-languages",
@@ -28,12 +28,12 @@ export const canonicalTechnicalSkillLines: CanonicalSkillGroupLine[] = [
   {
     id: "databases",
     officialLine: "Databases",
-    atomicSkills: ["Relational SQL", "Oracle PL/SQL", "MySQL", "Database Design"],
+    atomicSkills: ["Databases"],
   },
   {
     id: "algorithms-oop",
     officialLine: "OOP / Data Structures / Algorithms",
-    atomicSkills: ["Object-Oriented Design (OOP)", "Data Structures", "Algorithms"],
+    atomicSkills: ["OOP", "Data Structures", "Algorithms"],
   },
   {
     id: "data-mining",
@@ -43,17 +43,17 @@ export const canonicalTechnicalSkillLines: CanonicalSkillGroupLine[] = [
   {
     id: "networking",
     officialLine: "Routing/Switching & Structured Cabling",
-    atomicSkills: ["Routing & Switching", "Structured Cabling", "MikroTik RouterOS", "PPPoE & RADIUS"],
+    atomicSkills: ["Routing/Switching", "Structured Cabling"],
   },
   {
     id: "operating-systems",
     officialLine: "Linux & Operating Systems",
-    atomicSkills: ["Linux", "Operating Systems Architecture"],
+    atomicSkills: ["Linux", "Operating Systems"],
   },
   {
     id: "hardware",
     officialLine: "Hardware & Troubleshooting",
-    atomicSkills: ["Hardware Diagnostics", "System Troubleshooting"],
+    atomicSkills: ["Hardware", "Troubleshooting"],
   },
 ];
 

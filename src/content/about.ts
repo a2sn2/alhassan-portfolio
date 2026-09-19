@@ -42,8 +42,8 @@ export const aboutContent: AboutContent = {
     {
       id: "interest-community",
       category: "Community",
-      summary: "Open source, hackathons, tech-club events, mentoring.",
-      items: ["Open source", "Hackathons", "Tech-club events", "Mentoring"],
+      summary: "Open source, hackathons, tech club events, mentoring.",
+      items: ["Open source", "Hackathons", "Tech club events", "Mentoring"],
     },
     {
       id: "interest-personal",

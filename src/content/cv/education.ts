@@ -7,7 +7,6 @@ export const canonicalEducation = {
   institution: "International University of Technology Twintech",
   degree: "B.Sc. in Computer Science",
   period: "2021 – 2025",
-  location: "Sana'a, Yemen",
   graduationProject: {
     title: "Object-tracking algorithm on Linux using Python and OpenCV",
     description:
