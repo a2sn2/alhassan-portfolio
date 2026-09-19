@@ -7,7 +7,7 @@ export const contactContent: ContactContent = {
     "Direct contact channels, verified professional profiles, and official multi-language curriculum vitae packages.",
   directEmail: "hassan1alshami6@gmail.com",
   directPhone: "+967 772 765 120",
-  location: "Sana'a, Yemen",
+  location: "Haddah, Sana'a, Yemen",
   methods: [
     {
       id: "email",
@@ -44,6 +44,12 @@ export const contactContent: ContactContent = {
       value: "@a2s.n4",
       href: "https://www.instagram.com/a2s.n4",
       isExternal: true,
+    },
+    {
+      id: "official-cv",
+      label: "Official English CV Record",
+      value: "Verbatim portfolio content baseline",
+      href: "/official-cv",
     },
   ],
   cvDocuments: [
@@ -97,5 +103,5 @@ export const contactContent: ContactContent = {
     },
   ],
   referencesNote:
-    "Formal academic and industry references from university department chairs, engineering supervisors, and executive directors are available upon request.",
+    "The complete reference list is preserved verbatim in the Official English CV Record.",
 };
