@@ -24,16 +24,13 @@ export default function ContactPage() {
   return (
     <div className={styles.contactPage}>
       <Container>
-        {/* Page Header */}
         <header className={styles.header}>
           <span className={styles.kicker}>{contactContent.kicker}</span>
           <h1 className={styles.title}>{contactContent.title}</h1>
           <p className={styles.description}>{contactContent.description}</p>
         </header>
 
-        {/* Channels & CV Packages Layout */}
         <div className={styles.layout} style={{ marginTop: "var(--space-10)" }}>
-          {/* Direct Channels Column */}
           <div className={styles.channelsColumn}>
             <h2 className={styles.sectionTitle}>Direct Communication Channels</h2>
             <div className={styles.channelCards}>
@@ -66,15 +63,11 @@ export default function ContactPage() {
             </div>
 
             <div className={styles.noticeCard}>
-              <span className={styles.noticeTitle}>Location & Time Zone</span>
-              <p className={styles.noticeText}>
-                Based in Sana&apos;a, Yemen (UTC+3). Available for full-time engineering
-                roles, remote collaborations, and technical partnerships.
-              </p>
+              <span className={styles.noticeTitle}>Official CV Location</span>
+              <p className={styles.noticeText}>{contactContent.location}</p>
             </div>
           </div>
 
-          {/* Official CV Downloads Column */}
           <div className={styles.cvColumn}>
             <h2 className={styles.sectionTitle}>Official Multi-Language CV Packages</h2>
             <div className={styles.cvGrid}>
@@ -103,14 +96,13 @@ export default function ContactPage() {
             </div>
 
             <div className={styles.noticeCard}>
-              <span className={styles.noticeTitle}>References Policy</span>
+              <span className={styles.noticeTitle}>References</span>
               <p className={styles.noticeText}>{contactContent.referencesNote}</p>
             </div>
           </div>
         </div>
       </Container>
 
-      {/* Chapter 6 of 6 sequential navigation */}
       <ChapterNav currentChapterIndex={6} />
     </div>
   );
