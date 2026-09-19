@@ -1,0 +1,144 @@
+ALHassan Baligh ALShami
+Software Engineer
+Haddah, Sana'a, Yemen
+hassan1alshami6@gmail.com
++967 772 765 120
+01 Oct 2002
+linkedin.com/in/a2sn4
+@a2s.n4
+Profile
+Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces.
+Education
+International University of Technology Twintech | B.Sc. in Computer Science
+2021 – 2025
+Graduation Project: Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results. See the repository for the final report, transcript, specialization plan, and recommendation letters.
+Professional Experience
+Asaas AI | Co-Founder & Director of Quality Assurance
+Jan 2026 – Present
+Sana'a
+Established testing and review standards and policies; evaluated software-system and AI-solution quality; and reviewed plans, feasibility studies, and product readiness before approval and launch.
+AHD for Financial Services – Jaib Wallet | Multiple Roles
+Sep 2025 – Present
+Sana'a
+Deputy Development Manager (Jul 2026 – Present): Managed projects, analyzed internal development requirements, and delivered external system integrations.
+Developer, Development Dept. (Jan – Jul 2026): Built a production operations/accounting system integrated with Jaib Wallet workflows.
+Development Trainee (Dec 2025 – Jan 2026): Worked with .NET backend logic, SQL databases, web features, testing, and troubleshooting.
+Customer Service Trainee (Sep – Dec 2025): Handled ticketing-system calls and applied compliance policies.
+Water & Sanitation Local Corporation | Control Engineer Trainee
+Aug – Dec 2024
+Al Hudaydah
+Monitored PLC panels and field signals (pumps, levels, alarms); supported preventive maintenance, wiring, and control-loop troubleshooting; coordinated with technicians, documented faults, and ensured safe restart procedures.
+Al-Rahma Foundation | Network Engineer Trainee
+Jan – Dec 2023
+Sana'a
+Operated and maintained internal LAN/Wi-Fi networks and basic router/switch configurations; supported cabling, routine follow-up and logs; documented incidents and suggested stability improvements.
+Private Project (Healthcare & Apparel) | Sales
+2020 – 2022
+Sana'a
+Managed customer relationships, orders and invoices; organized inventory data and prepared simple sales reports; followed up on purchasing and supplier communication.
+Glory of Civilization Schools | Administrative Assistant Trainee
+Jan – Dec 2019
+Sana'a
+Supported daily school operations, events, schedules, and interdepartmental coordination.
+1 — 4
+Memberships
+1 CYBERAI CLUB
+Member of the Artificial Intelligence and Projects Committees.
+2 SOCIETY OF PETROLEUM ENGINEERS (SPE)
+Used SPE technical programs to broaden understanding of petroleum engineering and operations.
+3 Al-Hamdi Foundation for Human Development
+Program participant and volunteer; supported events and peer learning.
+4 Nastatee Charity Association
+Community volunteer supporting youth technology initiatives and event logistics.
+5 Yemen Elite Bloc
+Active in AI/robotics and programming units; peer mentoring and event logistics support.
+Language Skills
+Arabic — Native |
+English — B2 |
+German — B1 |
+Technical Skills
+Dart/Flutter, Android Studio
+Python, HTML/CSS/JS
+C/C++, Java
+Databases
+OOP / Data Structures / Algorithms
+Data Mining: Weka/Orange
+Routing/Switching & Structured Cabling
+Linux & Operating Systems
+Hardware & Troubleshooting
+Interests
+Community: Open source, hackathons, tech-club events, mentoring.
+Personal: Technical reading, sports, scientific research, languages.
+Technical: Web/mobile, modeling & simulation, cloud computing, electrical systems & control.
+References
+Eng. Mohammed Al-Hazmi — +967 774 760 761
+Mohammed Al-Sanea — +967 775 148 168
+Prof. Dr. Fadl Baalawi — +967 777 877 766 — dr.fadlbaalwi@gmail.com
+Eng. Mohammed Al-Aghbari — +967 771 170 176
+Eng. Mohammed Al-Ashwal — +967 777 196 979 — moahmmed_alashwal@asas-realestate.com
+Ms. Rabab Al-Ashwal — +967 770 013 304 — ahrab1981@gmail.com
+2 — 4
+Certifications & Courses
+2026 | CYBERAI Club — Automation & AI Agents
+2025 | Yemen Elite Bloc — Research Development
+2025 | Yemen Intern Platform — Work Ethics, Professional Environment & Teamwork
+2025 | Yemen Elite Bloc (Technology & IT Sector) — Artificial Intelligence Program (Ongoing)
+2025 | Yemen Elite Bloc (Technology & IT Sector) — Front-End Development Bootcamp (Ongoing)
+2025 | New Horizons Institutes — Graphic Design Diploma (In Progress)
+2025 | Sana'a University – Faculty of Engineering — Deep Learning & Computer Vision
+2025 | Sana'a University – Faculty of Engineering — Robotics
+2025 | Sana'a University – Faculty of Engineering — Embedded Systems
+2025 | Sana'a University – Faculty of Engineering — MATLAB
+2025 | Sana'a University – Faculty of Engineering — Network Administration
+2025 | Sana'a University – Faculty of Engineering — Artificial Intelligence & Raspberry Pi
+2025 | New Horizons Institutes — CompTIA A+
+2025 | AI APPROACH CLUB — Data Analysis & Machine Learning
+2024 | Al-Hamdi Foundation — Medical Program (First Aid, Injection Types, Vital Signs)
+2024 | New Horizons Institutes — MikroTik Fundamentals
+2024 | Sana'a University – Faculty of Engineering — Networks
+2024 | Sana'a University – Faculty of Engineering — Programmable Logic Controllers (PLC)
+2024 | Sana'a University – Faculty of Engineering — Arduino
+2024 | Sana'a University – Faculty of Engineering — Solar Energy
+2024 | Al-Hamdi Foundation — Advanced Digital Marketing
+2024 | Al-Hamdi Foundation — Small Project Management
+2024 | Al-Hamdi Foundation — Administrative Program (Business, Human Resources, Customer Service)
+2023 | Al-Hamdi Foundation — Emergency Humanitarian Response — SPHERE Standards
+2020 | New Horizons Institutes — ICDL (International Computer Driving Licence)
+2019 | Science & Technology Center — Mobile Phone Maintenance Diploma
+Open --< Certificate Documents >-- to view them in the repository.
+3 — 4
+Projects & Work
+1) Pump Station Analytics
+Predictive maintenance for wastewater pumps.
+2) Real-Time Image Classification API
+Lightweight Flask service that accepts an image and returns the top three classes.
+3) Real-Time Object Detection
+Live Python/PyTorch + OpenCV pipeline.
+4) OMNIFOOD — Responsive Landing Page
+Single-page layout with a hero section and anchor navigation.
+5) URBANMINDOS — Smart City Operating System
+Showcases autonomous aerial mobility.
+6) Obstacle Avoidance
+Real-time monocular depth estimation with TensorFlow for detection and avoidance.
+7) AI Tic-Tac-Toe
+Unbeatable Minimax AI with an interactive Pygame interface.
+8) Pac-Man with PYGAME
+Version with animation, collision detection, ghost AI, and power-ups.
+9) Text Summarizer
+Desktop application for extractive summarization with adjustable output length.
+10) Inventory & Sales Manager
+CRUD web application for electronics (laptops/phones/PS5).
+11) User & Role Manager
+Create/update users, reset passwords, and assign permissions (Oracle Forms 6i + PL/SQL).
+12) ROBOCAM CONTROLLER (FLUTTER + DART)
+Android application for controlling a camera-equipped robot via an on-screen joystick.
+13) Student Evaluation System
+Attendance and grades system with role-based access (Admin/Teacher/Student) — C# Desktop + PHP Web.
+14) Café POS System
+Login, CRUD items, sales, and reports (Java Swing + JDBC).
+15) MIKROTIK Hotspot Portal
+Dual-WAN RouterOS setup with PPPoE links, a Hotspot portal, and RADIUS.
+16) ARDUINO Traffic Light Controller
+Two-way intersection with safety protections and a pedestrian crossing button.
+Explore my future projects in programming, engineering, and graphic design on --< GITHUB >--
+4 — 4
