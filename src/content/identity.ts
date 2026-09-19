@@ -6,8 +6,8 @@ export const identityContent: Identity = {
   role: "Software Engineer",
   headline: "Software Systems, Full-Stack Engineering & Applied AI",
   bioBrief:
-    "Software engineer combining rigorous academic foundations with hands-on systems implementation, full-stack application development, and quality assurance.",
-  location: "Sana'a, Yemen",
+    "Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces.",
+  location: "Haddah, Sana'a, Yemen",
   email: "hassan1alshami6@gmail.com",
   phone: "+967 772 765 120",
   statusBadge: {
@@ -15,7 +15,7 @@ export const identityContent: Identity = {
     showDot: true,
   },
   educationHighlight:
-    "B.Sc. in Computer Science — International University of Technology Twintech (2021–2025)",
+    "International University of Technology Twintech | B.Sc. in Computer Science | 2021 – 2025",
   focusHeading: "Core Focus",
   focusSubheading: "Active Practice",
   focusPillars: [

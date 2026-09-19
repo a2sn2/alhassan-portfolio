@@ -6,7 +6,7 @@ export const aboutContent: AboutContent = {
   description:
     "Software engineer based in Sana'a, Yemen, specializing in software systems, full-stack application development, and practical engineering solutions.",
   paragraphs: [
-    "I am a software engineer combining academic rigor with hands-on systems implementation. Having completed my B.Sc. in Computer Science at the International University of Technology Twintech (2021–2025), my engineering journey focuses on turning theoretical concepts into practical, reliable digital solutions.",
+    "Software engineer combining academic knowledge with hands-on practice to turn theoretical ideas into tangible outcomes in engineering environments. Strong believer in teamwork, time management, and practical, effective delivery, with a continuous drive for self-development and contribution in dynamic workplaces.",
     "My hands-on experience extends across fintech development, quality leadership, and network systems. At AHD Financial Services (Jaib Wallet), I advanced through developer and operational roles, building internal accounting systems and managing institutional integrations. At Asaas AI, as Co-Founder & Director of Quality Assurance, I established review standards and evaluated system readiness for AI-powered solutions.",
     "My engineering ethos is rooted in end-to-end curiosity: from industrial PLC control loops and network routing (MikroTik RouterOS) to desktop architectures, full-stack web platforms, and real-time computer vision pipelines.",
   ],
@@ -15,25 +15,25 @@ export const aboutContent: AboutContent = {
     degree: "B.Sc. in Computer Science",
     period: "2021 – 2025",
     location: "Sana'a, Yemen",
-    thesisTitle: "Object-Tracking Algorithm on Linux Using Python and OpenCV",
+    thesisTitle: "Object-tracking algorithm on Linux using Python and OpenCV,",
     thesisDescription:
-      "Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results.",
+      "implemented on a live camera feed with real-time visualization of results. See the repository for the final report, transcript, specialization plan, and recommendation letters.",
   },
   languages: [
     {
       language: "Arabic",
-      level: "Native (لغة أم)",
-      proficiency: "Native speaker.",
+      level: "Native |",
+      proficiency: "",
     },
     {
       language: "English",
-      level: "B2",
-      proficiency: "CEFR B2 Level.",
+      level: "B2 |",
+      proficiency: "",
     },
     {
       language: "German",
-      level: "B1",
-      proficiency: "CEFR B1 Level.",
+      level: "B1 |",
+      proficiency: "",
     },
   ],
   principles: [
@@ -54,5 +54,5 @@ export const aboutContent: AboutContent = {
     },
   ],
   referencesNote:
-    "Academic and professional references from faculty leadership, engineering supervisors, and executive directors are available upon request.",
+    "The official English CV record preserves the complete reference list and source wording verbatim.",
 };

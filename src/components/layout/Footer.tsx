@@ -48,6 +48,9 @@ export function Footer() {
                   LinkedIn
                 </a>
               )}
+              <Link href="/official-cv" className={styles.link}>
+                Official CV Record
+              </Link>
               <Link href="/contact" className={styles.link}>
                 Download CV
               </Link>
