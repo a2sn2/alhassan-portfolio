@@ -33,7 +33,8 @@ const PRIMARY_ROUTES = [
   '/experience',
   '/projects',
   '/capabilities',
-  '/contact'
+  '/contact',
+  '/official-cv'
 ];
 
 const REPRESENTATIVE_PROJECT_ROUTE = '/projects/real-time-object-detection';
