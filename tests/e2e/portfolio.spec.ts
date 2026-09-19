@@ -109,7 +109,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     ).toBeVisible();
 
     // Switch to another role via tab click
-    await page.click('button:has-text("AHD Financial Services (Jaib Wallet)")');
+    await page.click('button:has-text("AHD for Financial Services – Jaib Wallet")');
     await expect(detailPanel.locator("text=Deputy Development Manager")).toBeVisible();
 
     // Deep linking via hash parameter
