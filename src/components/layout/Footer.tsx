@@ -1,10 +1,19 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "./Footer.module.css";
 import { Container } from "@/components/ui/Container";
 import { identityContent, navigationContent, socialLinks } from "@/content";
+import { identityContentAr, navigationContentAr } from "@/content/ar";
 
 export function Footer() {
+  const pathname = usePathname();
+  const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
+  const identity = isArabic ? identityContentAr : identityContent;
+  const navigation = isArabic ? navigationContentAr : navigationContent;
+
   const currentYear = new Date().getFullYear();
   const github = socialLinks.find((s) => s.platform === "GitHub");
   const linkedin = socialLinks.find((s) => s.platform === "LinkedIn");
@@ -15,12 +24,14 @@ export function Footer() {
         <div className={styles.inner}>
           <div className={styles.top}>
             <div className={styles.identity}>
-              <span className={styles.name}>{identityContent.fullName}</span>
-              <span className={styles.role}>{identityContent.role} · {identityContent.location}</span>
+              <span className={styles.name}>{identity.fullName}</span>
+              <span className={styles.role}>
+                {identity.role} · {identity.location}
+              </span>
             </div>
 
-            <nav className={styles.navLinks} aria-label="Footer Navigation">
-              {navigationContent.navItems.map((item) => (
+            <nav className={styles.navLinks} aria-label={isArabic ? "روابط تذييل الصفحة" : "Footer Navigation"}>
+              {navigation.navItems.map((item) => (
                 <Link key={item.href} href={item.href} className={styles.link}>
                   {item.label}
                 </Link>
@@ -48,17 +59,23 @@ export function Footer() {
                   LinkedIn
                 </a>
               )}
-              <Link href="/contact" className={styles.link}>
-                Download CV
+              <Link href={isArabic ? "/ar/contact" : "/contact"} className={styles.link}>
+                {isArabic ? "تحميل السيرة الذاتية" : "Download CV"}
               </Link>
             </div>
           </div>
 
           <div className={styles.bottom}>
             <span>
-              © {currentYear} {identityContent.fullName}. All rights reserved.
+              {isArabic
+                ? `© ${currentYear} ${identity.fullName}. جميع الحقوق محفوظة.`
+                : `© ${currentYear} ${identity.fullName}. All rights reserved.`}
             </span>
-            <span>Built with Next.js App Router & JAIB Visual System.</span>
+            <span>
+              {isArabic
+                ? "تم البناء باستخدام Next.js App Router ونظام جيب البصري."
+                : "Built with Next.js App Router & JAIB Visual System."}
+            </span>
           </div>
         </div>
       </Container>

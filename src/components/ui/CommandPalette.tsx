@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useId, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import styles from "./CommandPalette.module.css";
 import { navigationContent, projectItems, contactContent, socialLinks } from "@/content";
+import { navigationContentAr, projectItemsAr, contactContentAr } from "@/content/ar";
 import { cn } from "@/utils/cn";
 
 interface PaletteItem {
   id: string;
-  category: "Navigation" | "Featured Case Studies" | "Documents & Proof" | "Actions & Profiles";
+  category: string;
   title: string;
   description: string;
   action: () => void;
@@ -20,18 +21,30 @@ export function CommandPalette() {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
+  const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const listboxId = useId();
 
+  const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
+
   // Define palette items from verified content
   const allItems: PaletteItem[] = useMemo(() => {
-    const navItems: PaletteItem[] = navigationContent.navItems.map((item) => ({
+    const categoryNav = isArabic ? "التنقل السريع" : "Navigation";
+    const categoryFeatured = isArabic ? "دراسات الحالة المميزة" : "Featured Case Studies";
+    const categoryDocs = isArabic ? "المستندات والإثباتات" : "Documents & Proof";
+    const categoryActions = isArabic ? "الإجراءات والملفات" : "Actions & Profiles";
+
+    const navSource = isArabic ? navigationContentAr.navItems : navigationContent.navItems;
+    const projectSource = isArabic ? projectItemsAr : projectItems;
+    const docSource = isArabic ? contactContentAr.cvDocuments : contactContent.cvDocuments;
+
+    const navItems: PaletteItem[] = navSource.map((item) => ({
       id: `nav-${item.href}`,
-      category: "Navigation",
+      category: categoryNav,
       title: item.label,
-      description: item.description || `Navigate to ${item.label}`,
+      description: item.description || (isArabic ? `الانتقال إلى ${item.label}` : `Navigate to ${item.label}`),
       meta: `0${item.chapterIndex}`,
       action: () => {
         router.push(item.href);
@@ -39,26 +52,26 @@ export function CommandPalette() {
       },
     }));
 
-    const projectNav: PaletteItem[] = projectItems
+    const projectNav: PaletteItem[] = projectSource
       .filter((p) => p.presentationTier === "featured")
       .map((proj) => ({
         id: `proj-${proj.slug}`,
-        category: "Featured Case Studies",
+        category: categoryFeatured,
         title: proj.title,
         description: proj.tagline,
         meta: proj.category,
         action: () => {
-          router.push(`/projects/${proj.slug}`);
+          router.push(isArabic ? `/ar/projects/${proj.slug}` : `/projects/${proj.slug}`);
           setIsOpen(false);
         },
       }));
 
-    const docItems: PaletteItem[] = contactContent.cvDocuments
+    const docItems: PaletteItem[] = docSource
       .filter((doc) => doc.format === "Standard")
       .map((doc) => ({
         id: `doc-${doc.language}`,
-        category: "Documents & Proof",
-        title: `Download CV — ${doc.language}`,
+        category: categoryDocs,
+        title: isArabic ? `تحميل السيرة الذاتية — ${doc.language}` : `Download CV — ${doc.language}`,
         description: `${doc.label} (${doc.filesize || "PDF"})`,
         meta: "PDF",
         action: () => {
@@ -70,10 +83,12 @@ export function CommandPalette() {
     const actionItems: PaletteItem[] = [
       {
         id: "action-theme",
-        category: "Actions & Profiles",
-        title: "Toggle Light / Dark Mode",
-        description: "Switch visual theme between light and dark",
-        meta: "Theme",
+        category: categoryActions,
+        title: isArabic ? "تبديل المظهر الفاتح / الداكن" : "Toggle Light / Dark Mode",
+        description: isArabic
+          ? "التبديل بين الوضع الليلي والنهاري"
+          : "Switch visual theme between light and dark",
+        meta: isArabic ? "المظهر" : "Theme",
         action: () => {
           const current = document.documentElement.getAttribute("data-theme");
           const next = current === "dark" ? "light" : "dark";
@@ -88,10 +103,10 @@ export function CommandPalette() {
       },
       ...socialLinks.map((s) => ({
         id: `social-${s.platform}`,
-        category: "Actions & Profiles" as const,
-        title: `${s.platform} Profile`,
+        category: categoryActions,
+        title: isArabic ? `ملف ${s.platform}` : `${s.platform} Profile`,
         description: s.url,
-        meta: "External",
+        meta: isArabic ? "رابط خارجي" : "External",
         action: () => {
           window.open(s.url, "_blank", "noopener,noreferrer");
           setIsOpen(false);
@@ -100,7 +115,7 @@ export function CommandPalette() {
     ];
 
     return [...navItems, ...projectNav, ...docItems, ...actionItems];
-  }, [router]);
+  }, [router, isArabic]);
 
   // Filter items by query
   const filteredItems = useMemo(() => {
@@ -114,54 +129,56 @@ export function CommandPalette() {
     );
   }, [allItems, query]);
 
+  // Handle open / close lifecycle
+  const openPalette = () => {
+    previousFocusRef.current = document.activeElement as HTMLElement;
+    setIsOpen(true);
+    setQuery("");
+    setSelectedIndex(0);
+  };
+
   const closePalette = () => {
     setIsOpen(false);
     setQuery("");
     setSelectedIndex(0);
-    previousFocusRef.current?.focus();
+    // Return focus to previously focused element
+    setTimeout(() => {
+      previousFocusRef.current?.focus();
+    }, 10);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    setSelectedIndex(0);
-  };
-
-  // Global keydown listener for Ctrl+K / Cmd+K and custom event
+  // Listen for custom open event and keyboard shortcut (Ctrl+K / Cmd+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setIsOpen((prev) => {
-          if (prev) {
-            document.body.style.overflow = "";
-            previousFocusRef.current?.focus();
-            return false;
-          }
-          return true;
-        });
-      } else if (e.key === "Escape") {
-        setIsOpen(false);
-        document.body.style.overflow = "";
-        previousFocusRef.current?.focus();
+        if (isOpen) {
+          closePalette();
+        } else {
+          openPalette();
+        }
+      } else if (e.key === "Escape" && isOpen) {
+        e.preventDefault();
+        closePalette();
       }
     };
 
     const handleCustomOpen = () => {
-      setIsOpen(true);
+      openPalette();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("open-command-palette", handleCustomOpen);
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("open-command-palette", handleCustomOpen);
     };
-  }, []);
+  }, [isOpen]);
 
-  // Manage focus and scrolling when opened
+  // Auto-focus input when opened
   useEffect(() => {
     if (isOpen) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
       document.body.style.overflow = "hidden";
       const timer = setTimeout(() => {
         inputRef.current?.focus();
@@ -175,30 +192,31 @@ export function CommandPalette() {
     }
   }, [isOpen]);
 
-  // Keyboard navigation within the palette
+  // Safe selected index to avoid out-of-bounds selection
+  const safeSelectedIndex =
+    filteredItems.length > 0 && selectedIndex < filteredItems.length
+      ? selectedIndex
+      : 0;
+
+  // Handle keyboard navigation within the listbox
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    setSelectedIndex(0);
+  };
+
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closePalette();
-      return;
-    }
+    if (filteredItems.length === 0) return;
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev + 1) % (filteredItems.length || 1));
-      return;
-    }
-
-    if (e.key === "ArrowUp") {
+      setSelectedIndex((prev) => (prev + 1) % filteredItems.length);
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev - 1 + filteredItems.length) % (filteredItems.length || 1));
-      return;
-    }
-
-    if (e.key === "Enter") {
+      setSelectedIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
+    } else if (e.key === "Enter") {
       e.preventDefault();
-      if (filteredItems[selectedIndex]) {
-        filteredItems[selectedIndex].action();
+      if (filteredItems[safeSelectedIndex]) {
+        filteredItems[safeSelectedIndex].action();
       }
     }
   };
@@ -206,11 +224,11 @@ export function CommandPalette() {
   // Scroll active item into view
   useEffect(() => {
     if (!listRef.current) return;
-    const activeEl = listRef.current.querySelector(`[data-index="${selectedIndex}"]`);
+    const activeEl = listRef.current.querySelector(`[data-index="${safeSelectedIndex}"]`);
     if (activeEl && typeof activeEl.scrollIntoView === "function") {
       activeEl.scrollIntoView({ block: "nearest" });
     }
-  }, [selectedIndex]);
+  }, [safeSelectedIndex]);
 
   if (!isOpen) return null;
 
@@ -229,7 +247,8 @@ export function CommandPalette() {
         className={styles.palette}
         role="dialog"
         aria-modal="true"
-        aria-label="Portfolio Navigator & Command Palette"
+        aria-label={isArabic ? "المستكشف ولوحة الأوامر" : "Portfolio Navigator & Command Palette"}
+        dir={isArabic ? "rtl" : "ltr"}
       >
         <div className={styles.searchBar}>
           <svg
@@ -251,7 +270,11 @@ export function CommandPalette() {
             ref={inputRef}
             type="text"
             className={styles.input}
-            placeholder="Search pages, projects, credentials, actions..."
+            placeholder={
+              isArabic
+                ? "ابحث في الأقسام، والمشاريع، والمستندات..."
+                : "Search pages, projects, credentials, actions..."
+            }
             value={query}
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
@@ -260,7 +283,7 @@ export function CommandPalette() {
             aria-autocomplete="list"
             aria-controls={listboxId}
             aria-activedescendant={
-              filteredItems[selectedIndex] ? `item-${filteredItems[selectedIndex].id}` : undefined
+              filteredItems[safeSelectedIndex] ? `item-${filteredItems[safeSelectedIndex].id}` : undefined
             }
           />
           <kbd className={styles.kbdHint}>ESC</kbd>
@@ -271,11 +294,13 @@ export function CommandPalette() {
           ref={listRef}
           className={styles.resultsList}
           role="listbox"
-          aria-label="Search suggestions"
+          aria-label={isArabic ? "اقتراحات البحث" : "Search suggestions"}
         >
           {filteredItems.length === 0 ? (
             <li className={styles.noResults} role="status">
-              No matching pages, projects, or actions found for &ldquo;{query}&rdquo;.
+              {isArabic
+                ? `لم يتم العثور على صفحات أو مشاريع مطابقة لـ "${query}".`
+                : `No matching pages, projects, or actions found for "${query}".`}
             </li>
           ) : (
             categories.map((cat) => {
@@ -286,7 +311,7 @@ export function CommandPalette() {
                   <ul role="presentation" style={{ listStyle: "none", padding: 0, margin: 0 }}>
                     {catItems.map((item) => {
                       const overallIndex = filteredItems.indexOf(item);
-                      const isSelected = overallIndex === selectedIndex;
+                      const isSelected = overallIndex === safeSelectedIndex;
                       return (
                         <li
                           key={item.id}
@@ -310,6 +335,7 @@ export function CommandPalette() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               aria-hidden="true"
+                              style={{ transform: isArabic ? "scaleX(-1)" : undefined }}
                             >
                               <polyline points="9 18 15 12 9 6" />
                             </svg>
@@ -332,16 +358,16 @@ export function CommandPalette() {
         <div className={styles.footerBar}>
           <div className={styles.footerShortcuts}>
             <span className={styles.footerShortcut}>
-              <kbd>↑</kbd> <kbd>↓</kbd> Navigate
+              <kbd>↑</kbd> <kbd>↓</kbd> {isArabic ? "للتنقل" : "Navigate"}
             </span>
             <span className={styles.footerShortcut}>
-              <kbd>↵</kbd> Select
+              <kbd>↵</kbd> {isArabic ? "للاختيار" : "Select"}
             </span>
             <span className={styles.footerShortcut}>
-              <kbd>ESC</kbd> Close
+              <kbd>ESC</kbd> {isArabic ? "للإغلاق" : "Close"}
             </span>
           </div>
-          <span>ALHassan ALShami — Portfolio</span>
+          <span>{isArabic ? "الحسن الشامي — معرض الأعمال" : "ALHassan ALShami — Portfolio"}</span>
         </div>
       </div>
     </div>

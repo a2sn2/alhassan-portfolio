@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "./ProjectExplorer.module.css";
 import { ProjectItem, ProjectCategory } from "@/contracts/projects";
 import { Badge } from "@/components/ui/Badge";
@@ -14,6 +15,26 @@ interface ProjectExplorerProps {
 
 export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>("All");
+  const pathname = usePathname();
+  const isArabic = pathname.startsWith("/ar");
+
+  const getCategoryLabel = (cat: ProjectCategory) => {
+    if (!isArabic) return cat;
+    switch (cat) {
+      case "All":
+        return "الكل";
+      case "Computer Vision & AI":
+        return "الرؤية الحاسوبية والذكاء الاصطناعي";
+      case "Full-Stack & Web":
+        return "الويب والتطبيقات المتكاملة";
+      case "Systems & Robotics":
+        return "الأنظمة والروبوتات";
+      case "Embedded & IoT":
+        return "الأنظمة المدمجة وإنترنت الأشياء";
+      default:
+        return cat;
+    }
+  };
 
   const filteredItems =
     selectedCategory === "All"
@@ -36,12 +57,15 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
       <div
         className={styles.filterBar}
         role="group"
-        aria-label="Filter projects by engineering category"
+        aria-label={isArabic ? "تصفية المشاريع بحسب المجال التقني" : "Filter projects by engineering category"}
       >
         {categories.map((cat) => {
+          const isAll = cat === "All";
           const isActive = cat === selectedCategory;
-          const count =
-            cat === "All" ? items.length : items.filter((p) => p.category === cat).length;
+
+          const count = isAll
+            ? items.length
+            : items.filter((p) => p.category === cat).length;
 
           return (
             <button
@@ -51,7 +75,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
               onClick={() => setSelectedCategory(cat)}
               aria-pressed={isActive}
             >
-              {cat} ({count})
+              {getCategoryLabel(cat)} ({count})
             </button>
           );
         })}
@@ -62,13 +86,20 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
         <section className={styles.tierSection} aria-labelledby="tier-selected-heading">
           <div className={styles.tierHeader}>
             <div className={styles.tierHeaderLeft}>
-              <span className={styles.tierKicker}>[ 01 — SELECTED WORK ]</span>
+              <span className={styles.tierKicker}>
+                {isArabic ? "[ 01 — أعمال مختارة ]" : "[ 01 — SELECTED WORK ]"}
+              </span>
               <h2 id="tier-selected-heading" className={styles.tierTitle}>
-                Selected Systems & Technical Projects
+                {isArabic ? "مشاريع تقنية وأنظمة منتقاة" : "Selected Systems & Technical Projects"}
               </h2>
             </div>
             <span className={styles.tierCount}>
-              {selectedProjects.length} {selectedProjects.length === 1 ? "Project" : "Projects"}
+              {selectedProjects.length}{" "}
+              {isArabic
+                ? "مشاريع"
+                : selectedProjects.length === 1
+                ? "Project"
+                : "Projects"}
             </span>
           </div>
 
@@ -81,7 +112,9 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                 {/* Technical profile plate derived solely from verified technologies */}
                 <div className={styles.techPlate} aria-hidden="true">
                   <div className={styles.techPlateHeader}>
-                    <span className={styles.techPlateIndex}>PROJECT PROFILE // 0{idx + 1}</span>
+                    <span className={styles.techPlateIndex}>
+                      {isArabic ? `ملف المشروع // 0${idx + 1}` : `PROJECT PROFILE // 0${idx + 1}`}
+                    </span>
                     <span className={styles.techPlateCategory}>{project.category}</span>
                   </div>
                   <div className={styles.techPlateBody}>
@@ -89,13 +122,17 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                       {project.technologies.map((tech, i) => (
                         <div key={tech} className={styles.techMatrixCell}>
                           <span className={styles.techMatrixIndex}>0{i + 1}</span>
-                          <span className={styles.techMatrixName}>{tech}</span>
+                          <span className={styles.techMatrixName}>
+                            <bdi>{tech}</bdi>
+                          </span>
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className={styles.techPlateFooter}>
-                    <span className={styles.techPlateStatus}>TECHNICAL STACK</span>
+                    <span className={styles.techPlateStatus}>
+                      {isArabic ? "الحزمة التقنية" : "TECHNICAL STACK"}
+                    </span>
                     <span className={styles.techPlateTicks}>+ +</span>
                   </div>
                 </div>
@@ -114,7 +151,9 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
 
                   {project.result && (
                     <div className={styles.verifiedOutcome}>
-                      <span className={styles.outcomeLabel}>Project Outcome:</span>
+                      <span className={styles.outcomeLabel}>
+                        {isArabic ? "مخرجات المشروع:" : "Project Outcome:"}
+                      </span>
                       <p className={styles.outcomeText}>{project.result}</p>
                     </div>
                   )}
@@ -122,19 +161,23 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                   <div className={styles.techPills}>
                     {project.technologies.map((tech) => (
                       <span key={tech} className={styles.techPill}>
-                        {tech}
+                        <bdi>{tech}</bdi>
                       </span>
                     ))}
                   </div>
 
                   <div className={styles.cardActions}>
                     <Link
-                      href={`/projects/${project.slug}`}
+                      href={isArabic ? `/ar/projects/${project.slug}` : `/projects/${project.slug}`}
                       className={styles.primaryLink}
-                      aria-label={`Explore Case Study for ${project.title}`}
+                      aria-label={
+                        isArabic
+                          ? `استكشف دراسة الحالة لمشروع ${project.title}`
+                          : `Explore Case Study for ${project.title}`
+                      }
                     >
-                      <span>Explore Case Study</span>
-                      <span aria-hidden="true">→</span>
+                      <span>{isArabic ? "استكشف دراسة الحالة" : "Explore Case Study"}</span>
+                      <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                     </Link>
 
                     {project.githubUrl && (
@@ -145,7 +188,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                         className={styles.externalLink}
                         aria-label={`${project.title} on GitHub`}
                       >
-                        <span>Repository</span>
+                        <span>{isArabic ? "المستودع" : "Repository"}</span>
                         <span aria-hidden="true">↗</span>
                       </a>
                     )}
@@ -162,13 +205,20 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
         <section className={styles.tierSection} aria-labelledby="tier-core-heading">
           <div className={styles.tierHeader}>
             <div className={styles.tierHeaderLeft}>
-              <span className={styles.tierKicker}>[ 02 — CORE ENGINEERING ]</span>
+              <span className={styles.tierKicker}>
+                {isArabic ? "[ 02 — هندسة أساسية ]" : "[ 02 — CORE ENGINEERING ]"}
+              </span>
               <h2 id="tier-core-heading" className={styles.tierTitle}>
-                Core Engineering Projects
+                {isArabic ? "مشاريع هندسية أساسية" : "Core Engineering Projects"}
               </h2>
             </div>
             <span className={styles.tierCount}>
-              {coreProjects.length} {coreProjects.length === 1 ? "Project" : "Projects"}
+              {coreProjects.length}{" "}
+              {isArabic
+                ? "مشاريع"
+                : coreProjects.length === 1
+                ? "Project"
+                : "Projects"}
             </span>
           </div>
 
@@ -191,7 +241,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                 <div className={styles.techPills}>
                   {project.technologies.slice(0, 4).map((tech) => (
                     <span key={tech} className={styles.techPill}>
-                      {tech}
+                      <bdi>{tech}</bdi>
                     </span>
                   ))}
                   {project.technologies.length > 4 && (
@@ -201,12 +251,16 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
 
                 <div className={styles.cardActions}>
                   <Link
-                    href={`/projects/${project.slug}`}
+                    href={isArabic ? `/ar/projects/${project.slug}` : `/projects/${project.slug}`}
                     className={styles.secondaryLink}
-                    aria-label={`Explore Case Study for ${project.title}`}
+                    aria-label={
+                      isArabic
+                        ? `استكشف دراسة الحالة لمشروع ${project.title}`
+                        : `Explore Case Study for ${project.title}`
+                    }
                   >
-                    <span>Explore Case Study</span>
-                    <span aria-hidden="true">→</span>
+                    <span>{isArabic ? "استكشف دراسة الحالة" : "Explore Case Study"}</span>
+                    <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                   </Link>
 
                   {project.githubUrl && (
@@ -217,7 +271,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                       className={styles.externalLink}
                       aria-label={`${project.title} on GitHub`}
                     >
-                      <span>Code</span>
+                      <span>{isArabic ? "الكود" : "Code"}</span>
                       <span aria-hidden="true">↗</span>
                     </a>
                   )}
@@ -233,23 +287,30 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
         <section className={styles.tierSection} aria-labelledby="tier-archive-heading">
           <div className={styles.tierHeader}>
             <div className={styles.tierHeaderLeft}>
-              <span className={styles.tierKicker}>[ 03 — ENGINEERING ARCHIVE ]</span>
+              <span className={styles.tierKicker}>
+                {isArabic ? "[ 03 — الأرشيف الهندسي ]" : "[ 03 — ENGINEERING ARCHIVE ]"}
+              </span>
               <h2 id="tier-archive-heading" className={styles.tierTitle}>
-                Engineering Archive & Academic Work
+                {isArabic ? "الأرشيف الهندسي والأعمال الأكاديمية" : "Engineering Archive & Academic Work"}
               </h2>
             </div>
             <span className={styles.tierCount}>
-              {archiveProjects.length} {archiveProjects.length === 1 ? "Project" : "Projects"}
+              {archiveProjects.length}{" "}
+              {isArabic
+                ? "مشاريع"
+                : archiveProjects.length === 1
+                ? "Project"
+                : "Projects"}
             </span>
           </div>
 
           <div className={styles.archiveTableContainer}>
             {/* Desktop Table Header */}
             <div className={styles.archiveTableHeader} aria-hidden="true">
-              <span className={styles.colProject}>Project</span>
-              <span className={styles.colDomain}>Domain</span>
-              <span className={styles.colTech}>Technologies</span>
-              <span className={styles.colAction}>Action</span>
+              <span className={styles.colProject}>{isArabic ? "المشروع" : "Project"}</span>
+              <span className={styles.colDomain}>{isArabic ? "المجال" : "Domain"}</span>
+              <span className={styles.colTech}>{isArabic ? "التقنيات" : "Technologies"}</span>
+              <span className={styles.colAction}>{isArabic ? "الإجراء" : "Action"}</span>
             </div>
 
             {/* Archive Rows */}
@@ -272,7 +333,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                     <div className={styles.techPills}>
                       {project.technologies.slice(0, 3).map((tech) => (
                         <span key={tech} className={styles.techPill}>
-                          {tech}
+                          <bdi>{tech}</bdi>
                         </span>
                       ))}
                       {project.technologies.length > 3 && (
@@ -283,12 +344,16 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
 
                   <div className={styles.archiveActionCell}>
                     <Link
-                      href={`/projects/${project.slug}`}
+                      href={isArabic ? `/ar/projects/${project.slug}` : `/projects/${project.slug}`}
                       className={styles.archiveLink}
-                      aria-label={`Explore Case Study for ${project.title}`}
+                      aria-label={
+                        isArabic
+                          ? `استكشف دراسة الحالة لمشروع ${project.title}`
+                          : `Explore Case Study for ${project.title}`
+                      }
                     >
-                      <span>Details</span>
-                      <span aria-hidden="true">→</span>
+                      <span>{isArabic ? "التفاصيل" : "Details"}</span>
+                      <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                     </Link>
                     {project.githubUrl && (
                       <a
@@ -298,7 +363,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                         className={styles.externalLink}
                         aria-label={`${project.title} on GitHub`}
                       >
-                        <span>Code</span>
+                        <span>{isArabic ? "الكود" : "Code"}</span>
                         <span aria-hidden="true">↗</span>
                       </a>
                     )}

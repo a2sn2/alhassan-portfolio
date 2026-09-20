@@ -481,4 +481,250 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(contactBody).not.toContain("+967 774 760 761");
     expect(contactBody).not.toContain("+967 777 877 766");
   });
+
+  // ============================================================
+  // ARABIC PORTFOLIO PARITY & RTL USER EXPERIENCE TESTS
+  // ============================================================
+
+  test("TC-14: Arabic Homepage (/ar) loads with verified Arabic identity, RTL root, and focus pillars", async ({
+    page,
+  }) => {
+    const response = await page.goto("/ar");
+    expect(response?.status()).toBe(200);
+
+    // Document lang and dir
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ar");
+
+    // Canonical title in Arabic
+    await expect(page).toHaveTitle(/الحسن بليغ الشامي/);
+
+    // Hero h1 and verified name
+    const h1 = page.locator("h1");
+    await expect(h1).toBeVisible();
+    await expect(h1).toContainText("الحسن");
+    await expect(h1).toContainText("بليغ الشامي");
+
+    // Availability and location
+    await expect(page.locator("text=متاح للفرص الهندسية والتقنية")).toBeVisible();
+    await expect(page.locator("main").locator("text=حدة – صنعاء – اليمن")).toBeVisible();
+
+    // Featured Work and Experience snapshots exist on Arabic Homepage
+    await expect(page.locator("text=أعمال هندسية مختارة")).toBeVisible();
+    await expect(page.locator("text=أبرز المحطات التشغيلية والقيادية")).toBeVisible();
+
+    // Chapter navigation indicates Chapter 01
+    await expect(page.locator("text=الفصل 01 / 06")).toBeVisible();
+  });
+
+  test("TC-15: Bidirectional language switcher preserves exact route", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. From /about -> /ar/about
+    await page.goto("/about");
+    const langSwitchEn = page.locator('header [class*="controlsGroup"] a:has-text("العربية"), header a:has-text("العربية")').first();
+    await expect(langSwitchEn).toBeVisible();
+    await langSwitchEn.click();
+    await page.waitForURL("**/ar/about");
+    await expect(page.locator("h1")).toContainText("الهندسة من الأسس الأكاديمية إلى الأنظمة الإنتاجية");
+
+    // 2. From /ar/about -> /about
+    const langSwitchAr = page.locator('header [class*="controlsGroup"] a:has-text("English"), header a:has-text("English")').first();
+    await expect(langSwitchAr).toBeVisible();
+    await langSwitchAr.click();
+    await page.waitForURL("**/about");
+    await expect(page.locator("h1")).toContainText("Engineering from Academic Foundations to Production Systems");
+
+    // 3. From project detail /projects/real-time-object-detection -> /ar/projects/real-time-object-detection
+    await page.goto("/projects/real-time-object-detection");
+    await page.locator('header [class*="controlsGroup"] a:has-text("العربية"), header a:has-text("العربية")').first().click();
+    await page.waitForURL("**/ar/projects/real-time-object-detection");
+    await expect(page.locator("h1")).toContainText("كشف الأجسام بالزمن الحقيقي");
+
+    // 4. From /ar/projects/real-time-object-detection -> /projects/real-time-object-detection
+    await page.locator('header [class*="controlsGroup"] a:has-text("English"), header a:has-text("English")').first().click();
+    await page.waitForURL("**/projects/real-time-object-detection");
+    await expect(page.locator("h1")).toContainText("Real-Time Object Detection");
+  });
+
+  test("TC-16: Arabic multi-page navigation links navigate to all 6 primary Arabic routes", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/ar");
+
+    const routes = [
+      { href: "/ar/about", heading: "الهندسة من الأسس الأكاديمية إلى الأنظمة الإنتاجية" },
+      { href: "/ar/experience", heading: "الخبرات العملية والمسار التشغيلي" },
+      { href: "/ar/projects", heading: "المشاريع عبر الأنظمة، والرؤية، والتطبيقات" },
+      { href: "/ar/capabilities", heading: "القدرات التقنية ومصفوفة الهندسة" },
+      { href: "/ar/contact", heading: "تواصل معي واحصل على المستندات الرسمية" },
+    ];
+
+    for (const r of routes) {
+      await page.click(`header nav a[href="${r.href}"]`);
+      await page.waitForURL(`**${r.href}`);
+      await expect(page.locator("h1")).toContainText(r.heading);
+      // Ensure RTL is maintained on every route
+      const dir = await page.locator("html").getAttribute("dir");
+      expect(dir).toBe("rtl");
+    }
+  });
+
+  test("TC-17: Arabic Command Palette opens, searches in Arabic, and navigates", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/ar");
+
+    // Open palette via Arabic header trigger button ("تنقل")
+    const searchBtn = page.locator('header button[aria-label*="لوحة الأوامر"]').first();
+    await expect(searchBtn).toBeVisible();
+    await searchBtn.click();
+
+    const dialog = page.getByRole("dialog", {
+      name: "المستكشف ولوحة الأوامر",
+    });
+    await expect(dialog).toBeVisible();
+
+    // Search input exists and receives focus
+    const input = page.locator('input[placeholder*="ابحث"]');
+    await expect(input).toBeFocused();
+
+    // Type query to filter in Arabic
+    await input.fill("الخبرات");
+    const resultItem = dialog.locator('[role="option"]:has-text("الخبرات العملية")');
+    await expect(resultItem).toBeVisible();
+
+    // Navigate via click
+    await resultItem.click();
+    await page.waitForURL("**/ar/experience");
+    await expect(page.locator("h1")).toContainText("الخبرات العملية والمسار التشغيلي");
+  });
+
+  test("TC-18: Arabic Experience Explorer and Project Explorer Case Study degradation", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. Experience Explorer in Arabic
+    await page.goto("/ar/experience");
+    const roleButtons = page.locator("button[role='tab']");
+    await expect(roleButtons).toHaveCount(9);
+
+    const detailPanel = page.locator('[role="tabpanel"]');
+    await expect(detailPanel.locator("text=شركة أساس الذكاء الاصطناعي")).toBeVisible();
+    await expect(
+      detailPanel.locator("text=شريك مؤسس و مدير إدارة ضمان الجودة")
+    ).toBeVisible();
+
+    // Switch tab
+    await page.click('button:has-text("المؤسسة المحلية للمياه والصرف الصحي")');
+    await expect(detailPanel.locator("text=متدرب مهندس تحكّم")).toBeVisible();
+
+    // 2. Project Explorer in Arabic
+    await page.goto("/ar/projects");
+    const articles = page.locator("article");
+    await expect(articles).toHaveCount(16);
+
+    // Filter by 'الرؤية الحاسوبية والذكاء الاصطناعي'
+    await page.click('button:has-text("الرؤية الحاسوبية والذكاء الاصطناعي")');
+    const filtered = page.locator("article");
+    expect(await filtered.count()).toBe(5);
+
+    // Navigate to rich case study
+    await page.click('a[href="/ar/projects/real-time-object-detection"]');
+    await page.waitForURL("**/ar/projects/real-time-object-detection");
+    await expect(page.locator("h1")).toContainText("كشف الأجسام بالزمن الحقيقي");
+    await expect(page.locator("text=المشكلة وسياق الهندسة").first()).toBeVisible();
+    await expect(page.locator('h2:has-text("الحل الهندسي المنفّذ")')).toBeVisible();
+    await expect(page.locator("text=النتائج المعتمدة ونطاق التسليم").first()).toBeVisible();
+
+    // Backlink points to /ar/projects
+    const backLink = page.locator('a:has-text("العودة إلى كافة المشاريع")');
+    await expect(backLink).toBeVisible();
+    expect(await backLink.getAttribute("href")).toBe("/ar/projects");
+
+    // Navigate to concise project profile (Basic Tier)
+    await page.goto("/ar/projects/pump-station-analytics");
+    await expect(page.locator("h1")).toContainText("تحليلات محطة الضخ");
+    await expect(page.locator("text=نطاق المشروع وملخصه")).toBeVisible();
+    await expect(page.locator("text=التقنيات المعتمدة")).toBeVisible();
+  });
+
+  test("TC-19: Arabic Capabilities Matrix & Contact Official CV Downloads", async ({
+    page,
+  }) => {
+    // 1. Capabilities
+    await page.goto("/ar/capabilities");
+    await expect(page.locator("h1")).toContainText(
+      "القدرات التقنية ومصفوفة الهندسة"
+    );
+    await expect(page.locator("text=التخصصات والكفاءات الهندسية")).toBeVisible();
+    await expect(page.locator("text=CYBERAI CLUB").first()).toBeVisible();
+    await expect(page.locator("text=تكتل نخبة اليمن").first()).toBeVisible();
+    const repoBtn = page.locator('a[href*="github.com/a2sn2/certificates"]');
+    await expect(repoBtn).toBeVisible();
+
+    // 2. Contact
+    await page.goto("/ar/contact");
+    await expect(page.locator("text=hassan1alshami6@gmail.com")).toBeVisible();
+    await expect(page.locator("text=+967772765120")).toBeVisible();
+    await expect(page.locator("text=سياسة المعرفين المهنيين")).toBeVisible();
+
+    // Verify all 6 CV download links exist on Arabic contact page
+    const cvFiles = [
+      "ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      "ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      "ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      "ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+    ];
+    for (const file of cvFiles) {
+      const link = page.locator(`a[href="/cv/${file}"]`);
+      await expect(link).toBeVisible();
+    }
+  });
+
+  test("TC-20: Arabic responsive sanity (zero horizontal overflow across all Arabic routes)", async ({
+    page,
+  }) => {
+    const viewports = [
+      { name: "Desktop 1440", width: 1440, height: 900 },
+      { name: "Laptop 1280", width: 1280, height: 800 },
+      { name: "Tablet 768", width: 768, height: 1024 },
+      { name: "Mobile 390", width: 390, height: 844 },
+      { name: "Narrow 320", width: 320, height: 568 },
+    ];
+
+    const routes = [
+      "/ar",
+      "/ar/about",
+      "/ar/experience",
+      "/ar/projects",
+      "/ar/projects/real-time-object-detection",
+      "/ar/projects/pump-station-analytics",
+      "/ar/capabilities",
+      "/ar/contact",
+    ];
+
+    for (const vp of viewports) {
+      await page.setViewportSize({ width: vp.width, height: vp.height });
+      for (const route of routes) {
+        await page.goto(route);
+
+        const hasHorizontalOverflow = await page.evaluate(() => {
+          return document.documentElement.scrollWidth > window.innerWidth;
+        });
+
+        expect(
+          hasHorizontalOverflow,
+          `Horizontal scroll detected on ${vp.name} (${vp.width}px) at ${route}`
+        ).toBe(false);
+      }
+    }
+  });
 });

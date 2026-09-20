@@ -8,13 +8,16 @@ interface CopyEmailButtonProps {
   email?: string;
   className?: string;
   variant?: "default" | "compact";
+  locale?: "en" | "ar";
 }
 
 export function CopyEmailButton({
   email = "hassan1alshami6@gmail.com",
   className,
   variant = "default",
+  locale = "en",
 }: CopyEmailButtonProps) {
+  const isAr = locale === "ar";
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -50,7 +53,11 @@ export function CopyEmailButton({
           copied && styles.copied,
           className
         )}
-        aria-label="Copy email address to clipboard"
+        aria-label={
+          isAr
+            ? "نسخ عنوان البريد الإلكتروني إلى الحافظة"
+            : "Copy email address to clipboard"
+        }
       >
         <svg
           className={styles.copyIcon}
@@ -71,12 +78,24 @@ export function CopyEmailButton({
             </>
           )}
         </svg>
-        <span>{copied ? "Copied to Clipboard" : "Copy Email"}</span>
+        <span>
+          {copied
+            ? isAr
+              ? "تم النسخ إلى الحافظة"
+              : "Copied to Clipboard"
+            : isAr
+            ? "نسخ البريد الإلكتروني"
+            : "Copy Email"}
+        </span>
       </button>
 
       {/* Screen-reader announcement container */}
       <span className={styles.srOnly} aria-live="polite">
-        {copied ? "Email address copied to clipboard" : ""}
+        {copied
+          ? isAr
+            ? "تم نسخ عنوان البريد الإلكتروني إلى الحافظة"
+            : "Email address copied to clipboard"
+          : ""}
       </span>
     </div>
   );
