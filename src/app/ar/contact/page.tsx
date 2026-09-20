@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: `التواصل وتحميل السيرة الذاتية | ${siteMetadataAr.author.name}`,
     description: contactContentAr.description,
     url: `${siteMetadataAr.siteUrl}/ar/contact`,
-    locale: "ar_AR",
+    locale: siteMetadataAr.locale,
   },
 };
 
@@ -77,9 +77,9 @@ export default function ArabicContactPage() {
             </div>
 
             <div className={styles.noticeCard}>
-              <span className={styles.noticeTitle}>الموقع والنطاق الزمني</span>
+              <span className={styles.noticeTitle}>الموقع الجغرافي</span>
               <p className={styles.noticeText}>
-                المقر: صنعاء، اليمن (UTC+3). متاح للفرص الهندسية بدوام كامل، والعمل عن بُعد، والشراكات التقنية والاستشارية.
+                المقر: صنعاء، اليمن.
               </p>
             </div>
           </div>

@@ -1,5 +1,5 @@
 /**
- * Canonical Arabic Standard CV Professional Experience
+ * Canonical Arabic Standard CV Experience (الخبرات العملية)
  *
  * Source: docs/ALHassan_Baligh_ALShami_CV_Package/العربية/السيرة الذاتية - الحسن بليغ الشامي - النسخة العادية.pdf (Page 1)
  */
@@ -49,15 +49,15 @@ export const canonicalExperienceOrganizationsAr: CanonicalOrganizationItemAr[] =
       {
         id: "ahd-deputy-dev-manager",
         role: "نائب إدارة التطوير",
-        period: "2026/07 - الآن",
+        period: "2026/07 – الآن",
         location: "صنعاء",
         summary:
-          "تنظيم وإدارة المشاريع و تحليل متطلبات التطوير الداخلي و تنفيذ تكامل الأنظمة مع المؤسسات الأخرى.",
+          "تنظيم وإدارة المشاريع و تحليل متطلبات التطوير الداخلي و تنفيذ تكامل الأنظمة مع المؤسسات الأخرى",
       },
       {
         id: "ahd-developer",
         role: "مُطوِّر في قسم التطوير",
-        period: "2026/01 - 2026/07",
+        period: "2026/01 – 2026/07",
         location: "صنعاء",
         summary:
           "بناء منتج حقيقي لإدارة العمليات والمحاسبة، متكامل مع مسارات عمل محفظة جيب، وتطوير البرمجيات.",
@@ -65,7 +65,7 @@ export const canonicalExperienceOrganizationsAr: CanonicalOrganizationItemAr[] =
       {
         id: "ahd-dev-trainee",
         role: "متدرب في قسم التطوير",
-        period: "2025/12 - 2026/01",
+        period: "2025/12 – 2026/01",
         location: "صنعاء",
         summary:
           "خبرة منطق الخلفية المعتمد على .NET، وقواعد بيانات SQL، وميزات تطبيقات الويب، والاختبار، ومعالجة المشكلات.",
@@ -83,14 +83,14 @@ export const canonicalExperienceOrganizationsAr: CanonicalOrganizationItemAr[] =
   {
     id: "water-sanitation-corp",
     company: "المؤسسة المحلية للمياه والصرف الصحي",
-    period: "2024(08-12)",
-    location: "الحديده",
+    period: "2024(08–12)",
+    location: "الحديدة",
     roles: [
       {
         id: "water-control-trainee",
         role: "متدرب مهندس تحكّم",
-        period: "2024(08-12)",
-        location: "الحديده",
+        period: "2024(08–12)",
+        location: "الحديدة",
         summary:
           "مراقبة لوحات الـPLC والإشارات الحقلية (المضخات، المناسيب، الإنذارات). المساهمة في الصيانة الوقائية، التمديدات، واستكشاف أعطال حلقات التحكم. التنسيق مع الفنيين وتوثيق الأعطال وضمان إعادة التشغيل الآمن.",
       },
@@ -99,16 +99,16 @@ export const canonicalExperienceOrganizationsAr: CanonicalOrganizationItemAr[] =
   {
     id: "al-rahma-foundation",
     company: "مؤسسة الرحمة",
-    period: "2023(01-12)",
+    period: "2023(01–12)",
     location: "صنعاء",
     roles: [
       {
         id: "al-rahma-network-trainee",
         role: "متدرب مهندس شبكات",
-        period: "2023(01-12)",
+        period: "2023(01–12)",
         location: "صنعاء",
         summary:
-          "تشغيل وصيانة شبكات LAN/Wi-Fi داخلية وإعدادات أساسية للموجّهات والمبدّلات. دعم تنظيم التوصيل، والمتابعة الدورية والسجلات، توثيق الحوادث واقتراح تحسينات الاستقرار.",
+          "تشغيل وصيانة شبكات LAN/Wi-Fi داخلية وإعدادات أساسية للموجّهات والمبدّلات. دعم تنظيم التوصيل، والمتابعة الدورية والسجلات. توثيق الحوادث واقتراح تحسينات الاستقرار.",
       },
     ],
   },
@@ -124,23 +124,23 @@ export const canonicalExperienceOrganizationsAr: CanonicalOrganizationItemAr[] =
         period: "2020 - 2022",
         location: "صنعاء",
         summary:
-          "إدارة علاقات العملاء والطلبات والفواتير، تنظيم بيانات المخزون وإعداد تقارير مبيعات بسيطة، متابعة المشتريات والتواصل مع المورّدين.",
+          "إدارة علاقات العملاء والطلبات والفواتير. تنظيم بيانات المخزون وإعداد تقارير مبيعات بسيطة. متابعة المشتريات والتواصل مع المورّدين.",
       },
     ],
   },
   {
     id: "glory-civilization-schools",
     company: "مدارس مجد الحضارة",
-    period: "2019(01-12)",
+    period: "2019(01–12)",
     location: "صنعاء",
     roles: [
       {
         id: "glory-schools-admin-trainee",
         role: "متدرب مساعد إداري",
-        period: "2019(01-12)",
+        period: "2019(01–12)",
         location: "صنعاء",
         summary:
-          "دعم عمليات اليوم الدراسي والفعاليات المدرسية، تنسيق الجداول والاتصال بين الأقسام.",
+          "دعم عمليات اليوم الدراسي والفعاليات المدرسية. تنسيق الجداول والاتصال بين الأقسام.",
       },
     ],
   },

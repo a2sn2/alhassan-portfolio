@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { aboutContentAr } from "@/content/ar/about";
+import { siteMetadataAr } from "@/content/ar/siteMetadata";
 import styles from "../../about/about.module.css";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
     title: "نبذة عن المسيرة الهندسية والملف الشخصي | الحسن بليغ الشامي",
     description: aboutContentAr.description,
     url: "/ar/about",
+    locale: siteMetadataAr.locale,
   },
 };
 

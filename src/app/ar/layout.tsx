@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { siteMetadataAr } from "@/content/ar/siteMetadata";
-import { ArabicDocumentSync } from "@/components/layout/ArabicDocumentSync";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://alhassan-portfolio-phi.vercel.app"),
@@ -41,7 +40,6 @@ export default function ArabicLayout({
 }) {
   return (
     <div dir="rtl" lang="ar" className="arabic-route-root" style={{ width: "100%" }}>
-      <ArabicDocumentSync />
       {children}
     </div>
   );

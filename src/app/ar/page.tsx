@@ -154,7 +154,7 @@ export default function ArabicHomePage() {
 
             <div className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>
-                {credentialsContentAr.certifications.length} شهادة تخصصية معتمدة
+                {credentialsContentAr.certifications.length} شهادة ودورة
               </h3>
               <p className={styles.capText}>
                 {credentialsContentAr.overviewText}

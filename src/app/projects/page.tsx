@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   description: projectsContent.description,
   alternates: {
     canonical: `${siteMetadata.siteUrl}/projects`,
+    languages: {
+      en: `${siteMetadata.siteUrl}/projects`,
+      ar: `${siteMetadata.siteUrl}/ar/projects`,
+    },
   },
   openGraph: {
     title: `Engineering Projects | ${siteMetadata.author.name}`,

@@ -31,14 +31,14 @@ export const canonicalProjectsAr: CanonicalProjectItemAr[] = [
     slug: "real-time-object-detection",
     index: 3,
     title: "كشف الأجسام بالزمن الحقيقي",
-    oneLineDescription: "خط أنابيب حي بـ Python/PyTorch و OpenCV.",
+    oneLineDescription: "خط أنابيب حي بـ PyTorch/Python و OpenCV.",
   },
   {
     id: "proj-4",
     slug: "omnifood-landing-page",
     index: 4,
     title: "OMNIFOOD — صفحة متجاوبة",
-    oneLineDescription: "صفحة واحدة مع قسم بطولي وتنقل مرسى.",
+    oneLineDescription: "صفحة واحدة مع قسم بطولي وتنقّل مرسى.",
   },
   {
     id: "proj-5",
@@ -108,14 +108,14 @@ export const canonicalProjectsAr: CanonicalProjectItemAr[] = [
     slug: "cafe-pos-system",
     index: 14,
     title: "نظام نقاط بيع لمقهى",
-    oneLineDescription: "دخول، العناصر (CRUD)، والمبيعات/التقارير. (Java Swing + JDBC)",
+    oneLineDescription: "دخول، العناصر (CRUD)، والمبيعات/التقارير — (Java Swing + JDBC).",
   },
   {
     id: "proj-15",
     slug: "mikrotik-hotspot-portal",
     index: 15,
     title: "بوابة هوتسبوت MIKROTIK",
-    oneLineDescription: "إعداد RouterOS مع رابطي PPPoE وبوابة Hotspot مع RADIUS. (ثنائية الوصلات Dual-WAN)",
+    oneLineDescription: "ثنائية الوصلات (Dual-WAN) — إعداد RouterOS مع رابطي PPPoE وبوابة Hotspot مع RADIUS.",
   },
   {
     id: "proj-16",

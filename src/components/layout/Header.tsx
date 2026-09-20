@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import { Container } from "@/components/ui/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -13,6 +13,7 @@ import { cn } from "@/utils/cn";
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const firstDrawerLinkRef = useRef<HTMLAnchorElement>(null);
 
@@ -27,6 +28,39 @@ export function Header() {
     : pathname === "/"
     ? "/ar"
     : `/ar${pathname}`;
+
+  const [urlSuffix, setUrlSuffix] = useState("");
+
+  useEffect(() => {
+    const updateSuffix = () => {
+      const search = window.location.search || "";
+      const hash = window.location.hash || "";
+      setUrlSuffix(`${search}${hash}`);
+    };
+
+    updateSuffix();
+    window.addEventListener("hashchange", updateSuffix);
+    window.addEventListener("popstate", updateSuffix);
+    return () => {
+      window.removeEventListener("hashchange", updateSuffix);
+      window.removeEventListener("popstate", updateSuffix);
+    };
+  }, [pathname]);
+
+  const targetLocaleHref = `${targetLocalePath}${urlSuffix}`;
+
+  const handleLangSwitchClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleLinkClick();
+    if (typeof window !== "undefined") {
+      const search = window.location.search || "";
+      const hash = window.location.hash || "";
+      const latestTarget = `${targetLocalePath}${search}${hash}`;
+      if (latestTarget !== targetLocaleHref) {
+        e.preventDefault();
+        router.push(latestTarget);
+      }
+    }
+  };
 
   const homeHref = isArabic ? "/ar" : "/";
   const github = socialLinks.find((s) => s.platform === "GitHub");
@@ -150,7 +184,8 @@ export function Header() {
 
               {/* Language Switcher */}
               <Link
-                href={targetLocalePath}
+                href={targetLocaleHref}
+                onClick={handleLangSwitchClick}
                 className={styles.langSwitch}
                 aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
                 title={isArabic ? "English" : "العربية"}
@@ -167,7 +202,8 @@ export function Header() {
           {/* Mobile Header Controls */}
           <div className={styles.mobileControls}>
             <Link
-              href={targetLocalePath}
+              href={targetLocaleHref}
+              onClick={handleLangSwitchClick}
               className={styles.langSwitchMobile}
               aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
               title={isArabic ? "English" : "العربية"}
@@ -250,9 +286,9 @@ export function Header() {
             <div className={styles.drawerLangRow}>
               <span>{isArabic ? "اللغة" : "Language"}</span>
               <Link
-                href={targetLocalePath}
+                href={targetLocaleHref}
                 className={styles.langSwitch}
-                onClick={handleLinkClick}
+                onClick={handleLangSwitchClick}
                 aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
                 lang={isArabic ? "en" : "ar"}
                 dir={isArabic ? "ltr" : "rtl"}

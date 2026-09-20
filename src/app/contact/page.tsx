@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   description: contactContent.description,
   alternates: {
     canonical: `${siteMetadata.siteUrl}/contact`,
+    languages: {
+      en: `${siteMetadata.siteUrl}/contact`,
+      ar: `${siteMetadata.siteUrl}/ar/contact`,
+    },
   },
   openGraph: {
     title: `Contact & Official CV Downloads | ${siteMetadata.author.name}`,

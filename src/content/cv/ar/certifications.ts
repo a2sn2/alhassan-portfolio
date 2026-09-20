@@ -174,4 +174,4 @@ export const canonicalCertificationsAr: CanonicalCertificationItemAr[] = [
 ];
 
 export const canonicalCertificationsRepositoryNoticeAr =
-  "اضغط --< مستندات الشهادات >-- لفتح مكان وجودهم داخل المستودع";
+  "اضغط --< مستندات الشهائد >-- لفتح مكان وجودهم داخل المستودع";

@@ -727,4 +727,148 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       }
     }
   });
+
+  test("TC-21: Document Locale Sync on direct Arabic load and bidirectional transitions", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. Direct load of Arabic URL
+    await page.goto("/ar/about");
+    expect(await page.locator("html").getAttribute("lang")).toBe("ar");
+    expect(await page.locator("html").getAttribute("dir")).toBe("rtl");
+
+    // Switch to English — use regex with negative lookahead to exclude /ar/about
+    const switchEn = page.locator('header a:has-text("English")').first();
+    await expect(switchEn).toBeVisible();
+    await switchEn.click();
+    // /^(?!.*\/ar\/).*\/about/ matches /about but NOT /ar/about
+    await page.waitForURL(/^(?!.*\/ar\/).*\/about/);
+    await page.waitForLoadState("domcontentloaded");
+    expect(page.url()).toContain("/about");
+    expect(page.url()).not.toContain("/ar");
+    expect(await page.locator("html").getAttribute("lang")).toBe("en");
+    expect(await page.locator("html").getAttribute("dir")).toBe("ltr");
+
+    // Switch back to Arabic
+    const switchAr = page.locator('header a:has-text("العربية")').first();
+    await expect(switchAr).toBeVisible();
+    await switchAr.click();
+    await page.waitForURL(/\/ar\/about/);
+    await page.waitForLoadState("domcontentloaded");
+    expect(page.url()).toContain("/ar/about");
+    expect(await page.locator("html").getAttribute("lang")).toBe("ar");
+    expect(await page.locator("html").getAttribute("dir")).toBe("rtl");
+  });
+
+  test("TC-22: Document Locale Sync on direct English load and transitions", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. Direct load of English URL
+    await page.goto("/about");
+    expect(await page.locator("html").getAttribute("lang")).toBe("en");
+    expect(await page.locator("html").getAttribute("dir")).toBe("ltr");
+
+    // Switch to Arabic
+    const switchAr = page.locator('header a:has-text("العربية")').first();
+    await expect(switchAr).toBeVisible();
+    await switchAr.click();
+    await page.waitForURL(/\/ar\/about/);
+    await page.waitForLoadState("domcontentloaded");
+    expect(page.url()).toContain("/ar/about");
+    expect(await page.locator("html").getAttribute("lang")).toBe("ar");
+    expect(await page.locator("html").getAttribute("dir")).toBe("rtl");
+
+    // Switch back to English — use regex with negative lookahead to exclude /ar/about
+    const switchEn = page.locator('header a:has-text("English")').first();
+    await expect(switchEn).toBeVisible();
+    await switchEn.click();
+    // /^(?!.*\/ar\/).*\/about/ matches /about but NOT /ar/about
+    await page.waitForURL(/^(?!.*\/ar\/).*\/about/);
+    await page.waitForLoadState("domcontentloaded");
+    expect(page.url()).toContain("/about");
+    expect(await page.locator("html").getAttribute("lang")).toBe("en");
+    expect(await page.locator("html").getAttribute("dir")).toBe("ltr");
+  });
+
+  test("TC-23: Language Switcher preserves query parameters and hash anchors", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. Deep link hash preservation: /experience#ahd-financial-deputy -> /ar/experience#ahd-financial-deputy
+    await page.goto("/experience#ahd-financial-deputy");
+    const switchAr = page.locator('header a:has-text("العربية")').first();
+    await expect(switchAr).toBeVisible();
+    await switchAr.click();
+    await page.waitForURL("**/ar/experience#ahd-financial-deputy");
+    expect(page.url()).toContain("/ar/experience#ahd-financial-deputy");
+
+    // Switch back from Arabic with hash — negative lookahead to exclude /ar/experience
+    const switchEn = page.locator('header a:has-text("English")').first();
+    await expect(switchEn).toBeVisible();
+    await switchEn.click();
+    // /^(?!.*\/ar\/).*\/experience/ matches /experience#hash but NOT /ar/experience#hash
+    await page.waitForURL(/^(?!.*\/ar\/).*\/experience/);
+    expect(page.url()).toContain("/experience#ahd-financial-deputy");
+    expect(page.url()).not.toContain("/ar");
+
+    // 2. Query parameter preservation: /projects?filter=systems -> /ar/projects?filter=systems
+    await page.goto("/projects?filter=systems");
+    const switchArQuery = page.locator('header a:has-text("العربية")').first();
+    await expect(switchArQuery).toBeVisible();
+    await switchArQuery.click();
+    await page.waitForURL(/\/ar\/projects/);
+    expect(page.url()).toContain("/ar/projects?filter=systems");
+
+    const switchEnQuery = page.locator('header a:has-text("English")').first();
+    await expect(switchEnQuery).toBeVisible();
+    await switchEnQuery.click();
+    // Negative lookahead to exclude /ar/projects
+    await page.waitForURL(/^(?!.*\/ar\/).*\/projects/);
+    expect(page.url()).toContain("/projects?filter=systems");
+    expect(page.url()).not.toContain("/ar");
+  });
+
+  test("TC-24: Metadata SEO hardening, reciprocal hreflang, and claim grounding", async ({
+    page,
+  }) => {
+    // 1. Root / and /ar hreflang reciprocal links
+    await page.goto("/");
+    const enCanonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(enCanonical).not.toContain("/ar/ar");
+    const enAltEn = await page.locator('link[rel="alternate"][hreflang="en"]').getAttribute("href");
+    const enAltAr = await page.locator('link[rel="alternate"][hreflang="ar"]').getAttribute("href");
+    expect(enAltEn).toBeTruthy();
+    expect(enAltAr).toContain("/ar");
+
+    // 2. Arabic route metadata checks (no /ar/ar anywhere, locale = ar_YE)
+    await page.goto("/ar/contact");
+    const arContactCanonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(arContactCanonical).not.toContain("/ar/ar");
+    expect(arContactCanonical).toContain("/ar/contact");
+
+    const ogLocale = await page.locator('meta[property="og:locale"]').getAttribute("content");
+    expect(ogLocale).toBe("ar_YE");
+
+    // Contact notice card does NOT contain unapproved UTC+3 claim
+    const noticeText = await page.locator('p:has-text("المقر: صنعاء، اليمن")').textContent();
+    expect(noticeText).toContain("صنعاء، اليمن");
+    expect(noticeText).not.toContain("UTC+3");
+    expect(noticeText).not.toContain("بدوام كامل");
+
+    // 3. Project detail metadata does NOT overclaim for basic tier project
+    await page.goto("/ar/projects/pump-station-analytics");
+    const arProjCanonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(arProjCanonical).not.toContain("/ar/ar");
+    const metaDesc = await page.locator('meta[name="description"]').getAttribute("content");
+    expect(metaDesc).not.toContain("النطاق الهندسي المعتمد والبنية المعمارية والنتائج");
+
+    // 4. Arabic Home certifications wording check
+    await page.goto("/ar");
+    await expect(page.locator("text=26 شهادة ودورة")).toBeVisible();
+    await expect(page.locator("text=26 شهادة تخصصية معتمدة")).toHaveCount(0);
+  });
 });

@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { CommandPalette } from "@/components/ui/CommandPalette";
+import { DocumentLocaleSync } from "@/components/layout/DocumentLocaleSync";
 import { siteMetadata } from "@/content/siteMetadata";
 import { identityContent } from "@/content/identity";
 import { socialLinks } from "@/content/social";
@@ -49,6 +50,10 @@ export const metadata: Metadata = {
   keywords: siteMetadata.keywords,
   alternates: {
     canonical: siteMetadata.siteUrl,
+    languages: {
+      en: siteMetadata.siteUrl,
+      ar: `${siteMetadata.siteUrl}/ar`,
+    },
   },
   openGraph: {
     type: "website",
@@ -121,6 +126,7 @@ export default function RootLayout({
         />
       </head>
       <body className="app-shell">
+        <DocumentLocaleSync />
         <SkipLink targetId="main-content" />
         <CommandPalette />
         <Header />

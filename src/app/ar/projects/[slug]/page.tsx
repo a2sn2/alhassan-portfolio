@@ -35,7 +35,7 @@ export async function generateMetadata({
 
   return {
     title: `${project.title} — دراسة حالة`,
-    description: `${project.tagline} النطاق الهندسي المعتمد والبنية المعمارية والنتائج.`,
+    description: project.tagline,
     alternates: {
       canonical: `${siteMetadataAr.siteUrl}/ar/projects/${project.slug}`,
       languages: {
@@ -47,7 +47,7 @@ export async function generateMetadata({
       title: `${project.title} — دراسة حالة | ${siteMetadataAr.author.name}`,
       description: project.tagline,
       url: `${siteMetadataAr.siteUrl}/ar/projects/${project.slug}`,
-      locale: "ar_AR",
+      locale: siteMetadataAr.locale,
     },
   };
 }

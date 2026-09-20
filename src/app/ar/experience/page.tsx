@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { ExperienceExplorer } from "@/components/experience/ExperienceExplorer";
 import { experienceContentAr } from "@/content/ar/experience";
+import { siteMetadataAr } from "@/content/ar/siteMetadata";
 import styles from "../../experience/experience.module.css";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
     title: "الخبرات المهنية والمسار التشغيلي | الحسن بليغ الشامي",
     description: experienceContentAr.description,
     url: "/ar/experience",
+    locale: siteMetadataAr.locale,
   },
 };
 

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: `القدرات والشهادات | ${siteMetadataAr.author.name}`,
     description: skillsContentAr.description,
     url: `${siteMetadataAr.siteUrl}/ar/capabilities`,
-    locale: "ar_AR",
+    locale: siteMetadataAr.locale,
   },
 };
 

@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { ProjectExplorer } from "@/components/projects/ProjectExplorer";
 import { projectsContentAr } from "@/content/ar/projects";
+import { siteMetadataAr } from "@/content/ar/siteMetadata";
 import styles from "../../projects/projects.module.css";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
     title: "المشاريع البرمجية والأنظمة التقنية | الحسن بليغ الشامي",
     description: projectsContentAr.description,
     url: "/ar/projects",
+    locale: siteMetadataAr.locale,
   },
 };
 
