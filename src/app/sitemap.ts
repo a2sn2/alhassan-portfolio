@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/`,
           ar: `${baseUrl}/ar`,
+          "x-default": `${baseUrl}/`,
         },
       },
     },
@@ -28,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/about`,
           ar: `${baseUrl}/ar/about`,
+          "x-default": `${baseUrl}/about`,
         },
       },
     },
@@ -40,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/experience`,
           ar: `${baseUrl}/ar/experience`,
+          "x-default": `${baseUrl}/experience`,
         },
       },
     },
@@ -52,6 +55,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/projects`,
           ar: `${baseUrl}/ar/projects`,
+          "x-default": `${baseUrl}/projects`,
         },
       },
     },
@@ -64,6 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/capabilities`,
           ar: `${baseUrl}/ar/capabilities`,
+          "x-default": `${baseUrl}/capabilities`,
         },
       },
     },
@@ -76,6 +81,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/contact`,
           ar: `${baseUrl}/ar/contact`,
+          "x-default": `${baseUrl}/contact`,
         },
       },
     },
@@ -89,6 +95,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/`,
           ar: `${baseUrl}/ar`,
+          "x-default": `${baseUrl}/`,
         },
       },
     },
@@ -101,6 +108,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/about`,
           ar: `${baseUrl}/ar/about`,
+          "x-default": `${baseUrl}/about`,
         },
       },
     },
@@ -113,6 +121,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/experience`,
           ar: `${baseUrl}/ar/experience`,
+          "x-default": `${baseUrl}/experience`,
         },
       },
     },
@@ -125,6 +134,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/projects`,
           ar: `${baseUrl}/ar/projects`,
+          "x-default": `${baseUrl}/projects`,
         },
       },
     },
@@ -137,6 +147,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/capabilities`,
           ar: `${baseUrl}/ar/capabilities`,
+          "x-default": `${baseUrl}/capabilities`,
         },
       },
     },
@@ -149,6 +160,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/contact`,
           ar: `${baseUrl}/ar/contact`,
+          "x-default": `${baseUrl}/contact`,
         },
       },
     },
@@ -164,6 +176,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/projects/${slug}`,
           ar: `${baseUrl}/ar/projects/${slug}`,
+          "x-default": `${baseUrl}/projects/${slug}`,
         },
       },
     },
@@ -176,6 +189,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         languages: {
           en: `${baseUrl}/projects/${slug}`,
           ar: `${baseUrl}/ar/projects/${slug}`,
+          "x-default": `${baseUrl}/projects/${slug}`,
         },
       },
     },

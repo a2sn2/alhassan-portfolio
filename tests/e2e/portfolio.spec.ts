@@ -531,21 +531,23 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await expect(page.locator("h1")).toContainText("الهندسة من الأسس الأكاديمية إلى الأنظمة الإنتاجية");
 
     // 2. From /ar/about -> /about
+    // Use negative-lookahead regex: /^(?!.*\/ar\/).*\/about/ matches /about but NOT /ar/about
     const langSwitchAr = page.locator('header [class*="controlsGroup"] a:has-text("English"), header a:has-text("English")').first();
     await expect(langSwitchAr).toBeVisible();
     await langSwitchAr.click();
-    await page.waitForURL("**/about");
+    await page.waitForURL(/^(?!.*\/ar\/).*\/about/);
     await expect(page.locator("h1")).toContainText("Engineering from Academic Foundations to Production Systems");
 
     // 3. From project detail /projects/real-time-object-detection -> /ar/projects/real-time-object-detection
     await page.goto("/projects/real-time-object-detection");
     await page.locator('header [class*="controlsGroup"] a:has-text("العربية"), header a:has-text("العربية")').first().click();
-    await page.waitForURL("**/ar/projects/real-time-object-detection");
+    await page.waitForURL(/\/ar\/projects\/real-time-object-detection/);
     await expect(page.locator("h1")).toContainText("كشف الأجسام بالزمن الحقيقي");
 
     // 4. From /ar/projects/real-time-object-detection -> /projects/real-time-object-detection
     await page.locator('header [class*="controlsGroup"] a:has-text("English"), header a:has-text("English")').first().click();
-    await page.waitForURL("**/projects/real-time-object-detection");
+    // Negative-lookahead: matches /projects/real-time-... but NOT /ar/projects/real-time-...
+    await page.waitForURL(/^(?!.*\/ar\/).*\/projects\/real-time-object-detection/);
     await expect(page.locator("h1")).toContainText("Real-Time Object Detection");
   });
 
@@ -841,14 +843,20 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(enCanonical).not.toContain("/ar/ar");
     const enAltEn = await page.locator('link[rel="alternate"][hreflang="en"]').getAttribute("href");
     const enAltAr = await page.locator('link[rel="alternate"][hreflang="ar"]').getAttribute("href");
+    const enAltXDefault = await page.locator('link[rel="alternate"][hreflang="x-default"]').getAttribute("href");
     expect(enAltEn).toBeTruthy();
     expect(enAltAr).toContain("/ar");
+    expect(enAltXDefault).toBeTruthy();
+    expect(enAltXDefault).not.toContain("/ar");
 
     // 2. Arabic route metadata checks (no /ar/ar anywhere, locale = ar_YE)
     await page.goto("/ar/contact");
     const arContactCanonical = await page.locator('link[rel="canonical"]').getAttribute("href");
     expect(arContactCanonical).not.toContain("/ar/ar");
     expect(arContactCanonical).toContain("/ar/contact");
+    const arContactXDefault = await page.locator('link[rel="alternate"][hreflang="x-default"]').getAttribute("href");
+    expect(arContactXDefault).toBeTruthy();
+    expect(arContactXDefault).not.toContain("/ar");
 
     const ogLocale = await page.locator('meta[property="og:locale"]').getAttribute("content");
     expect(ogLocale).toBe("ar_YE");

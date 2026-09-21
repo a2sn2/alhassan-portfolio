@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     languages: {
       en: `${siteMetadata.siteUrl}/experience`,
       ar: `${siteMetadata.siteUrl}/ar/experience`,
+      "x-default": `${siteMetadata.siteUrl}/experience`,
     },
   },
   openGraph: {

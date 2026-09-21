@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     languages: {
       en: "/projects",
       ar: "/ar/projects",
+      "x-default": "/projects",
     },
   },
   openGraph: {
