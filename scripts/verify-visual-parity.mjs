@@ -7,10 +7,12 @@
  * between Local (http://localhost:3000) and Production (https://alhassan-portfolio-phi.vercel.app).
  * 
  * Matrix:
- * - 7 Routes: /, /about, /experience, /projects, /capabilities, /contact, /projects/real-time-object-detection
+ * - 14 Routes: 7 English (/, /about, /experience, /projects, /capabilities, /contact, /projects/real-time-object-detection)
+ *              7 Arabic (/ar, /ar/about, /ar/experience, /ar/projects, /ar/capabilities, /ar/contact, /ar/projects/real-time-object-detection)
  * - 5 Viewports: 1440x900, 1280x800, 768x1024, 390x844, 320x700
  * - 2 Themes: light, dark
- * - 5 Interactive States: Projects filter, Experience role, Mobile drawer, Command palette, Theme toggled
+ * - 10 Interactive States: 5 English + 5 Arabic
+ * Total: 140 static + 10 interactive = 150 visual comparison pairs
  * 
  * Normalization:
  * - Masks ONLY known dev-only artifacts (nextjs-portal, [data-nextjs-toast], #nextjs-dev-overlay, etc.)
@@ -43,13 +45,23 @@ fs.mkdirSync(PROD_SCREENSHOTS_DIR, { recursive: true });
 fs.mkdirSync(DIFFS_DIR, { recursive: true });
 
 const ROUTES = [
-  { id: 'home', path: '/' },
-  { id: 'about', path: '/about' },
-  { id: 'experience', path: '/experience' },
-  { id: 'projects', path: '/projects' },
-  { id: 'capabilities', path: '/capabilities' },
-  { id: 'contact', path: '/contact' },
-  { id: 'case-study', path: '/projects/real-time-object-detection' }
+  // English Routes (7)
+  { id: 'en-home', path: '/' },
+  { id: 'en-about', path: '/about' },
+  { id: 'en-experience', path: '/experience' },
+  { id: 'en-projects', path: '/projects' },
+  { id: 'en-capabilities', path: '/capabilities' },
+  { id: 'en-contact', path: '/contact' },
+  { id: 'en-case-study', path: '/projects/real-time-object-detection' },
+
+  // Arabic Routes (7)
+  { id: 'ar-home', path: '/ar' },
+  { id: 'ar-about', path: '/ar/about' },
+  { id: 'ar-experience', path: '/ar/experience' },
+  { id: 'ar-projects', path: '/ar/projects' },
+  { id: 'ar-capabilities', path: '/ar/capabilities' },
+  { id: 'ar-contact', path: '/ar/contact' },
+  { id: 'ar-case-study', path: '/ar/projects/real-time-object-detection' }
 ];
 
 const VIEWPORTS = [
@@ -773,6 +785,342 @@ async function run() {
       pairId,
       type: 'interactive',
       description: 'Theme toggled from light to dark',
+      viewport: '1440x900',
+      theme: 'toggled',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 6: Arabic Projects Filter Selected
+  {
+    const pairId = 'interactive-ar-projects-filter';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/ar/projects`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/ar/projects`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Click second filter button (Computer Vision & AI)
+    await Promise.all([
+      localPage.locator('div[role="group"] button').nth(1).click(),
+      prodPage.locator('div[role="group"] button').nth(1).click()
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(200),
+      prodPage.waitForTimeout(200)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'Arabic Projects category filter selected (nth=1)',
+      viewport: '1440x900',
+      theme: 'light',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 7: Arabic Experience Role Selected
+  {
+    const pairId = 'interactive-ar-experience-role';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/ar/experience`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/ar/experience`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Click second role in desktop tablist
+    await Promise.all([
+      localPage.locator('div[role="tablist"] button').nth(1).click(),
+      prodPage.locator('div[role="tablist"] button').nth(1).click()
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(200),
+      prodPage.waitForTimeout(200)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'Arabic Experience role tab selected (nth=1)',
+      viewport: '1440x900',
+      theme: 'light',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 8: Arabic Mobile Drawer Open
+  {
+    const pairId = 'interactive-ar-mobile-drawer';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/ar`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/ar`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Click mobile drawer button
+    await Promise.all([
+      localPage.locator('button[aria-controls="mobile-nav-drawer"]').click(),
+      prodPage.locator('button[aria-controls="mobile-nav-drawer"]').click()
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(300),
+      prodPage.waitForTimeout(300)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'Arabic Mobile navigation drawer opened',
+      viewport: '390x844',
+      theme: 'light',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 9: Arabic Command Palette Open
+  {
+    const pairId = 'interactive-ar-command-palette';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/ar`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/ar`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Open command palette
+    await Promise.all([
+      localPage.keyboard.press('Control+k'),
+      prodPage.keyboard.press('Control+k')
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(400),
+      prodPage.waitForTimeout(400)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'Arabic Command Palette opened via Ctrl+K',
+      viewport: '1440x900',
+      theme: 'light',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 10: Arabic Theme Toggled State
+  {
+    const pairId = 'interactive-ar-theme-toggled';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/ar`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/ar`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Click theme toggle button
+    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i], button[aria-label*="سمة" i], button[aria-label*="الوضع" i]';
+    await Promise.all([
+      localPage.click(toggleSelector),
+      prodPage.click(toggleSelector)
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(300),
+      prodPage.waitForTimeout(300)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'Arabic Theme toggled from light to dark',
       viewport: '1440x900',
       theme: 'toggled',
       ...diffReport
