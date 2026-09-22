@@ -149,3 +149,13 @@ html[data-theme="dark"] {
   --shadow-card: 0 18px 50px rgba(0, 0, 0, 0.24);
   --shadow-elevated: 0 24px 60px rgba(0, 0, 0, 0.38);
 }
+
+/* ==========================================================================
+   Arabic Typography & Directional Defaults
+   ========================================================================== */
+:root[dir="rtl"],
+[dir="rtl"],
+:root[lang="ar"],
+[lang="ar"] {
+  --font-sans: var(--font-noto-sans-arabic), var(--font-inter), "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}

@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   description: aboutContent.description,
   alternates: {
     canonical: `${siteMetadata.siteUrl}/about`,
+    languages: {
+      en: `${siteMetadata.siteUrl}/about`,
+      ar: `${siteMetadata.siteUrl}/ar/about`,
+      "x-default": `${siteMetadata.siteUrl}/about`,
+    },
   },
   openGraph: {
     title: `About & Engineering Profile | ${siteMetadata.author.name}`,

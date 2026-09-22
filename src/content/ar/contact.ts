@@ -1,0 +1,101 @@
+import { ContactContent } from "@/contracts";
+
+export const contactContentAr: ContactContent = {
+  kicker: "التواصل المباشر والوصول",
+  title: "تواصل معي واحصل على المستندات الرسمية",
+  description:
+    "قنوات الاتصال المباشرة، والملفات المهنية المعتمدة، وباقات السير الذاتية الرسمية بعدة لغات وصيغ معتمدة.",
+  directEmail: "hassan1alshami6@gmail.com",
+  directPhone: "+967772765120",
+  location: "حدة – صنعاء – اليمن",
+  methods: [
+    {
+      id: "email",
+      label: "البريد الإلكتروني المباشر",
+      value: "hassan1alshami6@gmail.com",
+      href: "mailto:hassan1alshami6@gmail.com",
+      isPrimary: true,
+    },
+    {
+      id: "phone",
+      label: "رقم الهاتف المباشر",
+      value: "+967772765120",
+      href: "tel:+967772765120",
+      isPrimary: true,
+    },
+    {
+      id: "linkedin",
+      label: "الملف الشخصي على LinkedIn",
+      value: "linkedin.com/in/a2sn4",
+      href: "https://www.linkedin.com/in/a2sn4",
+      isExternal: true,
+      isPrimary: true,
+    },
+    {
+      id: "github",
+      label: "مستودعات المشاريع على GitHub",
+      value: "github.com/a2sn2",
+      href: "https://github.com/a2sn2",
+      isExternal: true,
+    },
+    {
+      id: "instagram",
+      label: "الحساب على Instagram",
+      value: "@a2s.n4",
+      href: "https://www.instagram.com/a2s.n4",
+      isExternal: true,
+    },
+  ],
+  cvDocuments: [
+    {
+      label: "السيرة الذاتية بالعربية (النسخة العادية)",
+      language: "Arabic",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      filesize: "7.5 MB",
+    },
+    {
+      label: "السيرة الذاتية بالعربية (نسخة ATS)",
+      language: "Arabic",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+      filesize: "2.5 MB",
+    },
+    {
+      label: "السيرة الذاتية بالإنجليزية (النسخة العادية)",
+      language: "English",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      filesize: "8.3 MB",
+    },
+    {
+      label: "السيرة الذاتية بالإنجليزية (نسخة ATS)",
+      language: "English",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      filesize: "3.2 MB",
+    },
+    {
+      label: "السيرة الذاتية بالألمانية (النسخة العادية)",
+      language: "German",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      filesize: "8.5 MB",
+    },
+    {
+      label: "السيرة الذاتية بالألمانية (نسخة ATS)",
+      language: "German",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      filesize: "3.2 MB",
+    },
+  ],
+  referencesNote:
+    "المراجع الأكاديمية والمهنية الرسمية من القيادات الجامعية والمشرفين الهندسيين والإداريين متاحة عند الطلب.",
+};

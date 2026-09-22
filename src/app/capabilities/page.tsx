@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   description: skillsContent.description,
   alternates: {
     canonical: `${siteMetadata.siteUrl}/capabilities`,
+    languages: {
+      en: `${siteMetadata.siteUrl}/capabilities`,
+      ar: `${siteMetadata.siteUrl}/ar/capabilities`,
+      "x-default": `${siteMetadata.siteUrl}/capabilities`,
+    },
   },
   openGraph: {
     title: `Capabilities & Credentials | ${siteMetadata.author.name}`,

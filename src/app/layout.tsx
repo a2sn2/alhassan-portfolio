@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono, Noto_Sans_Arabic } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { CommandPalette } from "@/components/ui/CommandPalette";
+import { DocumentLocaleSync } from "@/components/layout/DocumentLocaleSync";
 import { siteMetadata } from "@/content/siteMetadata";
 import { identityContent } from "@/content/identity";
 import { socialLinks } from "@/content/social";
@@ -18,6 +19,12 @@ const inter = Inter({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const notoSansArabic = Noto_Sans_Arabic({
+  variable: "--font-noto-sans-arabic",
+  subsets: ["arabic"],
   display: "swap",
 });
 
@@ -43,6 +50,11 @@ export const metadata: Metadata = {
   keywords: siteMetadata.keywords,
   alternates: {
     canonical: siteMetadata.siteUrl,
+    languages: {
+      en: siteMetadata.siteUrl,
+      ar: `${siteMetadata.siteUrl}/ar`,
+      "x-default": siteMetadata.siteUrl,
+    },
   },
   openGraph: {
     type: "website",
@@ -102,11 +114,11 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${geistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${geistMono.variable} ${notoSansArabic.variable}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t)}else if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.setAttribute("data-theme","dark")}else{document.documentElement.setAttribute("data-theme","light")}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t)}else if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.setAttribute("data-theme","dark")}else{document.documentElement.setAttribute("data-theme","light")}}catch(e){}})();(function(){try{var p=window.location.pathname;var isAr=p==="/ar"||p.indexOf("/ar/")===0;if(isAr){document.documentElement.setAttribute("dir","rtl");document.documentElement.setAttribute("lang","ar")}else{document.documentElement.setAttribute("dir","ltr");document.documentElement.setAttribute("lang","en")}}catch(e){}})();`,
           }}
         />
         <script
@@ -115,6 +127,7 @@ export default function RootLayout({
         />
       </head>
       <body className="app-shell">
+        <DocumentLocaleSync />
         <SkipLink targetId="main-content" />
         <CommandPalette />
         <Header />

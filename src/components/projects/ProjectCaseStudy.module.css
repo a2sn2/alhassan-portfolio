@@ -100,8 +100,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding-left: var(--space-3);
-  border-left: 2px solid var(--color-border-subtle);
+  padding-inline-start: var(--space-3);
+  border-inline-start: 2px solid var(--color-border-subtle);
 }
 
 .railHeading {
@@ -176,7 +176,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding-left: var(--space-5);
+  padding-inline-start: var(--space-5);
   margin: 0;
 }
 

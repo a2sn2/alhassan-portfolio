@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./ExperienceExplorer.module.css";
 import { ExperienceItem } from "@/contracts/experience";
 import { cn } from "@/utils/cn";
@@ -14,6 +15,9 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
   const [openMobileIds, setOpenMobileIds] = useState<Record<string, boolean>>({
     [items[0]?.id || ""]: true,
   });
+
+  const pathname = usePathname();
+  const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
 
   // Check for deep link hash on mount and hashchange
   useEffect(() => {
@@ -54,7 +58,11 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
     <div className={styles.explorer}>
       {/* Desktop Split View */}
       <div className={styles.desktopLayout}>
-        <div className={styles.timelineNav} role="tablist" aria-label="Professional Roles Timeline">
+        <div
+          className={styles.timelineNav}
+          role="tablist"
+          aria-label={isArabic ? "المسار الزمني للأدوار المهنية" : "Professional Roles Timeline"}
+        >
           {items.map((item) => {
             const isSelected = item.id === selectedId;
             return (
@@ -70,7 +78,9 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
               >
                 <span className={styles.roleTabRole}>{item.role}</span>
                 <span className={styles.roleTabCompany}>{item.company}</span>
-                <span className={styles.roleTabPeriod}>{item.period}</span>
+                <span className={styles.roleTabPeriod}>
+                  <bdi>{item.period}</bdi>
+                </span>
               </button>
             );
           })}
@@ -87,13 +97,17 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
               <div className={styles.roleTitleRow}>
                 <h2 className={styles.panelRole}>{selectedItem.role}</h2>
                 {selectedItem.isCurrent && (
-                  <span className={styles.currentBadge}>Current Role</span>
+                  <span className={styles.currentBadge}>
+                    {isArabic ? "الدور الحالي" : "Current Role"}
+                  </span>
                 )}
               </div>
               <div className={styles.panelMeta}>
                 <span className={styles.panelCompany}>{selectedItem.company}</span>
                 <span>·</span>
-                <span className={styles.panelPeriod}>{selectedItem.period}</span>
+                <span className={styles.panelPeriod}>
+                  <bdi>{selectedItem.period}</bdi>
+                </span>
                 <span>·</span>
                 <span className={styles.panelLocation}>{selectedItem.location}</span>
               </div>
@@ -103,7 +117,9 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
 
             {selectedItem.responsibilities && selectedItem.responsibilities.length > 0 && (
               <div>
-                <h3 className={styles.sectionTitle}>Key Deliverables & Responsibilities</h3>
+                <h3 className={styles.sectionTitle}>
+                  {isArabic ? "المسؤوليات والإنجازات الرئيسية" : "Key Deliverables & Responsibilities"}
+                </h3>
                 <ul className={styles.responsibilitiesList}>
                   {selectedItem.responsibilities.map((resp, i) => (
                     <li key={i} className={styles.responsibilityItem}>
@@ -116,11 +132,13 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
 
             {selectedItem.technologies && selectedItem.technologies.length > 0 && (
               <div className={styles.techGroup}>
-                <h3 className={styles.sectionTitle}>Verified Technologies & Domains</h3>
+                <h3 className={styles.sectionTitle}>
+                  {isArabic ? "التقنيات ومجالات العمل المعتمدة" : "Verified Technologies & Domains"}
+                </h3>
                 <div className={styles.techPills}>
                   {selectedItem.technologies.map((tech) => (
                     <span key={tech} className={styles.techPill}>
-                      {tech}
+                      <bdi>{tech}</bdi>
                     </span>
                   ))}
                 </div>
@@ -131,7 +149,11 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
       </div>
 
       {/* Mobile Accordion View */}
-      <div className={styles.mobileLayout} role="region" aria-label="Experience Accordion">
+      <div
+        className={styles.mobileLayout}
+        role="region"
+        aria-label={isArabic ? "قائمة الخبرات المتداخلة" : "Experience Accordion"}
+      >
         {items.map((item) => {
           const isOpen = Boolean(openMobileIds[item.id]);
           return (
@@ -146,7 +168,9 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                 <div className={styles.mobileTriggerText}>
                   <span className={styles.mobileRole}>{item.role}</span>
                   <span className={styles.mobileCompany}>{item.company}</span>
-                  <span className={styles.mobilePeriod}>{item.period}</span>
+                  <span className={styles.mobilePeriod}>
+                    <bdi>{item.period}</bdi>
+                  </span>
                 </div>
                 <svg
                   className={cn(styles.mobileIcon, isOpen && styles.mobileIconOpen)}
@@ -170,7 +194,9 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
 
                   {item.responsibilities && item.responsibilities.length > 0 && (
                     <div>
-                      <h4 className={styles.sectionTitle}>Key Deliverables</h4>
+                      <h4 className={styles.sectionTitle}>
+                        {isArabic ? "أبرز المسؤوليات" : "Key Deliverables"}
+                      </h4>
                       <ul className={styles.responsibilitiesList}>
                         {item.responsibilities.map((resp, idx) => (
                           <li key={idx} className={styles.responsibilityItem}>
@@ -183,11 +209,13 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
 
                   {item.technologies && item.technologies.length > 0 && (
                     <div className={styles.techGroup}>
-                      <h4 className={styles.sectionTitle}>Technologies</h4>
+                      <h4 className={styles.sectionTitle}>
+                        {isArabic ? "التقنيات" : "Technologies"}
+                      </h4>
                       <div className={styles.techPills}>
                         {item.technologies.map((tech) => (
                           <span key={tech} className={styles.techPill}>
-                            {tech}
+                            <bdi>{tech}</bdi>
                           </span>
                         ))}
                       </div>

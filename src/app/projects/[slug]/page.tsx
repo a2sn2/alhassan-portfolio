@@ -38,6 +38,11 @@ export async function generateMetadata({
     description: `${project.tagline} Verified technical scope, architecture, and outcomes.`,
     alternates: {
       canonical: `${siteMetadata.siteUrl}/projects/${project.slug}`,
+      languages: {
+        en: `${siteMetadata.siteUrl}/projects/${project.slug}`,
+        ar: `${siteMetadata.siteUrl}/ar/projects/${project.slug}`,
+        "x-default": `${siteMetadata.siteUrl}/projects/${project.slug}`,
+      },
     },
     openGraph: {
       title: `${project.title} — Case Study | ${siteMetadata.author.name}`,

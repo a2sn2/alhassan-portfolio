@@ -2,19 +2,67 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import { Container } from "@/components/ui/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { identityContent, navigationContent, socialLinks } from "@/content";
+import { identityContentAr, navigationContentAr } from "@/content/ar";
 import { cn } from "@/utils/cn";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const firstDrawerLinkRef = useRef<HTMLAnchorElement>(null);
 
+  const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
+  const identity = isArabic ? identityContentAr : identityContent;
+  const navigation = isArabic ? navigationContentAr : navigationContent;
+
+  const targetLocalePath = isArabic
+    ? pathname === "/ar"
+      ? "/"
+      : pathname.replace(/^\/ar/, "")
+    : pathname === "/"
+    ? "/ar"
+    : `/ar${pathname}`;
+
+  const [urlSuffix, setUrlSuffix] = useState("");
+
+  useEffect(() => {
+    const updateSuffix = () => {
+      const search = window.location.search || "";
+      const hash = window.location.hash || "";
+      setUrlSuffix(`${search}${hash}`);
+    };
+
+    updateSuffix();
+    window.addEventListener("hashchange", updateSuffix);
+    window.addEventListener("popstate", updateSuffix);
+    return () => {
+      window.removeEventListener("hashchange", updateSuffix);
+      window.removeEventListener("popstate", updateSuffix);
+    };
+  }, [pathname]);
+
+  const targetLocaleHref = `${targetLocalePath}${urlSuffix}`;
+
+  const handleLangSwitchClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleLinkClick();
+    if (typeof window !== "undefined") {
+      const search = window.location.search || "";
+      const hash = window.location.hash || "";
+      const latestTarget = `${targetLocalePath}${search}${hash}`;
+      if (latestTarget !== targetLocaleHref) {
+        e.preventDefault();
+        router.push(latestTarget);
+      }
+    }
+  };
+
+  const homeHref = isArabic ? "/ar" : "/";
   const github = socialLinks.find((s) => s.platform === "GitHub");
 
   // Close drawer on Escape key and return focus to toggle button
@@ -69,10 +117,10 @@ export function Header() {
   };
 
   const isLinkActive = (href: string) => {
-    if (href === "/") {
-      return pathname === "/";
+    if (href === "/" || href === "/ar") {
+      return pathname === href;
     }
-    return pathname.startsWith(href);
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
 
   return (
@@ -81,9 +129,9 @@ export function Header() {
         <div className={styles.inner}>
           {/* JAIB Brand Identity Signature */}
           <Link
-            href="/"
+            href={homeHref}
             className={styles.brand}
-            aria-label={`${identityContent.fullName} - Home`}
+            aria-label={`${identity.fullName} - ${isArabic ? "الرئيسية" : "Home"}`}
             onClick={handleLinkClick}
           >
             <div className={styles.brandmark} aria-hidden="true">
@@ -94,15 +142,15 @@ export function Header() {
               </svg>
             </div>
             <div className={styles.brandTextGroup}>
-              <span className={styles.brandTitle}>{identityContent.fullName}</span>
-              <span className={styles.brandRole}>{identityContent.role}</span>
+              <span className={styles.brandTitle}>{identity.fullName}</span>
+              <span className={styles.brandRole}>{identity.role}</span>
             </div>
           </Link>
 
           {/* Desktop Navigation & Controls */}
           <div className={styles.navGroup}>
-            <nav className={styles.desktopNav} aria-label="Main Navigation">
-              {navigationContent.navItems.map((item) => {
+            <nav className={styles.desktopNav} aria-label={isArabic ? "التنقل الرئيسي" : "Main Navigation"}>
+              {navigation.navItems.map((item) => {
                 const active = isLinkActive(item.href);
                 return (
                   <Link
@@ -123,16 +171,29 @@ export function Header() {
                 type="button"
                 className={styles.searchTrigger}
                 onClick={handleOpenPalette}
-                aria-label="Open command palette (Ctrl+K)"
-                title="Search portfolio (Ctrl+K)"
+                aria-label={isArabic ? "فتح لوحة الأوامر (Ctrl+K)" : "Open command palette (Ctrl+K)"}
+                title={isArabic ? "البحث والتنقل في الموقع (Ctrl+K)" : "Search portfolio (Ctrl+K)"}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <circle cx="11" cy="11" r="8" />
                   <path d="m21 21-4.3-4.3" />
                 </svg>
-                <span>Navigate</span>
+                <span>{isArabic ? "تنقل" : "Navigate"}</span>
                 <kbd className={styles.searchKbd}>⌘K</kbd>
               </button>
+
+              {/* Language Switcher */}
+              <Link
+                href={targetLocaleHref}
+                onClick={handleLangSwitchClick}
+                className={styles.langSwitch}
+                aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
+                title={isArabic ? "English" : "العربية"}
+                lang={isArabic ? "en" : "ar"}
+                dir={isArabic ? "ltr" : "rtl"}
+              >
+                {isArabic ? "English" : "العربية"}
+              </Link>
 
               <ThemeToggle />
             </div>
@@ -140,12 +201,23 @@ export function Header() {
 
           {/* Mobile Header Controls */}
           <div className={styles.mobileControls}>
+            <Link
+              href={targetLocaleHref}
+              onClick={handleLangSwitchClick}
+              className={styles.langSwitchMobile}
+              aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
+              title={isArabic ? "English" : "العربية"}
+              lang={isArabic ? "en" : "ar"}
+              dir={isArabic ? "ltr" : "rtl"}
+            >
+              {isArabic ? "EN" : "عربي"}
+            </Link>
             <button
               type="button"
               className={styles.searchTriggerMobile}
               onClick={handleOpenPalette}
-              aria-label="Search & Navigator"
-              title="Quick Search"
+              aria-label={isArabic ? "البحث والتنقل" : "Search & Navigator"}
+              title={isArabic ? "بحث سريع" : "Quick Search"}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="11" cy="11" r="8" />
@@ -160,7 +232,15 @@ export function Header() {
               onClick={() => setIsOpen((prev) => !prev)}
               aria-expanded={isOpen}
               aria-controls="mobile-nav-drawer"
-              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-label={
+                isOpen
+                  ? isArabic
+                    ? "إغلاق قائمة التنقل"
+                    : "Close navigation menu"
+                  : isArabic
+                  ? "فتح قائمة التنقل"
+                  : "Open navigation menu"
+              }
             >
               <span
                 className={cn(styles.hamburgerIcon, isOpen && styles.hamburgerOpen)}
@@ -180,11 +260,11 @@ export function Header() {
         className={cn(styles.drawer, isOpen && styles.drawerOpen)}
         role="dialog"
         aria-modal="true"
-        aria-label="Mobile Navigation"
+        aria-label={isArabic ? "قائمة التنقل للأجهزة المحمولة" : "Mobile Navigation"}
         aria-hidden={!isOpen}
       >
-        <nav className={styles.drawerNav} aria-label="Mobile Navigation Links">
-          {navigationContent.navItems.map((item, index) => {
+        <nav className={styles.drawerNav} aria-label={isArabic ? "روابط التنقل للأجهزة المحمولة" : "Mobile Navigation Links"}>
+          {navigation.navItems.map((item, index) => {
             const active = isLinkActive(item.href);
             return (
               <Link
@@ -203,8 +283,21 @@ export function Header() {
           })}
 
           <div className={styles.drawerFooter}>
+            <div className={styles.drawerLangRow}>
+              <span>{isArabic ? "اللغة" : "Language"}</span>
+              <Link
+                href={targetLocaleHref}
+                className={styles.langSwitch}
+                onClick={handleLangSwitchClick}
+                aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
+                lang={isArabic ? "en" : "ar"}
+                dir={isArabic ? "ltr" : "rtl"}
+              >
+                {isArabic ? "English" : "العربية"}
+              </Link>
+            </div>
             <div className={styles.drawerThemeRow}>
-              <span>Appearance</span>
+              <span>{isArabic ? "المظهر" : "Appearance"}</span>
               <ThemeToggle />
             </div>
             {github && (

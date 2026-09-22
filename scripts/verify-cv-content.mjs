@@ -53,12 +53,33 @@ const manifestPath = path.join(
   "canonical-cv-manifest.json"
 );
 
+const sourcePdfPathAr = path.join(
+  root,
+  "docs",
+  "ALHassan_Baligh_ALShami_CV_Package",
+  "العربية",
+  "السيرة الذاتية - الحسن بليغ الشامي - النسخة العادية.pdf"
+);
+
+const manifestPathAr = path.join(
+  root,
+  "scripts",
+  "fixtures",
+  "canonical-cv-manifest.ar.json"
+);
+
 if (!fs.existsSync(manifestPath)) {
-  console.error("❌ Manifest fixture missing at:", manifestPath);
+  console.error("❌ English manifest fixture missing at:", manifestPath);
+  process.exit(1);
+}
+
+if (!fs.existsSync(manifestPathAr)) {
+  console.error("❌ Arabic manifest fixture missing at:", manifestPathAr);
   process.exit(1);
 }
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+const manifestAr = JSON.parse(fs.readFileSync(manifestPathAr, "utf8"));
 
 const BANNED_UNVERIFIED_PHRASES = [
   "backend REST microservices",
@@ -524,14 +545,374 @@ async function run() {
 
   check(
     bannedViolations === 0,
-    `All ${BANNED_UNVERIFIED_PHRASES.length} ungrounded phrases are strictly absent across all public content files`
+    `All ${BANNED_UNVERIFIED_PHRASES.length} ungrounded phrases are strictly absent across all public English content files`
   );
 
+  // ============================================================
+  // ARABIC CV DETERMINISTIC CONTENT PARITY
+  // ============================================================
+  console.log("\n============================================================");
+  console.log("🔍 ARABIC CV DETERMINISTIC CONTENT PARITY VERIFICATION");
+  console.log("============================================================\n");
+
+  // 7. Arabic PDF Hash Verification
+  console.log("▶ [7/12] Verifying Official Arabic Standard CV PDF Baseline...");
+  check(fs.existsSync(sourcePdfPathAr), `Arabic Source PDF exists at ${path.relative(root, sourcePdfPathAr)}`);
+  if (fs.existsSync(sourcePdfPathAr)) {
+    const pdfBytesAr = fs.readFileSync(sourcePdfPathAr);
+    const pdfHashAr = crypto.createHash("sha256").update(pdfBytesAr).digest("hex");
+    check(
+      pdfHashAr === manifestAr.pdfSha256,
+      `Arabic Source PDF SHA-256 (${pdfHashAr}) matches baseline (${manifestAr.pdfSha256})`
+    );
+  }
+
+  // 8. Arabic Canonical Model Verification
+  console.log("\n▶ [8/12] Verifying Canonical Arabic CV Model (src/content/cv/ar/) against Manifest...");
+  const cvDirAr = path.join(root, "src", "content", "cv", "ar");
+  check(fs.existsSync(cvDirAr), "Canonical Arabic CV directory src/content/cv/ar/ exists");
+
+  const identityModAr = loadTsModule("src/content/cv/ar/identity.ts");
+  const profileModAr = loadTsModule("src/content/cv/ar/profile.ts");
+  const educationModAr = loadTsModule("src/content/cv/ar/education.ts");
+  const experienceModAr = loadTsModule("src/content/cv/ar/experience.ts");
+  const membershipsModAr = loadTsModule("src/content/cv/ar/memberships.ts");
+  const languagesModAr = loadTsModule("src/content/cv/ar/languages.ts");
+  const skillsModAr = loadTsModule("src/content/cv/ar/technicalSkills.ts");
+  const interestsModAr = loadTsModule("src/content/cv/ar/interests.ts");
+  const referencesModAr = loadTsModule("src/content/cv/ar/references.ts");
+  const certsModAr = loadTsModule("src/content/cv/ar/certifications.ts");
+  const projectsModAr = loadTsModule("src/content/cv/ar/projects.ts");
+  const indexModAr = loadTsModule("src/content/cv/ar/index.ts");
+
+  check(
+    indexModAr.canonicalCvMetaAr?.sourcePdfSha256 === manifestAr.pdfSha256,
+    `Arabic canonical index metadata sourcePdfSha256 matches manifest baseline`
+  );
+
+  // A. Arabic Identity & Profile
+  check(
+    identityModAr.canonicalIdentityAr?.fullName === manifestAr.identity.fullName,
+    `Arabic canonical fullName matches: "${manifestAr.identity.fullName}"`
+  );
+  check(
+    identityModAr.canonicalIdentityAr?.role === manifestAr.identity.role,
+    `Arabic canonical role matches: "${manifestAr.identity.role}"`
+  );
+  check(
+    identityModAr.canonicalIdentityAr?.location === manifestAr.identity.location,
+    `Arabic canonical location matches: "${manifestAr.identity.location}"`
+  );
+  check(
+    profileModAr.canonicalProfileAr?.raw === manifestAr.profile.raw,
+    `Arabic canonical profile statement matches exact verbatim CV source text`
+  );
+
+  // B. Arabic Education
+  check(
+    educationModAr.canonicalEducationAr?.institution === manifestAr.education.institution,
+    `Arabic canonical education institution matches: "${manifestAr.education.institution}"`
+  );
+  check(
+    educationModAr.canonicalEducationAr?.degree === manifestAr.education.degree,
+    `Arabic canonical education degree matches: "${manifestAr.education.degree}"`
+  );
+  check(
+    educationModAr.canonicalEducationAr?.period === manifestAr.education.period,
+    `Arabic canonical education period matches: "${manifestAr.education.period}"`
+  );
+  check(
+    educationModAr.canonicalEducationAr?.graduationProject?.title === manifestAr.education.graduationProjectTitle,
+    `Arabic canonical graduation project title matches exact CV wording`
+  );
+
+  // C. Arabic Experience & Roles
+  const canonicalOrgsAr = experienceModAr.canonicalExperienceOrganizationsAr || [];
+  check(
+    canonicalOrgsAr.length === manifestAr.organizations.length,
+    `Arabic canonical organizations count: ${canonicalOrgsAr.length} (expected ${manifestAr.organizations.length})`
+  );
+
+  const canonicalRolesAr = experienceModAr.canonicalExperienceRolesAr || [];
+  check(
+    canonicalRolesAr.length === manifestAr.experienceRoles.length,
+    `Arabic canonical experience roles count: ${canonicalRolesAr.length} (expected ${manifestAr.experienceRoles.length})`
+  );
+
+  manifestAr.experienceRoles.forEach((expectedRole, idx) => {
+    const actual = canonicalRolesAr[idx];
+    check(
+      actual?.role === expectedRole.role &&
+      actual?.company === expectedRole.company &&
+      actual?.period === expectedRole.period &&
+      actual?.location === expectedRole.location &&
+      actual?.summary === expectedRole.summary,
+      `Arabic canonical role #${idx + 1} (${expectedRole.role} @ ${expectedRole.company}) matches manifest exactly`
+    );
+  });
+
+  // D. Arabic Memberships
+  const canonicalMembershipsAr = membershipsModAr.canonicalMembershipsAr || [];
+  check(
+    canonicalMembershipsAr.length === manifestAr.memberships.length,
+    `Arabic canonical memberships count: ${canonicalMembershipsAr.length} (expected ${manifestAr.memberships.length})`
+  );
+  manifestAr.memberships.forEach((expMember, idx) => {
+    const actual = canonicalMembershipsAr[idx];
+    check(
+      actual?.organization === expMember.organization &&
+      actual?.summary === expMember.summary,
+      `Arabic canonical membership #${idx + 1} (${expMember.organization}) matches manifest exactly`
+    );
+  });
+
+  // E. Arabic Languages
+  const canonicalLangsAr = languagesModAr.canonicalLanguagesAr || [];
+  check(
+    canonicalLangsAr.length === manifestAr.languages.length,
+    `Arabic canonical languages count: ${canonicalLangsAr.length} (expected ${manifestAr.languages.length})`
+  );
+  manifestAr.languages.forEach((expLang, idx) => {
+    const actual = canonicalLangsAr[idx];
+    check(
+      actual?.language === expLang.language &&
+      actual?.proficiency === expLang.proficiency &&
+      actual?.raw === expLang.raw,
+      `Arabic canonical language (${expLang.language} - ${expLang.proficiency}) matches manifest exactly`
+    );
+  });
+
+  // F. Arabic Technical Skills
+  const canonicalSkillLinesAr = skillsModAr.canonicalTechnicalSkillLinesAr || [];
+  check(
+    canonicalSkillLinesAr.length === manifestAr.technicalSkills.lines.length,
+    `Arabic canonical technical skill lines count: ${canonicalSkillLinesAr.length} (expected ${manifestAr.technicalSkills.lines.length})`
+  );
+
+  manifestAr.technicalSkills.lines.forEach((expLine, idx) => {
+    const actual = canonicalSkillLinesAr[idx];
+    check(
+      actual?.officialLine === expLine,
+      `Arabic canonical skill line #${idx + 1} matches: "${expLine}"`
+    );
+  });
+
+  // G. Arabic Interests
+  const canonicalInterestsAr = interestsModAr.canonicalInterestsAr || [];
+  check(
+    canonicalInterestsAr.length === manifestAr.interests.length,
+    `Arabic canonical interests count: ${canonicalInterestsAr.length} (expected ${manifestAr.interests.length})`
+  );
+  manifestAr.interests.forEach((expInterest, idx) => {
+    const actual = canonicalInterestsAr[idx];
+    check(
+      actual?.category === expInterest.category && actual?.rawText === expInterest.rawText,
+      `Arabic canonical interest #${idx + 1} (${expInterest.category}) matches manifest exactly`
+    );
+  });
+
+  // H. Arabic References
+  const canonicalRefsAr = referencesModAr.canonicalReferencesAr || [];
+  check(
+    canonicalRefsAr.length === manifestAr.references.length,
+    `Arabic canonical references count: ${canonicalRefsAr.length} (expected ${manifestAr.references.length})`
+  );
+  manifestAr.references.forEach((expRef, idx) => {
+    const actual = canonicalRefsAr[idx];
+    check(
+      actual?.name === expRef.name &&
+      actual?.phone === expRef.phone &&
+      actual?.email === expRef.email &&
+      actual?.isPublic === false,
+      `Arabic canonical reference #${idx + 1} matches exact source: "${expRef.name}"`
+    );
+  });
+
+  // I. Arabic Certifications
+  const canonicalCertsAr = certsModAr.canonicalCertificationsAr || [];
+  check(
+    canonicalCertsAr.length === manifestAr.certifications.length,
+    `Arabic canonical certifications count: ${canonicalCertsAr.length} (expected ${manifestAr.certifications.length})`
+  );
+
+  let statusDriftCountAr = 0;
+  let issuerDriftCountAr = 0;
+  canonicalCertsAr.forEach((cert, idx) => {
+    const exp = manifestAr.certifications[idx];
+    if (cert.status !== exp.status) {
+      statusDriftCountAr++;
+      failures.push(`Arabic certification "${cert.title}" has status "${cert.status}", expected "${exp.status}"`);
+    }
+    if (cert.issuer !== exp.issuer) {
+      issuerDriftCountAr++;
+      failures.push(`Arabic certification "${cert.title}" has issuer "${cert.issuer}", expected "${exp.issuer}"`);
+    }
+  });
+
+  check(statusDriftCountAr === 0, `All Arabic certifications preserve exact explicit status with zero invented claims`);
+  check(issuerDriftCountAr === 0, `All Arabic certifications use exact source issuer wording`);
+  check(
+    certsModAr.canonicalCertificationsRepositoryNoticeAr === manifestAr.certificationsRepositoryNotice,
+    `Arabic canonical certificates repository notice matches manifest: "${manifestAr.certificationsRepositoryNotice}"`
+  );
+
+  // J. Arabic Projects
+  const canonicalProjectsAr = projectsModAr.canonicalProjectsAr || [];
+  check(
+    canonicalProjectsAr.length === manifestAr.projects.length,
+    `Arabic canonical projects count: ${canonicalProjectsAr.length} (expected ${manifestAr.projects.length})`
+  );
+  manifestAr.projects.forEach((expProj, idx) => {
+    const actual = canonicalProjectsAr[idx];
+    check(
+      actual?.index === expProj.index &&
+      actual?.slug === expProj.slug &&
+      actual?.title === expProj.title &&
+      actual?.oneLineDescription === expProj.oneLineDescription,
+      `Arabic canonical project #${expProj.index} matches manifest exactly`
+    );
+  });
+  check(
+    projectsModAr.canonicalProjectsGithubNoticeAr === manifestAr.projectsGithubNotice,
+    `Arabic canonical projects footer notice matches manifest: "${manifestAr.projectsGithubNotice}"`
+  );
+
+  // 9. Arabic Portfolio Presentation Layer Integrity (src/content/ar/)
+  console.log("\n▶ [9/12] Verifying Arabic Portfolio Presentation Layer (src/content/ar/)...");
+  const pubExpModAr = loadTsModule("src/content/ar/experience.ts");
+  const pubProjectsModAr = loadTsModule("src/content/ar/projects.ts");
+  const pubCertsModAr = loadTsModule("src/content/ar/credentials.ts");
+  const pubAboutModAr = loadTsModule("src/content/ar/about.ts");
+  const pubContactModAr = loadTsModule("src/content/ar/contact.ts");
+  const pubSocialModAr = loadTsModule("src/content/ar/social.ts");
+
+  const pubRolesAr = pubExpModAr.experienceContentAr?.items || [];
+  check(
+    pubRolesAr.length === manifestAr.experienceRoles.length,
+    `Arabic portfolio experience items count: ${pubRolesAr.length} (expected ${manifestAr.experienceRoles.length})`
+  );
+  const emptyRespCountAr = pubRolesAr.filter((r) => !r.responsibilities || r.responsibilities.length === 0).length;
+  check(
+    emptyRespCountAr === 0,
+    `All Arabic experience items retain active responsibilities (${emptyRespCountAr} empty items found)`
+  );
+
+  const pubProjectsAr = pubProjectsModAr.projectItemsAr || pubProjectsModAr.projectsContentAr?.items || [];
+  check(
+    pubProjectsAr.length === manifestAr.projects.length,
+    `Arabic portfolio project catalogue count: ${pubProjectsAr.length} (expected ${manifestAr.projects.length})`
+  );
+
+  const pubCertsAr = pubCertsModAr.credentialsContentAr?.certifications || [];
+  check(
+    pubCertsAr.length === manifestAr.certifications.length,
+    `Arabic portfolio certifications count: ${pubCertsAr.length} (expected ${manifestAr.certifications.length})`
+  );
+
+  const pubMembershipsAr = pubCertsModAr.credentialsContentAr?.memberships || [];
+  check(
+    pubMembershipsAr.length === manifestAr.memberships.length,
+    `Arabic portfolio memberships count: ${pubMembershipsAr.length} (expected ${manifestAr.memberships.length})`
+  );
+
+  const pubInterestsAr = pubAboutModAr.aboutContentAr?.interests || [];
+  check(
+    pubInterestsAr.length === manifestAr.interests.length,
+    `Arabic portfolio interests count: ${pubInterestsAr.length} (expected ${manifestAr.interests.length})`
+  );
+
+  const socialsAr = pubSocialModAr.socialLinksAr || [];
+  check(socialsAr.some((s) => s.url?.includes("github.com/a2sn2")), "Arabic portfolio social channels include GitHub (a2sn2)");
+  check(socialsAr.some((s) => s.url?.includes("linkedin.com/in/a2sn4")), "Arabic portfolio social channels include LinkedIn (a2sn4)");
+  check(socialsAr.some((s) => s.url?.includes("instagram.com/a2s.n4")), "Arabic portfolio social channels include Instagram (@a2s.n4)");
+  check(pubContactModAr.contactContentAr?.location?.includes("صنعاء"), "Arabic portfolio contact location includes Sana'a");
+
+  // 10. Project Slug 1:1 Parity between EN and AR
+  console.log("\n▶ [10/12] Verifying Project Slug 1:1 Parity between English and Arabic...");
+  const enSlugs = pubProjects.map((p) => p.slug);
+  const arSlugs = pubProjectsAr.map((p) => p.slug);
+  check(
+    enSlugs.length === 16 && arSlugs.length === 16,
+    `Both English (16) and Arabic (16) have exactly 16 project slugs`
+  );
+  let slugMismatches = 0;
+  enSlugs.forEach((slug) => {
+    if (!arSlugs.includes(slug)) {
+      slugMismatches++;
+      failures.push(`English slug "${slug}" is missing from Arabic projects`);
+    }
+  });
+  arSlugs.forEach((slug) => {
+    if (!enSlugs.includes(slug)) {
+      slugMismatches++;
+      failures.push(`Arabic slug "${slug}" is missing from English projects`);
+    }
+  });
+  check(
+    slugMismatches === 0,
+    `All 16 project slugs match 1:1 between English and Arabic versions`
+  );
+
+  // 11. Arabic Reference Display Policy Verification
+  console.log("\n▶ [11/12] Verifying Reference Display Policy in Arabic Content Files...");
+  const publicFilesAr = [
+    "src/content/ar/about.ts",
+    "src/content/ar/contact.ts",
+    "src/content/ar/experience.ts",
+    "src/content/ar/identity.ts",
+    "src/content/ar/projects.ts",
+    "src/content/ar/skills.ts",
+    "src/content/ar/credentials.ts",
+    "src/content/ar/social.ts",
+  ];
+
+  const referencePhoneNumbersAr = manifestAr.references.map((r) => r.phone);
+  const referenceEmailsAr = manifestAr.references.filter((r) => r.email).map((r) => r.email);
+
+  let renderedContactCountAr = 0;
+  for (const relFile of publicFilesAr) {
+    const content = fs.readFileSync(path.join(root, relFile), "utf8");
+    for (const phone of referencePhoneNumbersAr) {
+      if (content.includes(phone)) {
+        renderedContactCountAr++;
+        failures.push(`Reference phone "${phone}" detected in public Arabic content file ${relFile}`);
+      }
+    }
+    for (const email of referenceEmailsAr) {
+      if (content.includes(email)) {
+        renderedContactCountAr++;
+        failures.push(`Reference email "${email}" detected in public Arabic content file ${relFile}`);
+      }
+    }
+  }
+
+  check(
+    renderedContactCountAr === 0,
+    `Arabic reference phone numbers and personal emails are not rendered in public Arabic content files`
+  );
+
+  // 12. Cross-Language Content Integrity & Banned Claims
+  console.log("\n▶ [12/12] Scanning Arabic Content Files for Banned Unverified Claims...");
+  let bannedViolationsAr = 0;
+  for (const relFile of publicFilesAr) {
+    const content = fs.readFileSync(path.join(root, relFile), "utf8").toLowerCase();
+    for (const phrase of BANNED_UNVERIFIED_PHRASES) {
+      if (content.includes(phrase.toLowerCase())) {
+        bannedViolationsAr++;
+        failures.push(`Banned phrase "${phrase}" detected in ${relFile}`);
+      }
+    }
+  }
+
+  check(
+    bannedViolationsAr === 0,
+    `All ungrounded phrases are strictly absent across all public Arabic content files`
+  );
 
   // Final Summary
   console.log("\n============================================================");
   if (failures.length === 0) {
-    console.log("✅ ALL ENGLISH CV DETERMINISTIC CONTENT PARITY CHECKS PASSED!");
+    console.log("✅ ALL ENGLISH & ARABIC CV DETERMINISTIC CONTENT PARITY CHECKS PASSED!");
     console.log("============================================================\n");
     process.exit(0);
   } else {

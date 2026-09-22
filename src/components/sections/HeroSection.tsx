@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "./Sections.module.css";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
@@ -10,8 +13,11 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ content }: HeroSectionProps) {
+  const pathname = usePathname();
+  const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
+
   return (
-    <section id="top" className={styles.heroSection} aria-label="Introduction">
+    <section id="top" className={styles.heroSection} aria-label={isArabic ? "مقدمة" : "Introduction"}>
       <Container>
         <div className={styles.heroGrid}>
           {/* Main Identity & Positioning Column */}
@@ -42,8 +48,17 @@ export function HeroSection({ content }: HeroSectionProps) {
             </div>
 
             <h1 className={styles.heroHeading}>
-              <span>ALHassan</span>{" "}
-              <span className={styles.heroNameAccent}>Baligh ALShami</span>
+              {isArabic || content.fullName === "الحسن بليغ الشامي" ? (
+                <>
+                  <span>الحسن</span>{" "}
+                  <span className={styles.heroNameAccent}>بليغ الشامي</span>
+                </>
+              ) : (
+                <>
+                  <span>ALHassan</span>{" "}
+                  <span className={styles.heroNameAccent}>Baligh ALShami</span>
+                </>
+              )}
             </h1>
 
             <p className={styles.heroLead}>{content.headline}</p>
@@ -51,35 +66,41 @@ export function HeroSection({ content }: HeroSectionProps) {
             <p className={styles.heroBioBrief}>{content.bioBrief}</p>
 
             <div className={styles.heroActions}>
-              <Link href="/projects" className={styles.btnPrimary}>
-                <span>Explore Selected Work</span>
-                <span aria-hidden="true">→</span>
+              <Link href={isArabic ? "/ar/projects" : "/projects"} className={styles.btnPrimary}>
+                <span>{isArabic ? "استكشف الأعمال المختارة" : "Explore Selected Work"}</span>
+                <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
               </Link>
-              <Link href="/about" className={styles.btnSecondary}>
-                <span>Read Profile & Principles</span>
+              <Link href={isArabic ? "/ar/about" : "/about"} className={styles.btnSecondary}>
+                <span>{isArabic ? "اقرأ النبذة والمبادئ" : "Read Profile & Principles"}</span>
               </Link>
             </div>
 
             <div className={styles.commandHint}>
               <span className={styles.kbdHint}>⌘K</span>
-              <span>or</span>
+              <span>{isArabic ? "أو" : "or"}</span>
               <span className={styles.kbdHint}>Ctrl+K</span>
-              <span>opens the Portfolio Navigator from anywhere</span>
+              <span>
+                {isArabic
+                  ? "يفتح لوحة التنقل من أي مكان في الموقع"
+                  : "opens the Portfolio Navigator from anywhere"}
+              </span>
             </div>
 
             {/* Compact Focus Rail for Mobile: fits cleanly within first screen rhythm */}
             {content.focusPillars && content.focusPillars.length > 0 && (
-              <div className={styles.heroMobileFocusRail} aria-label="Core Engineering Domains">
-                <span className={styles.focusRailKicker}>Core Focus Domains</span>
+              <div className={styles.heroMobileFocusRail} aria-label={isArabic ? "مجالات التركيز الهندسية" : "Core Engineering Domains"}>
+                <span className={styles.focusRailKicker}>
+                  {isArabic ? "مجالات التركيز الهندسية" : "Core Focus Domains"}
+                </span>
                 <div className={styles.focusRailGrid}>
                   {content.focusPillars.map((pillar) => {
-                    const mobileLabels: Record<string, string> = {
+                    const mobileLabelsEn: Record<string, string> = {
                       systems: "Software Systems",
                       fullstack: "Full-Stack Engineering",
                       "ai-vision": "Applied AI",
                       quality: "Quality Engineering",
                     };
-                    const label = mobileLabels[pillar.id] || pillar.title;
+                    const label = isArabic ? pillar.title : (mobileLabelsEn[pillar.id] || pillar.title);
                     const indexStr = pillar.index.split(" / ")[0];
                     return (
                       <div key={pillar.id} className={styles.focusRailItem}>
@@ -95,7 +116,7 @@ export function HeroSection({ content }: HeroSectionProps) {
 
           {/* Desktop Editorial Engineering Field Map */}
           {content.focusPillars && content.focusPillars.length > 0 && (
-            <aside className={styles.heroFieldMap} aria-label="Engineering Focus Architecture">
+            <aside className={styles.heroFieldMap} aria-label={isArabic ? "هيكل التركيز الهندسي" : "Engineering Focus Architecture"}>
               <div className={styles.fieldMapFrame} aria-hidden="true">
                 <span className={styles.cornerTickTL}>+</span>
                 <span className={styles.cornerTickTR}>+</span>
@@ -107,11 +128,11 @@ export function HeroSection({ content }: HeroSectionProps) {
                 <div className={styles.fieldMapKickerGroup}>
                   <span className={styles.fieldMapIndex}>[ 01 — 04 ]</span>
                   <span className={styles.fieldMapTitle}>
-                    {content.focusHeading || "Core Focus"}
+                    {content.focusHeading || (isArabic ? "محاور التركيز" : "Core Focus")}
                   </span>
                 </div>
                 <span className={styles.fieldMapStatus}>
-                  {content.focusSubheading || "Active Practice"}
+                  {content.focusSubheading || (isArabic ? "الممارسة النشطة" : "Active Practice")}
                 </span>
               </div>
 
@@ -129,7 +150,9 @@ export function HeroSection({ content }: HeroSectionProps) {
               </div>
 
               <div className={styles.fieldMapFooter}>
-                <span className={styles.fieldMapFooterMeta}>Engineering Scope · Core Disciplines</span>
+                <span className={styles.fieldMapFooterMeta}>
+                  {isArabic ? "النطاق الهندسي · التخصصات الأساسية" : "Engineering Scope · Core Disciplines"}
+                </span>
               </div>
             </aside>
           )}

@@ -151,6 +151,70 @@
   outline-offset: 2px;
 }
 
+.langSwitch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard);
+  min-height: 32px;
+  font-family: var(--font-sans);
+}
+
+.langSwitch:hover {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+  background-color: var(--color-surface-hover);
+}
+
+.langSwitch:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.langSwitchMobile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  min-width: 44px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              background-color var(--duration-fast) var(--ease-standard);
+  box-shadow: var(--shadow-subtle);
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+}
+
+.langSwitchMobile:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-brand-border);
+  color: var(--color-brand);
+}
+
+.langSwitchMobile:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
 .searchKbd {
   font-size: 10px;
   font-family: var(--font-geist-mono), monospace;
@@ -357,6 +421,18 @@
 }
 
 .drawerThemeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.drawerLangRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
