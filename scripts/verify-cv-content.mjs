@@ -68,6 +68,21 @@ const manifestPathAr = path.join(
   "canonical-cv-manifest.ar.json"
 );
 
+const sourcePdfPathDe = path.join(
+  root,
+  "docs",
+  "ALHassan_Baligh_ALShami_CV_Package",
+  "Deutsch",
+  "Lebenslauf_ALHassan_Baligh_ALShami_Standardversion.pdf"
+);
+
+const manifestPathDe = path.join(
+  root,
+  "scripts",
+  "fixtures",
+  "canonical-cv-manifest.de.json"
+);
+
 if (!fs.existsSync(manifestPath)) {
   console.error("❌ English manifest fixture missing at:", manifestPath);
   process.exit(1);
@@ -78,8 +93,14 @@ if (!fs.existsSync(manifestPathAr)) {
   process.exit(1);
 }
 
+if (!fs.existsSync(manifestPathDe)) {
+  console.error("❌ German manifest fixture missing at:", manifestPathDe);
+  process.exit(1);
+}
+
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 const manifestAr = JSON.parse(fs.readFileSync(manifestPathAr, "utf8"));
+const manifestDe = JSON.parse(fs.readFileSync(manifestPathDe, "utf8"));
 
 const BANNED_UNVERIFIED_PHRASES = [
   "backend REST microservices",
@@ -909,10 +930,370 @@ async function run() {
     `All ungrounded phrases are strictly absent across all public Arabic content files`
   );
 
+  // ============================================================
+  // GERMAN CV DETERMINISTIC CONTENT PARITY
+  // ============================================================
+  console.log("\n============================================================");
+  console.log("🔍 GERMAN CV DETERMINISTIC CONTENT PARITY VERIFICATION");
+  console.log("============================================================\n");
+
+  // 13. German PDF Hash Verification
+  console.log("▶ [13/18] Verifying Official German Standard CV PDF Baseline...");
+  check(fs.existsSync(sourcePdfPathDe), `German Source PDF exists at ${path.relative(root, sourcePdfPathDe)}`);
+  if (fs.existsSync(sourcePdfPathDe)) {
+    const pdfBytesDe = fs.readFileSync(sourcePdfPathDe);
+    const pdfHashDe = crypto.createHash("sha256").update(pdfBytesDe).digest("hex");
+    check(
+      pdfHashDe === manifestDe.pdfSha256,
+      `German Source PDF SHA-256 (${pdfHashDe}) matches baseline (${manifestDe.pdfSha256})`
+    );
+  }
+
+  // 14. German Canonical Model Verification
+  console.log("\n▶ [14/18] Verifying Canonical German CV Model (src/content/cv/de/) against Manifest...");
+  const cvDirDe = path.join(root, "src", "content", "cv", "de");
+  check(fs.existsSync(cvDirDe), "Canonical German CV directory src/content/cv/de/ exists");
+
+  const identityModDe = loadTsModule("src/content/cv/de/identity.ts");
+  const profileModDe = loadTsModule("src/content/cv/de/profile.ts");
+  const educationModDe = loadTsModule("src/content/cv/de/education.ts");
+  const experienceModDe = loadTsModule("src/content/cv/de/experience.ts");
+  const membershipsModDe = loadTsModule("src/content/cv/de/memberships.ts");
+  const languagesModDe = loadTsModule("src/content/cv/de/languages.ts");
+  const skillsModDe = loadTsModule("src/content/cv/de/technicalSkills.ts");
+  const interestsModDe = loadTsModule("src/content/cv/de/interests.ts");
+  const referencesModDe = loadTsModule("src/content/cv/de/references.ts");
+  const certsModDe = loadTsModule("src/content/cv/de/certifications.ts");
+  const projectsModDe = loadTsModule("src/content/cv/de/projects.ts");
+  const indexModDe = loadTsModule("src/content/cv/de/index.ts");
+
+  check(
+    indexModDe.canonicalCvMetaDe?.sourcePdfSha256 === manifestDe.pdfSha256,
+    `German canonical index metadata sourcePdfSha256 matches manifest baseline`
+  );
+
+  // A. German Identity & Profile
+  check(
+    identityModDe.canonicalIdentityDe?.fullName === manifestDe.identity.fullName,
+    `German canonical fullName matches: "${manifestDe.identity.fullName}"`
+  );
+  check(
+    identityModDe.canonicalIdentityDe?.role === manifestDe.identity.role,
+    `German canonical role matches: "${manifestDe.identity.role}"`
+  );
+  check(
+    identityModDe.canonicalIdentityDe?.location === manifestDe.identity.location,
+    `German canonical location matches: "${manifestDe.identity.location}"`
+  );
+  check(
+    identityModDe.canonicalIdentityDe?.phone === manifestDe.identity.phone,
+    `German canonical phone matches: "${manifestDe.identity.phone}"`
+  );
+  check(
+    identityModDe.canonicalIdentityDe?.dateOfBirth === manifestDe.identity.dateOfBirth,
+    `German canonical dateOfBirth matches: "${manifestDe.identity.dateOfBirth}"`
+  );
+  check(
+    identityModDe.canonicalIdentityDe?.email === manifestDe.identity.email,
+    `German canonical email matches: "${manifestDe.identity.email}"`
+  );
+  check(
+    identityModDe.canonicalIdentityDe?.linkedin?.display === manifestDe.identity.linkedin,
+    `German canonical linkedin display matches: "${manifestDe.identity.linkedin}"`
+  );
+  check(
+    identityModDe.canonicalIdentityDe?.instagram?.display === manifestDe.identity.instagram,
+    `German canonical instagram display matches: "${manifestDe.identity.instagram}"`
+  );
+  check(
+    identityModDe.canonicalIdentityDe?.github?.display === manifestDe.identity.github,
+    `German canonical github display matches: "${manifestDe.identity.github}"`
+  );
+  check(
+    profileModDe.canonicalProfileDe?.raw === manifestDe.profile.raw,
+    `German canonical profile paragraph matches exact source paragraph`
+  );
+
+  // B. German Education
+  check(
+    educationModDe.canonicalEducationDe?.institution === manifestDe.education.institution,
+    `German canonical education institution matches: "${manifestDe.education.institution}"`
+  );
+  check(
+    educationModDe.canonicalEducationDe?.degree === manifestDe.education.degree,
+    `German canonical education degree matches: "${manifestDe.education.degree}"`
+  );
+  check(
+    educationModDe.canonicalEducationDe?.period === manifestDe.education.period,
+    `German canonical education period matches: "${manifestDe.education.period}"`
+  );
+  check(
+    educationModDe.canonicalEducationDe?.graduationProject?.title === manifestDe.education.graduationProjectTitle,
+    `German canonical graduation project title matches manifest`
+  );
+  check(
+    educationModDe.canonicalEducationDe?.graduationProject?.description === manifestDe.education.graduationProjectDescription,
+    `German canonical graduation project description matches manifest`
+  );
+  check(
+    educationModDe.canonicalEducationDe?.graduationProject?.repositoryNote === manifestDe.education.graduationProjectRepositoryNotice,
+    `German canonical repository notice matches manifest`
+  );
+
+  // C. German Experience (6 orgs, 9 roles)
+  const deOrgs = experienceModDe.canonicalExperienceOrganizationsDe || [];
+  const deRoles = experienceModDe.canonicalExperienceRolesDe || [];
+  check(deOrgs.length === manifestDe.organizations.length, `German canonical organizations count (${deOrgs.length}) matches manifest (${manifestDe.organizations.length})`);
+  check(deRoles.length === manifestDe.experienceRoles.length, `German canonical experience roles count (${deRoles.length}) matches manifest (${manifestDe.experienceRoles.length})`);
+
+  manifestDe.organizations.forEach((expectedOrg, idx) => {
+    const actualOrg = deOrgs[idx];
+    check(actualOrg?.company === expectedOrg.company, `German Org #${idx + 1} company matches: "${expectedOrg.company}"`);
+    check(actualOrg?.period === expectedOrg.period, `German Org #${idx + 1} period matches: "${expectedOrg.period}"`);
+    check(actualOrg?.location === expectedOrg.location, `German Org #${idx + 1} location matches: "${expectedOrg.location}"`);
+  });
+
+  manifestDe.experienceRoles.forEach((expectedRole, idx) => {
+    const actualRole = deRoles[idx];
+    check(actualRole?.role === expectedRole.role, `German Role #${idx + 1} role matches: "${expectedRole.role}"`);
+    check(actualRole?.company === expectedRole.company, `German Role #${idx + 1} company matches: "${expectedRole.company}"`);
+    check(actualRole?.period === expectedRole.period, `German Role #${idx + 1} period matches: "${expectedRole.period}"`);
+    check(actualRole?.location === expectedRole.location, `German Role #${idx + 1} location matches: "${expectedRole.location}"`);
+    check(actualRole?.summary === expectedRole.summary, `German Role #${idx + 1} summary matches manifest`);
+  });
+
+  // D. German Memberships (5)
+  const deMemberships = membershipsModDe.canonicalMembershipsDe || [];
+  check(deMemberships.length === manifestDe.memberships.length, `German canonical memberships count (${deMemberships.length}) matches manifest (${manifestDe.memberships.length})`);
+  manifestDe.memberships.forEach((expectedM, idx) => {
+    const actualM = deMemberships[idx];
+    check(actualM?.organization === expectedM.organization, `German Membership #${idx + 1} organization matches: "${expectedM.organization}"`);
+    check(actualM?.summary === expectedM.description, `German Membership #${idx + 1} description matches manifest`);
+  });
+
+  // E. German Languages (3)
+  const deLangs = languagesModDe.canonicalLanguagesDe || [];
+  check(deLangs.length === manifestDe.languages.length, `German canonical languages count (${deLangs.length}) matches manifest (${manifestDe.languages.length})`);
+  manifestDe.languages.forEach((expectedL, idx) => {
+    const actualL = deLangs[idx];
+    check(actualL?.language === expectedL.language, `German Language #${idx + 1} matches: "${expectedL.language}"`);
+    check(actualL?.proficiency === expectedL.proficiency, `German Language #${idx + 1} proficiency matches: "${expectedL.proficiency}"`);
+  });
+
+  // F. German Technical Skills (9 lines, zero inferred)
+  const deSkillLines = skillsModDe.canonicalTechnicalSkillsOfficialLinesDe || [];
+  check(deSkillLines.length === manifestDe.technicalSkills.length, `German canonical skill lines count (${deSkillLines.length}) matches manifest (${manifestDe.technicalSkills.length})`);
+  manifestDe.technicalSkills.forEach((expectedLine, idx) => {
+    check(deSkillLines[idx] === expectedLine, `German Technical Skill Line #${idx + 1} matches: "${expectedLine}"`);
+  });
+
+  // G. German Interests (3)
+  const deInterests = interestsModDe.canonicalInterestsDe || [];
+  check(deInterests.length === manifestDe.interests.length, `German canonical interests count (${deInterests.length}) matches manifest (${manifestDe.interests.length})`);
+  manifestDe.interests.forEach((expectedInt, idx) => {
+    const actualInt = deInterests[idx];
+    check(actualInt?.category === expectedInt.category, `German Interest #${idx + 1} category matches: "${expectedInt.category}"`);
+    check(actualInt?.items === expectedInt.items, `German Interest #${idx + 1} items match manifest`);
+    check(actualInt?.rawText === expectedInt.rawText, `German Interest #${idx + 1} rawText matches manifest`);
+  });
+
+  // H. German References (6)
+  const deRefs = referencesModDe.canonicalReferencesDe || [];
+  check(deRefs.length === manifestDe.references.length, `German canonical references count (${deRefs.length}) matches manifest (${manifestDe.references.length})`);
+  manifestDe.references.forEach((expectedRef, idx) => {
+    const actualRef = deRefs[idx];
+    check(actualRef?.name === expectedRef.name, `German Reference #${idx + 1} name matches: "${expectedRef.name}"`);
+    check(actualRef?.phone === expectedRef.phone, `German Reference #${idx + 1} phone matches: "${expectedRef.phone}"`);
+    if (expectedRef.email) {
+      check(actualRef?.email === expectedRef.email, `German Reference #${idx + 1} email matches: "${expectedRef.email}"`);
+    }
+    check(actualRef?.isPublic === false, `German Reference #${idx + 1} is marked isPublic: false`);
+  });
+  check(
+    referencesModDe.canonicalReferencePublicPolicyStatementDe === manifestDe.referencePublicPolicyStatement,
+    `German canonical reference public policy statement matches manifest`
+  );
+
+  // I. German Certifications (26)
+  const deCerts = certsModDe.canonicalCertificationsDe || [];
+  check(deCerts.length === manifestDe.certifications.length, `German canonical certifications count (${deCerts.length}) matches manifest (${manifestDe.certifications.length})`);
+  manifestDe.certifications.forEach((expectedCert, idx) => {
+    const actualCert = deCerts[idx];
+    check(String(actualCert?.year) === String(expectedCert.year), `German Cert #${idx + 1} year matches: "${expectedCert.year}"`);
+    check(actualCert?.issuer === expectedCert.issuer, `German Cert #${idx + 1} issuer matches: "${expectedCert.issuer}"`);
+    check(actualCert?.title === expectedCert.title, `German Cert #${idx + 1} title matches: "${expectedCert.title}"`);
+    if (expectedCert.status) {
+      check(actualCert?.status === expectedCert.status, `German Cert #${idx + 1} status matches explicit "${expectedCert.status}"`);
+    } else {
+      check(!actualCert?.status, `German Cert #${idx + 1} has no invented status`);
+    }
+  });
+  check(
+    certsModDe.canonicalCertificatesRepositoryNoticeDe?.text === manifestDe.certificationsFooterNotice.raw,
+    `German certifications repository notice matches manifest`
+  );
+
+  // J. German Projects (16)
+  const deProjects = projectsModDe.canonicalProjectsDe || [];
+  check(deProjects.length === manifestDe.projects.length, `German canonical projects count (${deProjects.length}) matches manifest (${manifestDe.projects.length})`);
+  manifestDe.projects.forEach((expectedProj, idx) => {
+    const actualProj = deProjects[idx];
+    check(actualProj?.slug === expectedProj.slug, `German Project #${idx + 1} slug matches: "${expectedProj.slug}"`);
+    check(actualProj?.officialTitle === expectedProj.title, `German Project #${idx + 1} title matches: "${expectedProj.title}"`);
+    check(actualProj?.officialDescription === expectedProj.description, `German Project #${idx + 1} description matches manifest`);
+  });
+  check(
+    projectsModDe.canonicalProjectsFooterNoticeDe?.text === manifestDe.projectsFooterNotice.raw,
+    `German projects footer notice matches manifest`
+  );
+
+  // 15. German Presentation Layer Verification
+  console.log("\n▶ [15/18] Verifying German Presentation Layer (src/content/de/)...");
+  const presIdentityModDe = loadTsModule("src/content/de/identity.ts");
+  const presAboutModDe = loadTsModule("src/content/de/about.ts");
+  const presExpModDe = loadTsModule("src/content/de/experience.ts");
+  const presProjectsModDe = loadTsModule("src/content/de/projects.ts");
+  const presSkillsModDe = loadTsModule("src/content/de/skills.ts");
+  const presCertsModDe = loadTsModule("src/content/de/credentials.ts");
+  const presContactModDe = loadTsModule("src/content/de/contact.ts");
+  const presNavModDe = loadTsModule("src/content/de/navigation.ts");
+  const presSocialModDe = loadTsModule("src/content/de/social.ts");
+  const presSiteMetaModDe = loadTsModule("src/content/de/siteMetadata.ts");
+
+  check(
+    presIdentityModDe.identityContentDe?.fullName === manifestDe.identity.fullName,
+    `German presentation fullName matches: "${manifestDe.identity.fullName}"`
+  );
+  check(
+    presIdentityModDe.identityContentDe?.role === manifestDe.identity.role,
+    `German presentation role matches: "${manifestDe.identity.role}"`
+  );
+  check(
+    presAboutModDe.aboutContentDe?.paragraphs?.length === 3,
+    `German aboutContent has 3 paragraphs`
+  );
+  check(
+    presExpModDe.experienceContentDe?.items?.length === 9,
+    `German experienceContent has all 9 roles`
+  );
+  check(
+    presProjectsModDe.projectItemsDe?.length === 16,
+    `German projectItems has all 16 projects`
+  );
+  check(
+    presSkillsModDe.skillsContentDe?.groups?.length === 5,
+    `German skillsContent has 5 groups`
+  );
+  check(
+    presCertsModDe.credentialsContentDe?.certifications?.length === 26,
+    `German credentialsContent has all 26 certifications`
+  );
+  check(
+    presCertsModDe.credentialsContentDe?.memberships?.length === 5,
+    `German credentialsContent has all 5 memberships`
+  );
+  check(
+    presContactModDe.contactContentDe?.cvDocuments?.length === 6,
+    `German contactContent provides all 6 CV document downloads`
+  );
+  check(
+    presNavModDe.navigationContentDe?.navItems?.length === 6,
+    `German navigationContent provides 6 chapters`
+  );
+  check(
+    presSocialModDe.socialLinksDe?.length === 3,
+    `German socialLinksDe contains 3 social links`
+  );
+  check(
+    presSiteMetaModDe.siteMetadataDe?.locale === "de_DE",
+    `German siteMetadata locale is de_DE`
+  );
+
+  // 16. Trilingual Project Slug Parity Verification
+  console.log("\n▶ [16/18] Verifying Trilingual Project Slug Parity (EN == AR == DE)...");
+  const deSlugs = presProjectsModDe.projectItemsDe.map((p) => p.slug);
+  check(
+    deSlugs.length === 16,
+    `German projects list has exactly 16 slugs`
+  );
+  let trilingualSlugMismatches = 0;
+  enSlugs.forEach((slug) => {
+    if (!deSlugs.includes(slug)) {
+      trilingualSlugMismatches++;
+      failures.push(`English slug "${slug}" is missing from German projects`);
+    }
+  });
+  deSlugs.forEach((slug) => {
+    if (!enSlugs.includes(slug)) {
+      trilingualSlugMismatches++;
+      failures.push(`German slug "${slug}" is missing from English projects`);
+    }
+  });
+  check(
+    trilingualSlugMismatches === 0,
+    `All 16 project slugs match 1:1 across English, Arabic, and German versions`
+  );
+
+  // 17. German Reference Display Policy Verification
+  console.log("\n▶ [17/18] Verifying Reference Display Policy in German Content Files...");
+  const publicFilesDe = [
+    "src/content/de/about.ts",
+    "src/content/de/contact.ts",
+    "src/content/de/experience.ts",
+    "src/content/de/identity.ts",
+    "src/content/de/projects.ts",
+    "src/content/de/skills.ts",
+    "src/content/de/credentials.ts",
+    "src/content/de/social.ts",
+  ];
+
+  const referencePhoneNumbersDe = manifestDe.references.map((r) => r.phone);
+  const referenceEmailsDe = manifestDe.references.filter((r) => r.email).map((r) => r.email);
+
+  let renderedContactCountDe = 0;
+  for (const relFile of publicFilesDe) {
+    const content = fs.readFileSync(path.join(root, relFile), "utf8");
+    for (const phone of referencePhoneNumbersDe) {
+      if (content.includes(phone)) {
+        renderedContactCountDe++;
+        failures.push(`Reference phone "${phone}" detected in public German content file ${relFile}`);
+      }
+    }
+    for (const email of referenceEmailsDe) {
+      if (content.includes(email)) {
+        renderedContactCountDe++;
+        failures.push(`Reference email "${email}" detected in public German content file ${relFile}`);
+      }
+    }
+  }
+
+  check(
+    renderedContactCountDe === 0,
+    `German reference phone numbers and personal emails are not rendered in public German content files`
+  );
+
+  // 18. Scanning German Content Files for Banned Unverified Claims
+  console.log("\n▶ [18/18] Scanning German Content Files for Banned Unverified Claims...");
+  let bannedViolationsDe = 0;
+  for (const relFile of publicFilesDe) {
+    const content = fs.readFileSync(path.join(root, relFile), "utf8").toLowerCase();
+    for (const phrase of BANNED_UNVERIFIED_PHRASES) {
+      if (content.includes(phrase.toLowerCase())) {
+        bannedViolationsDe++;
+        failures.push(`Banned phrase "${phrase}" detected in ${relFile}`);
+      }
+    }
+  }
+
+  check(
+    bannedViolationsDe === 0,
+    `All ungrounded phrases are strictly absent across all public German content files`
+  );
+
   // Final Summary
   console.log("\n============================================================");
   if (failures.length === 0) {
-    console.log("✅ ALL ENGLISH & ARABIC CV DETERMINISTIC CONTENT PARITY CHECKS PASSED!");
+    console.log("✅ ALL ENGLISH, ARABIC & GERMAN CV DETERMINISTIC CONTENT PARITY CHECKS PASSED!");
     console.log("============================================================\n");
     process.exit(0);
   } else {

@@ -1,0 +1,101 @@
+import { ContactContent } from "@/contracts";
+
+export const contactContentDe: ContactContent = {
+  kicker: "Direkter Kontakt & Unterlagen",
+  title: "Kontakt aufnehmen & Offizielle Dokumente herunterladen",
+  description:
+    "Direkte Kommunikationskanäle, verifizierte Profile und offizielle mehrsprachige Lebenslauf-Pakete.",
+  directEmail: "hassan1alshami6@gmail.com",
+  directPhone: "+967 772 765 120",
+  location: "Haddah, Sanaa, Jemen",
+  methods: [
+    {
+      id: "email",
+      label: "E-Mail-Adresse",
+      value: "hassan1alshami6@gmail.com",
+      href: "mailto:hassan1alshami6@gmail.com",
+      isPrimary: true,
+    },
+    {
+      id: "phone",
+      label: "Telefonnummer",
+      value: "+967 772 765 120",
+      href: "tel:+967772765120",
+      isPrimary: true,
+    },
+    {
+      id: "linkedin",
+      label: "LinkedIn-Profil",
+      value: "linkedin.com/in/a2sn4",
+      href: "https://www.linkedin.com/in/a2sn4",
+      isExternal: true,
+      isPrimary: true,
+    },
+    {
+      id: "github",
+      label: "GitHub-Repositories",
+      value: "github.com/a2sn2",
+      href: "https://github.com/a2sn2",
+      isExternal: true,
+    },
+    {
+      id: "instagram",
+      label: "Instagram",
+      value: "@a2s.n4",
+      href: "https://www.instagram.com/a2s.n4",
+      isExternal: true,
+    },
+  ],
+  cvDocuments: [
+    {
+      label: "Lebenslauf Deutsch (Standardversion)",
+      language: "German",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_German_Standard.pdf",
+      filesize: "8.5 MB",
+    },
+    {
+      label: "Lebenslauf Deutsch (ATS-Version)",
+      language: "German",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_German_ATS.pdf",
+      filesize: "3.2 MB",
+    },
+    {
+      label: "English Curriculum Vitae (Standard)",
+      language: "English",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_English_Standard.pdf",
+      filesize: "8.3 MB",
+    },
+    {
+      label: "English Curriculum Vitae (ATS-Optimized)",
+      language: "English",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_English_ATS.pdf",
+      filesize: "3.2 MB",
+    },
+    {
+      label: "السيرة الذاتية بالعربية (النسخة العادية)",
+      language: "Arabic",
+      format: "Standard",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_Arabic_Standard.pdf",
+      filesize: "7.5 MB",
+    },
+    {
+      label: "السيرة الذاتية بالعربية (نسخة ATS)",
+      language: "Arabic",
+      format: "ATS",
+      href: "/cv/ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+      filename: "ALHassan_Baligh_ALShami_CV_Arabic_ATS.pdf",
+      filesize: "2.5 MB",
+    },
+  ],
+  referencesNote:
+    "Akademische und berufliche Referenzen sind auf Anfrage verfügbar.",
+};

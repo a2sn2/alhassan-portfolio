@@ -5,7 +5,7 @@ import { ProjectItem } from "@/contracts/projects";
 
 interface ProjectCaseStudyProps {
   project: ProjectItem;
-  locale?: "en" | "ar";
+  locale?: "en" | "ar" | "de";
 }
 
 interface Chapter {
@@ -14,6 +14,7 @@ interface Chapter {
 }
 
 export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyProps) {
+  const isDe = locale === "de";
   const isAr = locale === "ar";
 
   // Dynamically assemble chapters based purely on verified available content
@@ -21,55 +22,89 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
   if (project.problem) {
     chapters.push({
       id: "problem",
-      label: isAr ? "المشكلة وسياق الهندسة" : "Problem & Context",
+      label: isDe
+        ? "Problem & Kontext"
+        : isAr
+        ? "المشكلة وسياق الهندسة"
+        : "Problem & Context",
     });
   }
   if (project.role) {
     chapters.push({
       id: "role",
-      label: isAr ? "الدور والمسؤولية الهندسية" : "Role & Responsibility",
+      label: isDe
+        ? "Rolle & Verantwortung"
+        : isAr
+        ? "الدور والمسؤولية الهندسية"
+        : "Role & Responsibility",
     });
   }
   if (project.architecture) {
     chapters.push({
       id: "architecture",
-      label: isAr ? "بنية النظام وتدفق البيانات" : "System Architecture",
+      label: isDe
+        ? "Systemarchitektur & Datenfluss"
+        : isAr
+        ? "بنية النظام وتدفق البيانات"
+        : "System Architecture",
     });
   }
   if (project.solution) {
     chapters.push({
       id: "solution",
-      label: isAr ? "الحل الهندسي المنفّذ" : "Engineered Solution",
+      label: isDe
+        ? "Entwickelte Lösung"
+        : isAr
+        ? "الحل الهندسي المنفّذ"
+        : "Engineered Solution",
     });
   }
   if (project.implementationHighlights && project.implementationHighlights.length > 0) {
     chapters.push({
       id: "implementation",
-      label: isAr ? "أبرز نقاط التنفيذ" : "Implementation",
+      label: isDe
+        ? "Implementierungs-Highlights"
+        : isAr
+        ? "أبرز نقاط التنفيذ"
+        : "Implementation",
     });
   }
   if (project.technologies && project.technologies.length > 0) {
     chapters.push({
       id: "technologies",
-      label: isAr ? "التقنيات المعتمدة" : "Verified Technologies",
+      label: isDe
+        ? "Verifizierte Technologien"
+        : isAr
+        ? "التقنيات المعتمدة"
+        : "Verified Technologies",
     });
   }
   if (project.result) {
     chapters.push({
       id: "outcomes",
-      label: isAr ? "النتائج المعتمدة ونطاق التسليم" : "Verified Outcomes",
+      label: isDe
+        ? "Verifizierte Ergebnisse & Umfang"
+        : isAr
+        ? "النتائج المعتمدة ونطاق التسليم"
+        : "Verified Outcomes",
     });
   }
 
   const isRichCaseStudy = chapters.length >= 3;
-  const backHref = isAr ? "/ar/projects" : "/projects";
+  const backHref = isDe ? "/de/projects" : isAr ? "/ar/projects" : "/projects";
 
   return (
     <article className={styles.caseStudy}>
       <div className={styles.backLinkRow}>
         <Link href={backHref} className={styles.backLink}>
           <span aria-hidden="true">{isAr ? "→" : "←"}</span>
-          <span>{isAr ? "العودة إلى كافة المشاريع" : "Back to All Projects"}</span>
+          <span>
+            {isDe
+              ? "Zurück zu allen Projekten"
+              : isAr
+              ? "العودة إلى كافة المشاريع"
+              : "Back to All Projects"}
+          </span>
         </Link>
       </div>
 
@@ -91,8 +126,19 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
       {isRichCaseStudy ? (
         <div className={styles.contentLayout}>
           {/* Sticky Anchor Rail on Desktop */}
-          <aside className={styles.stickyRail} aria-label={isAr ? "أقسام دراسة الحالة" : "Case Study Sections"}>
-            <span className={styles.railHeading}>{isAr ? "الفصول" : "Chapters"}</span>
+          <aside
+            className={styles.stickyRail}
+            aria-label={
+              isDe
+                ? "Abschnitte der Fallstudie"
+                : isAr
+                ? "أقسام دراسة الحالة"
+                : "Case Study Sections"
+            }
+          >
+            <span className={styles.railHeading}>
+              {isDe ? "Kapitel" : isAr ? "الفصول" : "Chapters"}
+            </span>
             {chapters.map((ch, idx) => (
               <a key={ch.id} href={`#${ch.id}`} className={styles.railLink}>
                 {String(idx + 1).padStart(2, "0")}. {ch.label}
@@ -106,7 +152,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
               <section id="problem" className={styles.storySection}>
                 <h2 className={styles.sectionTitle}>
                   <span className={styles.sectionNumber}>01.</span>
-                  <span>{isAr ? "المشكلة وسياق الهندسة" : "The Problem & Engineering Context"}</span>
+                  <span>
+                    {isDe
+                      ? "Problem & Kontext"
+                      : isAr
+                      ? "المشكلة وسياق الهندسة"
+                      : "The Problem & Engineering Context"}
+                  </span>
                 </h2>
                 <p className={styles.sectionText}>{project.problem}</p>
               </section>
@@ -118,10 +170,20 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   <span className={styles.sectionNumber}>
                     {String(chapters.findIndex((c) => c.id === "role") + 1).padStart(2, "0")}.
                   </span>
-                  <span>{isAr ? "الدور والمسؤولية الهندسية" : "Engineering Role & Responsibility"}</span>
+                  <span>
+                    {isDe
+                      ? "Rolle & Verantwortung"
+                      : isAr
+                      ? "الدور والمسؤولية الهندسية"
+                      : "Engineering Role & Responsibility"}
+                  </span>
                 </h2>
                 <p className={styles.sectionText}>
-                  {isAr ? (
+                  {isDe ? (
+                    <>
+                      Tätig als <strong>{project.role}</strong> mit Fokus auf Entwicklung, Tests und verifizierte Implementierung.
+                    </>
+                  ) : isAr ? (
                     <>
                       عمل كـ <strong>{project.role}</strong>، مع التركيز على التطوير والاختبار والتنفيذ المعتمد.
                     </>
@@ -140,7 +202,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   <span className={styles.sectionNumber}>
                     {String(chapters.findIndex((c) => c.id === "architecture") + 1).padStart(2, "0")}.
                   </span>
-                  <span>{isAr ? "بنية النظام وتدفق البيانات" : "System Architecture & Data Flow"}</span>
+                  <span>
+                    {isDe
+                      ? "Systemarchitektur & Datenfluss"
+                      : isAr
+                      ? "بنية النظام وتدفق البيانات"
+                      : "System Architecture & Data Flow"}
+                  </span>
                 </h2>
                 <div className={styles.architectureBlock} dir="ltr">
                   {project.architecture}
@@ -154,7 +222,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   <span className={styles.sectionNumber}>
                     {String(chapters.findIndex((c) => c.id === "solution") + 1).padStart(2, "0")}.
                   </span>
-                  <span>{isAr ? "الحل الهندسي المنفّذ" : "Engineered Solution"}</span>
+                  <span>
+                    {isDe
+                      ? "Entwickelte Lösung"
+                      : isAr
+                      ? "الحل الهندسي المنفّذ"
+                      : "Engineered Solution"}
+                  </span>
                 </h2>
                 <p className={styles.sectionText}>{project.solution}</p>
               </section>
@@ -166,7 +240,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   <span className={styles.sectionNumber}>
                     {String(chapters.findIndex((c) => c.id === "implementation") + 1).padStart(2, "0")}.
                   </span>
-                  <span>{isAr ? "أبرز نقاط التنفيذ" : "Implementation Highlights"}</span>
+                  <span>
+                    {isDe
+                      ? "Implementierungs-Highlights"
+                      : isAr
+                      ? "أبرز نقاط التنفيذ"
+                      : "Implementation Highlights"}
+                  </span>
                 </h2>
                 <ul className={styles.highlightsList}>
                   {project.implementationHighlights.map((highlight, idx) => (
@@ -184,7 +264,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   <span className={styles.sectionNumber}>
                     {String(chapters.findIndex((c) => c.id === "technologies") + 1).padStart(2, "0")}.
                   </span>
-                  <span>{isAr ? "التقنيات المعتمدة" : "Verified Technologies"}</span>
+                  <span>
+                    {isDe
+                      ? "Verifizierte Technologien"
+                      : isAr
+                      ? "التقنيات المعتمدة"
+                      : "Verified Technologies"}
+                  </span>
                 </h2>
                 <div className={styles.techList}>
                   {project.technologies.map((tech) => (
@@ -202,11 +288,21 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   <span className={styles.sectionNumber}>
                     {String(chapters.findIndex((c) => c.id === "outcomes") + 1).padStart(2, "0")}.
                   </span>
-                  <span>{isAr ? "النتائج المعتمدة ونطاق التسليم" : "Verified Results & Scope"}</span>
+                  <span>
+                    {isDe
+                      ? "Verifizierte Ergebnisse & Umfang"
+                      : isAr
+                      ? "النتائج المعتمدة ونطاق التسليم"
+                      : "Verified Results & Scope"}
+                  </span>
                 </h2>
                 <div className={styles.resultCallout}>
                   <span className={styles.resultTitle}>
-                    {isAr ? "المُخرَج المعتمد" : "Verified Deliverable"}
+                    {isDe
+                      ? "Verifiziertes Ergebnis"
+                      : isAr
+                      ? "المُخرَج المعتمد"
+                      : "Verified Deliverable"}
                   </span>
                   <p className={styles.resultText}>{project.result}</p>
                 </div>
@@ -221,12 +317,24 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   rel="noopener noreferrer"
                   className={styles.btnPrimary}
                 >
-                  <span>{isAr ? "عرض في GitHub" : "View on GitHub"}</span>
+                  <span>
+                    {isDe
+                      ? "Auf GitHub ansehen"
+                      : isAr
+                      ? "عرض في GitHub"
+                      : "View on GitHub"}
+                  </span>
                   <span aria-hidden="true">↗</span>
                 </a>
               )}
               <Link href={backHref} className={styles.backLink}>
-                <span>{isAr ? "← استكشاف المزيد من المشاريع الهندسية" : "← Explore more engineering projects"}</span>
+                <span>
+                  {isDe
+                    ? "← Weitere Ingenieurprojekte erkunden"
+                    : isAr
+                    ? "← استكشاف المزيد من المشاريع الهندسية"
+                    : "← Explore more engineering projects"}
+                </span>
               </Link>
             </div>
           </div>
@@ -236,7 +344,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
         <div className={styles.contentLayoutSingle}>
           <section className={styles.storySection}>
             <h2 className={styles.sectionTitle}>
-              <span>{isAr ? "نطاق المشروع وملخصه" : "Project Scope & Summary"}</span>
+              <span>
+                {isDe
+                  ? "Projektumfang & Zusammenfassung"
+                  : isAr
+                  ? "نطاق المشروع وملخصه"
+                  : "Project Scope & Summary"}
+              </span>
             </h2>
             <div className={styles.overviewCard}>
               <p className={styles.sectionText}>{project.tagline}</p>
@@ -246,7 +360,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
           {project.technologies && project.technologies.length > 0 && (
             <section className={styles.storySection}>
               <h2 className={styles.sectionTitle}>
-                <span>{isAr ? "التقنيات المعتمدة" : "Verified Technologies"}</span>
+                <span>
+                  {isDe
+                    ? "Verifizierte Technologien"
+                    : isAr
+                    ? "التقنيات المعتمدة"
+                    : "Verified Technologies"}
+                </span>
               </h2>
               <div className={styles.techList}>
                 {project.technologies.map((tech) => (
@@ -266,12 +386,24 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                 rel="noopener noreferrer"
                 className={styles.btnPrimary}
               >
-                <span>{isAr ? "عرض في GitHub" : "View on GitHub"}</span>
+                <span>
+                  {isDe
+                    ? "Auf GitHub ansehen"
+                    : isAr
+                    ? "عرض في GitHub"
+                    : "View on GitHub"}
+                </span>
                 <span aria-hidden="true">↗</span>
               </a>
             )}
             <Link href={backHref} className={styles.backLink}>
-              <span>{isAr ? "← استكشاف المزيد من المشاريع الهندسية" : "← Explore more engineering projects"}</span>
+              <span>
+                {isDe
+                  ? "← Weitere Ingenieurprojekte erkunden"
+                  : isAr
+                  ? "← استكشاف المزيد من المشاريع الهندسية"
+                  : "← Explore more engineering projects"}
+              </span>
             </Link>
           </div>
         </div>

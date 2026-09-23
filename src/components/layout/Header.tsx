@@ -8,26 +8,43 @@ import { Container } from "@/components/ui/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { identityContent, navigationContent, socialLinks } from "@/content";
 import { identityContentAr, navigationContentAr } from "@/content/ar";
+import { identityContentDe, navigationContentDe } from "@/content/de";
 import { cn } from "@/utils/cn";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const firstDrawerLinkRef = useRef<HTMLAnchorElement>(null);
+  const langSelectorRef = useRef<HTMLDivElement>(null);
+  const langTriggerRef = useRef<HTMLButtonElement>(null);
 
+  const isGerman = pathname === "/de" || pathname.startsWith("/de/");
   const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
-  const identity = isArabic ? identityContentAr : identityContent;
-  const navigation = isArabic ? navigationContentAr : navigationContent;
+  const currentLocale: "en" | "ar" | "de" = isGerman ? "de" : isArabic ? "ar" : "en";
 
-  const targetLocalePath = isArabic
-    ? pathname === "/ar"
-      ? "/"
-      : pathname.replace(/^\/ar/, "")
-    : pathname === "/"
-    ? "/ar"
-    : `/ar${pathname}`;
+  const identity = isGerman
+    ? identityContentDe
+    : isArabic
+    ? identityContentAr
+    : identityContent;
+
+  const navigation = isGerman
+    ? navigationContentDe
+    : isArabic
+    ? navigationContentAr
+    : navigationContent;
+
+  let cleanPath = pathname;
+  if (pathname === "/ar" || pathname === "/de") {
+    cleanPath = "/";
+  } else if (pathname.startsWith("/ar/")) {
+    cleanPath = pathname.slice(3);
+  } else if (pathname.startsWith("/de/")) {
+    cleanPath = pathname.slice(3);
+  }
 
   const [urlSuffix, setUrlSuffix] = useState("");
 
@@ -47,22 +64,38 @@ export function Header() {
     };
   }, [pathname]);
 
-  const targetLocaleHref = `${targetLocalePath}${urlSuffix}`;
+  const getLocaleHref = (target: "en" | "ar" | "de") => {
+    let targetPath = cleanPath;
+    if (target === "ar") {
+      targetPath = cleanPath === "/" ? "/ar" : `/ar${cleanPath}`;
+    } else if (target === "de") {
+      targetPath = cleanPath === "/" ? "/de" : `/de${cleanPath}`;
+    }
+    return `${targetPath}${urlSuffix}`;
+  };
 
-  const handleLangSwitchClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    handleLinkClick();
+  const handleLangOptionClick = (target: "en" | "ar" | "de") => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setIsLangOpen(false);
+    setIsOpen(false);
     if (typeof window !== "undefined") {
       const search = window.location.search || "";
       const hash = window.location.hash || "";
-      const latestTarget = `${targetLocalePath}${search}${hash}`;
-      if (latestTarget !== targetLocaleHref) {
+      let targetPath = cleanPath;
+      if (target === "ar") {
+        targetPath = cleanPath === "/" ? "/ar" : `/ar${cleanPath}`;
+      } else if (target === "de") {
+        targetPath = cleanPath === "/" ? "/de" : `/de${cleanPath}`;
+      }
+      const latestTarget = `${targetPath}${search}${hash}`;
+      const currentTargetHref = getLocaleHref(target);
+      if (latestTarget !== currentTargetHref) {
         e.preventDefault();
         router.push(latestTarget);
       }
     }
   };
 
-  const homeHref = isArabic ? "/ar" : "/";
+  const homeHref = isGerman ? "/de" : isArabic ? "/ar" : "/";
   const github = socialLinks.find((s) => s.platform === "GitHub");
 
   // Close drawer on Escape key and return focus to toggle button
@@ -79,6 +112,31 @@ export function Header() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
+
+  // Close language popover on Escape key or click outside
+  useEffect(() => {
+    if (!isLangOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsLangOpen(false);
+        langTriggerRef.current?.focus();
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (langSelectorRef.current && !langSelectorRef.current.contains(e.target as Node)) {
+        setIsLangOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isLangOpen]);
 
   // Lock background scroll when drawer is open
   useEffect(() => {
@@ -110,6 +168,7 @@ export function Header() {
 
   const handleLinkClick = () => {
     setIsOpen(false);
+    setIsLangOpen(false);
   };
 
   const handleOpenPalette = () => {
@@ -117,7 +176,7 @@ export function Header() {
   };
 
   const isLinkActive = (href: string) => {
-    if (href === "/" || href === "/ar") {
+    if (href === "/" || href === "/ar" || href === "/de") {
       return pathname === href;
     }
     return pathname === href || pathname.startsWith(`${href}/`);
@@ -131,7 +190,9 @@ export function Header() {
           <Link
             href={homeHref}
             className={styles.brand}
-            aria-label={`${identity.fullName} - ${isArabic ? "الرئيسية" : "Home"}`}
+            aria-label={`${identity.fullName} - ${
+              isGerman ? "Startseite" : isArabic ? "الرئيسية" : "Home"
+            }`}
             onClick={handleLinkClick}
           >
             <div className={styles.brandmark} aria-hidden="true">
@@ -149,7 +210,16 @@ export function Header() {
 
           {/* Desktop Navigation & Controls */}
           <div className={styles.navGroup}>
-            <nav className={styles.desktopNav} aria-label={isArabic ? "التنقل الرئيسي" : "Main Navigation"}>
+            <nav
+              className={styles.desktopNav}
+              aria-label={
+                isGerman
+                  ? "Hauptnavigation"
+                  : isArabic
+                  ? "التنقل الرئيسي"
+                  : "Main Navigation"
+              }
+            >
               {navigation.navItems.map((item) => {
                 const active = isLinkActive(item.href);
                 return (
@@ -171,29 +241,124 @@ export function Header() {
                 type="button"
                 className={styles.searchTrigger}
                 onClick={handleOpenPalette}
-                aria-label={isArabic ? "فتح لوحة الأوامر (Ctrl+K)" : "Open command palette (Ctrl+K)"}
-                title={isArabic ? "البحث والتنقل في الموقع (Ctrl+K)" : "Search portfolio (Ctrl+K)"}
+                aria-label={
+                  isGerman
+                    ? "Befehlspalette öffnen (Strg+K)"
+                    : isArabic
+                    ? "فتح لوحة الأوامر (Ctrl+K)"
+                    : "Open command palette (Ctrl+K)"
+                }
+                title={
+                  isGerman
+                    ? "Portfolio durchsuchen (Strg+K)"
+                    : isArabic
+                    ? "البحث والتنقل في الموقع (Ctrl+K)"
+                    : "Search portfolio (Ctrl+K)"
+                }
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <circle cx="11" cy="11" r="8" />
                   <path d="m21 21-4.3-4.3" />
                 </svg>
-                <span>{isArabic ? "تنقل" : "Navigate"}</span>
+                <span>{isGerman ? "Navigation" : isArabic ? "تنقل" : "Navigate"}</span>
                 <kbd className={styles.searchKbd}>⌘K</kbd>
               </button>
 
-              {/* Language Switcher */}
-              <Link
-                href={targetLocaleHref}
-                onClick={handleLangSwitchClick}
-                className={styles.langSwitch}
-                aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
-                title={isArabic ? "English" : "العربية"}
-                lang={isArabic ? "en" : "ar"}
-                dir={isArabic ? "ltr" : "rtl"}
-              >
-                {isArabic ? "English" : "العربية"}
-              </Link>
+              {/* Trilingual Language Selector Popover */}
+              <div className={styles.langSelector} ref={langSelectorRef}>
+                <button
+                  ref={langTriggerRef}
+                  type="button"
+                  className={cn(styles.langTrigger, isLangOpen && styles.langTriggerActive)}
+                  onClick={() => setIsLangOpen((prev) => !prev)}
+                  aria-expanded={isLangOpen}
+                  aria-haspopup="menu"
+                  aria-label={
+                    isGerman
+                      ? "Sprache wählen (Deutsch aktiv)"
+                      : isArabic
+                      ? "اختيار اللغة (العربية نشطة)"
+                      : "Select language (English active)"
+                  }
+                  title={
+                    isGerman
+                      ? "Sprache wählen"
+                      : isArabic
+                      ? "اختيار اللغة"
+                      : "Select language"
+                  }
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                    <path d="M2 12h20" />
+                  </svg>
+                  <span>{currentLocale === "de" ? "DE" : currentLocale === "ar" ? "العربية" : "EN"}</span>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={cn(styles.langChevron, isLangOpen && styles.langChevronOpen)}
+                    aria-hidden="true"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+
+                <div
+                  className={cn(styles.langPopover, isLangOpen && styles.langPopoverOpen)}
+                  role="menu"
+                  aria-label={
+                    isGerman
+                      ? "Sprachauswahl"
+                      : isArabic
+                      ? "قائمة اللغات"
+                      : "Language selection"
+                  }
+                >
+                  <Link
+                    href={getLocaleHref("en")}
+                    onClick={handleLangOptionClick("en")}
+                    role="menuitem"
+                    className={cn(styles.langOption, currentLocale === "en" && styles.langOptionActive)}
+                    aria-current={currentLocale === "en" ? "true" : undefined}
+                    lang="en"
+                    dir="ltr"
+                  >
+                    <span className={styles.langOptionName}>English</span>
+                    <span className={styles.langOptionBadge}>EN</span>
+                  </Link>
+                  <Link
+                    href={getLocaleHref("ar")}
+                    onClick={handleLangOptionClick("ar")}
+                    role="menuitem"
+                    className={cn(styles.langOption, currentLocale === "ar" && styles.langOptionActive)}
+                    aria-current={currentLocale === "ar" ? "true" : undefined}
+                    lang="ar"
+                    dir="rtl"
+                  >
+                    <span className={styles.langOptionName}>العربية</span>
+                    <span className={styles.langOptionBadge}>AR</span>
+                  </Link>
+                  <Link
+                    href={getLocaleHref("de")}
+                    onClick={handleLangOptionClick("de")}
+                    role="menuitem"
+                    className={cn(styles.langOption, currentLocale === "de" && styles.langOptionActive)}
+                    aria-current={currentLocale === "de" ? "true" : undefined}
+                    lang="de"
+                    dir="ltr"
+                  >
+                    <span className={styles.langOptionName}>Deutsch</span>
+                    <span className={styles.langOptionBadge}>DE</span>
+                  </Link>
+                </div>
+              </div>
 
               <ThemeToggle />
             </div>
@@ -201,23 +366,45 @@ export function Header() {
 
           {/* Mobile Header Controls */}
           <div className={styles.mobileControls}>
-            <Link
-              href={targetLocaleHref}
-              onClick={handleLangSwitchClick}
+            <button
+              type="button"
               className={styles.langSwitchMobile}
-              aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
-              title={isArabic ? "English" : "العربية"}
-              lang={isArabic ? "en" : "ar"}
-              dir={isArabic ? "ltr" : "rtl"}
+              onClick={() => setIsOpen(true)}
+              aria-label={
+                isGerman
+                  ? "Sprache wählen (Deutsch)"
+                  : isArabic
+                  ? "اختيار اللغة (العربية)"
+                  : "Select language (English)"
+              }
+              title={
+                isGerman
+                  ? "Sprache wählen"
+                  : isArabic
+                  ? "اختيار اللغة"
+                  : "Select language"
+              }
             >
-              {isArabic ? "EN" : "عربي"}
-            </Link>
+              {currentLocale === "de" ? "DE" : currentLocale === "ar" ? "عربي" : "EN"}
+            </button>
             <button
               type="button"
               className={styles.searchTriggerMobile}
               onClick={handleOpenPalette}
-              aria-label={isArabic ? "البحث والتنقل" : "Search & Navigator"}
-              title={isArabic ? "بحث سريع" : "Quick Search"}
+              aria-label={
+                isGerman
+                  ? "Suchen und Navigieren"
+                  : isArabic
+                  ? "البحث والتنقل"
+                  : "Search & Navigator"
+              }
+              title={
+                isGerman
+                  ? "Schnellsuche"
+                  : isArabic
+                  ? "بحث سريع"
+                  : "Quick Search"
+              }
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="11" cy="11" r="8" />
@@ -234,9 +421,13 @@ export function Header() {
               aria-controls="mobile-nav-drawer"
               aria-label={
                 isOpen
-                  ? isArabic
+                  ? isGerman
+                    ? "Navigationsmenü schließen"
+                    : isArabic
                     ? "إغلاق قائمة التنقل"
                     : "Close navigation menu"
+                  : isGerman
+                  ? "Navigationsmenü öffnen"
                   : isArabic
                   ? "فتح قائمة التنقل"
                   : "Open navigation menu"
@@ -260,10 +451,25 @@ export function Header() {
         className={cn(styles.drawer, isOpen && styles.drawerOpen)}
         role="dialog"
         aria-modal="true"
-        aria-label={isArabic ? "قائمة التنقل للأجهزة المحمولة" : "Mobile Navigation"}
+        aria-label={
+          isGerman
+            ? "Mobile Navigation"
+            : isArabic
+            ? "قائمة التنقل للأجهزة المحمولة"
+            : "Mobile Navigation"
+        }
         aria-hidden={!isOpen}
       >
-        <nav className={styles.drawerNav} aria-label={isArabic ? "روابط التنقل للأجهزة المحمولة" : "Mobile Navigation Links"}>
+        <nav
+          className={styles.drawerNav}
+          aria-label={
+            isGerman
+              ? "Mobile Navigationslinks"
+              : isArabic
+              ? "روابط التنقل للأجهزة المحمولة"
+              : "Mobile Navigation Links"
+          }
+        >
           {navigation.navItems.map((item, index) => {
             const active = isLinkActive(item.href);
             return (
@@ -284,20 +490,48 @@ export function Header() {
 
           <div className={styles.drawerFooter}>
             <div className={styles.drawerLangRow}>
-              <span>{isArabic ? "اللغة" : "Language"}</span>
-              <Link
-                href={targetLocaleHref}
-                className={styles.langSwitch}
-                onClick={handleLangSwitchClick}
-                aria-label={isArabic ? "Switch to English" : "التبديل إلى اللغة العربية"}
-                lang={isArabic ? "en" : "ar"}
-                dir={isArabic ? "ltr" : "rtl"}
-              >
-                {isArabic ? "English" : "العربية"}
-              </Link>
+              <span>{isGerman ? "Sprache" : isArabic ? "اللغة" : "Language"}</span>
+              <div className={styles.drawerLangOptions}>
+                <Link
+                  href={getLocaleHref("en")}
+                  onClick={handleLangOptionClick("en")}
+                  className={cn(
+                    styles.drawerLangBtn,
+                    currentLocale === "en" && styles.drawerLangBtnActive
+                  )}
+                  lang="en"
+                  dir="ltr"
+                >
+                  English
+                </Link>
+                <Link
+                  href={getLocaleHref("ar")}
+                  onClick={handleLangOptionClick("ar")}
+                  className={cn(
+                    styles.drawerLangBtn,
+                    currentLocale === "ar" && styles.drawerLangBtnActive
+                  )}
+                  lang="ar"
+                  dir="rtl"
+                >
+                  العربية
+                </Link>
+                <Link
+                  href={getLocaleHref("de")}
+                  onClick={handleLangOptionClick("de")}
+                  className={cn(
+                    styles.drawerLangBtn,
+                    currentLocale === "de" && styles.drawerLangBtnActive
+                  )}
+                  lang="de"
+                  dir="ltr"
+                >
+                  Deutsch
+                </Link>
+              </div>
             </div>
             <div className={styles.drawerThemeRow}>
-              <span>{isArabic ? "المظهر" : "Appearance"}</span>
+              <span>{isGerman ? "Design" : isArabic ? "المظهر" : "Appearance"}</span>
               <ThemeToggle />
             </div>
             {github && (

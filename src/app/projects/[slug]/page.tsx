@@ -41,6 +41,7 @@ export async function generateMetadata({
       languages: {
         en: `${siteMetadata.siteUrl}/projects/${project.slug}`,
         ar: `${siteMetadata.siteUrl}/ar/projects/${project.slug}`,
+        de: `${siteMetadata.siteUrl}/de/projects/${project.slug}`,
         "x-default": `${siteMetadata.siteUrl}/projects/${project.slug}`,
       },
     },

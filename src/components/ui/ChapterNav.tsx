@@ -7,16 +7,22 @@ import styles from "./ChapterNav.module.css";
 import { Container } from "@/components/ui/Container";
 import { navigationContent } from "@/content/navigation";
 import { navigationContentAr } from "@/content/ar/navigation";
+import { navigationContentDe } from "@/content/de/navigation";
 
 interface ChapterNavProps {
   currentChapterIndex: number;
-  locale?: "en" | "ar";
+  locale?: "en" | "ar" | "de";
 }
 
 export function ChapterNav({ currentChapterIndex, locale }: ChapterNavProps) {
   const pathname = usePathname();
+  const isGerman = locale ? locale === "de" : (pathname === "/de" || pathname.startsWith("/de/"));
   const isArabic = locale ? locale === "ar" : (pathname === "/ar" || pathname.startsWith("/ar/"));
-  const items = isArabic ? navigationContentAr.navItems : navigationContent.navItems;
+  const items = isGerman
+    ? navigationContentDe.navItems
+    : isArabic
+    ? navigationContentAr.navItems
+    : navigationContent.navItems;
 
   const currentItem = items.find((item) => item.chapterIndex === currentChapterIndex);
   const prevItem = items.find((item) => item.chapterIndex === currentChapterIndex - 1);
@@ -27,7 +33,13 @@ export function ChapterNav({ currentChapterIndex, locale }: ChapterNavProps) {
   return (
     <section
       className={styles.chapterNav}
-      aria-label={isArabic ? "التنقل التسلسلي بين الفصول" : "Sequential Chapter Navigation"}
+      aria-label={
+        isGerman
+          ? "Sequenzielle Kapitelnavigation"
+          : isArabic
+          ? "التنقل التسلسلي بين الفصول"
+          : "Sequential Chapter Navigation"
+      }
     >
       <Container>
         <div className={styles.inner}>
@@ -36,7 +48,9 @@ export function ChapterNav({ currentChapterIndex, locale }: ChapterNavProps) {
               href={prevItem.href}
               className={styles.navLink}
               aria-label={
-                isArabic
+                isGerman
+                  ? `Vorheriges Kapitel: ${prevItem.label}`
+                  : isArabic
                   ? `الفصل السابق: ${prevItem.label}`
                   : `Previous Chapter: ${prevItem.label}`
               }
@@ -46,7 +60,11 @@ export function ChapterNav({ currentChapterIndex, locale }: ChapterNavProps) {
               </span>
               <div className={styles.navLinkText}>
                 <span className={styles.navLinkKicker}>
-                  {isArabic ? "الفصل السابق" : "Previous Chapter"}
+                  {isGerman
+                    ? "Vorheriges Kapitel"
+                    : isArabic
+                    ? "الفصل السابق"
+                    : "Previous Chapter"}
                 </span>
                 <span className={styles.navLinkTitle}>{prevItem.label}</span>
               </div>
@@ -57,7 +75,9 @@ export function ChapterNav({ currentChapterIndex, locale }: ChapterNavProps) {
 
           <div className={styles.centerMeta}>
             <span className={styles.chapterBadge}>
-              {isArabic
+              {isGerman
+                ? `KAPITEL 0${currentChapterIndex} / 0${items.length}`
+                : isArabic
                 ? `الفصل 0${currentChapterIndex} / 0${items.length}`
                 : `CHAPTER 0${currentChapterIndex} / 0${items.length}`}
             </span>
@@ -69,7 +89,9 @@ export function ChapterNav({ currentChapterIndex, locale }: ChapterNavProps) {
               href={nextItem.href}
               className={styles.navLink}
               aria-label={
-                isArabic
+                isGerman
+                  ? `Nächstes Kapitel: ${nextItem.label}`
+                  : isArabic
                   ? `الفصل التالي: ${nextItem.label}`
                   : `Next Chapter: ${nextItem.label}`
               }
@@ -79,7 +101,11 @@ export function ChapterNav({ currentChapterIndex, locale }: ChapterNavProps) {
                 style={{ textAlign: isArabic ? "left" : "right", marginInlineStart: "auto" }}
               >
                 <span className={styles.navLinkKicker}>
-                  {isArabic ? "الفصل التالي" : "Next Chapter"}
+                  {isGerman
+                    ? "Nächstes Kapitel"
+                    : isArabic
+                    ? "الفصل التالي"
+                    : "Next Chapter"}
                 </span>
                 <span className={styles.navLinkTitle}>{nextItem.label}</span>
               </div>

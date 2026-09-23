@@ -6,194 +6,90 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteMetadata.siteUrl;
   const projectSlugs = getAllProjectSlugs();
 
-  const coreRoutes: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1.0,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/`,
-          ar: `${baseUrl}/ar`,
-          "x-default": `${baseUrl}/`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/about`,
-          ar: `${baseUrl}/ar/about`,
-          "x-default": `${baseUrl}/about`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/experience`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/experience`,
-          ar: `${baseUrl}/ar/experience`,
-          "x-default": `${baseUrl}/experience`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/projects`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/projects`,
-          ar: `${baseUrl}/ar/projects`,
-          "x-default": `${baseUrl}/projects`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/capabilities`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/capabilities`,
-          ar: `${baseUrl}/ar/capabilities`,
-          "x-default": `${baseUrl}/capabilities`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/contact`,
-          ar: `${baseUrl}/ar/contact`,
-          "x-default": `${baseUrl}/contact`,
-        },
-      },
-    },
-    // Arabic Core Routes
-    {
-      url: `${baseUrl}/ar`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1.0,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/`,
-          ar: `${baseUrl}/ar`,
-          "x-default": `${baseUrl}/`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/ar/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/about`,
-          ar: `${baseUrl}/ar/about`,
-          "x-default": `${baseUrl}/about`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/ar/experience`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/experience`,
-          ar: `${baseUrl}/ar/experience`,
-          "x-default": `${baseUrl}/experience`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/ar/projects`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/projects`,
-          ar: `${baseUrl}/ar/projects`,
-          "x-default": `${baseUrl}/projects`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/ar/capabilities`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/capabilities`,
-          ar: `${baseUrl}/ar/capabilities`,
-          "x-default": `${baseUrl}/capabilities`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/ar/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/contact`,
-          ar: `${baseUrl}/ar/contact`,
-          "x-default": `${baseUrl}/contact`,
-        },
-      },
-    },
+  const corePaths = [
+    { path: "", priority: 1.0, changeFrequency: "weekly" as const },
+    { path: "/about", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/experience", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/projects", priority: 0.9, changeFrequency: "weekly" as const },
+    { path: "/capabilities", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/contact", priority: 0.8, changeFrequency: "monthly" as const },
   ];
 
-  const projectRoutes: MetadataRoute.Sitemap = projectSlugs.flatMap((slug) => [
-    {
-      url: `${baseUrl}/projects/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/projects/${slug}`,
-          ar: `${baseUrl}/ar/projects/${slug}`,
-          "x-default": `${baseUrl}/projects/${slug}`,
-        },
+  const now = new Date();
+
+  const coreRoutes: MetadataRoute.Sitemap = corePaths.flatMap(({ path, priority, changeFrequency }) => {
+    const enUrl = `${baseUrl}${path}`;
+    const arUrl = `${baseUrl}/ar${path}`;
+    const deUrl = `${baseUrl}/de${path}`;
+
+    const languages = {
+      en: enUrl,
+      ar: arUrl,
+      de: deUrl,
+      "x-default": enUrl,
+    };
+
+    return [
+      {
+        url: enUrl,
+        lastModified: now,
+        changeFrequency,
+        priority,
+        alternates: { languages },
       },
-    },
-    {
-      url: `${baseUrl}/ar/projects/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-      alternates: {
-        languages: {
-          en: `${baseUrl}/projects/${slug}`,
-          ar: `${baseUrl}/ar/projects/${slug}`,
-          "x-default": `${baseUrl}/projects/${slug}`,
-        },
+      {
+        url: arUrl,
+        lastModified: now,
+        changeFrequency,
+        priority,
+        alternates: { languages },
       },
-    },
-  ]);
+      {
+        url: deUrl,
+        lastModified: now,
+        changeFrequency,
+        priority,
+        alternates: { languages },
+      },
+    ];
+  });
+
+  const projectRoutes: MetadataRoute.Sitemap = projectSlugs.flatMap((slug) => {
+    const enUrl = `${baseUrl}/projects/${slug}`;
+    const arUrl = `${baseUrl}/ar/projects/${slug}`;
+    const deUrl = `${baseUrl}/de/projects/${slug}`;
+
+    const languages = {
+      en: enUrl,
+      ar: arUrl,
+      de: deUrl,
+      "x-default": enUrl,
+    };
+
+    return [
+      {
+        url: enUrl,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+        alternates: { languages },
+      },
+      {
+        url: arUrl,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+        alternates: { languages },
+      },
+      {
+        url: deUrl,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+        alternates: { languages },
+      },
+    ];
+  });
 
   return [...coreRoutes, ...projectRoutes];
 }

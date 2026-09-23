@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     languages: {
       en: "/experience",
       ar: "/ar/experience",
+      de: "/de/experience",
       "x-default": "/experience",
     },
   },

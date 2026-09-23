@@ -5,6 +5,7 @@
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.3.5-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript Strict](https://img.shields.io/badge/TypeScript-5.x_Strict-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![WCAG 2.1 AA](https://img.shields.io/badge/Accessibility-WCAG_2.1_AA-green)](docs/quality/TEST-STRATEGY.md)
+[![Locales: EN | AR | DE](https://img.shields.io/badge/Locales-EN%20%7C%20AR%20%7C%20DE-blueviolet)](src/content/)
 
 Production URL: [https://alhassan-portfolio-phi.vercel.app](https://alhassan-portfolio-phi.vercel.app)  
 Repository: [https://github.com/a2sn2/alhassan-portfolio](https://github.com/a2sn2/alhassan-portfolio)  
@@ -71,23 +72,25 @@ npm run dev
 # 4. Run automated verification suite
 npm run lint                 # ESLint code style
 npm run typecheck            # TypeScript strict checks
-npm run build                # Next.js static prerender
-npx playwright test          # E2E and WCAG 2.1 AA accessibility suite
-npm run verify:production    # Bilingual production route, responsive overflow, SEO & sitemap verification (44 public routes)
-npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (14 routes x 5 viewports x 2 themes + 10 interactive states = 150 pairs)
+npm run build                # Next.js static prerender (66 indexable routes + 7 internal)
+npm run verify:cv-content    # Deterministic CV source parity audit across English, Arabic & German
+npx playwright test          # E2E (31/31 tests) and WCAG 2.1 AA accessibility suite
+npm run verify:production    # Trilingual production route, responsive overflow, SEO & sitemap verification (66 public routes)
+npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (21 routes x 5 viewports x 2 themes + 15 interactive states = 225 pairs)
 ```
 
 ### 🔬 Strict Visual Parity Verifier (`npm run verify:visual-parity`)
 Performs deterministic, pixel-level visual diff auditing between local development (`http://localhost:3000`) and live production (`https://alhassan-portfolio-phi.vercel.app`):
-- **14 Canonical Routes**:
+- **21 Canonical Routes**:
   - English (7): `/`, `/about`, `/experience`, `/projects`, `/capabilities`, `/contact`, `/projects/real-time-object-detection`
   - Arabic (7): `/ar`, `/ar/about`, `/ar/experience`, `/ar/projects`, `/ar/capabilities`, `/ar/contact`, `/ar/projects/real-time-object-detection`
+  - German (7): `/de`, `/de/about`, `/de/experience`, `/de/projects`, `/de/capabilities`, `/de/contact`, `/de/projects/real-time-object-detection`
 - **5 Viewports**: Desktop Large (1440×900), Desktop Medium (1280×800), Tablet (768×1024), Mobile (390×844), Narrow Mobile (320×700)
 - **2 Themes**: Light and Dark modes
-- **140 Static Screenshot Pairs**: 14 routes × 5 viewports × 2 themes
-- **10 Interactive States**: Category filter selection, Experience role selection, Mobile drawer open, Command Palette open, Theme toggled (evaluated for both English and Arabic)
-- **150 Total Visual Parity Pairs**: Evaluated deterministically with 0-pixel delta tolerance
-- **Coverage & Indexing Parity**: Validates 44 public indexable sitemap URLs (12 core + 32 project detail) across 49 Next.js static build targets
+- **210 Static Screenshot Pairs**: 21 routes × 5 viewports × 2 themes
+- **15 Interactive States**: Category filter selection, Experience role selection, Mobile drawer open, Command Palette open, Theme toggled (evaluated for English, Arabic, and German)
+- **225 Total Visual Parity Pairs**: Evaluated deterministically with 0-pixel delta tolerance
+- **Coverage & Indexing Parity**: Validates 66 public indexable sitemap URLs (18 core + 48 project detail) across 73 Next.js static build targets
 - **Exact Pixel Comparison**: Uncompressed raw RGB byte inspection calculating exact changed-pixel counts, percentages, max channel deltas, and visual difference bounding boxes
 - **Geometry & Typography Checks**: Validates `getBoundingClientRect()` dimensions and computed typography (`font-family`, `font-size`, `font-weight`, `line-height`, `letter-spacing`, `color`)
 - **Dev-Only Masking**: Masks strictly Next.js development artifacts (`nextjs-portal`, `#nextjs-dev-overlay`, `[data-nextjs-toast]`, etc.) while leaving all application UI and content unmasked

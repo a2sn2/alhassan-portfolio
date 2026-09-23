@@ -61,7 +61,16 @@ const ROUTES = [
   { id: 'ar-projects', path: '/ar/projects' },
   { id: 'ar-capabilities', path: '/ar/capabilities' },
   { id: 'ar-contact', path: '/ar/contact' },
-  { id: 'ar-case-study', path: '/ar/projects/real-time-object-detection' }
+  { id: 'ar-case-study', path: '/ar/projects/real-time-object-detection' },
+
+  // German Routes (7)
+  { id: 'de-home', path: '/de' },
+  { id: 'de-about', path: '/de/about' },
+  { id: 'de-experience', path: '/de/experience' },
+  { id: 'de-projects', path: '/de/projects' },
+  { id: 'de-capabilities', path: '/de/capabilities' },
+  { id: 'de-contact', path: '/de/contact' },
+  { id: 'de-case-study', path: '/de/projects/real-time-object-detection' }
 ];
 
 const VIEWPORTS = [

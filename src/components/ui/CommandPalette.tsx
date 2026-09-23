@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import styles from "./CommandPalette.module.css";
 import { navigationContent, projectItems, contactContent, socialLinks } from "@/content";
 import { navigationContentAr, projectItemsAr, contactContentAr } from "@/content/ar";
+import { navigationContentDe, projectItemsDe, contactContentDe } from "@/content/de";
 import { cn } from "@/utils/cn";
 
 interface PaletteItem {
@@ -27,24 +28,59 @@ export function CommandPalette() {
   const listRef = useRef<HTMLUListElement>(null);
   const listboxId = useId();
 
+  const isGerman = pathname === "/de" || pathname.startsWith("/de/");
   const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
 
   // Define palette items from verified content
   const allItems: PaletteItem[] = useMemo(() => {
-    const categoryNav = isArabic ? "التنقل السريع" : "Navigation";
-    const categoryFeatured = isArabic ? "دراسات الحالة المميزة" : "Featured Case Studies";
-    const categoryDocs = isArabic ? "المستندات والإثباتات" : "Documents & Proof";
-    const categoryActions = isArabic ? "الإجراءات والملفات" : "Actions & Profiles";
+    const categoryNav = isGerman
+      ? "Navigation"
+      : isArabic
+      ? "التنقل السريع"
+      : "Navigation";
+    const categoryFeatured = isGerman
+      ? "Ausgewählte Fallstudien"
+      : isArabic
+      ? "دراسات الحالة المميزة"
+      : "Featured Case Studies";
+    const categoryDocs = isGerman
+      ? "Dokumente & Nachweise"
+      : isArabic
+      ? "المستندات والإثباتات"
+      : "Documents & Proof";
+    const categoryActions = isGerman
+      ? "Aktionen & Profile"
+      : isArabic
+      ? "الإجراءات والملفات"
+      : "Actions & Profiles";
 
-    const navSource = isArabic ? navigationContentAr.navItems : navigationContent.navItems;
-    const projectSource = isArabic ? projectItemsAr : projectItems;
-    const docSource = isArabic ? contactContentAr.cvDocuments : contactContent.cvDocuments;
+    const navSource = isGerman
+      ? navigationContentDe.navItems
+      : isArabic
+      ? navigationContentAr.navItems
+      : navigationContent.navItems;
+    const projectSource = isGerman
+      ? projectItemsDe
+      : isArabic
+      ? projectItemsAr
+      : projectItems;
+    const docSource = isGerman
+      ? contactContentDe.cvDocuments
+      : isArabic
+      ? contactContentAr.cvDocuments
+      : contactContent.cvDocuments;
 
     const navItems: PaletteItem[] = navSource.map((item) => ({
       id: `nav-${item.href}`,
       category: categoryNav,
       title: item.label,
-      description: item.description || (isArabic ? `الانتقال إلى ${item.label}` : `Navigate to ${item.label}`),
+      description:
+        item.description ||
+        (isGerman
+          ? `Zu ${item.label} navigieren`
+          : isArabic
+          ? `الانتقال إلى ${item.label}`
+          : `Navigate to ${item.label}`),
       meta: `0${item.chapterIndex}`,
       action: () => {
         router.push(item.href);
@@ -61,7 +97,13 @@ export function CommandPalette() {
         description: proj.tagline,
         meta: proj.category,
         action: () => {
-          router.push(isArabic ? `/ar/projects/${proj.slug}` : `/projects/${proj.slug}`);
+          router.push(
+            isGerman
+              ? `/de/projects/${proj.slug}`
+              : isArabic
+              ? `/ar/projects/${proj.slug}`
+              : `/projects/${proj.slug}`
+          );
           setIsOpen(false);
         },
       }));
@@ -71,7 +113,11 @@ export function CommandPalette() {
       .map((doc) => ({
         id: `doc-${doc.language}`,
         category: categoryDocs,
-        title: isArabic ? `تحميل السيرة الذاتية — ${doc.language}` : `Download CV — ${doc.language}`,
+        title: isGerman
+          ? `Lebenslauf herunterladen — ${doc.language}`
+          : isArabic
+          ? `تحميل السيرة الذاتية — ${doc.language}`
+          : `Download CV — ${doc.language}`,
         description: `${doc.label} (${doc.filesize || "PDF"})`,
         meta: "PDF",
         action: () => {
@@ -84,11 +130,17 @@ export function CommandPalette() {
       {
         id: "action-theme",
         category: categoryActions,
-        title: isArabic ? "تبديل المظهر الفاتح / الداكن" : "Toggle Light / Dark Mode",
-        description: isArabic
+        title: isGerman
+          ? "Helles / Dunkles Design umschalten"
+          : isArabic
+          ? "تبديل المظهر الفاتح / الداكن"
+          : "Toggle Light / Dark Mode",
+        description: isGerman
+          ? "Zwischen Hell- und Dunkelmodus wechseln"
+          : isArabic
           ? "التبديل بين الوضع الليلي والنهاري"
           : "Switch visual theme between light and dark",
-        meta: isArabic ? "المظهر" : "Theme",
+        meta: isGerman ? "Design" : isArabic ? "المظهر" : "Theme",
         action: () => {
           const current = document.documentElement.getAttribute("data-theme");
           const next = current === "dark" ? "light" : "dark";
@@ -104,9 +156,13 @@ export function CommandPalette() {
       ...socialLinks.map((s) => ({
         id: `social-${s.platform}`,
         category: categoryActions,
-        title: isArabic ? `ملف ${s.platform}` : `${s.platform} Profile`,
+        title: isGerman
+          ? `${s.platform}-Profil`
+          : isArabic
+          ? `ملف ${s.platform}`
+          : `${s.platform} Profile`,
         description: s.url,
-        meta: isArabic ? "رابط خارجي" : "External",
+        meta: isGerman ? "Extern" : isArabic ? "رابط خارجي" : "External",
         action: () => {
           window.open(s.url, "_blank", "noopener,noreferrer");
           setIsOpen(false);
@@ -115,7 +171,7 @@ export function CommandPalette() {
     ];
 
     return [...navItems, ...projectNav, ...docItems, ...actionItems];
-  }, [router, isArabic]);
+  }, [router, isArabic, isGerman]);
 
   // Filter items by query
   const filteredItems = useMemo(() => {
@@ -247,7 +303,13 @@ export function CommandPalette() {
         className={styles.palette}
         role="dialog"
         aria-modal="true"
-        aria-label={isArabic ? "المستكشف ولوحة الأوامر" : "Portfolio Navigator & Command Palette"}
+        aria-label={
+          isGerman
+            ? "Portfolio-Navigator & Befehlspalette"
+            : isArabic
+            ? "المستكشف ولوحة الأوامر"
+            : "Portfolio Navigator & Command Palette"
+        }
         dir={isArabic ? "rtl" : "ltr"}
       >
         <div className={styles.searchBar}>
@@ -271,7 +333,9 @@ export function CommandPalette() {
             type="text"
             className={styles.input}
             placeholder={
-              isArabic
+              isGerman
+                ? "Seiten, Projekte, Nachweise, Aktionen suchen..."
+                : isArabic
                 ? "ابحث في الأقسام، والمشاريع، والمستندات..."
                 : "Search pages, projects, credentials, actions..."
             }
@@ -294,11 +358,19 @@ export function CommandPalette() {
           ref={listRef}
           className={styles.resultsList}
           role="listbox"
-          aria-label={isArabic ? "اقتراحات البحث" : "Search suggestions"}
+          aria-label={
+            isGerman
+              ? "Suchvorschläge"
+              : isArabic
+              ? "اقتراحات البحث"
+              : "Search suggestions"
+          }
         >
           {filteredItems.length === 0 ? (
             <li className={styles.noResults} role="status">
-              {isArabic
+              {isGerman
+                ? `Keine passenden Seiten, Projekte oder Aktionen für "${query}" gefunden.`
+                : isArabic
                 ? `لم يتم العثور على صفحات أو مشاريع مطابقة لـ "${query}".`
                 : `No matching pages, projects, or actions found for "${query}".`}
             </li>
@@ -358,16 +430,22 @@ export function CommandPalette() {
         <div className={styles.footerBar}>
           <div className={styles.footerShortcuts}>
             <span className={styles.footerShortcut}>
-              <kbd>↑</kbd> <kbd>↓</kbd> {isArabic ? "للتنقل" : "Navigate"}
+              <kbd>↑</kbd> <kbd>↓</kbd> {isGerman ? "Navigieren" : isArabic ? "للتنقل" : "Navigate"}
             </span>
             <span className={styles.footerShortcut}>
-              <kbd>↵</kbd> {isArabic ? "للاختيار" : "Select"}
+              <kbd>↵</kbd> {isGerman ? "Auswählen" : isArabic ? "للاختيار" : "Select"}
             </span>
             <span className={styles.footerShortcut}>
-              <kbd>ESC</kbd> {isArabic ? "للإغلاق" : "Close"}
+              <kbd>ESC</kbd> {isGerman ? "Schließen" : isArabic ? "للإغلاق" : "Close"}
             </span>
           </div>
-          <span>{isArabic ? "الحسن الشامي — معرض الأعمال" : "ALHassan ALShami — Portfolio"}</span>
+          <span>
+            {isGerman
+              ? "ALHassan ALShami — Portfolio"
+              : isArabic
+              ? "الحسن الشامي — معرض الأعمال"
+              : "ALHassan ALShami — Portfolio"}
+          </span>
         </div>
       </div>
     </div>

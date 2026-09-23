@@ -17,6 +17,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
   });
 
   const pathname = usePathname();
+  const isGerman = pathname === "/de" || pathname.startsWith("/de/");
   const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
 
   // Check for deep link hash on mount and hashchange
@@ -61,7 +62,13 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
         <div
           className={styles.timelineNav}
           role="tablist"
-          aria-label={isArabic ? "المسار الزمني للأدوار المهنية" : "Professional Roles Timeline"}
+          aria-label={
+            isGerman
+              ? "Zeitstrahl der beruflichen Positionen"
+              : isArabic
+              ? "المسار الزمني للأدوار المهنية"
+              : "Professional Roles Timeline"
+          }
         >
           {items.map((item) => {
             const isSelected = item.id === selectedId;
@@ -98,7 +105,11 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                 <h2 className={styles.panelRole}>{selectedItem.role}</h2>
                 {selectedItem.isCurrent && (
                   <span className={styles.currentBadge}>
-                    {isArabic ? "الدور الحالي" : "Current Role"}
+                    {isGerman
+                      ? "Aktuelle Position"
+                      : isArabic
+                      ? "الدور الحالي"
+                      : "Current Role"}
                   </span>
                 )}
               </div>
@@ -118,7 +129,11 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
             {selectedItem.responsibilities && selectedItem.responsibilities.length > 0 && (
               <div>
                 <h3 className={styles.sectionTitle}>
-                  {isArabic ? "المسؤوليات والإنجازات الرئيسية" : "Key Deliverables & Responsibilities"}
+                  {isGerman
+                    ? "Hauptaufgaben & Kernleistungen"
+                    : isArabic
+                    ? "المسؤوليات والإنجازات الرئيسية"
+                    : "Key Deliverables & Responsibilities"}
                 </h3>
                 <ul className={styles.responsibilitiesList}>
                   {selectedItem.responsibilities.map((resp, i) => (
@@ -133,7 +148,11 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
             {selectedItem.technologies && selectedItem.technologies.length > 0 && (
               <div className={styles.techGroup}>
                 <h3 className={styles.sectionTitle}>
-                  {isArabic ? "التقنيات ومجالات العمل المعتمدة" : "Verified Technologies & Domains"}
+                  {isGerman
+                    ? "Verifizierte Technologien & Schwerpunkte"
+                    : isArabic
+                    ? "التقنيات ومجالات العمل المعتمدة"
+                    : "Verified Technologies & Domains"}
                 </h3>
                 <div className={styles.techPills}>
                   {selectedItem.technologies.map((tech) => (
@@ -152,7 +171,13 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
       <div
         className={styles.mobileLayout}
         role="region"
-        aria-label={isArabic ? "قائمة الخبرات المتداخلة" : "Experience Accordion"}
+        aria-label={
+          isGerman
+            ? "Akkordeon-Übersicht des Werdegangs"
+            : isArabic
+            ? "قائمة الخبرات المتداخلة"
+            : "Experience Accordion"
+        }
       >
         {items.map((item) => {
           const isOpen = Boolean(openMobileIds[item.id]);
@@ -195,7 +220,11 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                   {item.responsibilities && item.responsibilities.length > 0 && (
                     <div>
                       <h4 className={styles.sectionTitle}>
-                        {isArabic ? "أبرز المسؤوليات" : "Key Deliverables"}
+                        {isGerman
+                          ? "Hauptaufgaben"
+                          : isArabic
+                          ? "أبرز المسؤوليات"
+                          : "Key Deliverables"}
                       </h4>
                       <ul className={styles.responsibilitiesList}>
                         {item.responsibilities.map((resp, idx) => (
@@ -210,7 +239,11 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                   {item.technologies && item.technologies.length > 0 && (
                     <div className={styles.techGroup}>
                       <h4 className={styles.sectionTitle}>
-                        {isArabic ? "التقنيات" : "Technologies"}
+                        {isGerman
+                          ? "Technologien"
+                          : isArabic
+                          ? "التقنيات"
+                          : "Technologies"}
                       </h4>
                       <div className={styles.techPills}>
                         {item.technologies.map((tech) => (

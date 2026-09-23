@@ -11,7 +11,7 @@ interface CapabilitiesMatrixProps {
   certifications: CredentialItem[];
   memberships: MembershipItem[];
   certRepoUrl: string;
-  locale?: "en" | "ar";
+  locale?: "en" | "ar" | "de";
 }
 
 const certCategoriesEn: ("All" | CredentialCategory)[] = [
@@ -32,6 +32,21 @@ const certCatLabelAr: Record<"All" | CredentialCategory, string> = {
   Foundation: "المهارات الأساسية",
 };
 
+const certCatLabelDe: Record<"All" | CredentialCategory, string> = {
+  All: "Alle",
+  "AI & Data": "KI & Daten",
+  "Engineering & Hardware": "Ingenieurwesen & Hardware",
+  "Systems & Networks": "Systeme & Netzwerke",
+  "Professional & Management": "Management & Berufskompetenzen",
+  Foundation: "Grundlagen",
+};
+
+const certStatusMap: Record<"en" | "ar" | "de", Record<string, string>> = {
+  en: { Ongoing: "Ongoing", "In Progress": "In Progress", Completed: "Completed" },
+  ar: { Ongoing: "قيد المتابعة", "In Progress": "قيد الإنجاز", Completed: "مكتمل" },
+  de: { Ongoing: "laufend", "In Progress": "laufend", Completed: "Abgeschlossen" },
+};
+
 export function CapabilitiesMatrix({
   skillGroups,
   certifications,
@@ -40,6 +55,7 @@ export function CapabilitiesMatrix({
   locale = "en",
 }: CapabilitiesMatrixProps) {
   const isAr = locale === "ar";
+  const isDe = locale === "de";
   const [activeCertCat, setActiveCertCat] = useState<"All" | CredentialCategory>("All");
 
   const filteredCerts =
@@ -53,11 +69,17 @@ export function CapabilitiesMatrix({
       <section aria-labelledby="heading-skills">
         <div className={styles.sectionHeaderGroup}>
           <h2 id="heading-skills" className={styles.sectionHeading}>
-            {isAr ? "التخصصات والكفاءات الهندسية" : "Engineering Disciplines & Competencies"}
+            {isAr
+              ? "التخصصات والكفاءات الهندسية"
+              : isDe
+              ? "Ingenieurdisziplinen & Kompetenzen"
+              : "Engineering Disciplines & Competencies"}
           </h2>
           <p className={styles.sectionLead}>
             {isAr
               ? "القدرات التقنية وبيئات البرمجيات المصنفة والمحققة في البيئات الإنتاجية والأكاديمية."
+              : isDe
+              ? "Kategorisierte technische Fähigkeiten und Softwareumgebungen, verifiziert in produktiven und akademischen Umgebungen."
               : "Categorized technical capabilities and software environments verified in production and academic environments."}
           </p>
         </div>
@@ -87,11 +109,15 @@ export function CapabilitiesMatrix({
           <h2 id="heading-certs" className={styles.sectionHeading}>
             {isAr
               ? `الشهادات والدورات التخصصية (${certifications.length})`
+              : isDe
+              ? `Zertifikate & Fachweiterbildungen (${certifications.length})`
               : `Certifications & Specialized Training (${certifications.length})`}
           </h2>
           <p className={styles.sectionLead}>
             {isAr
               ? "برامج تدريبية وتأهيلية معتمدة من كليات جامعية ومعاهد تقنية وتكتلات هندسية."
+              : isDe
+              ? "Strukturierte Zertifikate und akademische Programme, absolviert an Universitätsfakultäten, technischen Instituten und Ingenieurverbänden."
               : "Structured certifications and academic programs completed across university faculties, technical institutes, and engineering blocs."}
           </p>
         </div>
@@ -103,7 +129,7 @@ export function CapabilitiesMatrix({
                 ? certifications.length
                 : certifications.filter((c) => c.category === cat).length;
             const isActive = cat === activeCertCat;
-            const label = isAr ? certCatLabelAr[cat] : cat;
+            const label = isAr ? certCatLabelAr[cat] : isDe ? certCatLabelDe[cat] : cat;
             return (
               <button
                 key={cat}
@@ -125,7 +151,11 @@ export function CapabilitiesMatrix({
                 <span className={styles.certYear}>
                   <bdi>{cert.year}</bdi>
                 </span>
-                {cert.status && <span className={styles.certStatus}>{cert.status}</span>}
+                {cert.status && (
+                  <span className={styles.certStatus}>
+                    {certStatusMap[locale]?.[cert.status] || cert.status}
+                  </span>
+                )}
               </div>
               <h3 className={styles.certTitle}>{cert.title}</h3>
               <span className={styles.certIssuer}>{cert.issuer}</span>
@@ -138,11 +168,17 @@ export function CapabilitiesMatrix({
       <section aria-labelledby="heading-memberships">
         <div className={styles.sectionHeaderGroup}>
           <h2 id="heading-memberships" className={styles.sectionHeading}>
-            {isAr ? "المجتمع المهني والعضويات" : "Professional Community & Memberships"}
+            {isAr
+              ? "المجتمع المهني والعضويات"
+              : isDe
+              ? "Fachgesellschaften & Mitgliedschaften"
+              : "Professional Community & Memberships"}
           </h2>
           <p className={styles.sectionLead}>
             {isAr
               ? "مشاركات فاعلة في الأندية الهندسية والجمعيات العلمية والمبادرات الشبابية والتنموية."
+              : isDe
+              ? "Aktive Mitarbeit in technischen Clubs, Ingenieurvereinigungen und Jugendförderungsinitiativen."
               : "Active participation in technical clubs, engineering associations, and youth development initiatives."}
           </p>
         </div>
@@ -162,11 +198,17 @@ export function CapabilitiesMatrix({
       <div className={styles.repoCallout}>
         <div className={styles.repoInfo}>
           <h3 className={styles.repoTitle}>
-            {isAr ? "المستودع الرقمي للشهادات" : "Official Certificates Repository"}
+            {isAr
+              ? "المستودع الرقمي للشهادات"
+              : isDe
+              ? "Offizielles Zertifikats-Repository"
+              : "Official Certificates Repository"}
           </h3>
           <p className={styles.repoDesc}>
             {isAr
               ? "جميع وثائق الشهادات والمشاركات الأكاديمية موثقة ومتاحة في مستودع رقمي عام ومفتوح."
+              : isDe
+              ? "Alle Zertifikatsdokumente, offiziellen Abschlüsse und akademischen Nachweise sind in einem offenen öffentlichen Repository katalogisiert."
               : "All certificate documents, official completions, and academic credentials are cataloged in an open public repository."}
           </p>
         </div>
@@ -176,7 +218,13 @@ export function CapabilitiesMatrix({
           rel="noopener noreferrer"
           className={styles.repoBtn}
         >
-          <span>{isAr ? "عرض مستودع الشهادات" : "View Certificates Repository"}</span>
+          <span>
+            {isAr
+              ? "عرض مستودع الشهادات"
+              : isDe
+              ? "Zertifikats-Repository ansehen"
+              : "View Certificates Repository"}
+          </span>
           <span aria-hidden="true">↗</span>
         </a>
       </div>
