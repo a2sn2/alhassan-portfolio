@@ -2,6 +2,8 @@ import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import fs from "fs";
 import path from "path";
+import { projectItems } from "@/content/projects";
+import { projectItemsDe } from "@/content/de/projects";
 
 async function switchLanguage(
   page: Page,
@@ -1013,7 +1015,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     // 2. Project Detail on German
     await page.goto("/de/projects/real-time-object-detection");
     await expect(page.locator("h1")).toContainText("Echtzeit-Objekterkennung");
-    await expect(page.locator("text=Computer Vision Pipeline")).toBeVisible();
+    await expect(page.locator("text=Computer-Vision-Pipeline")).toBeVisible();
     await expect(page.locator("text=Python").first()).toBeVisible();
     await expect(page.locator("text=PyTorch").first()).toBeVisible();
     await expect(page.locator("text=OpenCV").first()).toBeVisible();
@@ -1077,6 +1079,146 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
         ).toBe(false);
       }
     }
+  });
+
+  test("TC-32: German Hero and Focus Rail localization", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de");
+
+    // English CTAs must not appear
+    expect(await page.locator("text=Explore Selected Work").count()).toBe(0);
+    expect(await page.locator("text=Read Profile & Principles").count()).toBe(0);
+    expect(await page.locator("text=opens the Portfolio Navigator from anywhere").count()).toBe(0);
+
+    // German CTAs and routes
+    const primaryCta = page.locator('a[href="/de/projects"]:has-text("Ausgewählte Arbeiten erkunden")');
+    await expect(primaryCta).toBeVisible();
+
+    const secondaryCta = page.locator('a[href="/de/about"]:has-text("Profil & Prinzipien lesen")');
+    await expect(secondaryCta).toBeVisible();
+
+    // Command hint in German
+    await expect(page.locator("text=öffnet den Portfolio-Navigator von überall")).toBeVisible();
+
+    // Section aria-label
+    const heroSection = page.locator('section[aria-label="Einleitung"]');
+    await expect(heroSection).toBeVisible();
+
+    // Mobile Focus Rail: no English "Software Systems", German titles visible
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(await page.locator("text=Software Systems").count()).toBe(0);
+    expect(await page.locator("text=Quality Engineering").count()).toBe(0);
+
+    await expect(page.locator("text=Softwaresysteme & Integration").first()).toBeVisible();
+    await expect(page.locator("text=Anwendungsentwicklung").first()).toBeVisible();
+    await expect(page.locator("text=Angewandte KI & Computer Vision").first()).toBeVisible();
+    await expect(page.locator("text=Qualitätssicherung & Prüfstandards").first()).toBeVisible();
+  });
+
+  test("TC-33: German About page language presentation & CV fidelity", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de/about");
+
+    // Sourced directly from official German CV: Arabisch — Muttersprache, Englisch — B2, Deutsch — B1
+    const main = page.locator("main");
+    await expect(main.locator("text=Arabisch").first()).toBeVisible();
+    await expect(main.locator("text=Muttersprache").first()).toBeVisible();
+    await expect(main.locator("text=Englisch").first()).toBeVisible();
+    await expect(main.locator("text=B2").first()).toBeVisible();
+    await expect(main.locator("text=Deutsch").first()).toBeVisible();
+    await expect(main.locator("text=B1").first()).toBeVisible();
+
+    // No Arabic explanatory script leak inside German UI
+    expect(await main.locator("text=لغة أم").count()).toBe(0);
+
+    // No unsolicited proficiency claims
+    expect(await page.locator("text=Professional working proficiency").count()).toBe(0);
+    expect(await page.locator("text=Selbstständige Sprachverwendung").count()).toBe(0);
+  });
+
+  test("TC-34: German Capabilities wording & laufend status", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de/capabilities");
+
+    // Neutral lead wording without overclaiming completion
+    await expect(
+      page.locator("text=Zertifikate, Kurse und Programme aus Universitätsfakultäten, technischen Instituten und Fachorganisationen.")
+    ).toBeVisible();
+
+    // No overclaim "absolviert" or "offiziellen Abschlüsse"
+    expect(await page.locator("text=absolviert").count()).toBe(0);
+    expect(await page.locator("text=offiziellen Abschlüsse").count()).toBe(0);
+
+    // Explicit laufend status where CV indicates ongoing
+    const laufendBadges = page.locator("text=laufend");
+    expect(await laufendBadges.count()).toBeGreaterThanOrEqual(1);
+  });
+
+  test("TC-35: Project hierarchy and technology parity EN <-> DE", async () => {
+    // Assert 1:1 structural and evidence parity between English and German project sets
+    expect(projectItemsDe.length).toBe(16);
+    expect(projectItems.length).toBe(16);
+
+    for (let i = 0; i < projectItems.length; i++) {
+      const en = projectItems[i];
+      const de = projectItemsDe[i];
+
+      expect(de.slug).toBe(en.slug);
+      expect(de.presentationTier).toBe(en.presentationTier);
+      expect(de.featured).toBe(en.featured);
+      expect(de.category).toBe(en.category);
+      expect(de.evidenceDepth).toBe(en.evidenceDepth);
+      expect(Boolean(de.githubUrl)).toBe(Boolean(en.githubUrl));
+
+      // Technology evidence scope matches 1:1 in count
+      expect(
+        de.technologies.length,
+        `Technology count mismatch for slug "${en.slug}": EN=[${en.technologies.join(", ")}], DE=[${de.technologies.join(", ")}]`
+      ).toBe(en.technologies.length);
+    }
+  });
+
+  test("TC-36: German Accessibility controls (ThemeToggle and SkipLink)", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. German route
+    await page.goto("/de");
+    const skipLinkDe = page.locator('a[href="#main-content"]');
+    await expect(skipLinkDe).toHaveText("Zum Hauptinhalt springen");
+
+    const themeToggleDe = page.locator('header button[aria-label*="Design wechseln"]');
+    await expect(themeToggleDe.first()).toBeVisible();
+
+    // 2. Arabic route
+    await page.goto("/ar");
+    const skipLinkAr = page.locator('a[href="#main-content"]');
+    await expect(skipLinkAr).toHaveText("الانتقال إلى المحتوى الرئيسي");
+
+    const themeToggleAr = page.locator('header button[aria-label*="التبديل إلى المظهر"]');
+    await expect(themeToggleAr.first()).toBeVisible();
+
+    // 3. English route
+    await page.goto("/");
+    const skipLinkEn = page.locator('a[href="#main-content"]');
+    await expect(skipLinkEn).toHaveText("Skip to main content");
+
+    const themeToggleEn = page.locator('header button[aria-label*="Switch to"]');
+    await expect(themeToggleEn.first()).toBeVisible();
+  });
+
+  test("TC-37: German Category and Badge localization in UI", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de/projects");
+
+    // Localized category filter buttons
+    await expect(page.locator('button:has-text("Alle")').first()).toBeVisible();
+    await expect(page.locator('button:has-text("Computer Vision & KI")').first()).toBeVisible();
+    await expect(page.locator('button:has-text("Full-Stack & Web")').first()).toBeVisible();
+    await expect(page.locator('button:has-text("Systeme & Robotik")').first()).toBeVisible();
+    await expect(page.locator('button:has-text("Eingebettete Systeme & IoT")').first()).toBeVisible();
+
+    // Localized project badge
+    await expect(page.locator("text=Computer-Vision-Pipeline").first()).toBeVisible();
   });
 });
 

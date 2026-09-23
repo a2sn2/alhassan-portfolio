@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "./ProjectCaseStudy.module.css";
 import { ProjectItem } from "@/contracts/projects";
+import { formatProjectCategory } from "@/utils/categories";
 
 interface ProjectCaseStudyProps {
   project: ProjectItem;
@@ -73,7 +74,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
     chapters.push({
       id: "technologies",
       label: isDe
-        ? "Verifizierte Technologien"
+        ? "Eingesetzte Technologien"
         : isAr
         ? "التقنيات المعتمدة"
         : "Verified Technologies",
@@ -83,7 +84,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
     chapters.push({
       id: "outcomes",
       label: isDe
-        ? "Verifizierte Ergebnisse & Umfang"
+        ? "Ergebnisse & Umfang"
         : isAr
         ? "النتائج المعتمدة ونطاق التسليم"
         : "Verified Outcomes",
@@ -110,7 +111,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
 
       <header className={styles.header}>
         <div className={styles.metaRow}>
-          <span className={styles.categoryBadge}>{project.category}</span>
+          <span className={styles.categoryBadge}>{formatProjectCategory(project.category, locale)}</span>
           {project.period && (
             <span className={styles.periodBadge}>
               <bdi>{project.period}</bdi>
@@ -266,7 +267,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   </span>
                   <span>
                     {isDe
-                      ? "Verifizierte Technologien"
+                      ? "Eingesetzte Technologien"
                       : isAr
                       ? "التقنيات المعتمدة"
                       : "Verified Technologies"}
@@ -290,7 +291,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   </span>
                   <span>
                     {isDe
-                      ? "Verifizierte Ergebnisse & Umfang"
+                      ? "Ergebnisse & Umfang"
                       : isAr
                       ? "النتائج المعتمدة ونطاق التسليم"
                       : "Verified Results & Scope"}
@@ -299,7 +300,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                 <div className={styles.resultCallout}>
                   <span className={styles.resultTitle}>
                     {isDe
-                      ? "Verifiziertes Ergebnis"
+                      ? "Ergebnis"
                       : isAr
                       ? "المُخرَج المعتمد"
                       : "Verified Deliverable"}
@@ -362,7 +363,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
               <h2 className={styles.sectionTitle}>
                 <span>
                   {isDe
-                    ? "Verifizierte Technologien"
+                    ? "Eingesetzte Technologien"
                     : isAr
                     ? "التقنيات المعتمدة"
                     : "Verified Technologies"}

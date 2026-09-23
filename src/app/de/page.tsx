@@ -11,6 +11,7 @@ import {
   skillsContentDe,
   credentialsContentDe,
 } from "@/content/de";
+import { formatProjectCategory } from "@/utils/categories";
 import styles from "../home.module.css";
 
 export default function GermanHomePage() {
@@ -44,7 +45,7 @@ export default function GermanHomePage() {
             {featuredProjects.map((project) => (
               <article key={project.id} className={styles.projectCard}>
                 <div className={styles.cardHeader}>
-                  <Badge variant="category">{project.category}</Badge>
+                  <Badge variant="category">{formatProjectCategory(project.category, "de")}</Badge>
                   {project.badge && (
                     <Badge variant="tech">{project.badge}</Badge>
                   )}

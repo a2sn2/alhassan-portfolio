@@ -4,7 +4,7 @@ export const credentialsContentDe: CredentialsContent = {
   kicker: "Zertifikate & Nachweise",
   title: "Zertifikate, Kurse & Mitgliedschaften",
   description:
-    "Verifizierte technische Zertifikate, Studienprogramme und Mitgliedschaften in Fachverbänden in den Bereichen KI, Netzwerke, eingebettete Systeme und Management.",
+    "Technische Zertifikate, Studienprogramme und Mitgliedschaften in Fachorganisationen in den Bereichen KI, Netzwerke, eingebettete Systeme und Management.",
   overviewText:
     "Deep Learning, Computer Vision, Robotik, eingebettete Systeme, Netzwerk-Routing und Projektmanagement.",
   certificationsRepoUrl: "https://github.com/a2sn2/certificates",

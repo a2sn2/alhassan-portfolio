@@ -4,7 +4,7 @@ export const skillsContentDe: SkillsContent = {
   kicker: "Kernkompetenzen",
   title: "Technische Kenntnisse & Kompetenzmatrix",
   description:
-    "Verifizierte technische Disziplinen, Werkzeuge, Programmiersprachen und Systeme aus Softwareentwicklung, Netzwerktechnik und industrieller Steuerung.",
+    "Technische Disziplinen, Werkzeuge, Programmiersprachen und Systeme aus Softwareentwicklung, Netzwerktechnik und industrieller Steuerung.",
   groups: [
     {
       category: "Programmierung & Frameworks",
@@ -26,6 +26,7 @@ export const skillsContentDe: SkillsContent = {
       skills: [
         "Relationale SQL-Datenbanken",
         "Oracle PL/SQL",
+        "MySQL",
         "Datenbankdesign",
         "Datenstrukturen & Algorithmen",
         "Objektorientierte Programmierung (OOP)",

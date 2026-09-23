@@ -25,17 +25,17 @@ export const aboutContentDe: AboutContent = {
     {
       language: "Arabisch",
       level: "Muttersprache",
-      proficiency: "Muttersprache (لغة أم).",
+      proficiency: "Muttersprache",
     },
     {
       language: "Englisch",
       level: "B2",
-      proficiency: "Gute Arbeitskenntnisse (CEFR B2).",
+      proficiency: "B2",
     },
     {
       language: "Deutsch",
       level: "B1",
-      proficiency: "Selbstständige Sprachverwendung (CEFR B1).",
+      proficiency: "B1",
     },
   ],
   interests: [

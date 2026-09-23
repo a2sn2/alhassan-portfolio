@@ -7,6 +7,7 @@ import { navigationContent, projectItems, contactContent, socialLinks } from "@/
 import { navigationContentAr, projectItemsAr, contactContentAr } from "@/content/ar";
 import { navigationContentDe, projectItemsDe, contactContentDe } from "@/content/de";
 import { cn } from "@/utils/cn";
+import { formatProjectCategory } from "@/utils/categories";
 
 interface PaletteItem {
   id: string;
@@ -95,7 +96,7 @@ export function CommandPalette() {
         category: categoryFeatured,
         title: proj.title,
         description: proj.tagline,
-        meta: proj.category,
+        meta: formatProjectCategory(proj.category, isGerman ? "de" : isArabic ? "ar" : "en"),
         action: () => {
           router.push(
             isGerman

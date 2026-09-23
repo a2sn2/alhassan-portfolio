@@ -88,12 +88,14 @@ export default function GermanAboutPage() {
               <span className={styles.cardKicker}>Sprachen & Kommunikation</span>
               <div className={styles.langList}>
                 {aboutContentDe.languages.map((lang) => (
-                  <div key={lang.language} className={lang.language ? styles.langItem : ""}>
+                  <div key={lang.language} className={styles.langItem}>
                     <div className={styles.langHeader}>
                       <span className={styles.langName}>{lang.language}</span>
                       <span className={styles.langLevel}>{lang.level}</span>
                     </div>
-                    <p className={styles.langDesc}>{lang.proficiency}</p>
+                    {lang.proficiency && lang.proficiency !== lang.level && (
+                      <p className={styles.langDesc}>{lang.proficiency}</p>
+                    )}
                   </div>
                 ))}
               </div>

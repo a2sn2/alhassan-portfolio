@@ -117,7 +117,7 @@ export function CapabilitiesMatrix({
             {isAr
               ? "برامج تدريبية وتأهيلية معتمدة من كليات جامعية ومعاهد تقنية وتكتلات هندسية."
               : isDe
-              ? "Strukturierte Zertifikate und akademische Programme, absolviert an Universitätsfakultäten, technischen Instituten und Ingenieurverbänden."
+              ? "Zertifikate, Kurse und Programme aus Universitätsfakultäten, technischen Instituten und Fachorganisationen."
               : "Structured certifications and academic programs completed across university faculties, technical institutes, and engineering blocs."}
           </p>
         </div>
@@ -208,7 +208,7 @@ export function CapabilitiesMatrix({
             {isAr
               ? "جميع وثائق الشهادات والمشاركات الأكاديمية موثقة ومتاحة في مستودع رقمي عام ومفتوح."
               : isDe
-              ? "Alle Zertifikatsdokumente, offiziellen Abschlüsse und akademischen Nachweise sind in einem offenen öffentlichen Repository katalogisiert."
+              ? "Zertifikatsdokumente und akademische Nachweise sind in einem offenen öffentlichen Repository katalogisiert."
               : "All certificate documents, official completions, and academic credentials are cataloged in an open public repository."}
           </p>
         </div>

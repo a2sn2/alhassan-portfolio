@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { usePathname } from "next/navigation";
 import styles from "./SkipLink.module.css";
 
 interface SkipLinkProps {
@@ -8,11 +11,21 @@ interface SkipLinkProps {
 
 export function SkipLink({
   targetId = "main-content",
-  label = "Skip to main content",
+  label,
 }: SkipLinkProps) {
+  const pathname = usePathname();
+  const isGerman = pathname === "/de" || pathname?.startsWith("/de/");
+  const isArabic = pathname === "/ar" || pathname?.startsWith("/ar/");
+
+  const defaultLabel = isGerman
+    ? "Zum Hauptinhalt springen"
+    : isArabic
+    ? "الانتقال إلى المحتوى الرئيسي"
+    : "Skip to main content";
+
   return (
     <a href={`#${targetId}`} className={styles.skipLink}>
-      {label}
+      {label ?? defaultLabel}
     </a>
   );
 }

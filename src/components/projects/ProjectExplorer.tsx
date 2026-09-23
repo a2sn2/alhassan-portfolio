@@ -7,6 +7,7 @@ import styles from "./ProjectExplorer.module.css";
 import { ProjectItem, ProjectCategory } from "@/contracts/projects";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/utils/cn";
+import { formatProjectCategory } from "@/utils/categories";
 
 interface ProjectExplorerProps {
   items: ProjectItem[];
@@ -18,41 +19,10 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
   const pathname = usePathname();
   const isGerman = pathname === "/de" || pathname.startsWith("/de/");
   const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
+  const currentLocale = isGerman ? "de" : isArabic ? "ar" : "en";
 
   const getCategoryLabel = (cat: ProjectCategory) => {
-    if (isGerman) {
-      switch (cat) {
-        case "All":
-          return "Alle";
-        case "Computer Vision & AI":
-          return "Computer Vision & KI";
-        case "Full-Stack & Web":
-          return "Full-Stack & Web";
-        case "Systems & Robotics":
-          return "Systeme & Robotik";
-        case "Embedded & IoT":
-          return "Eingebettete Systeme & IoT";
-        default:
-          return cat;
-      }
-    }
-    if (isArabic) {
-      switch (cat) {
-        case "All":
-          return "الكل";
-        case "Computer Vision & AI":
-          return "الرؤية الحاسوبية والذكاء الاصطناعي";
-        case "Full-Stack & Web":
-          return "الويب والتطبيقات المتكاملة";
-        case "Systems & Robotics":
-          return "الأنظمة والروبوتات";
-        case "Embedded & IoT":
-          return "الأنظمة المدمجة وإنترنت الأشياء";
-        default:
-          return cat;
-      }
-    }
-    return cat;
+    return formatProjectCategory(cat, currentLocale);
   };
 
   const getProjectHref = (slug: string) => {
@@ -162,7 +132,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                         ? `ملف المشروع // 0${idx + 1}`
                         : `PROJECT PROFILE // 0${idx + 1}`}
                     </span>
-                    <span className={styles.techPlateCategory}>{project.category}</span>
+                    <span className={styles.techPlateCategory}>{getCategoryLabel(project.category)}</span>
                   </div>
                   <div className={styles.techPlateBody}>
                     <div className={styles.techMatrix}>
@@ -191,7 +161,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                 {/* Content Details */}
                 <div className={styles.selectedContent}>
                   <div className={styles.cardMetaRow}>
-                    <Badge variant="category">{project.category}</Badge>
+                    <Badge variant="category">{getCategoryLabel(project.category)}</Badge>
                     {project.badge && <Badge variant="tech">{project.badge}</Badge>}
                   </div>
 
@@ -310,7 +280,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                 className={cn(styles.projectCard, styles.coreCard)}
               >
                 <div className={styles.cardMetaRow}>
-                  <Badge variant="category">{project.category}</Badge>
+                  <Badge variant="category">{getCategoryLabel(project.category)}</Badge>
                   {project.badge && <Badge variant="tech">{project.badge}</Badge>}
                 </div>
 
@@ -441,7 +411,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                   </div>
 
                   <div className={styles.archiveDomainCell}>
-                    <span className={styles.archiveDomainBadge}>{project.category}</span>
+                    <span className={styles.archiveDomainBadge}>{getCategoryLabel(project.category)}</span>
                   </div>
 
                   <div className={styles.archiveTechCell}>

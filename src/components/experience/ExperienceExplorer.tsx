@@ -149,7 +149,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
               <div className={styles.techGroup}>
                 <h3 className={styles.sectionTitle}>
                   {isGerman
-                    ? "Verifizierte Technologien & Schwerpunkte"
+                    ? "Technologien & Schwerpunkte"
                     : isArabic
                     ? "التقنيات ومجالات العمل المعتمدة"
                     : "Verified Technologies & Domains"}
