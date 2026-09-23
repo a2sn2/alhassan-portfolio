@@ -35,7 +35,7 @@ export async function generateMetadata({
 
   return {
     title: `${project.title} — Fallstudie`,
-    description: `${project.tagline} Verifizierter technischer Umfang, Architektur und Ergebnisse.`,
+    description: `${project.tagline} Technischer Umfang, Architektur und Ergebnisse.`,
     alternates: {
       canonical: `${siteMetadataDe.siteUrl}/de/projects/${project.slug}`,
       languages: {

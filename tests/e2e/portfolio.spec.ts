@@ -979,13 +979,16 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.goto("/de");
 
     // Open palette
-    const searchBtn = page.locator('button[aria-label*="Befehlspalette öffnen"], button[title*="durchsuchen"]');
+    const searchBtn = page.locator('header button[aria-label*="Befehlspalette öffnen"]').first();
     await expect(searchBtn).toBeVisible();
     await searchBtn.click();
 
     const dialog = page.getByRole("dialog", {
       name: "Portfolio-Navigator & Befehlspalette",
     });
+    if (!(await dialog.isVisible())) {
+      await page.keyboard.press("Control+k");
+    }
     await expect(dialog).toBeVisible();
 
     // Type query to filter
@@ -1159,6 +1162,25 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(projectItemsDe.length).toBe(16);
     expect(projectItems.length).toBe(16);
 
+    const expectedGermanTechnologies: Record<string, string[]> = {
+      "real-time-object-detection": ["Python", "PyTorch", "OpenCV"],
+      "robocam-controller": ["Flutter", "Dart", "Android"],
+      "pump-station-analytics": ["Vorausschauende Wartung"],
+      "real-time-image-classification-api": ["Python", "Flask", "API"],
+      "urbanmindos": ["Konzeptdesign", "Urbane Luftmobilität"],
+      "mikrotik-hotspot-portal": ["MikroTik RouterOS", "Dual-WAN", "PPPoE", "Hotspot Portal", "RADIUS"],
+      "arduino-traffic-light": ["Arduino"],
+      "obstacle-avoidance": ["TensorFlow", "Tiefenschätzung"],
+      "ai-tic-tac-toe": ["Python", "Pygame", "Minimax-KI"],
+      "pacman-pygame": ["Python", "Pygame", "Kollisionserkennung"],
+      "text-summarizer": ["Desktop-Anwendung", "Extraktive Zusammenfassung"],
+      "user-role-manager": ["Oracle Forms 6i", "PL/SQL"],
+      "inventory-sales-manager": ["Webanwendung", "CRUD"],
+      "student-evaluation-system": ["C#", "Desktop", "PHP", "Web"],
+      "cafe-pos-system": ["Java Swing", "JDBC"],
+      "omnifood-landing-page": ["Responsive Web"],
+    };
+
     for (let i = 0; i < projectItems.length; i++) {
       const en = projectItems[i];
       const de = projectItemsDe[i];
@@ -1175,6 +1197,12 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
         de.technologies.length,
         `Technology count mismatch for slug "${en.slug}": EN=[${en.technologies.join(", ")}], DE=[${de.technologies.join(", ")}]`
       ).toBe(en.technologies.length);
+
+      // Technology evidence matches approved German baseline exactly
+      expect(
+        de.technologies,
+        `Technology exact array mismatch for slug "${en.slug}"`
+      ).toEqual(expectedGermanTechnologies[en.slug]);
     }
   });
 

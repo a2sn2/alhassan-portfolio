@@ -182,7 +182,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                 <p className={styles.sectionText}>
                   {isDe ? (
                     <>
-                      Tätig als <strong>{project.role}</strong> mit Fokus auf Entwicklung, Tests und verifizierte Implementierung.
+                      Tätig als <strong>{project.role}</strong> mit Fokus auf Entwicklung, Tests und technische Implementierung.
                     </>
                   ) : isAr ? (
                     <>

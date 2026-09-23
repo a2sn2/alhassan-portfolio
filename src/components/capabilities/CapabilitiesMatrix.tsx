@@ -79,7 +79,7 @@ export function CapabilitiesMatrix({
             {isAr
               ? "القدرات التقنية وبيئات البرمجيات المصنفة والمحققة في البيئات الإنتاجية والأكاديمية."
               : isDe
-              ? "Kategorisierte technische Fähigkeiten und Softwareumgebungen, verifiziert in produktiven und akademischen Umgebungen."
+              ? "Technische Fähigkeiten, Werkzeuge und Softwareumgebungen aus Softwareentwicklung, Netzwerktechnik und industrieller Steuerung."
               : "Categorized technical capabilities and software environments verified in production and academic environments."}
           </p>
         </div>
