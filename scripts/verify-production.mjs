@@ -887,7 +887,7 @@ async function main() {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(BASE_URL, { waitUntil: 'networkidle' });
 
-  const themeToggleBtn = page.locator('header button[aria-label*="theme" i]:visible').first();
+  const themeToggleBtn = page.locator('header button[aria-label*="theme" i]:visible, header button[aria-label*="Design" i]:visible, header button[aria-label*="المظهر" i]:visible').first();
 
   if (await themeToggleBtn.count() > 0) {
     await themeToggleBtn.click();
@@ -913,7 +913,7 @@ async function main() {
     }
 
     // Restore initial theme
-    await page.locator('header button[aria-label*="theme" i]:visible').first().click();
+    await page.locator('header button[aria-label*="theme" i]:visible, header button[aria-label*="Design" i]:visible, header button[aria-label*="المظهر" i]:visible').first().click();
     await page.waitForTimeout(200);
   }
 

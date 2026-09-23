@@ -770,7 +770,7 @@ async function run() {
     ]);
 
     // Click theme toggle button
-    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i]';
+    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i], button[aria-label*="Design" i], button[aria-label*="المظهر" i]';
     await Promise.all([
       localPage.click(toggleSelector),
       prodPage.click(toggleSelector)
@@ -1106,7 +1106,7 @@ async function run() {
     ]);
 
     // Click theme toggle button
-    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i], button[aria-label*="سمة" i], button[aria-label*="الوضع" i]';
+    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i], button[aria-label*="Design" i], button[aria-label*="المظهر" i], button[aria-label*="سمة" i], button[aria-label*="الوضع" i]';
     await Promise.all([
       localPage.click(toggleSelector),
       prodPage.click(toggleSelector)
