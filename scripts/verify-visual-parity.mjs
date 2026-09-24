@@ -4,20 +4,21 @@
  * Visual Parity Verifier
  * 
  * Performs deterministic pixel-level and DOM/geometry/typography comparisons
- * between Local (http://localhost:3000) and Production (https://alhassan-portfolio-phi.vercel.app).
+ * between Local (http://localhost:3000) and Production / Preview deployment.
  * 
  * Matrix:
- * - 14 Routes: 7 English (/, /about, /experience, /projects, /capabilities, /contact, /projects/real-time-object-detection)
+ * - 21 Routes: 7 English (/, /about, /experience, /projects, /capabilities, /contact, /projects/real-time-object-detection)
  *              7 Arabic (/ar, /ar/about, /ar/experience, /ar/projects, /ar/capabilities, /ar/contact, /ar/projects/real-time-object-detection)
+ *              7 German (/de, /de/about, /de/experience, /de/projects, /de/capabilities, /de/contact, /de/projects/real-time-object-detection)
  * - 5 Viewports: 1440x900, 1280x800, 768x1024, 390x844, 320x700
  * - 2 Themes: light, dark
- * - 10 Interactive States: 5 English + 5 Arabic
- * Total: 140 static + 10 interactive = 150 visual comparison pairs
+ * - 15 Interactive States: 5 English + 5 Arabic + 5 German
+ * Total: 210 static + 15 interactive = 225 visual comparison pairs
  * 
  * Normalization:
  * - Masks ONLY known dev-only artifacts (nextjs-portal, [data-nextjs-toast], #nextjs-dev-overlay, etc.)
  * - Disables CSS transitions/animations during capture for settled paint
- * - Waits for document.fonts.ready
+ * - Waits for document.fonts.ready and paint settling
  * - Identical browser engine, deviceScaleFactor, viewport, and scroll position
  * 
  * Output:
@@ -61,7 +62,16 @@ const ROUTES = [
   { id: 'ar-projects', path: '/ar/projects' },
   { id: 'ar-capabilities', path: '/ar/capabilities' },
   { id: 'ar-contact', path: '/ar/contact' },
-  { id: 'ar-case-study', path: '/ar/projects/real-time-object-detection' }
+  { id: 'ar-case-study', path: '/ar/projects/real-time-object-detection' },
+
+  // German Routes (7)
+  { id: 'de-home', path: '/de' },
+  { id: 'de-about', path: '/de/about' },
+  { id: 'de-experience', path: '/de/experience' },
+  { id: 'de-projects', path: '/de/projects' },
+  { id: 'de-capabilities', path: '/de/capabilities' },
+  { id: 'de-contact', path: '/de/contact' },
+  { id: 'de-case-study', path: '/de/projects/real-time-object-detection' }
 ];
 
 const VIEWPORTS = [
@@ -73,6 +83,10 @@ const VIEWPORTS = [
 ];
 
 const THEMES = ['light', 'dark'];
+
+const STATIC_PAIR_COUNT = ROUTES.length * VIEWPORTS.length * THEMES.length; // 21 * 5 * 2 = 210
+const INTERACTIVE_PAIR_COUNT = 15; // 5 EN + 5 AR + 5 DE
+const TOTAL_PAIRS_EXPECTED = STATIC_PAIR_COUNT + INTERACTIVE_PAIR_COUNT; // 225
 
 async function launchBrowser() {
   try {
@@ -96,6 +110,7 @@ async function navigateWithRetry(page, url, retries = 3) {
 
 async function preparePage(page, theme, isLocal = false) {
   // Inject settled styles (disable transitions/animations during capture)
+  // On local development runtimes, hide ONLY dev-only framework overlays (toasts, error overlays, route announcers)
   await page.addStyleTag({
     content: `
       *, *::before, *::after {
@@ -118,15 +133,23 @@ async function preparePage(page, theme, isLocal = false) {
     `
   }).catch(() => {});
 
-  // Wait for all web fonts to settle
-  await page.evaluate(async () => {
+  // Wait for all web fonts to settle and clean up local dev-only portal host from DOM.
+  // Next.js dev server injects a custom <nextjs-portal> element with an internal shadow root
+  // containing dev-mode compilation/toast badges. Removing this dev-only node prevents shadow DOM bleed
+  // without modifying any application UI components or layout structure.
+  await page.evaluate(async (isLoc) => {
     if (document.fonts) {
       await document.fonts.ready;
     }
+    if (isLoc) {
+      const portal = document.querySelector('nextjs-portal');
+      if (portal) portal.remove();
+    }
     window.scrollTo(0, 0);
-  });
+  }, isLocal);
 
-  await page.waitForTimeout(200);
+  // Allow settled paint to complete deterministically
+  await page.waitForTimeout(300);
 }
 
 async function extractGeometryAndTypography(page) {
@@ -311,7 +334,7 @@ async function run() {
       startedAt: new Date().toISOString(),
       localBase: LOCAL_BASE,
       prodBase: PROD_BASE,
-      totalPairsExpected: ROUTES.length * VIEWPORTS.length * THEMES.length + 5
+      totalPairsExpected: TOTAL_PAIRS_EXPECTED
     },
     pairs: [],
     geometryDeltas: [],
@@ -761,7 +784,7 @@ async function run() {
     ]);
 
     // Click theme toggle button
-    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i]';
+    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i], button[aria-label*="Design" i], button[aria-label*="المظهر" i]';
     await Promise.all([
       localPage.click(toggleSelector),
       prodPage.click(toggleSelector)
@@ -1097,7 +1120,7 @@ async function run() {
     ]);
 
     // Click theme toggle button
-    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i], button[aria-label*="سمة" i], button[aria-label*="الوضع" i]';
+    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i], button[aria-label*="Design" i], button[aria-label*="المظهر" i], button[aria-label*="سمة" i], button[aria-label*="الوضع" i]';
     await Promise.all([
       localPage.click(toggleSelector),
       prodPage.click(toggleSelector)
@@ -1144,6 +1167,342 @@ async function run() {
     await prodContext.close();
   }
 
+  // Interactive 11: German Projects Filter Selected
+  {
+    const pairId = 'interactive-de-projects-filter';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/de/projects`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/de/projects`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Click second filter button (Computer Vision & AI)
+    await Promise.all([
+      localPage.locator('div[role="group"] button').nth(1).click(),
+      prodPage.locator('div[role="group"] button').nth(1).click()
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(200),
+      prodPage.waitForTimeout(200)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'German Projects category filter selected (nth=1)',
+      viewport: '1440x900',
+      theme: 'light',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 12: German Experience Role Selected
+  {
+    const pairId = 'interactive-de-experience-role';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/de/experience`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/de/experience`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Click second role in desktop tablist
+    await Promise.all([
+      localPage.locator('div[role="tablist"] button').nth(1).click(),
+      prodPage.locator('div[role="tablist"] button').nth(1).click()
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(200),
+      prodPage.waitForTimeout(200)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'German Experience role tab selected (nth=1)',
+      viewport: '1440x900',
+      theme: 'light',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 13: German Mobile Drawer Open
+  {
+    const pairId = 'interactive-de-mobile-drawer';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/de`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/de`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Click mobile drawer button
+    await Promise.all([
+      localPage.locator('button[aria-controls="mobile-nav-drawer"]').click(),
+      prodPage.locator('button[aria-controls="mobile-nav-drawer"]').click()
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(300),
+      prodPage.waitForTimeout(300)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'German Mobile navigation drawer opened',
+      viewport: '390x844',
+      theme: 'light',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 14: German Command Palette Open
+  {
+    const pairId = 'interactive-de-command-palette';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/de`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/de`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Open command palette
+    await Promise.all([
+      localPage.keyboard.press('Control+k'),
+      prodPage.keyboard.press('Control+k')
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(400),
+      prodPage.waitForTimeout(400)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'German Command Palette opened via Ctrl+K',
+      viewport: '1440x900',
+      theme: 'light',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
+  // Interactive 15: German Theme Toggled State
+  {
+    const pairId = 'interactive-de-theme-toggled';
+    process.stdout.write(`Evaluating [${pairId}]... `);
+
+    const localContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const prodContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+    const localPage = await localContext.newPage();
+    const prodPage = await prodContext.newPage();
+
+    await Promise.all([
+      navigateWithRetry(localPage, `${LOCAL_BASE}/de`),
+      navigateWithRetry(prodPage, `${PROD_BASE}/de`)
+    ]);
+
+    await Promise.all([
+      preparePage(localPage, 'light', true),
+      preparePage(prodPage, 'light', false)
+    ]);
+
+    // Click theme toggle button
+    const toggleSelector = 'button[aria-label*="theme" i], button[aria-label*="dark" i], button[aria-label*="light" i], button[aria-label*="Design" i], button[aria-label*="المظهر" i], button[aria-label*="سمة" i], button[aria-label*="الوضع" i], button[aria-label*="Thema" i], button[aria-label*="Modus" i]';
+    await Promise.all([
+      localPage.click(toggleSelector),
+      prodPage.click(toggleSelector)
+    ]);
+    await Promise.all([
+      localPage.waitForTimeout(300),
+      prodPage.waitForTimeout(300)
+    ]);
+
+    const localScreenshotPath = path.join(LOCAL_SCREENSHOTS_DIR, `${pairId}.png`);
+    const prodScreenshotPath = path.join(PROD_SCREENSHOTS_DIR, `${pairId}.png`);
+    const diffPath = path.join(DIFFS_DIR, `${pairId}-diff.png`);
+
+    await Promise.all([
+      localPage.screenshot({ path: localScreenshotPath, fullPage: false }),
+      prodPage.screenshot({ path: prodScreenshotPath, fullPage: false })
+    ]);
+
+    const diffReport = await diffScreenshots(localScreenshotPath, prodScreenshotPath, diffPath);
+    results.pairs.push({
+      pairId,
+      type: 'interactive',
+      description: 'German Theme toggled from light to dark',
+      viewport: '1440x900',
+      theme: 'toggled',
+      ...diffReport
+    });
+    results.summary.totalPairs++;
+    if (diffReport.changedPixels === 0) {
+      results.summary.exactPixelMatchPairs++;
+      console.log(`EXACT PIXEL MATCH (0 diff)`);
+    } else {
+      results.summary.pairsWithDifferences++;
+      if (diffReport.changedPercentage > results.summary.worstChangedPercentage) {
+        results.summary.worstChangedPercentage = diffReport.changedPercentage;
+        results.summary.worstPairId = pairId;
+      }
+      console.log(`DIFF: ${diffReport.changedPixels}px (${diffReport.changedPercentage}%)`);
+    }
+
+    await localPage.close();
+    await localContext.close();
+    await prodPage.close();
+    await prodContext.close();
+  }
+
   await browser.close();
 
   results.summary.geometryMismatches = results.geometryDeltas.length;
@@ -1164,6 +1523,35 @@ async function run() {
   console.log(`Typography Mismatches:           ${results.summary.typographyMismatches}`);
   console.log(`Results JSON saved to:           ${resultsJsonPath}`);
   console.log(`============================================================\n`);
+
+  const isStrictGatePassed =
+    results.summary.totalPairs === results.metadata.totalPairsExpected &&
+    results.summary.exactPixelMatchPairs === results.metadata.totalPairsExpected &&
+    results.summary.pairsWithDifferences === 0 &&
+    results.summary.geometryMismatches === 0 &&
+    results.summary.typographyMismatches === 0;
+
+  if (!isStrictGatePassed) {
+    console.error(`❌ STRICT QUALITY GATE FAILED:`);
+    if (results.summary.totalPairs !== results.metadata.totalPairsExpected) {
+      console.error(`   - Total pairs: expected ${results.metadata.totalPairsExpected}, got ${results.summary.totalPairs}`);
+    }
+    if (results.summary.exactPixelMatchPairs !== results.metadata.totalPairsExpected) {
+      console.error(`   - Exact pixel match: expected ${results.metadata.totalPairsExpected}, got ${results.summary.exactPixelMatchPairs}`);
+    }
+    if (results.summary.pairsWithDifferences !== 0) {
+      console.error(`   - Pairs with differences: ${results.summary.pairsWithDifferences}`);
+    }
+    if (results.summary.geometryMismatches !== 0) {
+      console.error(`   - Geometry mismatches: ${results.summary.geometryMismatches}`);
+    }
+    if (results.summary.typographyMismatches !== 0) {
+      console.error(`   - Typography mismatches: ${results.summary.typographyMismatches}`);
+    }
+    process.exitCode = 1;
+  } else {
+    console.log(`✅ STRICT QUALITY GATE PASSED: All ${results.metadata.totalPairsExpected}/${results.metadata.totalPairsExpected} pairs match exactly with 0 pixel delta.\n`);
+  }
 }
 
 run().catch((err) => {

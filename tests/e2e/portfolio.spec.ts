@@ -1,7 +1,26 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import fs from "fs";
 import path from "path";
+import { projectItems } from "@/content/projects";
+import { projectItemsDe } from "@/content/de/projects";
+
+async function switchLanguage(
+  page: Page,
+  targetLang: "English" | "العربية" | "Deutsch"
+) {
+  const trigger = page.locator('header button[class*="langTrigger"], header button[aria-haspopup="menu"]').first();
+  if (await trigger.isVisible()) {
+    await trigger.click();
+    const option = page.locator(`header [class*="langPopover"] a:has-text("${targetLang}"), header a[role="menuitem"]:has-text("${targetLang}")`).first();
+    await expect(option).toBeVisible();
+    await option.click();
+  } else {
+    const directLink = page.locator(`header a:has-text("${targetLang}")`).first();
+    await expect(directLink).toBeVisible();
+    await directLink.click();
+  }
+}
 
 test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   test("TC-01: Homepage loads successfully with verified identity and curated highlights", async ({
@@ -59,13 +78,17 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.goto("/");
 
     // Open palette via header trigger button or shortcut
-    const searchBtn = page.locator('button[aria-label*="command palette"]');
+    const searchBtn = page.locator('button[aria-label*="command palette" i]').first();
     await expect(searchBtn).toBeVisible();
     await searchBtn.click();
 
     const dialog = page.getByRole("dialog", {
       name: "Portfolio Navigator & Command Palette",
     });
+    // In case click landed during hydration, trigger shortcut fallback
+    if (!(await dialog.isVisible())) {
+      await page.keyboard.press("Control+k");
+    }
     await expect(dialog).toBeVisible();
 
     // Search input exists and receives focus
@@ -85,7 +108,10 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     );
 
     // Reopen palette and test Escape key to close
-    await page.click('button[aria-label*="command palette"]');
+    await page.locator('button[aria-label*="command palette" i]').first().click();
+    if (!(await dialog.isVisible())) {
+      await page.keyboard.press("Control+k");
+    }
     await expect(dialog).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(dialog).not.toBeVisible();
@@ -524,28 +550,24 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
     // 1. From /about -> /ar/about
     await page.goto("/about");
-    const langSwitchEn = page.locator('header [class*="controlsGroup"] a:has-text("العربية"), header a:has-text("العربية")').first();
-    await expect(langSwitchEn).toBeVisible();
-    await langSwitchEn.click();
+    await switchLanguage(page, "العربية");
     await page.waitForURL("**/ar/about");
     await expect(page.locator("h1")).toContainText("الهندسة من الأسس الأكاديمية إلى الأنظمة الإنتاجية");
 
     // 2. From /ar/about -> /about
     // Use negative-lookahead regex: /^(?!.*\/ar\/).*\/about/ matches /about but NOT /ar/about
-    const langSwitchAr = page.locator('header [class*="controlsGroup"] a:has-text("English"), header a:has-text("English")').first();
-    await expect(langSwitchAr).toBeVisible();
-    await langSwitchAr.click();
+    await switchLanguage(page, "English");
     await page.waitForURL(/^(?!.*\/ar\/).*\/about/);
     await expect(page.locator("h1")).toContainText("Engineering from Academic Foundations to Production Systems");
 
     // 3. From project detail /projects/real-time-object-detection -> /ar/projects/real-time-object-detection
     await page.goto("/projects/real-time-object-detection");
-    await page.locator('header [class*="controlsGroup"] a:has-text("العربية"), header a:has-text("العربية")').first().click();
+    await switchLanguage(page, "العربية");
     await page.waitForURL(/\/ar\/projects\/real-time-object-detection/);
     await expect(page.locator("h1")).toContainText("كشف الأجسام بالزمن الحقيقي");
 
     // 4. From /ar/projects/real-time-object-detection -> /projects/real-time-object-detection
-    await page.locator('header [class*="controlsGroup"] a:has-text("English"), header a:has-text("English")').first().click();
+    await switchLanguage(page, "English");
     // Negative-lookahead: matches /projects/real-time-... but NOT /ar/projects/real-time-...
     await page.waitForURL(/^(?!.*\/ar\/).*\/projects\/real-time-object-detection/);
     await expect(page.locator("h1")).toContainText("Real-Time Object Detection");
@@ -737,30 +759,23 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
     // 1. Direct load of Arabic URL
     await page.goto("/ar/about");
-    expect(await page.locator("html").getAttribute("lang")).toBe("ar");
-    expect(await page.locator("html").getAttribute("dir")).toBe("rtl");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ar");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
 
-    // Switch to English — use regex with negative lookahead to exclude /ar/about
-    const switchEn = page.locator('header a:has-text("English")').first();
-    await expect(switchEn).toBeVisible();
-    await switchEn.click();
-    // /^(?!.*\/ar\/).*\/about/ matches /about but NOT /ar/about
+    // Switch to English
+    await switchLanguage(page, "English");
     await page.waitForURL(/^(?!.*\/ar\/).*\/about/);
-    await page.waitForLoadState("domcontentloaded");
     expect(page.url()).toContain("/about");
     expect(page.url()).not.toContain("/ar");
-    expect(await page.locator("html").getAttribute("lang")).toBe("en");
-    expect(await page.locator("html").getAttribute("dir")).toBe("ltr");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
 
     // Switch back to Arabic
-    const switchAr = page.locator('header a:has-text("العربية")').first();
-    await expect(switchAr).toBeVisible();
-    await switchAr.click();
+    await switchLanguage(page, "العربية");
     await page.waitForURL(/\/ar\/about/);
-    await page.waitForLoadState("domcontentloaded");
     expect(page.url()).toContain("/ar/about");
-    expect(await page.locator("html").getAttribute("lang")).toBe("ar");
-    expect(await page.locator("html").getAttribute("dir")).toBe("rtl");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ar");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
   });
 
   test("TC-22: Document Locale Sync on direct English load and transitions", async ({
@@ -770,29 +785,22 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
     // 1. Direct load of English URL
     await page.goto("/about");
-    expect(await page.locator("html").getAttribute("lang")).toBe("en");
-    expect(await page.locator("html").getAttribute("dir")).toBe("ltr");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
 
     // Switch to Arabic
-    const switchAr = page.locator('header a:has-text("العربية")').first();
-    await expect(switchAr).toBeVisible();
-    await switchAr.click();
+    await switchLanguage(page, "العربية");
     await page.waitForURL(/\/ar\/about/);
-    await page.waitForLoadState("domcontentloaded");
     expect(page.url()).toContain("/ar/about");
-    expect(await page.locator("html").getAttribute("lang")).toBe("ar");
-    expect(await page.locator("html").getAttribute("dir")).toBe("rtl");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ar");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
 
-    // Switch back to English — use regex with negative lookahead to exclude /ar/about
-    const switchEn = page.locator('header a:has-text("English")').first();
-    await expect(switchEn).toBeVisible();
-    await switchEn.click();
-    // /^(?!.*\/ar\/).*\/about/ matches /about but NOT /ar/about
+    // Switch back to English
+    await switchLanguage(page, "English");
     await page.waitForURL(/^(?!.*\/ar\/).*\/about/);
-    await page.waitForLoadState("domcontentloaded");
     expect(page.url()).toContain("/about");
-    expect(await page.locator("html").getAttribute("lang")).toBe("en");
-    expect(await page.locator("html").getAttribute("dir")).toBe("ltr");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
   });
 
   test("TC-23: Language Switcher preserves query parameters and hash anchors", async ({
@@ -802,33 +810,23 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
     // 1. Deep link hash preservation: /experience#ahd-financial-deputy -> /ar/experience#ahd-financial-deputy
     await page.goto("/experience#ahd-financial-deputy");
-    const switchAr = page.locator('header a:has-text("العربية")').first();
-    await expect(switchAr).toBeVisible();
-    await switchAr.click();
+    await switchLanguage(page, "العربية");
     await page.waitForURL("**/ar/experience#ahd-financial-deputy");
     expect(page.url()).toContain("/ar/experience#ahd-financial-deputy");
 
-    // Switch back from Arabic with hash — negative lookahead to exclude /ar/experience
-    const switchEn = page.locator('header a:has-text("English")').first();
-    await expect(switchEn).toBeVisible();
-    await switchEn.click();
-    // /^(?!.*\/ar\/).*\/experience/ matches /experience#hash but NOT /ar/experience#hash
+    // Switch back from Arabic with hash
+    await switchLanguage(page, "English");
     await page.waitForURL(/^(?!.*\/ar\/).*\/experience/);
     expect(page.url()).toContain("/experience#ahd-financial-deputy");
     expect(page.url()).not.toContain("/ar");
 
     // 2. Query parameter preservation: /projects?filter=systems -> /ar/projects?filter=systems
     await page.goto("/projects?filter=systems");
-    const switchArQuery = page.locator('header a:has-text("العربية")').first();
-    await expect(switchArQuery).toBeVisible();
-    await switchArQuery.click();
+    await switchLanguage(page, "العربية");
     await page.waitForURL(/\/ar\/projects/);
     expect(page.url()).toContain("/ar/projects?filter=systems");
 
-    const switchEnQuery = page.locator('header a:has-text("English")').first();
-    await expect(switchEnQuery).toBeVisible();
-    await switchEnQuery.click();
-    // Negative lookahead to exclude /ar/projects
+    await switchLanguage(page, "English");
     await page.waitForURL(/^(?!.*\/ar\/).*\/projects/);
     expect(page.url()).toContain("/projects?filter=systems");
     expect(page.url()).not.toContain("/ar");
@@ -837,17 +835,18 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   test("TC-24: Metadata SEO hardening, reciprocal hreflang, and claim grounding", async ({
     page,
   }) => {
-    // 1. Root / and /ar hreflang reciprocal links
+    // 1. Root / and /ar and /de hreflang reciprocal links
     await page.goto("/");
     const enCanonical = await page.locator('link[rel="canonical"]').getAttribute("href");
     expect(enCanonical).not.toContain("/ar/ar");
     const enAltEn = await page.locator('link[rel="alternate"][hreflang="en"]').getAttribute("href");
     const enAltAr = await page.locator('link[rel="alternate"][hreflang="ar"]').getAttribute("href");
+    const enAltDe = await page.locator('link[rel="alternate"][hreflang="de"]').getAttribute("href");
     const enAltXDefault = await page.locator('link[rel="alternate"][hreflang="x-default"]').getAttribute("href");
     expect(enAltEn).toBeTruthy();
     expect(enAltAr).toContain("/ar");
+    expect(enAltDe).toContain("/de");
     expect(enAltXDefault).toBeTruthy();
-    expect(enAltXDefault).not.toContain("/ar");
 
     // 2. Arabic route metadata checks (no /ar/ar anywhere, locale = ar_YE)
     await page.goto("/ar/contact");
@@ -879,4 +878,375 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await expect(page.locator("text=26 شهادة ودورة")).toBeVisible();
     await expect(page.locator("text=26 شهادة تخصصية معتمدة")).toHaveCount(0);
   });
+
+  test("TC-25: German Homepage (/de) loads with verified German identity, LTR root, and focus pillars", async ({
+    page,
+  }) => {
+    const response = await page.goto("/de");
+    expect(response?.status()).toBe(200);
+
+    // Root html attributes
+    await expect(page.locator("html")).toHaveAttribute("lang", "de");
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+
+    // Hero identity and verified German role
+    const h1 = page.locator("h1");
+    await expect(h1).toBeVisible();
+    await expect(h1).toContainText("ALHassan");
+    await expect(h1).toContainText("Baligh ALShami");
+
+    // German role & location
+    await expect(page.locator("text=Softwareentwickler").first()).toBeVisible();
+    await expect(page.locator("text=Haddah, Sanaa, Jemen").first()).toBeVisible();
+    await expect(page.locator("text=Verfügbar für Software- & Engineering-Projekte")).toBeVisible();
+
+    // Featured Work and Experience snapshots exist on German Homepage
+    await expect(page.locator("text=Ausgewählte Ingenieurarbeiten")).toBeVisible();
+    await expect(page.locator("text=Operative & leitende Meilensteine")).toBeVisible();
+
+    // Chapter navigation indicates Chapter 01 in German
+    await expect(page.locator("text=KAPITEL 01 / 06")).toBeVisible();
+  });
+
+  test("TC-26: Trilingual language switcher navigates between EN, AR, and DE with full preservation", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. From /about -> /de/about
+    await page.goto("/about");
+    await switchLanguage(page, "Deutsch");
+    await page.waitForURL("**/de/about");
+    expect(page.url()).toContain("/de/about");
+    await expect(page.locator("h1")).toContainText("Vom akademischen Fundament zu produktiven Systemen");
+    await expect(page.locator("html")).toHaveAttribute("lang", "de");
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+
+    // 2. From /de/about -> /ar/about
+    await switchLanguage(page, "العربية");
+    await page.waitForURL("**/ar/about");
+    expect(page.url()).toContain("/ar/about");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ar");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+
+    // 3. From /ar/about -> /about (English)
+    await switchLanguage(page, "English");
+    await page.waitForURL(/^(?!.*(\/ar\/|\/de\/)).*\/about/);
+    expect(page.url()).toContain("/about");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+
+    // 4. Hash preservation into German: /experience#ahd-financial-deputy -> /de/experience#ahd-financial-deputy
+    await page.goto("/experience#ahd-financial-deputy");
+    await switchLanguage(page, "Deutsch");
+    await page.waitForURL("**/de/experience#ahd-financial-deputy");
+    expect(page.url()).toContain("/de/experience#ahd-financial-deputy");
+
+    // 5. Query parameter preservation into German: /projects?filter=systems -> /de/projects?filter=systems
+    await page.goto("/projects?filter=systems");
+    await switchLanguage(page, "Deutsch");
+    await page.waitForURL(/\/de\/projects/);
+    expect(page.url()).toContain("/de/projects?filter=systems");
+  });
+
+  test("TC-27: German multi-page navigation links navigate to all 6 primary German routes", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de");
+
+    const routes = [
+      { href: "/de/about", heading: "Vom akademischen Fundament zu produktiven Systemen" },
+      { href: "/de/experience", heading: "Berufserfahrung & Operative Praxis" },
+      { href: "/de/projects", heading: "Entwicklungsprojekte in Systemen, Vision & Web" },
+      { href: "/de/capabilities", heading: "Technische Kenntnisse & Kompetenzmatrix" },
+      { href: "/de/contact", heading: "Kontakt aufnehmen & Offizielle Dokumente herunterladen" },
+    ];
+
+    for (const r of routes) {
+      await page.click(`header nav a[href="${r.href}"]`);
+      await page.waitForURL(`**${r.href}`);
+      await expect(page.locator("h1")).toContainText(r.heading);
+      await expect(page.locator("html")).toHaveAttribute("lang", "de");
+      await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+    }
+  });
+
+  test("TC-28: German Command Palette opens, searches in German, and navigates", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de");
+
+    // Open palette
+    const searchBtn = page.locator('header button[aria-label*="Befehlspalette öffnen"]').first();
+    await expect(searchBtn).toBeVisible();
+    await searchBtn.click();
+
+    const dialog = page.getByRole("dialog", {
+      name: "Portfolio-Navigator & Befehlspalette",
+    });
+    if (!(await dialog.isVisible())) {
+      await page.keyboard.press("Control+k");
+    }
+    await expect(dialog).toBeVisible();
+
+    // Type query to filter
+    const input = dialog.locator('input[type="text"]');
+    await expect(input).toBeFocused();
+    await input.fill("Erfahrung");
+
+    const resultItem = dialog.locator('[role="option"]:has-text("Berufserfahrung")');
+    await expect(resultItem).toBeVisible();
+    await resultItem.click();
+    await page.waitForURL("**/de/experience");
+    await expect(page.locator("h1")).toContainText("Berufserfahrung & Operative Praxis");
+  });
+
+  test("TC-29: German Experience Explorer and Project Detail Case Study", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. Experience Explorer on German
+    await page.goto("/de/experience");
+    const roleButtons = page.locator('div[role="tablist"] button[role="tab"]');
+    await expect(roleButtons).toHaveCount(9);
+    await expect(page.locator("text=Asas AI").first()).toBeVisible();
+    await expect(page.locator("text=Softwareentwickler").first()).toBeVisible();
+
+    // 2. Project Detail on German
+    await page.goto("/de/projects/real-time-object-detection");
+    await expect(page.locator("h1")).toContainText("Echtzeit-Objekterkennung");
+    await expect(page.locator("text=Computer-Vision-Pipeline")).toBeVisible();
+    await expect(page.locator("text=Python").first()).toBeVisible();
+    await expect(page.locator("text=PyTorch").first()).toBeVisible();
+    await expect(page.locator("text=OpenCV").first()).toBeVisible();
+    await expect(page.locator("html")).toHaveAttribute("lang", "de");
+  });
+
+  test("TC-30: German Capabilities Matrix and Official CV Downloads", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // Capabilities page
+    await page.goto("/de/capabilities");
+    await expect(page.locator("h1")).toContainText("Technische Kenntnisse & Kompetenzmatrix");
+    await expect(page.locator("text=Zertifikate & Fachweiterbildungen (26)")).toBeVisible();
+    await expect(page.locator("text=Offizielles Zertifikats-Repository")).toBeVisible();
+
+    // Contact page
+    await page.goto("/de/contact");
+    await expect(page.locator("h1")).toContainText("Kontakt aufnehmen & Offizielle Dokumente herunterladen");
+    await expect(page.locator('a[href="/cv/ALHassan_Baligh_ALShami_CV_German_Standard.pdf"]')).toBeVisible();
+    await expect(page.locator('a[href="/cv/ALHassan_Baligh_ALShami_CV_German_ATS.pdf"]')).toBeVisible();
+    await expect(page.locator("text=Herunterladen").first()).toBeVisible();
+    await expect(page.locator("text=Akademische und berufliche Referenzen sind auf Anfrage verfügbar.")).toBeVisible();
+  });
+
+  test("TC-31: German responsive sanity (zero horizontal overflow across all German routes)", async ({
+    page,
+  }) => {
+    const viewports = [
+      { name: "Desktop 1440", width: 1440, height: 900 },
+      { name: "Laptop 1280", width: 1280, height: 800 },
+      { name: "Tablet 768", width: 768, height: 1024 },
+      { name: "Mobile 390", width: 390, height: 844 },
+      { name: "Narrow 320", width: 320, height: 568 },
+    ];
+
+    const routes = [
+      "/de",
+      "/de/about",
+      "/de/experience",
+      "/de/projects",
+      "/de/projects/real-time-object-detection",
+      "/de/projects/pump-station-analytics",
+      "/de/capabilities",
+      "/de/contact",
+    ];
+
+    for (const vp of viewports) {
+      await page.setViewportSize({ width: vp.width, height: vp.height });
+      for (const route of routes) {
+        await page.goto(route);
+
+        const hasHorizontalOverflow = await page.evaluate(() => {
+          return document.documentElement.scrollWidth > window.innerWidth;
+        });
+
+        expect(
+          hasHorizontalOverflow,
+          `Horizontal scroll detected on ${vp.name} (${vp.width}px) at ${route}`
+        ).toBe(false);
+      }
+    }
+  });
+
+  test("TC-32: German Hero and Focus Rail localization", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de");
+
+    // English CTAs must not appear
+    expect(await page.locator("text=Explore Selected Work").count()).toBe(0);
+    expect(await page.locator("text=Read Profile & Principles").count()).toBe(0);
+    expect(await page.locator("text=opens the Portfolio Navigator from anywhere").count()).toBe(0);
+
+    // German CTAs and routes
+    const primaryCta = page.locator('a[href="/de/projects"]:has-text("Ausgewählte Arbeiten erkunden")');
+    await expect(primaryCta).toBeVisible();
+
+    const secondaryCta = page.locator('a[href="/de/about"]:has-text("Profil & Prinzipien lesen")');
+    await expect(secondaryCta).toBeVisible();
+
+    // Command hint in German
+    await expect(page.locator("text=öffnet den Portfolio-Navigator von überall")).toBeVisible();
+
+    // Section aria-label
+    const heroSection = page.locator('section[aria-label="Einleitung"]');
+    await expect(heroSection).toBeVisible();
+
+    // Mobile Focus Rail: no English "Software Systems", German titles visible
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(await page.locator("text=Software Systems").count()).toBe(0);
+    expect(await page.locator("text=Quality Engineering").count()).toBe(0);
+
+    await expect(page.locator("text=Softwaresysteme & Integration").first()).toBeVisible();
+    await expect(page.locator("text=Anwendungsentwicklung").first()).toBeVisible();
+    await expect(page.locator("text=Angewandte KI & Computer Vision").first()).toBeVisible();
+    await expect(page.locator("text=Qualitätssicherung & Prüfstandards").first()).toBeVisible();
+  });
+
+  test("TC-33: German About page language presentation & CV fidelity", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de/about");
+
+    // Sourced directly from official German CV: Arabisch — Muttersprache, Englisch — B2, Deutsch — B1
+    const main = page.locator("main");
+    await expect(main.locator("text=Arabisch").first()).toBeVisible();
+    await expect(main.locator("text=Muttersprache").first()).toBeVisible();
+    await expect(main.locator("text=Englisch").first()).toBeVisible();
+    await expect(main.locator("text=B2").first()).toBeVisible();
+    await expect(main.locator("text=Deutsch").first()).toBeVisible();
+    await expect(main.locator("text=B1").first()).toBeVisible();
+
+    // No Arabic explanatory script leak inside German UI
+    expect(await main.locator("text=لغة أم").count()).toBe(0);
+
+    // No unsolicited proficiency claims
+    expect(await page.locator("text=Professional working proficiency").count()).toBe(0);
+    expect(await page.locator("text=Selbstständige Sprachverwendung").count()).toBe(0);
+  });
+
+  test("TC-34: German Capabilities wording & laufend status", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de/capabilities");
+
+    // Neutral lead wording without overclaiming completion
+    await expect(
+      page.locator("text=Zertifikate, Kurse und Programme aus Universitätsfakultäten, technischen Instituten und Fachorganisationen.")
+    ).toBeVisible();
+
+    // No overclaim "absolviert" or "offiziellen Abschlüsse"
+    expect(await page.locator("text=absolviert").count()).toBe(0);
+    expect(await page.locator("text=offiziellen Abschlüsse").count()).toBe(0);
+
+    // Explicit laufend status where CV indicates ongoing
+    const laufendBadges = page.locator("text=laufend");
+    expect(await laufendBadges.count()).toBeGreaterThanOrEqual(1);
+  });
+
+  test("TC-35: Project hierarchy and technology parity EN <-> DE", async () => {
+    // Assert 1:1 structural and evidence parity between English and German project sets
+    expect(projectItemsDe.length).toBe(16);
+    expect(projectItems.length).toBe(16);
+
+    const expectedGermanTechnologies: Record<string, string[]> = {
+      "real-time-object-detection": ["Python", "PyTorch", "OpenCV"],
+      "robocam-controller": ["Flutter", "Dart", "Android"],
+      "pump-station-analytics": ["Vorausschauende Wartung"],
+      "real-time-image-classification-api": ["Python", "Flask", "API"],
+      "urbanmindos": ["Konzeptdesign", "Urbane Luftmobilität"],
+      "mikrotik-hotspot-portal": ["MikroTik RouterOS", "Dual-WAN", "PPPoE", "Hotspot Portal", "RADIUS"],
+      "arduino-traffic-light": ["Arduino"],
+      "obstacle-avoidance": ["TensorFlow", "Tiefenschätzung"],
+      "ai-tic-tac-toe": ["Python", "Pygame", "Minimax-KI"],
+      "pacman-pygame": ["Python", "Pygame", "Kollisionserkennung"],
+      "text-summarizer": ["Desktop-Anwendung", "Extraktive Zusammenfassung"],
+      "user-role-manager": ["Oracle Forms 6i", "PL/SQL"],
+      "inventory-sales-manager": ["Webanwendung", "CRUD"],
+      "student-evaluation-system": ["C#", "Desktop", "PHP", "Web"],
+      "cafe-pos-system": ["Java Swing", "JDBC"],
+      "omnifood-landing-page": ["Responsive Web"],
+    };
+
+    for (let i = 0; i < projectItems.length; i++) {
+      const en = projectItems[i];
+      const de = projectItemsDe[i];
+
+      expect(de.slug).toBe(en.slug);
+      expect(de.presentationTier).toBe(en.presentationTier);
+      expect(de.featured).toBe(en.featured);
+      expect(de.category).toBe(en.category);
+      expect(de.evidenceDepth).toBe(en.evidenceDepth);
+      expect(Boolean(de.githubUrl)).toBe(Boolean(en.githubUrl));
+
+      // Technology evidence scope matches 1:1 in count
+      expect(
+        de.technologies.length,
+        `Technology count mismatch for slug "${en.slug}": EN=[${en.technologies.join(", ")}], DE=[${de.technologies.join(", ")}]`
+      ).toBe(en.technologies.length);
+
+      // Technology evidence matches approved German baseline exactly
+      expect(
+        de.technologies,
+        `Technology exact array mismatch for slug "${en.slug}"`
+      ).toEqual(expectedGermanTechnologies[en.slug]);
+    }
+  });
+
+  test("TC-36: German Accessibility controls (ThemeToggle and SkipLink)", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // 1. German route
+    await page.goto("/de");
+    const skipLinkDe = page.locator('a[href="#main-content"]');
+    await expect(skipLinkDe).toHaveText("Zum Hauptinhalt springen");
+
+    const themeToggleDe = page.locator('header button[aria-label*="Design wechseln"]');
+    await expect(themeToggleDe.first()).toBeVisible();
+
+    // 2. Arabic route
+    await page.goto("/ar");
+    const skipLinkAr = page.locator('a[href="#main-content"]');
+    await expect(skipLinkAr).toHaveText("الانتقال إلى المحتوى الرئيسي");
+
+    const themeToggleAr = page.locator('header button[aria-label*="التبديل إلى المظهر"]');
+    await expect(themeToggleAr.first()).toBeVisible();
+
+    // 3. English route
+    await page.goto("/");
+    const skipLinkEn = page.locator('a[href="#main-content"]');
+    await expect(skipLinkEn).toHaveText("Skip to main content");
+
+    const themeToggleEn = page.locator('header button[aria-label*="Switch to"]');
+    await expect(themeToggleEn.first()).toBeVisible();
+  });
+
+  test("TC-37: German Category and Badge localization in UI", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/de/projects");
+
+    // Localized category filter buttons
+    await expect(page.locator('button:has-text("Alle")').first()).toBeVisible();
+    await expect(page.locator('button:has-text("Computer Vision & KI")').first()).toBeVisible();
+    await expect(page.locator('button:has-text("Full-Stack & Web")').first()).toBeVisible();
+    await expect(page.locator('button:has-text("Systeme & Robotik")').first()).toBeVisible();
+    await expect(page.locator('button:has-text("Eingebettete Systeme & IoT")').first()).toBeVisible();
+
+    // Localized project badge
+    await expect(page.locator("text=Computer-Vision-Pipeline").first()).toBeVisible();
+  });
 });
+

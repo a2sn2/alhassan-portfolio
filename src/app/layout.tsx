@@ -53,21 +53,32 @@ export const metadata: Metadata = {
     languages: {
       en: siteMetadata.siteUrl,
       ar: `${siteMetadata.siteUrl}/ar`,
+      de: `${siteMetadata.siteUrl}/de`,
       "x-default": siteMetadata.siteUrl,
     },
   },
   openGraph: {
     type: "website",
-    locale: siteMetadata.locale,
+    locale: "en_US",
     url: siteMetadata.siteUrl,
+    siteName: `${identityContent.fullName} — Portfolio`,
     title: siteMetadata.defaultTitle,
     description: siteMetadata.defaultDescription,
-    siteName: `${siteMetadata.author.name} — Portfolio`,
+    images: [
+      {
+        url: "/images/og-preview.png",
+        width: 1200,
+        height: 630,
+        alt: `${identityContent.fullName} — Software Engineer Portfolio`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteMetadata.defaultTitle,
     description: siteMetadata.defaultDescription,
+    creator: "@a2sn4",
+    images: ["/images/og-preview.png"],
   },
   robots: {
     index: true,
@@ -118,7 +129,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t)}else if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.setAttribute("data-theme","dark")}else{document.documentElement.setAttribute("data-theme","light")}}catch(e){}})();(function(){try{var p=window.location.pathname;var isAr=p==="/ar"||p.indexOf("/ar/")===0;if(isAr){document.documentElement.setAttribute("dir","rtl");document.documentElement.setAttribute("lang","ar")}else{document.documentElement.setAttribute("dir","ltr");document.documentElement.setAttribute("lang","en")}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t)}else if(window.matchMedia("(prefers-color-scheme: dark)").matches){document.documentElement.setAttribute("data-theme","dark")}else{document.documentElement.setAttribute("data-theme","light")}}catch(e){}})();(function(){try{var p=window.location.pathname;var isAr=p==="/ar"||p.indexOf("/ar/")===0;var isDe=p==="/de"||p.indexOf("/de/")===0;if(isAr){document.documentElement.setAttribute("dir","rtl");document.documentElement.setAttribute("lang","ar")}else if(isDe){document.documentElement.setAttribute("dir","ltr");document.documentElement.setAttribute("lang","de")}else{document.documentElement.setAttribute("dir","ltr");document.documentElement.setAttribute("lang","en")}}catch(e){}})();`,
           }}
         />
         <script

@@ -7,16 +7,33 @@ import styles from "./Footer.module.css";
 import { Container } from "@/components/ui/Container";
 import { identityContent, navigationContent, socialLinks } from "@/content";
 import { identityContentAr, navigationContentAr } from "@/content/ar";
+import { identityContentDe, navigationContentDe } from "@/content/de";
 
 export function Footer() {
   const pathname = usePathname();
+  const isGerman = pathname === "/de" || pathname.startsWith("/de/");
   const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
-  const identity = isArabic ? identityContentAr : identityContent;
-  const navigation = isArabic ? navigationContentAr : navigationContent;
+  const identity = isGerman
+    ? identityContentDe
+    : isArabic
+    ? identityContentAr
+    : identityContent;
+  const navigation = isGerman
+    ? navigationContentDe
+    : isArabic
+    ? navigationContentAr
+    : navigationContent;
 
   const currentYear = new Date().getFullYear();
   const github = socialLinks.find((s) => s.platform === "GitHub");
   const linkedin = socialLinks.find((s) => s.platform === "LinkedIn");
+
+  const contactHref = isGerman ? "/de/contact" : isArabic ? "/ar/contact" : "/contact";
+  const downloadCvLabel = isGerman
+    ? "Lebenslauf herunterladen"
+    : isArabic
+    ? "تحميل السيرة الذاتية"
+    : "Download CV";
 
   return (
     <footer className={styles.footer} role="contentinfo">
@@ -30,7 +47,16 @@ export function Footer() {
               </span>
             </div>
 
-            <nav className={styles.navLinks} aria-label={isArabic ? "روابط تذييل الصفحة" : "Footer Navigation"}>
+            <nav
+              className={styles.navLinks}
+              aria-label={
+                isGerman
+                  ? "Fußzeilennavigation"
+                  : isArabic
+                  ? "روابط تذييل الصفحة"
+                  : "Footer Navigation"
+              }
+            >
               {navigation.navItems.map((item) => (
                 <Link key={item.href} href={item.href} className={styles.link}>
                   {item.label}
@@ -59,20 +85,24 @@ export function Footer() {
                   LinkedIn
                 </a>
               )}
-              <Link href={isArabic ? "/ar/contact" : "/contact"} className={styles.link}>
-                {isArabic ? "تحميل السيرة الذاتية" : "Download CV"}
+              <Link href={contactHref} className={styles.link}>
+                {downloadCvLabel}
               </Link>
             </div>
           </div>
 
           <div className={styles.bottom}>
             <span>
-              {isArabic
+              {isGerman
+                ? `© ${currentYear} ${identity.fullName}. Alle Rechte vorbehalten.`
+                : isArabic
                 ? `© ${currentYear} ${identity.fullName}. جميع الحقوق محفوظة.`
                 : `© ${currentYear} ${identity.fullName}. All rights reserved.`}
             </span>
             <span>
-              {isArabic
+              {isGerman
+                ? "Erstellt mit Next.js App Router & JAIB Visual System."
+                : isArabic
                 ? "تم البناء باستخدام Next.js App Router ونظام جيب البصري."
                 : "Built with Next.js App Router & JAIB Visual System."}
             </span>

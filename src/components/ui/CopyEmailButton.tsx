@@ -8,7 +8,7 @@ interface CopyEmailButtonProps {
   email?: string;
   className?: string;
   variant?: "default" | "compact";
-  locale?: "en" | "ar";
+  locale?: "en" | "ar" | "de";
 }
 
 export function CopyEmailButton({
@@ -18,6 +18,7 @@ export function CopyEmailButton({
   locale = "en",
 }: CopyEmailButtonProps) {
   const isAr = locale === "ar";
+  const isDe = locale === "de";
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -56,6 +57,8 @@ export function CopyEmailButton({
         aria-label={
           isAr
             ? "نسخ عنوان البريد الإلكتروني إلى الحافظة"
+            : isDe
+            ? "E-Mail-Adresse in die Zwischenablage kopieren"
             : "Copy email address to clipboard"
         }
       >
@@ -82,9 +85,13 @@ export function CopyEmailButton({
           {copied
             ? isAr
               ? "تم النسخ إلى الحافظة"
+              : isDe
+              ? "In die Zwischenablage kopiert"
               : "Copied to Clipboard"
             : isAr
             ? "نسخ البريد الإلكتروني"
+            : isDe
+            ? "E-Mail kopieren"
             : "Copy Email"}
         </span>
       </button>
@@ -94,6 +101,8 @@ export function CopyEmailButton({
         {copied
           ? isAr
             ? "تم نسخ عنوان البريد الإلكتروني إلى الحافظة"
+            : isDe
+            ? "E-Mail-Adresse in die Zwischenablage kopiert"
             : "Email address copied to clipboard"
           : ""}
       </span>

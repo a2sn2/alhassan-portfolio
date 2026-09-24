@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     languages: {
       ar: `${siteMetadataAr.siteUrl}/ar/contact`,
       en: `${siteMetadataAr.siteUrl}/contact`,
+      de: `${siteMetadataAr.siteUrl}/de/contact`,
       "x-default": `${siteMetadataAr.siteUrl}/contact`,
     },
   },

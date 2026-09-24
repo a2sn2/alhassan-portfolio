@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./ThemeToggle.module.css";
 
 function subscribe(callback: () => void) {
@@ -52,15 +53,31 @@ export function ThemeToggle({ className }: { className?: string }) {
     }
   };
 
+  const pathname = usePathname();
+  const isGerman = pathname === "/de" || pathname?.startsWith("/de/");
+  const isArabic = pathname === "/ar" || pathname?.startsWith("/ar/");
+
   const isDark = theme === "dark";
+
+  const label = isDark
+    ? isGerman
+      ? "Zum hellen Design wechseln"
+      : isArabic
+      ? "التبديل إلى المظهر الفاتح"
+      : "Switch to light theme"
+    : isGerman
+    ? "Zum dunklen Design wechseln"
+    : isArabic
+    ? "التبديل إلى المظهر الداكن"
+    : "Switch to dark theme";
 
   return (
     <button
       type="button"
       className={`${styles.toggle} ${className || ""}`}
       onClick={toggleTheme}
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      aria-label={label}
+      title={label}
     >
       {isDark ? (
         <svg

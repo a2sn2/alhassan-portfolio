@@ -14,10 +14,56 @@ interface HeroSectionProps {
 
 export function HeroSection({ content }: HeroSectionProps) {
   const pathname = usePathname();
-  const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
+  const isGerman = pathname === "/de" || pathname?.startsWith("/de/");
+  const isArabic = pathname === "/ar" || pathname?.startsWith("/ar/");
+
+  const sectionAriaLabel = isGerman ? "Einleitung" : isArabic ? "مقدمة" : "Introduction";
+  const primaryHref = isGerman ? "/de/projects" : isArabic ? "/ar/projects" : "/projects";
+  const primaryLabel = isGerman
+    ? "Ausgewählte Arbeiten erkunden"
+    : isArabic
+    ? "استكشف الأعمال المختارة"
+    : "Explore Selected Work";
+  const secondaryHref = isGerman ? "/de/about" : isArabic ? "/ar/about" : "/about";
+  const secondaryLabel = isGerman
+    ? "Profil & Prinzipien lesen"
+    : isArabic
+    ? "اقرأ النبذة والمبادئ"
+    : "Read Profile & Principles";
+
+  const connector = isGerman ? "oder" : isArabic ? "أو" : "or";
+  const commandHintText = isGerman
+    ? "öffnet den Portfolio-Navigator von überall"
+    : isArabic
+    ? "يفتح لوحة التنقل من أي مكان في الموقع"
+    : "opens the Portfolio Navigator from anywhere";
+
+  const focusRailAriaLabel = isGerman
+    ? "Schwerpunkte der Ingenieurpraxis"
+    : isArabic
+    ? "مجالات التركيز الهندسية"
+    : "Core Engineering Domains";
+  const focusRailKicker = isGerman
+    ? "Schwerpunkte der Ingenieurpraxis"
+    : isArabic
+    ? "مجالات التركيز الهندسية"
+    : "Core Focus Domains";
+
+  const fieldMapAriaLabel = isGerman
+    ? "Architektur der technischen Schwerpunkte"
+    : isArabic
+    ? "هيكل التركيز الهندسي"
+    : "Engineering Focus Architecture";
+  const fieldMapTitle = content.focusHeading || (isGerman ? "Schwerpunkte" : isArabic ? "محاور التركيز" : "Core Focus");
+  const fieldMapStatus = content.focusSubheading || (isGerman ? "Aktive Praxis" : isArabic ? "الممارسة النشطة" : "Active Practice");
+  const fieldMapFooterMeta = isGerman
+    ? "Ingenieurbereich · Kerndisziplinen"
+    : isArabic
+    ? "النطاق الهندسي · التخصصات الأساسية"
+    : "Engineering Scope · Core Disciplines";
 
   return (
-    <section id="top" className={styles.heroSection} aria-label={isArabic ? "مقدمة" : "Introduction"}>
+    <section id="top" className={styles.heroSection} aria-label={sectionAriaLabel}>
       <Container>
         <div className={styles.heroGrid}>
           {/* Main Identity & Positioning Column */}
@@ -66,31 +112,27 @@ export function HeroSection({ content }: HeroSectionProps) {
             <p className={styles.heroBioBrief}>{content.bioBrief}</p>
 
             <div className={styles.heroActions}>
-              <Link href={isArabic ? "/ar/projects" : "/projects"} className={styles.btnPrimary}>
-                <span>{isArabic ? "استكشف الأعمال المختارة" : "Explore Selected Work"}</span>
+              <Link href={primaryHref} className={styles.btnPrimary}>
+                <span>{primaryLabel}</span>
                 <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
               </Link>
-              <Link href={isArabic ? "/ar/about" : "/about"} className={styles.btnSecondary}>
-                <span>{isArabic ? "اقرأ النبذة والمبادئ" : "Read Profile & Principles"}</span>
+              <Link href={secondaryHref} className={styles.btnSecondary}>
+                <span>{secondaryLabel}</span>
               </Link>
             </div>
 
             <div className={styles.commandHint}>
               <span className={styles.kbdHint}>⌘K</span>
-              <span>{isArabic ? "أو" : "or"}</span>
+              <span>{connector}</span>
               <span className={styles.kbdHint}>Ctrl+K</span>
-              <span>
-                {isArabic
-                  ? "يفتح لوحة التنقل من أي مكان في الموقع"
-                  : "opens the Portfolio Navigator from anywhere"}
-              </span>
+              <span>{commandHintText}</span>
             </div>
 
             {/* Compact Focus Rail for Mobile: fits cleanly within first screen rhythm */}
             {content.focusPillars && content.focusPillars.length > 0 && (
-              <div className={styles.heroMobileFocusRail} aria-label={isArabic ? "مجالات التركيز الهندسية" : "Core Engineering Domains"}>
+              <div className={styles.heroMobileFocusRail} aria-label={focusRailAriaLabel}>
                 <span className={styles.focusRailKicker}>
-                  {isArabic ? "مجالات التركيز الهندسية" : "Core Focus Domains"}
+                  {focusRailKicker}
                 </span>
                 <div className={styles.focusRailGrid}>
                   {content.focusPillars.map((pillar) => {
@@ -100,7 +142,7 @@ export function HeroSection({ content }: HeroSectionProps) {
                       "ai-vision": "Applied AI",
                       quality: "Quality Engineering",
                     };
-                    const label = isArabic ? pillar.title : (mobileLabelsEn[pillar.id] || pillar.title);
+                    const label = isGerman || isArabic ? pillar.title : (mobileLabelsEn[pillar.id] || pillar.title);
                     const indexStr = pillar.index.split(" / ")[0];
                     return (
                       <div key={pillar.id} className={styles.focusRailItem}>
@@ -116,7 +158,7 @@ export function HeroSection({ content }: HeroSectionProps) {
 
           {/* Desktop Editorial Engineering Field Map */}
           {content.focusPillars && content.focusPillars.length > 0 && (
-            <aside className={styles.heroFieldMap} aria-label={isArabic ? "هيكل التركيز الهندسي" : "Engineering Focus Architecture"}>
+            <aside className={styles.heroFieldMap} aria-label={fieldMapAriaLabel}>
               <div className={styles.fieldMapFrame} aria-hidden="true">
                 <span className={styles.cornerTickTL}>+</span>
                 <span className={styles.cornerTickTR}>+</span>
@@ -128,11 +170,11 @@ export function HeroSection({ content }: HeroSectionProps) {
                 <div className={styles.fieldMapKickerGroup}>
                   <span className={styles.fieldMapIndex}>[ 01 — 04 ]</span>
                   <span className={styles.fieldMapTitle}>
-                    {content.focusHeading || (isArabic ? "محاور التركيز" : "Core Focus")}
+                    {fieldMapTitle}
                   </span>
                 </div>
                 <span className={styles.fieldMapStatus}>
-                  {content.focusSubheading || (isArabic ? "الممارسة النشطة" : "Active Practice")}
+                  {fieldMapStatus}
                 </span>
               </div>
 
@@ -151,7 +193,7 @@ export function HeroSection({ content }: HeroSectionProps) {
 
               <div className={styles.fieldMapFooter}>
                 <span className={styles.fieldMapFooterMeta}>
-                  {isArabic ? "النطاق الهندسي · التخصصات الأساسية" : "Engineering Scope · Core Disciplines"}
+                  {fieldMapFooterMeta}
                 </span>
               </div>
             </aside>
