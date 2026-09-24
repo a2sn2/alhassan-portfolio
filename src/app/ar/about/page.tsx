@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { aboutContentAr } from "@/content/ar/about";
 import { siteMetadataAr } from "@/content/ar/siteMetadata";
+import { ProfilePortrait } from "@/components/media/ProfilePortrait";
 import styles from "../../about/about.module.css";
 
 export const metadata: Metadata = {
@@ -33,9 +34,19 @@ export default function ArabicAboutPage() {
       <Container>
         {/* Page Header */}
         <header className={styles.header}>
-          <span className={styles.kicker}>{aboutContentAr.kicker}</span>
-          <h1 className={styles.title}>{aboutContentAr.title}</h1>
-          <p className={styles.description}>{aboutContentAr.description}</p>
+          <div className={styles.headerContent}>
+            <span className={styles.kicker}>{aboutContentAr.kicker}</span>
+            <h1 className={styles.title}>{aboutContentAr.title}</h1>
+            <p className={styles.description}>{aboutContentAr.description}</p>
+          </div>
+          <div className={styles.headerPortrait}>
+            <ProfilePortrait
+              variant="formal"
+              locale="ar"
+              priority
+              sizes="(max-width: 640px) 240px, (max-width: 860px) 260px, 300px"
+            />
+          </div>
         </header>
 
         {/* Narrative & Credentials Layout */}

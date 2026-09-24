@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { aboutContentDe } from "@/content/de/about";
 import { siteMetadataDe } from "@/content/de/siteMetadata";
+import { ProfilePortrait } from "@/components/media/ProfilePortrait";
 import styles from "../../about/about.module.css";
 
 export const metadata: Metadata = {
@@ -33,9 +34,19 @@ export default function GermanAboutPage() {
       <Container>
         {/* Page Header */}
         <header className={styles.header}>
-          <span className={styles.kicker}>{aboutContentDe.kicker}</span>
-          <h1 className={styles.title}>{aboutContentDe.title}</h1>
-          <p className={styles.description}>{aboutContentDe.description}</p>
+          <div className={styles.headerContent}>
+            <span className={styles.kicker}>{aboutContentDe.kicker}</span>
+            <h1 className={styles.title}>{aboutContentDe.title}</h1>
+            <p className={styles.description}>{aboutContentDe.description}</p>
+          </div>
+          <div className={styles.headerPortrait}>
+            <ProfilePortrait
+              variant="formal"
+              locale="de"
+              priority
+              sizes="(max-width: 640px) 240px, (max-width: 860px) 260px, 300px"
+            />
+          </div>
         </header>
 
         {/* Narrative & Credentials Layout */}

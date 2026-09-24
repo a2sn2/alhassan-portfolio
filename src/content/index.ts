@@ -10,4 +10,5 @@ export * from "./contact";
 export * from "./social";
 export * from "./siteMetadata";
 export * from "./cv";
+export * from "./profileMedia";
 

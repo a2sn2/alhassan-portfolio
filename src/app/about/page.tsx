@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { aboutContent, siteMetadata } from "@/content";
+import { ProfilePortrait } from "@/components/media/ProfilePortrait";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = {
@@ -31,9 +32,19 @@ export default function AboutPage() {
       <Container>
         {/* Page Header */}
         <header className={styles.header}>
-          <span className={styles.kicker}>{aboutContent.kicker}</span>
-          <h1 className={styles.title}>{aboutContent.title}</h1>
-          <p className={styles.description}>{aboutContent.description}</p>
+          <div className={styles.headerContent}>
+            <span className={styles.kicker}>{aboutContent.kicker}</span>
+            <h1 className={styles.title}>{aboutContent.title}</h1>
+            <p className={styles.description}>{aboutContent.description}</p>
+          </div>
+          <div className={styles.headerPortrait}>
+            <ProfilePortrait
+              variant="formal"
+              locale="en"
+              priority
+              sizes="(max-width: 640px) 240px, (max-width: 860px) 260px, 300px"
+            />
+          </div>
         </header>
 
         {/* Narrative & Credentials Layout */}
