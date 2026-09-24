@@ -76,6 +76,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
+    await page.waitForLoadState("networkidle");
 
     // Open palette via header trigger button or shortcut
     const searchBtn = page.locator('button[aria-label*="command palette" i]').first();
@@ -86,6 +87,9 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       name: "Portfolio Navigator & Command Palette",
     });
     // In case click landed during hydration, trigger shortcut fallback
+    if (!(await dialog.isVisible())) {
+      await searchBtn.click();
+    }
     if (!(await dialog.isVisible())) {
       await page.keyboard.press("Control+k");
     }
@@ -602,6 +606,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/ar");
+    await page.waitForLoadState("networkidle");
 
     // Open palette via Arabic header trigger button ("تنقل")
     const searchBtn = page.locator('header button[aria-label*="لوحة الأوامر"]').first();
@@ -611,6 +616,12 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const dialog = page.getByRole("dialog", {
       name: "المستكشف ولوحة الأوامر",
     });
+    if (!(await dialog.isVisible())) {
+      await searchBtn.click();
+    }
+    if (!(await dialog.isVisible())) {
+      await page.keyboard.press("Control+k");
+    }
     await expect(dialog).toBeVisible();
 
     // Search input exists and receives focus
@@ -977,6 +988,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/de");
+    await page.waitForLoadState("networkidle");
 
     // Open palette
     const searchBtn = page.locator('header button[aria-label*="Befehlspalette öffnen"]').first();
@@ -986,6 +998,9 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const dialog = page.getByRole("dialog", {
       name: "Portfolio-Navigator & Befehlspalette",
     });
+    if (!(await dialog.isVisible())) {
+      await searchBtn.click();
+    }
     if (!(await dialog.isVisible())) {
       await page.keyboard.press("Control+k");
     }
@@ -1247,6 +1262,67 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
     // Localized project badge
     await expect(page.locator("text=Computer-Vision-Pipeline").first()).toBeVisible();
+  });
+
+  test("TC-38: Profile Photography Integration — Studio & Formal Portraits across EN, AR, DE", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    const homeCases = [
+      { route: "/", alt: "Professional studio portrait" },
+      { route: "/ar", alt: "صورة شخصية احترافية في الاستوديو" },
+      { route: "/de", alt: "Professionelles Studio-Porträt" },
+    ];
+
+    for (const c of homeCases) {
+      await page.goto(c.route);
+      const studioImg = page.locator(`img[alt="${c.alt}"]`);
+      await expect(studioImg).toBeVisible();
+      const box = await studioImg.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.width).toBeGreaterThan(0);
+      expect(box!.height).toBeGreaterThan(0);
+      const src = await studioImg.getAttribute("src");
+      expect(src).toContain("alhassan-studio.png");
+    }
+
+    const aboutCases = [
+      { route: "/about", alt: "Formal professional portrait" },
+      { route: "/ar/about", alt: "صورة شخصية رسمية" },
+      { route: "/de/about", alt: "Formelles professionelles Porträt" },
+    ];
+
+    for (const c of aboutCases) {
+      await page.goto(c.route);
+      const formalImg = page.locator(`img[alt="${c.alt}"]`);
+      await expect(formalImg).toBeVisible();
+      const box = await formalImg.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.width).toBeGreaterThan(0);
+      expect(box!.height).toBeGreaterThan(0);
+      const src = await formalImg.getAttribute("src");
+      expect(src).toContain("alhassan-formal.jpeg");
+    }
+  });
+
+  test("TC-39: Responsive Visual Verification at 320px Viewport — Zero Horizontal Overflow", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 700 });
+
+    const routesToCheck = ["/", "/ar", "/de", "/about", "/ar/about", "/de/about"];
+
+    for (const route of routesToCheck) {
+      await page.goto(route);
+      await page.waitForLoadState("networkidle");
+
+      const hasHorizontalScroll = await page.evaluate(() => {
+        return document.documentElement.scrollWidth > document.documentElement.clientWidth;
+      });
+
+      expect(hasHorizontalScroll, `Horizontal overflow detected on ${route} at 320px`).toBe(false);
+    }
   });
 });
 

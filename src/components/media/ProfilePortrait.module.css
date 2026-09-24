@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Profile Portrait Component Styles
+   Supports "studio" (Hero 1:1) and "formal" (About 2400:2814) variants
+   Strict adherence to JAIB visual tokens & dark theme intentional matting
+   ========================================================================== */
+
+/* Outer frame wrapper */
+.portraitWrapper {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Variant: Studio (Hero Section)
+   Square 1:1 aspect ratio, preserving person + laptop composition
+   -------------------------------------------------------------------------- */
+.studioFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-primary);
+  box-shadow: var(--shadow-card);
+}
+
+/* Restrained JAIB brand accent tick on top corner */
+.studioAccentTick {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  width: 36px;
+  height: 3px;
+  background-color: var(--color-brand);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.studioFrameInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+
+/* Dark mode studio frame: controlled neutral boundary */
+:global(html[data-theme="dark"]) .studioFrame {
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-surface-elevated);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
+  padding: 4px;
+}
+
+:global(html[data-theme="dark"]) .studioFrameInner {
+  border-radius: calc(var(--radius-lg) - 4px);
+}
+
+/* --------------------------------------------------------------------------
+   Variant: Formal (About Page)
+   2400:2814 aspect ratio, protecting full shoulders, chin, and hair
+   -------------------------------------------------------------------------- */
+.formalFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2400 / 2814;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-primary);
+  box-shadow: var(--shadow-card);
+}
+
+/* Restrained JAIB brand accent tick */
+.formalAccentTick {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  width: 32px;
+  height: 3px;
+  background-color: var(--color-brand);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.formalFrameInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+
+/* Dark mode formal frame: deliberate photographic matting frame
+   Bridges contrast between dark theme and white studio background without altering pixels */
+:global(html[data-theme="dark"]) .formalFrame {
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-surface-elevated);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5);
+  padding: 6px;
+}
+
+:global(html[data-theme="dark"]) .formalFrameInner {
+  border-radius: calc(var(--radius-lg) - 6px);
+}
+
+/* --------------------------------------------------------------------------
+   Image Rendering
+   -------------------------------------------------------------------------- */
+.portraitImage {
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  -webkit-user-drag: none;
+}

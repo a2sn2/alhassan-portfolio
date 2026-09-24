@@ -87,10 +87,16 @@
 }
 
 .heroGrid {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+.heroPrimaryRow {
   display: grid;
-  grid-template-columns: 1.35fr 0.9fr;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(2.5rem, 5vw, 5rem);
+  gap: clamp(2.5rem, 5vw, 4.5rem);
 }
 
 .heroContent {
@@ -98,6 +104,19 @@
   flex-direction: column;
   gap: var(--space-6);
   max-width: 720px;
+}
+
+.heroPortraitContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 440px;
+  justify-self: end;
+}
+
+:global([dir="rtl"]) .heroPortraitContainer {
+  justify-self: start;
 }
 
 .heroMeta {
@@ -311,23 +330,25 @@
 }
 
 .fieldMapGrid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 2vw, 2rem);
 }
 
 .fieldMapNode {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding-bottom: var(--space-3);
-  border-bottom: 1px dashed var(--color-border-subtle);
+  padding-bottom: 0;
+  border-bottom: none;
+  padding-inline-end: clamp(1rem, 1.5vw, 1.5rem);
+  border-inline-end: 1px dashed var(--color-border-subtle);
   transition: transform var(--duration-fast) var(--ease-standard);
 }
 
 .fieldMapNode:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
+  padding-inline-end: 0;
+  border-inline-end: none;
 }
 
 .fieldMapNode:hover {
@@ -625,23 +646,83 @@
 /* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
+@media (max-width: 1100px) and (min-width: 861px) {
+  .fieldMapGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  .fieldMapNode {
+    border-inline-end: none;
+    padding-inline-end: 0;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px dashed var(--color-border-subtle);
+  }
+  .fieldMapNode:nth-child(3),
+  .fieldMapNode:nth-child(4) {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
 @media (max-width: 860px) {
   .heroGrid {
-    grid-template-columns: 1fr;
     gap: var(--space-6);
   }
 
-  .heroFieldMap {
-    display: none;
+  .heroPrimaryRow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .heroContent {
+    display: contents;
+  }
+
+  .heroMeta {
+    order: 1;
+  }
+
+  .heroHeading {
+    order: 2;
+  }
+
+  .heroLead {
+    order: 3;
+  }
+
+  .heroBioBrief {
+    order: 4;
+  }
+
+  .heroActions {
+    order: 5;
+  }
+
+  .heroPortraitContainer {
+    order: 6;
+    max-width: min(280px, 75vw);
+    width: 100%;
+    margin-inline: auto;
+    margin-block: var(--space-2);
+  }
+
+  .commandHint {
+    order: 7;
   }
 
   .heroMobileFocusRail {
+    order: 8;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
     margin-top: var(--space-3);
     padding-top: var(--space-3);
     border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .heroFieldMap {
+    display: none;
   }
 
   .focusRailKicker {
@@ -698,8 +779,12 @@
     padding-bottom: clamp(2rem, 5.5vw, 2.75rem);
   }
 
-  .heroContent {
+  .heroPrimaryRow {
     gap: var(--space-4);
+  }
+
+  .heroPortraitContainer {
+    max-width: min(240px, 70vw);
   }
 
   .heroHeading {
