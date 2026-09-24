@@ -24,13 +24,6 @@
   border: 1px solid var(--color-border);
   background-color: var(--color-surface-primary);
   box-shadow: var(--shadow-card);
-  transition: border-color var(--duration-fast) var(--ease-standard),
-              box-shadow var(--duration-fast) var(--ease-standard);
-}
-
-.studioFrame:hover {
-  border-color: var(--color-brand-border);
-  box-shadow: var(--shadow-elevated);
 }
 
 /* Restrained JAIB brand accent tick on top corner */
@@ -78,13 +71,6 @@
   border: 1px solid var(--color-border);
   background-color: var(--color-surface-primary);
   box-shadow: var(--shadow-card);
-  transition: border-color var(--duration-fast) var(--ease-standard),
-              box-shadow var(--duration-fast) var(--ease-standard);
-}
-
-.formalFrame:hover {
-  border-color: var(--color-brand-border);
-  box-shadow: var(--shadow-elevated);
 }
 
 /* Restrained JAIB brand accent tick */
