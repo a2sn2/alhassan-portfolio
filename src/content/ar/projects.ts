@@ -1,6 +1,7 @@
 import { ProjectsContent, ProjectItem, ProjectCategory } from "@/contracts";
+import { attachProjectEvidence } from "../evidence";
 
-export const projectItemsAr: ProjectItem[] = [
+const rawProjectItemsAr: ProjectItem[] = [
   {
     id: "real-time-object-detection",
     slug: "real-time-object-detection",
@@ -12,7 +13,6 @@ export const projectItemsAr: ProjectItem[] = [
     solution: "بناء خط أنابيب عالي الكفاءة باستخدام Python و PyTorch و OpenCV مع عرض النتائج لحظياً.",
     technologies: ["Python", "PyTorch", "OpenCV"],
     result: "معالجة حية وتتبع دقيق مع إخراج مرئي فوري.",
-    githubUrl: "https://github.com/a2sn2",
     featured: true,
     presentationTier: "featured",
     evidenceDepth: "rich",
@@ -25,7 +25,6 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Systems & Robotics",
     badge: "تطبيقات الموبايل والروبوت",
     technologies: ["Flutter", "Dart", "Android Studio"],
-    githubUrl: "https://github.com/a2sn2",
     featured: true,
     presentationTier: "featured",
     evidenceDepth: "basic",
@@ -50,7 +49,6 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Computer Vision & AI",
     badge: "واجهة برمجة تطبيقات (API)",
     technologies: ["Python", "Flask", "API"],
-    githubUrl: "https://github.com/a2sn2",
     featured: false,
     presentationTier: "core",
     evidenceDepth: "basic",
@@ -63,7 +61,6 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Systems & Robotics",
     badge: "المدن الذكية والويب",
     technologies: ["Next.js", "TypeScript", "CSS Modules"],
-    githubUrl: "https://github.com/a2sn2",
     featured: false,
     presentationTier: "core",
     evidenceDepth: "basic",
@@ -100,7 +97,6 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Computer Vision & AI",
     badge: "الذكاء الاصطناعي والتفادي",
     technologies: ["TensorFlow", "Python", "Computer Vision"],
-    githubUrl: "https://github.com/a2sn2",
     featured: false,
     presentationTier: "core",
     evidenceDepth: "basic",
@@ -113,7 +109,6 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Computer Vision & AI",
     badge: "خوارزميات الألعاب",
     technologies: ["Python", "Pygame", "Minimax"],
-    githubUrl: "https://github.com/a2sn2",
     featured: false,
     presentationTier: "archive",
     evidenceDepth: "basic",
@@ -126,7 +121,6 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Full-Stack & Web",
     badge: "محاكاة ورسومات 2D",
     technologies: ["Python", "Pygame"],
-    githubUrl: "https://github.com/a2sn2",
     featured: false,
     presentationTier: "archive",
     evidenceDepth: "basic",
@@ -139,20 +133,6 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Computer Vision & AI",
     badge: "معالجة اللغة الطبيعية",
     technologies: ["Python", "NLP", "Desktop"],
-    githubUrl: "https://github.com/a2sn2",
-    featured: false,
-    presentationTier: "archive",
-    evidenceDepth: "basic",
-  },
-  {
-    id: "inventory-sales-manager",
-    slug: "inventory-sales-manager",
-    title: "مدير المخزون والمبيعات",
-    tagline: "CRUD — ويب للإلكترونيات (لابتوبات/هواتف/PS5).",
-    category: "Full-Stack & Web",
-    badge: "إدارة المخزون والويب",
-    technologies: ["CRUD", "Web Application", "Databases"],
-    githubUrl: "https://github.com/a2sn2",
     featured: false,
     presentationTier: "archive",
     evidenceDepth: "basic",
@@ -165,6 +145,18 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Full-Stack & Web",
     badge: "أنظمة المؤسسات والأمان",
     technologies: ["Oracle Forms 6i", "PL/SQL", "Role Management"],
+    featured: false,
+    presentationTier: "archive",
+    evidenceDepth: "basic",
+  },
+  {
+    id: "inventory-sales-manager",
+    slug: "inventory-sales-manager",
+    title: "مدير المخزون والمبيعات",
+    tagline: "CRUD — ويب للإلكترونيات (لابتوبات/هواتف/PS5).",
+    category: "Full-Stack & Web",
+    badge: "إدارة المخزون والويب",
+    technologies: ["CRUD", "Web Application", "Databases"],
     featured: false,
     presentationTier: "archive",
     evidenceDepth: "basic",
@@ -201,12 +193,13 @@ export const projectItemsAr: ProjectItem[] = [
     category: "Full-Stack & Web",
     badge: "واجهة ويب متجاوبة",
     technologies: ["HTML", "CSS", "JavaScript"],
-    githubUrl: "https://github.com/a2sn2",
     featured: false,
     presentationTier: "archive",
     evidenceDepth: "basic",
   },
 ];
+
+export const projectItemsAr: ProjectItem[] = rawProjectItemsAr.map(attachProjectEvidence);
 
 export const projectCategoriesAr: ProjectCategory[] = [
   "All",
