@@ -31,6 +31,31 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
     return `/projects/${slug}`;
   };
 
+  const getSourceLabel = (source: "standalone" | "portfolio-archive" | undefined) => {
+    if (source === "standalone") {
+      if (isGerman) return "QUELLCODE · GitHub";
+      if (isArabic) return "المصدر · GitHub";
+      return "SOURCE · GitHub";
+    }
+    if (isGerman) return "ARCHIV · Nachweis";
+    if (isArabic) return "الأرشيف · التوثيق";
+    return "ARCHIVE · Evidence";
+  };
+
+  const getSourceAriaLabel = (
+    projectTitle: string,
+    source: "standalone" | "portfolio-archive" | undefined
+  ) => {
+    if (source === "standalone") {
+      if (isGerman) return `${projectTitle} — Quellcode auf GitHub`;
+      if (isArabic) return `${projectTitle} — الكود المصدري على GitHub`;
+      return `${projectTitle} — Source code on GitHub`;
+    }
+    if (isGerman) return `${projectTitle} — Quellarchiv im Portfolio Evidence Hub`;
+    if (isArabic) return `${projectTitle} — أرشيف المصدر في مركز التوثيق`;
+    return `${projectTitle} — Source archive in Portfolio Evidence Hub`;
+  };
+
   const filteredItems =
     selectedCategory === "All"
       ? items
@@ -213,22 +238,20 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                       <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                     </Link>
 
-                    {project.githubUrl && (
+                    {project.repository?.url && (
                       <a
-                        href={project.githubUrl}
+                        href={project.repository.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={styles.externalLink}
-                        aria-label={`${project.title} on GitHub`}
+                        className={styles.sourceSignalLink}
+                        aria-label={getSourceAriaLabel(project.title, project.repository.source)}
                       >
-                        <span>
-                          {isGerman
-                            ? "Repository"
-                            : isArabic
-                            ? "المستودع"
-                            : "Repository"}
+                        <span className={styles.sourceSignalText}>
+                          {getSourceLabel(project.repository.source)}
                         </span>
-                        <span aria-hidden="true">↗</span>
+                        <span className={styles.sourceSignalArrow} aria-hidden="true">
+                          ↗
+                        </span>
                       </a>
                     )}
                   </div>
@@ -322,22 +345,20 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                     <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                   </Link>
 
-                  {project.githubUrl && (
+                  {project.repository?.url && (
                     <a
-                      href={project.githubUrl}
+                      href={project.repository.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={styles.externalLink}
-                      aria-label={`${project.title} on GitHub`}
+                      className={styles.sourceSignalLink}
+                      aria-label={getSourceAriaLabel(project.title, project.repository.source)}
                     >
-                      <span>
-                        {isGerman
-                          ? "Code"
-                          : isArabic
-                          ? "الكود"
-                          : "Code"}
+                      <span className={styles.sourceSignalText}>
+                        {getSourceLabel(project.repository.source)}
                       </span>
-                      <span aria-hidden="true">↗</span>
+                      <span className={styles.sourceSignalArrow} aria-hidden="true">
+                        ↗
+                      </span>
                     </a>
                   )}
                 </div>
@@ -442,16 +463,20 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                       <span>{isGerman ? "Details" : isArabic ? "التفاصيل" : "Details"}</span>
                       <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                     </Link>
-                    {project.githubUrl && (
+                    {project.repository?.url && (
                       <a
-                        href={project.githubUrl}
+                        href={project.repository.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={styles.externalLink}
-                        aria-label={`${project.title} on GitHub`}
+                        className={styles.sourceSignalLink}
+                        aria-label={getSourceAriaLabel(project.title, project.repository.source)}
                       >
-                        <span>{isGerman ? "Code" : isArabic ? "الكود" : "Code"}</span>
-                        <span aria-hidden="true">↗</span>
+                        <span className={styles.sourceSignalText}>
+                          {getSourceLabel(project.repository.source)}
+                        </span>
+                        <span className={styles.sourceSignalArrow} aria-hidden="true">
+                          ↗
+                        </span>
                       </a>
                     )}
                   </div>

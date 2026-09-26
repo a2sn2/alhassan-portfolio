@@ -74,7 +74,8 @@ npm run lint                 # ESLint code style
 npm run typecheck            # TypeScript strict checks
 npm run build                # Next.js static prerender (66 public/indexable portfolio routes + framework/internal routes)
 npm run verify:cv-content    # Deterministic CV source parity audit across English, Arabic & German
-npx playwright test          # E2E (37/37 tests) and WCAG 2.1 AA accessibility suite
+npm run verify:evidence      # Deterministic project and credential evidence verification
+npx playwright test          # E2E (49/49 tests) and WCAG 2.1 AA accessibility suite
 npm run verify:production    # Trilingual production route, responsive overflow, SEO & sitemap verification (66 public routes)
 npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (21 routes x 5 viewports x 2 themes + 15 interactive states = 225 pairs)
 ```

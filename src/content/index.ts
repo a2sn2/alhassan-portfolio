@@ -11,4 +11,5 @@ export * from "./social";
 export * from "./siteMetadata";
 export * from "./cv";
 export * from "./profileMedia";
+export * from "./evidence";
 

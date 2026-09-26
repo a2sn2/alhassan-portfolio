@@ -1,0 +1,16 @@
+{
+  "slug": "ai-tic-tac-toe",
+  "title": "AI Tic-Tac-Toe",
+  "status": "verified",
+  "sourceKind": "source-archive",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/ai-tic-tac-toe/source",
+  "technologiesConfirmed": [
+    "Python",
+    "Pygame",
+    "Minimax AI"
+  ],
+  "notes": "Complete standalone Python/Pygame game application implementing recursive Minimax decision tree logic for 3x3 board states with interactive graphics."
+}

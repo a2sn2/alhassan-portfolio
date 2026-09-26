@@ -1,0 +1,17 @@
+{
+  "slug": "student-evaluation-system",
+  "title": "Student Evaluation System",
+  "status": "conflict",
+  "sourceKind": "source-archive",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/student-evaluation-system/source",
+  "technologiesConfirmed": [
+    "Flutter",
+    "Dart",
+    "PHP",
+    "MySQL"
+  ],
+  "notes": "SOURCE CONFLICT — OWNER REVIEW REQUIRED: Canonical CV specifies C# Desktop + PHP Web. Local evidence (EvaluationProject) consists of Flutter/Dart mobile client + PHP REST API + MySQL database. Canonical CV retained unchanged."
+}

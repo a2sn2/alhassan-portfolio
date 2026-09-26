@@ -1,0 +1,611 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-26T15:49:29.518Z",
+  "counts": {
+    "projectsTotal": 16,
+    "projectsVerified": 12,
+    "projectsPartial": 1,
+    "projectsConflict": 1,
+    "projectsMissing": 2,
+    "credentialsTotal": 26,
+    "credentialsVerified": 21,
+    "credentialsOngoing": 3,
+    "credentialsMissing": 2,
+    "candidatesTotal": 7
+  },
+  "projects": [
+    {
+      "slug": "ai-tic-tac-toe",
+      "title": "AI Tic-Tac-Toe",
+      "status": "verified",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/ai-tic-tac-toe/source",
+      "technologiesConfirmed": [
+        "Python",
+        "Pygame",
+        "Minimax AI"
+      ],
+      "notes": "Complete standalone Python/Pygame game application implementing recursive Minimax decision tree logic for 3x3 board states with interactive graphics."
+    },
+    {
+      "slug": "arduino-traffic-light",
+      "title": "Arduino Traffic Light Controller",
+      "status": "missing",
+      "sourceKind": "none",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": null,
+      "technologiesConfirmed": [],
+      "notes": "Embedded hardware microcontroller prototype. Firmware source code (.ino) and breadboard schematics not present in local archive."
+    },
+    {
+      "slug": "cafe-pos-system",
+      "title": "Café POS System",
+      "status": "verified",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/cafe-pos-system/source",
+      "technologiesConfirmed": [
+        "Java",
+        "Java Swing",
+        "JDBC",
+        "Apache Derby SQL"
+      ],
+      "notes": "Java desktop Point of Sale application using Java Swing GUI and JDBC connection to Apache Derby database. Includes Login, Items CRUD, Selling, and ViewSells reporting modules."
+    },
+    {
+      "slug": "inventory-sales-manager",
+      "title": "Inventory & Sales Manager",
+      "status": "verified",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/inventory-sales-manager/source",
+      "technologiesConfirmed": [
+        "PHP",
+        "MySQL",
+        "HTML5",
+        "CSS3",
+        "JavaScript"
+      ],
+      "notes": "Full-stack PHP/MySQL retail inventory management system supporting CRUD operations, purchase history, and stock tracking for consumer electronics."
+    },
+    {
+      "slug": "mikrotik-hotspot-portal",
+      "title": "MikroTik Hotspot Portal",
+      "status": "missing",
+      "sourceKind": "none",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": null,
+      "technologiesConfirmed": [],
+      "notes": "Hardware and network configuration project (MikroTik RouterOS, Dual-WAN, PPPoE, RADIUS). No software source code or dedicated GitHub repository preserved in local archive."
+    },
+    {
+      "slug": "obstacle-avoidance",
+      "title": "Obstacle Avoidance",
+      "status": "verified",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/obstacle-avoidance/source",
+      "technologiesConfirmed": [
+        "Python",
+        "TensorFlow",
+        "Depth Estimation",
+        "Jupyter Notebook"
+      ],
+      "notes": "Local source archive includes od.ipynb monocular depth estimation pipeline. 4 pre-trained model weight binaries (~92.5 MB each) are flagged and excluded from Git tracking in compliance with binary size policies."
+    },
+    {
+      "slug": "omnifood-landing-page",
+      "title": "OMNIFOOD — Responsive Landing Page",
+      "status": "verified",
+      "sourceKind": "repository",
+      "repositoryUrl": "https://github.com/a2sn2/OmnifoodHTML-CSS",
+      "repositoryName": "a2sn2/OmnifoodHTML-CSS",
+      "secondaryRepoUrl": null,
+      "archivePath": null,
+      "technologiesConfirmed": [
+        "HTML5",
+        "CSS3",
+        "Responsive Design"
+      ],
+      "notes": "Dedicated GitHub repository for responsive food delivery landing page with hero layout, customer testimonials, meal showcase, and navigation."
+    },
+    {
+      "slug": "pacman-pygame",
+      "title": "Pac-Man with Pygame",
+      "status": "verified",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/pacman-pygame/source",
+      "technologiesConfirmed": [
+        "Python",
+        "Pygame",
+        "Collision Detection",
+        "Sprite Animation"
+      ],
+      "notes": "Complete Python/Pygame arcade game recreation featuring game loop, enemy ghost AI, maze rendering, wall collision detection, sprite animations, and score tracking."
+    },
+    {
+      "slug": "pump-station-analytics",
+      "title": "Pump Station Analytics",
+      "status": "verified",
+      "sourceKind": "repository",
+      "repositoryUrl": "https://github.com/a2sn2/pump_DA_Batch2",
+      "repositoryName": "a2sn2/pump_DA_Batch2",
+      "secondaryRepoUrl": null,
+      "archivePath": null,
+      "technologiesConfirmed": [
+        "Python",
+        "Pandas",
+        "Scikit-Learn",
+        "Jupyter Notebook",
+        "Predictive Maintenance"
+      ],
+      "notes": "Dedicated GitHub repository containing pump station multivariate telemetry dataset (wastewater_pump_station_data.csv) and exploratory/predictive maintenance analysis notebook (pump_DA_Batch2.ipynb)."
+    },
+    {
+      "slug": "real-time-image-classification-api",
+      "title": "Real-Time Image Classification API",
+      "status": "verified",
+      "sourceKind": "repository",
+      "repositoryUrl": "https://github.com/a2sn2/ImageClassify_ML_Batch1",
+      "repositoryName": "a2sn2/ImageClassify_ML_Batch1",
+      "secondaryRepoUrl": null,
+      "archivePath": null,
+      "technologiesConfirmed": [
+        "Python",
+        "Flask",
+        "EfficientNetB0",
+        "ImageNet",
+        "REST API"
+      ],
+      "notes": "Dedicated GitHub repository implementing a lightweight Flask HTTP microservice with pre-trained EfficientNetB0 for top-3 ImageNet class prediction."
+    },
+    {
+      "slug": "real-time-object-detection",
+      "title": "Real-Time Object Detection",
+      "status": "verified",
+      "sourceKind": "repository",
+      "repositoryUrl": "https://github.com/a2sn2/yolo-object-detection",
+      "repositoryName": "a2sn2/yolo-object-detection",
+      "secondaryRepoUrl": "https://github.com/a2sn2/GraduationProject",
+      "archivePath": null,
+      "technologiesConfirmed": [
+        "Python",
+        "PyTorch",
+        "OpenCV",
+        "YOLO",
+        "Jupyter Notebook"
+      ],
+      "notes": "Primary source code maintained in dedicated GitHub repository a2sn2/yolo-object-detection (od.ipynb). Academic report and graduation project documentation preserved in a2sn2/GraduationProject."
+    },
+    {
+      "slug": "robocam-controller",
+      "title": "ROBOCAM Controller",
+      "status": "verified",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/robocam-controller/source",
+      "technologiesConfirmed": [
+        "Flutter",
+        "Dart",
+        "Android"
+      ],
+      "notes": "Flutter/Dart mobile application source code for remote robotic rover camera control. Contains joystick UI, RTSP/HTTP camera streaming (camera_control_page.dart), authentication, and media gallery. Build artifacts, gradle caches, and large APK binaries excluded from public archive."
+    },
+    {
+      "slug": "student-evaluation-system",
+      "title": "Student Evaluation System",
+      "status": "conflict",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/student-evaluation-system/source",
+      "technologiesConfirmed": [
+        "Flutter",
+        "Dart",
+        "PHP",
+        "MySQL"
+      ],
+      "notes": "SOURCE CONFLICT — OWNER REVIEW REQUIRED: Canonical CV specifies C# Desktop + PHP Web. Local evidence (EvaluationProject) consists of Flutter/Dart mobile client + PHP REST API + MySQL database. Canonical CV retained unchanged."
+    },
+    {
+      "slug": "text-summarizer",
+      "title": "Text Summarizer",
+      "status": "verified",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/text-summarizer/source",
+      "technologiesConfirmed": [
+        "Python",
+        "Tkinter",
+        "NLTK",
+        "Extractive Summarization"
+      ],
+      "notes": "Python desktop application utilizing Tkinter and NLTK for sentence tokenization, stopword removal, and word-frequency sentence scoring. 96MB compiled PyInstaller executable and packaging files excluded from public repository."
+    },
+    {
+      "slug": "urbanmindos",
+      "title": "URBANMINDOS — Smart City Operating System",
+      "status": "verified",
+      "sourceKind": "repository",
+      "repositoryUrl": "https://github.com/a2sn2/UrbanMindOS",
+      "repositoryName": "a2sn2/UrbanMindOS",
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/urbanmindos/source",
+      "technologiesConfirmed": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "Concept Design"
+      ],
+      "notes": "Dedicated GitHub repository and local snapshot of the smart city operating system concept website showcasing autonomous urban air mobility coordination."
+    },
+    {
+      "slug": "user-role-manager",
+      "title": "User & Role Manager",
+      "status": "partial",
+      "sourceKind": "source-archive",
+      "repositoryUrl": null,
+      "repositoryName": null,
+      "secondaryRepoUrl": null,
+      "archivePath": "docs/evidence/projects/user-role-manager/source",
+      "technologiesConfirmed": [
+        "Oracle Forms 6i",
+        "PL/SQL"
+      ],
+      "notes": "PARTIAL EVIDENCE: Isolated Login Form (Login Form.fmb, Login Form.fmx) and User Modification Form (Update Users.fmb, Update Users.fmx) from mixed DBMS directory. Remaining role administration forms are partially present or coupled with car rental project."
+    }
+  ],
+  "credentials": [
+    {
+      "id": "cert-ai-approach-2025",
+      "title": "Data Analysis & Machine Learning",
+      "issuer": "AI APPROACH CLUB",
+      "year": "2025",
+      "category": "AI & Data",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-ai-approach-2025/certificate.pdf",
+      "notes": "Certificate of completion for intensive practical training in Data Analysis and Machine Learning."
+    },
+    {
+      "id": "cert-alhamdi-admin-2024",
+      "title": "Administrative Program (Business, Human Resources, Customer Service)",
+      "issuer": "Al-Hamdi Foundation",
+      "year": "2024",
+      "category": "Professional & Management",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-alhamdi-admin-2024/certificate.pdf",
+      "notes": "Comprehensive administration diploma covering office management, human resources, and business communication."
+    },
+    {
+      "id": "cert-alhamdi-marketing-2024",
+      "title": "Advanced Digital Marketing",
+      "issuer": "Al-Hamdi Foundation",
+      "year": "2024",
+      "category": "Foundation",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-alhamdi-marketing-2024/certificate.pdf",
+      "notes": "Professional development certificate in electronic marketing, audience segmentation, and campaigns."
+    },
+    {
+      "id": "cert-alhamdi-med-2024",
+      "title": "Medical Program (First Aid, Injection Types, Vital Signs)",
+      "issuer": "Al-Hamdi Foundation",
+      "year": "2024",
+      "category": "Foundation",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-alhamdi-med-2024/certificate.pdf",
+      "notes": "Emergency medical foundation program covering first aid, vital sign monitoring, and medical procedures."
+    },
+    {
+      "id": "cert-alhamdi-projmgmt-2024",
+      "title": "Small Project Management",
+      "issuer": "Al-Hamdi Foundation",
+      "year": "2024",
+      "category": "Professional & Management",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-alhamdi-projmgmt-2024/certificate.pdf",
+      "notes": "Professional certification covering small enterprise management, scoping, budgeting, and project execution."
+    },
+    {
+      "id": "cert-cyberai-2026",
+      "title": "Automation & AI Agents",
+      "issuer": "CYBERAI Club",
+      "year": "2026",
+      "category": "AI & Data",
+      "status": "missing",
+      "evidenceKind": "none",
+      "publicEvidencePath": null,
+      "notes": "No official certificate issued or recorded in local archive. Membership active."
+    },
+    {
+      "id": "cert-nh-aplus-2025",
+      "title": "CompTIA A+",
+      "issuer": "New Horizons Institutes",
+      "year": "2025",
+      "category": "Systems & Networks",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-nh-aplus-2025/certificate.pdf",
+      "notes": "Industry-standard hardware, OS, and troubleshooting certification course delivered by New Horizons Institute."
+    },
+    {
+      "id": "cert-nh-design-2025",
+      "title": "Graphic Design Diploma",
+      "issuer": "New Horizons Institutes",
+      "year": "2025",
+      "category": "Foundation",
+      "status": "ongoing",
+      "evidenceKind": "none",
+      "publicEvidencePath": null,
+      "notes": "In-progress design diploma program at New Horizons Institute. Final credential pending completion."
+    },
+    {
+      "id": "cert-nh-icdl-2020",
+      "title": "ICDL (International Computer Driving Licence)",
+      "issuer": "New Horizons Institutes",
+      "year": "2020",
+      "category": "Foundation",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-nh-icdl-2020/certificate.pdf",
+      "notes": "International Computer Driving Licence certification covering office productivity suites, operating systems, and internet fundamentals."
+    },
+    {
+      "id": "cert-nh-mikrotik-2024",
+      "title": "MikroTik Fundamentals",
+      "issuer": "New Horizons Institutes",
+      "year": "2024",
+      "category": "Systems & Networks",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-nh-mikrotik-2024/certificate.pdf",
+      "notes": "Technical network certification in MikroTik RouterOS configuration, routing, and hotspot services."
+    },
+    {
+      "id": "cert-phone-maint-2019",
+      "title": "Mobile Phone Maintenance Diploma",
+      "issuer": "Science & Technology Center",
+      "year": "2019",
+      "category": "Engineering & Hardware",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-phone-maint-2019/certificate.pdf",
+      "notes": "Diploma in mobile electronics hardware repair, micro-soldering, fault diagnosis, and firmware maintenance."
+    },
+    {
+      "id": "cert-sphere-2023",
+      "title": "Emergency Humanitarian Response — SPHERE Standards",
+      "issuer": "Al-Hamdi Foundation",
+      "year": "2023",
+      "category": "Foundation",
+      "status": "missing",
+      "evidenceKind": "none",
+      "publicEvidencePath": null,
+      "notes": "SPHERE Standards training completed in 2023; physical certificate record not present in local archive."
+    },
+    {
+      "id": "cert-su-ai-rpi-2025",
+      "title": "Artificial Intelligence & Raspberry Pi",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2025",
+      "category": "AI & Data",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-ai-rpi-2025/certificate.pdf",
+      "notes": "Engineering training certificate covering AI edge deployment on Raspberry Pi single-board computers."
+    },
+    {
+      "id": "cert-su-arduino-2024",
+      "title": "Arduino",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2024",
+      "category": "Engineering & Hardware",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-arduino-2024/certificate.pdf",
+      "notes": "Hands-on microcontroller programming, sensor interfacing, and hardware prototyping certificate."
+    },
+    {
+      "id": "cert-su-dl-cv-2025",
+      "title": "Deep Learning & Computer Vision",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2025",
+      "category": "AI & Data",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-dl-cv-2025/certificate.pdf",
+      "notes": "Academic engineering certificate awarded by Sana'a University Faculty of Engineering in Deep Learning & Computer Vision."
+    },
+    {
+      "id": "cert-su-embedded-2025",
+      "title": "Embedded Systems",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2025",
+      "category": "Engineering & Hardware",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-embedded-2025/certificate.pdf",
+      "notes": "Academic engineering certificate in Embedded Systems design and programming from Sana'a University."
+    },
+    {
+      "id": "cert-su-matlab-2025",
+      "title": "MATLAB",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2025",
+      "category": "Engineering & Hardware",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-matlab-2025/certificate.pdf",
+      "notes": "Academic engineering certificate in MATLAB engineering computation and simulation."
+    },
+    {
+      "id": "cert-su-netadmin-2025",
+      "title": "Network Administration",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2025",
+      "category": "Systems & Networks",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-netadmin-2025/certificate.pdf",
+      "notes": "Academic certificate in Network Administration, routing, and systems management from Sana'a University."
+    },
+    {
+      "id": "cert-su-networks-2024",
+      "title": "Networks",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2024",
+      "category": "Systems & Networks",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-networks-2024/certificate.pdf",
+      "notes": "Undergraduate academic engineering certificate in Computer Networks fundamentals, protocols, and topology."
+    },
+    {
+      "id": "cert-su-plc-2024",
+      "title": "Programmable Logic Controllers (PLC)",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2024",
+      "category": "Engineering & Hardware",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-plc-2024/certificate.pdf",
+      "notes": "Industrial automation certificate covering PLC ladder logic programming and industrial hardware control."
+    },
+    {
+      "id": "cert-su-robotics-2025",
+      "title": "Robotics",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2025",
+      "category": "Engineering & Hardware",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-robotics-2025/certificate.pdf",
+      "notes": "Academic engineering certificate in Robotics from Faculty of Engineering, Sana'a University."
+    },
+    {
+      "id": "cert-su-solar-2024",
+      "title": "Solar Energy",
+      "issuer": "Sana'a University – Faculty of Engineering",
+      "year": "2024",
+      "category": "Engineering & Hardware",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-su-solar-2024/certificate.pdf",
+      "notes": "Photovoltaic engineering design, inverter sizing, and renewable solar power systems certificate."
+    },
+    {
+      "id": "cert-yeb-ai-2025",
+      "title": "Artificial Intelligence Program",
+      "issuer": "Yemen Elite Bloc (Technology & IT Sector)",
+      "year": "2025",
+      "category": "AI & Data",
+      "status": "ongoing",
+      "evidenceKind": "none",
+      "publicEvidencePath": null,
+      "notes": "Ongoing comprehensive training program in Artificial Intelligence. No final completion certificate expected until program conclusion."
+    },
+    {
+      "id": "cert-yeb-frontend-2025",
+      "title": "Front-End Development Bootcamp",
+      "issuer": "Yemen Elite Bloc (Technology & IT Sector)",
+      "year": "2025",
+      "category": "AI & Data",
+      "status": "ongoing",
+      "evidenceKind": "none",
+      "publicEvidencePath": null,
+      "notes": "Ongoing technical bootcamp covering modern front-end web engineering. Completion pending."
+    },
+    {
+      "id": "cert-yeb-research-2025",
+      "title": "Research Development",
+      "issuer": "Yemen Elite Bloc",
+      "year": "2025",
+      "category": "Professional & Management",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-yeb-research-2025/certificate.pdf",
+      "notes": "Official certificate issued by Yemen Elite Bloc for scientific research development and methodology training."
+    },
+    {
+      "id": "cert-yemen-intern-2025",
+      "title": "Work Ethics, Professional Environment & Teamwork",
+      "issuer": "Yemen Intern Platform",
+      "year": "2025",
+      "category": "Professional & Management",
+      "status": "verified",
+      "evidenceKind": "certificate",
+      "publicEvidencePath": "docs/evidence/certifications/cert-yemen-intern-2025/certificate.pdf",
+      "notes": "Official completion certificate from Yemen Intern Platform covering professional work ethics and teamwork dynamics."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "PhoneDroneSim",
+      "category": "Robotics Simulation",
+      "path": "docs/evidence/usniversity projects/PhoneDroneSim",
+      "reason": "Experimental exploration alongside graduation project"
+    },
+    {
+      "name": "Spectrum Free Website",
+      "category": "Web Design Practice",
+      "path": "docs/evidence/usniversity projects/Spectrum Free Website",
+      "reason": "Third-party starter template used for practice"
+    },
+    {
+      "name": "web service",
+      "category": "Frontend Exercise",
+      "path": "docs/evidence/usniversity projects/web service",
+      "reason": "Foundational client-side practice exercise"
+    },
+    {
+      "name": "websait",
+      "category": "Academic Coursework",
+      "path": "docs/evidence/usniversity projects/websait",
+      "reason": "Early university coursework superseded by canonical systems"
+    },
+    {
+      "name": "filesExtract",
+      "category": "Developer Utility",
+      "path": "Historical archive",
+      "reason": "Internal archiving utility"
+    },
+    {
+      "name": "foundationkit-dotnet",
+      "category": ".NET Library",
+      "path": "Historical candidate",
+      "reason": "Standalone library exploration"
+    },
+    {
+      "name": "template",
+      "category": "Boilerplate",
+      "path": "Template scaffolding",
+      "reason": "Non-substantive template boilerplate"
+    }
+  ]
+}

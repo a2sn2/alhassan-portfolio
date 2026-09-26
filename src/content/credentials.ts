@@ -1,15 +1,8 @@
-import { CredentialsContent } from "@/contracts";
+import { CredentialsContent, CredentialItem } from "@/contracts";
+import { attachCredentialEvidence } from "./evidence";
 
-export const credentialsContent: CredentialsContent = {
-  kicker: "Certifications & Proof",
-  title: "Professional Credentials & Community Engagement",
-  description:
-    "Verified technical certifications, engineering programs, and professional community memberships across AI, networks, embedded systems, and management.",
-  overviewText:
-    "Deep learning, computer vision, robotics, embedded systems, network routing, and project management.",
-  certificationsRepoUrl: "https://github.com/a2sn2/certificates",
-  certifications: [
-    {
+const rawCertifications: CredentialItem[] = [
+  {
       id: "cert-cyberai-2026",
       title: "Automation & AI Agents",
       issuer: "CYBERAI Club",
@@ -193,8 +186,18 @@ export const credentialsContent: CredentialsContent = {
       issuer: "Science & Technology Center",
       year: "2019",
       category: "Engineering & Hardware",
-    },
-  ],
+    }
+];
+
+export const credentialsContent: CredentialsContent = {
+  kicker: "Certifications & Proof",
+  title: "Professional Credentials & Community Engagement",
+  description:
+    "Verified technical certifications, engineering programs, and professional community memberships across AI, networks, embedded systems, and management.",
+  overviewText:
+    "Deep learning, computer vision, robotics, embedded systems, network routing, and project management.",
+  certificationsRepoUrl: "https://github.com/a2sn2/certificates",
+  certifications: rawCertifications.map(attachCredentialEvidence),
   memberships: [
     {
       id: "membership-cyberai",
@@ -231,5 +234,6 @@ export const credentialsContent: CredentialsContent = {
       description:
         "Active in AI/robotics and programming units; peer mentoring and event logistics support.",
     },
+  
   ],
 };

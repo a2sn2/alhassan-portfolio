@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./ProjectCaseStudy.module.css";
 import { ProjectItem } from "@/contracts/projects";
 import { formatProjectCategory } from "@/utils/categories";
+import { projectEvidenceMap } from "@/content/evidence";
 
 interface ProjectCaseStudyProps {
   project: ProjectItem;
@@ -93,6 +94,143 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
 
   const isRichCaseStudy = chapters.length >= 3;
   const backHref = isDe ? "/de/projects" : isAr ? "/ar/projects" : "/projects";
+
+  const meta = projectEvidenceMap[project.slug];
+  const secondaryRepo = project.evidence?.find(
+    (e) => e.kind === "repository" && e.label === "Supporting Academic Archive"
+  );
+
+  const getStatusLabel = (status?: string) => {
+    switch (status) {
+      case "verified":
+        return isDe
+          ? "Verifiziert (Quellcode-belegt)"
+          : isAr
+          ? "موثّق (مدعوم بالمصدر)"
+          : "Verified (Source-backed)";
+      case "conflict":
+        return isDe
+          ? "Quellkonflikt (Prüfung erforderlich)"
+          : isAr
+          ? "تعارض مصدري (يتطلب مراجعة)"
+          : "Source Conflict (Owner Review Required)";
+      case "partial":
+        return isDe
+          ? "Teilweise (Selektives Archiv)"
+          : isAr
+          ? "توثيق جزئي (أرشيف انتقائي)"
+          : "Partial (Selective Archive)";
+      case "missing":
+      default:
+        return isDe
+          ? "Nicht vorhanden (Kein Quellcode)"
+          : isAr
+          ? "غير متوفر (لم يُحفظ كود)"
+          : "Missing (No Code Preserved)";
+    }
+  };
+
+  const renderProjectRecord = () => (
+    <section
+      className={styles.projectRecord}
+      aria-label={
+        isDe
+          ? "Projektdatensatz"
+          : isAr
+          ? "سجل المشروع الهندسي"
+          : "Engineering Project Record"
+      }
+    >
+      <div className={styles.recordHeader}>
+        <span className={styles.recordKicker}>
+          {isDe
+            ? "[ PROJEKTDATENSATZ ]"
+            : isAr
+            ? "[ سجل المشروع الهندسي ]"
+            : "[ PROJECT RECORD ]"}
+        </span>
+        <span className={styles.recordSlug}>
+          <bdi>id: {project.slug}</bdi>
+        </span>
+      </div>
+      <div className={styles.recordTable}>
+        {project.repository && (
+          <div className={styles.recordRow}>
+            <span className={styles.recordKey}>
+              {isDe ? "Quellcode" : isAr ? "الكود المصدري" : "Source Code"}
+            </span>
+            <div className={styles.recordValue}>
+              <a
+                href={project.repository.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.recordLink}
+                aria-label={`${project.title} ${
+                  isDe ? "Quellcode" : isAr ? "الكود المصدري" : "source code"
+                }`}
+              >
+                <span>{project.repository.repositoryName}</span>
+                <span className={styles.recordArrow} aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </div>
+          </div>
+        )}
+
+        <div className={styles.recordRow}>
+          <span className={styles.recordKey}>
+            {isDe ? "Nachweisstatus" : isAr ? "حالة التوثيق" : "Evidence Status"}
+          </span>
+          <div className={styles.recordValue}>
+            <span className={styles.recordStatusText}>{getStatusLabel(meta?.status)}</span>
+          </div>
+        </div>
+
+        {meta?.evidenceUrl && meta.status !== "missing" && (
+          <div className={styles.recordRow}>
+            <span className={styles.recordKey}>
+              {isDe ? "Nachweisdatensatz" : isAr ? "ملف التوثيق" : "Documentation"}
+            </span>
+            <div className={styles.recordValue}>
+              <a
+                href={meta.evidenceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.recordLink}
+              >
+                <span>docs/evidence/projects/{project.slug}</span>
+                <span className={styles.recordArrow} aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </div>
+          </div>
+        )}
+
+        {secondaryRepo && (
+          <div className={styles.recordRow}>
+            <span className={styles.recordKey}>
+              {isDe ? "Akademisches Archiv" : isAr ? "الأرشيف الأكاديمي" : "Academic Archive"}
+            </span>
+            <div className={styles.recordValue}>
+              <a
+                href={secondaryRepo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.recordLink}
+              >
+                <span>a2sn2 / GraduationProject</span>
+                <span className={styles.recordArrow} aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
 
   return (
     <article className={styles.caseStudy}>
@@ -310,6 +448,8 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
               </section>
             )}
 
+            {renderProjectRecord()}
+
             <div className={styles.actionsRow}>
               {project.githubUrl && (
                 <a
@@ -378,6 +518,8 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
               </div>
             </section>
           )}
+
+          {renderProjectRecord()}
 
           <div className={styles.actionsRow}>
             {project.githubUrl && (

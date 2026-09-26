@@ -1,0 +1,43 @@
+name: project1
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl:
+  camera:
+  path_provider:
+  gallery_saver:
+  permission_handler:
+  image:
+  url_launcher:
+  flutter_email_sender:
+  flutter_joystick:
+  cupertino_icons:
+  logger:
+  video_player:
+  firebase_core:
+  firebase_auth:
+
+dev_dependencies:
+  intl_translation:
+  flutter_test:
+    sdk: flutter
+  flutter_lints:
+  intl_utils:
+
+
+flutter:
+  uses-material-design: true
+
+
+flutter_intl:
+  enabled: true
