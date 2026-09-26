@@ -1,0 +1,12 @@
+{
+  "slug": "arduino-traffic-light",
+  "title": "Arduino Traffic Light Controller",
+  "status": "missing",
+  "sourceKind": "none",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": null,
+  "technologiesConfirmed": [],
+  "notes": "Embedded hardware microcontroller prototype. Firmware source code (.ino) and breadboard schematics not present in local archive."
+}

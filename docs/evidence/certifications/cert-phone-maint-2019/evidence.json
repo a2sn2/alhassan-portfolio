@@ -1,0 +1,11 @@
+{
+  "id": "cert-phone-maint-2019",
+  "title": "Mobile Phone Maintenance Diploma",
+  "issuer": "Science & Technology Center",
+  "year": "2019",
+  "category": "Engineering & Hardware",
+  "status": "verified",
+  "evidenceKind": "certificate",
+  "publicEvidencePath": "docs/evidence/certifications/cert-phone-maint-2019/certificate.pdf",
+  "notes": "Diploma in mobile electronics hardware repair, micro-soldering, fault diagnosis, and firmware maintenance."
+}

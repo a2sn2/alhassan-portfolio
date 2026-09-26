@@ -1,0 +1,17 @@
+{
+  "slug": "text-summarizer",
+  "title": "Text Summarizer",
+  "status": "verified",
+  "sourceKind": "source-archive",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/text-summarizer/source",
+  "technologiesConfirmed": [
+    "Python",
+    "Tkinter",
+    "NLTK",
+    "Extractive Summarization"
+  ],
+  "notes": "Python desktop application utilizing Tkinter and NLTK for sentence tokenization, stopword removal, and word-frequency sentence scoring. 96MB compiled PyInstaller executable and packaging files excluded from public repository."
+}

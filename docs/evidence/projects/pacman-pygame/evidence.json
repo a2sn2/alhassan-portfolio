@@ -1,0 +1,17 @@
+{
+  "slug": "pacman-pygame",
+  "title": "Pac-Man with Pygame",
+  "status": "verified",
+  "sourceKind": "source-archive",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/pacman-pygame/source",
+  "technologiesConfirmed": [
+    "Python",
+    "Pygame",
+    "Collision Detection",
+    "Sprite Animation"
+  ],
+  "notes": "Complete Python/Pygame arcade game recreation featuring game loop, enemy ghost AI, maze rendering, wall collision detection, sprite animations, and score tracking."
+}

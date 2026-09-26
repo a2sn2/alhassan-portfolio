@@ -1,0 +1,15 @@
+{
+  "slug": "user-role-manager",
+  "title": "User & Role Manager",
+  "status": "partial",
+  "sourceKind": "source-archive",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/user-role-manager/source",
+  "technologiesConfirmed": [
+    "Oracle Forms 6i",
+    "PL/SQL"
+  ],
+  "notes": "PARTIAL EVIDENCE: Isolated Login Form (Login Form.fmb, Login Form.fmx) and User Modification Form (Update Users.fmb, Update Users.fmx) from mixed DBMS directory. Remaining role administration forms are partially present or coupled with car rental project."
+}
