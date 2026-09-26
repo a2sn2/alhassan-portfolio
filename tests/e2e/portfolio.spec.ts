@@ -1324,5 +1324,281 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       expect(hasHorizontalScroll, `Horizontal overflow detected on ${route} at 320px`).toBe(false);
     }
   });
+
+  test("TC-40: Project with dedicated GitHub repo renders direct source URL", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/projects");
+    await page.waitForLoadState("networkidle");
+
+    // Real-Time Object Detection has dedicated standalone repo: a2sn2/yolo-object-detection
+    const yoloLink = page.locator('a[href="https://github.com/a2sn2/yolo-object-detection"]');
+    await expect(yoloLink.first()).toBeVisible();
+    await expect(yoloLink.first()).toContainText("SOURCE · GitHub");
+
+    // Check project detail page renders dedicated repo in Project Record
+    await page.goto("/projects/real-time-object-detection");
+    await page.waitForLoadState("networkidle");
+    const detailRepoLink = page.locator('a[href="https://github.com/a2sn2/yolo-object-detection"]');
+    await expect(detailRepoLink.first()).toBeVisible();
+    await expect(detailRepoLink.first()).toContainText("a2sn2 / yolo-object-detection");
+  });
+
+  test("TC-41: Project with Portfolio source archive renders evidence link", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/projects");
+    await page.waitForLoadState("networkidle");
+
+    // AI Tic-Tac-Toe has portfolio source archive: docs/evidence/projects/ai-tic-tac-toe
+    const ticTacToeArchiveUrl =
+      "https://github.com/a2sn2/alhassan-portfolio/tree/main/docs/evidence/projects/ai-tic-tac-toe";
+    const archiveLink = page.locator(`a[href="${ticTacToeArchiveUrl}"]`);
+    await expect(archiveLink.first()).toBeVisible();
+    await expect(archiveLink.first()).toContainText("ARCHIVE · Evidence");
+
+    // Check project detail page renders archive link in Project Record
+    await page.goto("/projects/ai-tic-tac-toe");
+    await page.waitForLoadState("networkidle");
+    const detailArchiveLink = page.locator(`a[href="${ticTacToeArchiveUrl}"]`);
+    await expect(detailArchiveLink.first()).toBeVisible();
+    await expect(detailArchiveLink.first()).toContainText("ai-tic-tac-toe");
+  });
+
+  test("TC-42: Project with missing evidence does not render fake source action", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/projects");
+    await page.waitForLoadState("networkidle");
+
+    // MikroTik Hotspot Portal has evidenceStatus = "missing"
+    const mikrotikCard = page.locator('article:has(a[href="/projects/mikrotik-hotspot-portal"])');
+    await expect(mikrotikCard).toBeVisible();
+    // It must NOT have a sourceSignalLink
+    await expect(mikrotikCard.locator('a[class*="sourceSignalLink"]')).toHaveCount(0);
+
+    // On detail page, check Project Record shows missing status and NO source code row link
+    await page.goto("/projects/mikrotik-hotspot-portal");
+    await page.waitForLoadState("networkidle");
+    await expect(page.locator("text=Missing (No Code Preserved)")).toBeVisible();
+    const recordSection = page.locator('section[class*="projectRecord"]');
+    await expect(recordSection.locator('a[class*="recordLink"]')).toHaveCount(0);
+  });
+
+  test("TC-43: Certificate with verified public PDF renders localized View Certificate CTA", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // EN: View Certificate
+    await page.goto("/capabilities");
+    await page.waitForLoadState("networkidle");
+    const enCertLink = page.locator('a[href*="docs/evidence/certifications/cert-su-dl-cv-2025/certificate.pdf"]');
+    await expect(enCertLink.first()).toBeVisible();
+    await expect(enCertLink.first()).toContainText("View Certificate");
+
+    // AR: عرض الشهادة
+    await page.goto("/ar/capabilities");
+    await page.waitForLoadState("networkidle");
+    const arCertLink = page.locator('a[href*="docs/evidence/certifications/cert-su-dl-cv-2025/certificate.pdf"]');
+    await expect(arCertLink.first()).toBeVisible();
+    await expect(arCertLink.first()).toContainText("عرض الشهادة");
+
+    // DE: Zertifikat ansehen
+    await page.goto("/de/capabilities");
+    await page.waitForLoadState("networkidle");
+    const deCertLink = page.locator('a[href*="docs/evidence/certifications/cert-su-dl-cv-2025/certificate.pdf"]');
+    await expect(deCertLink.first()).toBeVisible();
+    await expect(deCertLink.first()).toContainText("Zertifikat ansehen");
+  });
+
+  test("TC-44: Ongoing certificate displays status without fake certificate action", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // Ongoing certs: cert-yeb-ai-2025, cert-yeb-frontend-2025, cert-nh-design-2025
+    await page.goto("/capabilities");
+    await page.waitForLoadState("networkidle");
+
+    const ongoingRow = page.locator('article[class*="ledgerRow"]:has-text("Artificial Intelligence Program")');
+    await expect(ongoingRow).toBeVisible();
+    // Must show Ongoing status badge
+    await expect(ongoingRow.locator('span[class*="certStatusBadge"]')).toContainText("Ongoing");
+    // Must NOT have View Certificate link
+    await expect(ongoingRow.locator('a[class*="certActionLink"]')).toHaveCount(0);
+
+    // AR
+    await page.goto("/ar/capabilities");
+    await page.waitForLoadState("networkidle");
+    const arOngoingRow = page.locator('article[class*="ledgerRow"]:has-text("برنامج الذكاء الاصطناعي")');
+    await expect(arOngoingRow).toBeVisible();
+    await expect(arOngoingRow.locator('span[class*="certStatusBadge"]')).toContainText("قيد المتابعة");
+    await expect(arOngoingRow.locator('a[class*="certActionLink"]')).toHaveCount(0);
+
+    // DE
+    await page.goto("/de/capabilities");
+    await page.waitForLoadState("networkidle");
+    const deOngoingRow = page.locator('article[class*="ledgerRow"]:has-text("KI-Programm")');
+    await expect(deOngoingRow).toBeVisible();
+    await expect(deOngoingRow.locator('span[class*="certStatusBadge"]')).toContainText("laufend");
+    await expect(deOngoingRow.locator('a[class*="certActionLink"]')).toHaveCount(0);
+  });
+
+  test("TC-45: Credential category filters correctly filter Credential Ledger items", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/capabilities");
+    await page.waitForLoadState("networkidle");
+
+    // All: 26 items
+    const allRows = page.locator('article[class*="ledgerRow"]');
+    await expect(allRows).toHaveCount(26);
+
+    // Click "AI & Data" filter
+    const aiFilterBtn = page.locator('button[class*="filterBtn"]:has-text("AI & Data")');
+    await expect(aiFilterBtn).toBeVisible();
+    await aiFilterBtn.click();
+
+    // Verify filtered count matches
+    const filteredRows = page.locator('article[class*="ledgerRow"]');
+    const filteredCount = await filteredRows.count();
+    expect(filteredCount).toBeGreaterThan(0);
+    expect(filteredCount).toBeLessThan(26);
+
+    // Click "All" filter to reset
+    const allFilterBtn = page.locator('button[class*="filterBtn"]:has-text("All (26)")');
+    await allFilterBtn.click();
+    await expect(allRows).toHaveCount(26);
+  });
+
+  test("TC-46: Arabic evidence UI RTL and German long-label rendering integrity", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    // AR Projects RTL
+    await page.goto("/ar/projects");
+    await page.waitForLoadState("networkidle");
+    const htmlDir = await page.getAttribute("html", "dir");
+    expect(htmlDir).toBe("rtl");
+
+    const arSourceLink = page.locator('a[class*="sourceSignalLink"]').first();
+    await expect(arSourceLink).toBeVisible();
+    const arSourceText = await arSourceLink.textContent();
+    expect(arSourceText).toMatch(/المصدر · GitHub|الأرشيف · التوثيق/);
+
+    // DE Projects
+    await page.goto("/de/projects");
+    await page.waitForLoadState("networkidle");
+    const deSourceLink = page.locator('a[class*="sourceSignalLink"]').first();
+    await expect(deSourceLink).toBeVisible();
+    const deSourceText = await deSourceLink.textContent();
+    expect(deSourceText).toMatch(/QUELLCODE · GitHub|ARCHIV · Nachweis/);
+
+    // DE Capabilities Ledger Action
+    await page.goto("/de/capabilities");
+    await page.waitForLoadState("networkidle");
+    const deCertAction = page.locator('a[class*="certActionLink"]').first();
+    await expect(deCertAction).toBeVisible();
+    await expect(deCertAction).toContainText("Zertifikat ansehen");
+  });
+
+  test("TC-47: 320px responsive integrity across Projects, Capabilities, and Evidence UI", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 700 });
+
+    const evidenceRoutes = [
+      "/projects",
+      "/ar/projects",
+      "/de/projects",
+      "/capabilities",
+      "/ar/capabilities",
+      "/de/capabilities",
+      "/projects/real-time-object-detection",
+      "/ar/projects/real-time-object-detection",
+      "/de/projects/real-time-object-detection",
+      "/projects/ai-tic-tac-toe",
+      "/projects/mikrotik-hotspot-portal",
+    ];
+
+    for (const route of evidenceRoutes) {
+      await page.goto(route);
+      await page.waitForLoadState("networkidle");
+
+      const hasHorizontalScroll = await page.evaluate(() => {
+        return document.documentElement.scrollWidth > document.documentElement.clientWidth;
+      });
+
+      expect(hasHorizontalScroll, `Horizontal overflow detected on ${route} at 320px`).toBe(false);
+    }
+  });
+
+  test("TC-48: Homepage Proof section renders verified proof entries and zero placeholder copy", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    const locales = [
+      { route: "/", heading: "Deterministic Engineering Evidence", count: 4 },
+      { route: "/ar", heading: "التوثيق والإثباتات الهندسية", count: 4 },
+      { route: "/de", heading: "Deterministische Ingenieurnachweise", count: 4 },
+    ];
+
+    for (const loc of locales) {
+      await page.goto(loc.route);
+      await page.waitForLoadState("networkidle");
+
+      const proofSection = page.locator("#proof");
+      await expect(proofSection).toBeVisible();
+
+      // Ensure no placeholder box or notice appears
+      await expect(proofSection.locator('[class*="placeholderBox"]')).toHaveCount(0);
+      await expect(proofSection.locator("text=Placeholder")).toHaveCount(0);
+
+      // Verify proof cards count
+      const cards = proofSection.locator('article[class*="proofCard"]');
+      await expect(cards).toHaveCount(loc.count);
+    }
+  });
+
+  test("TC-49: Public UI contains zero generic GitHub profile links as project source CTAs", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    const projectPages = [
+      "/projects",
+      "/ar/projects",
+      "/de/projects",
+      "/projects/real-time-object-detection",
+      "/ar/projects/real-time-object-detection",
+      "/de/projects/real-time-object-detection",
+      "/projects/pump-station-analytics",
+      "/projects/ai-tic-tac-toe",
+    ];
+
+    for (const route of projectPages) {
+      await page.goto(route);
+      await page.waitForLoadState("networkidle");
+
+      // Check all links in project explorer cards and project records
+      const genericCtas = await page.evaluate(() => {
+        const sourceLinks = Array.from(
+          document.querySelectorAll('a[class*="sourceSignalLink"], a[class*="recordLink"]')
+        );
+        return sourceLinks
+          .map((a) => a.getAttribute("href"))
+          .filter((href) => href === "https://github.com/a2sn2" || href === "https://github.com/a2sn2/");
+      });
+
+      expect(genericCtas, `Found generic profile link on ${route}`).toHaveLength(0);
+    }
+  });
 });
 

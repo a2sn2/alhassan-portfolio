@@ -38,6 +38,9 @@ jobs:
       - name: Verify Official English CV Content Parity
         run: npm run verify:cv-content
 
+      - name: Verify Official Portfolio Evidence Hub
+        run: npm run verify:evidence
+
       - name: Run Code Linting
         run: npm run lint
 
