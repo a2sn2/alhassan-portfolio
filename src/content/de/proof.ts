@@ -11,8 +11,8 @@ export const proofContentDe: ProofContent = {
       id: "proof-project-sources",
       title: "Projekt-Repositories & Quellcode-Archive",
       quote:
-        "14 von 16 Ingenieursystemen sind durch verifizierten Quellcode in dedizierten GitHub-Repositories und lokalen Quellarchiven belegt.",
-      metric: "14 / 16 quellcode-belegt",
+        "Verifizierte Quellcode-Repositories und kuratierte Code-Archive für 12 anerkannte Ingenieurprojekte.",
+      metric: "12 verifizierte Projektquellen",
       url: "/de/projects",
       type: "metric",
     },
@@ -20,8 +20,8 @@ export const proofContentDe: ProofContent = {
       id: "proof-credentials",
       title: "Zertifikats- und Nachweisindex",
       quote:
-        "21 verifizierte Zertifikate mit Original-PDFs sowie strukturierte Nachverfolgung für laufende Fachprogramme.",
-      metric: "21 verifizierte Zertifikate",
+        "22 verifizierte Zertifikate mit Original-PDFs sowie strukturierte Nachverfolgung für laufende Fachprogramme.",
+      metric: "22 verifizierte Zertifikate",
       url: "/de/capabilities",
       type: "certification",
     },

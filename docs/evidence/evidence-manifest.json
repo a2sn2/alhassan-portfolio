@@ -8,9 +8,9 @@
     "projectsConflict": 1,
     "projectsMissing": 2,
     "credentialsTotal": 26,
-    "credentialsVerified": 21,
+    "credentialsVerified": 22,
     "credentialsOngoing": 3,
-    "credentialsMissing": 2,
+    "credentialsMissing": 1,
     "candidatesTotal": 7
   },
   "projects": [
@@ -213,18 +213,13 @@
       "slug": "student-evaluation-system",
       "title": "Student Evaluation System",
       "status": "conflict",
-      "sourceKind": "source-archive",
+      "sourceKind": "none",
       "repositoryUrl": null,
       "repositoryName": null,
       "secondaryRepoUrl": null,
-      "archivePath": "docs/evidence/projects/student-evaluation-system/source",
-      "technologiesConfirmed": [
-        "Flutter",
-        "Dart",
-        "PHP",
-        "MySQL"
-      ],
-      "notes": "SOURCE CONFLICT — OWNER REVIEW REQUIRED: Canonical CV specifies C# Desktop + PHP Web. Local evidence (EvaluationProject) consists of Flutter/Dart mobile client + PHP REST API + MySQL database. Canonical CV retained unchanged."
+      "archivePath": null,
+      "technologiesConfirmed": [],
+      "notes": "SOURCE CONFLICT — OWNER REVIEW REQUIRED: Canonical CV specifies C# Desktop + PHP Web. Local evidence consists of Flutter/Dart mobile client + PHP REST API + MySQL database. Canonical CV retained unchanged. Conflicting source archive quarantined from public distribution pending owner review."
     },
     {
       "slug": "text-summarizer",
@@ -404,10 +399,11 @@
       "issuer": "Al-Hamdi Foundation",
       "year": "2023",
       "category": "Foundation",
-      "status": "missing",
-      "evidenceKind": "none",
+      "status": "verified",
+      "evidenceKind": "certificate",
       "publicEvidencePath": null,
-      "notes": "SPHERE Standards training completed in 2023; physical certificate record not present in local archive."
+      "publicEvidenceUrl": "https://github.com/a2sn2/certificates/blob/main/al-hamdi/AlHamdi_TrainingPrograms_2023_2024.pdf",
+      "notes": "Verified via official grouped training programs credential document (page 5) in a2sn2/certificates repository."
     },
     {
       "id": "cert-su-ai-rpi-2025",

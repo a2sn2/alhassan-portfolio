@@ -186,16 +186,10 @@ export const projectEvidenceMap: Record<string, ProjectEvidenceMeta> = {
   "student-evaluation-system": {
     slug: "student-evaluation-system",
     status: "conflict",
-    sourceKind: "source-archive",
-    repository: {
-      url: `${PORTFOLIO_TREE_BASE}/projects/student-evaluation-system`,
-      repositoryName: "alhassan-portfolio / docs / evidence / student-evaluation-system",
-      source: "portfolio-archive",
-    },
-    archivePath: "docs/evidence/projects/student-evaluation-system/source",
+    sourceKind: "none",
     evidenceUrl: `${PORTFOLIO_TREE_BASE}/projects/student-evaluation-system`,
-    technologiesConfirmed: ["Flutter", "Dart", "PHP", "MySQL"],
-    notes: "SOURCE CONFLICT — OWNER REVIEW REQUIRED: Canonical CV specifies C# Desktop + PHP Web. Local evidence consists of Flutter/Dart mobile client + PHP REST API + MySQL database. Canonical CV retained unchanged.",
+    technologiesConfirmed: [],
+    notes: "SOURCE CONFLICT — OWNER REVIEW REQUIRED: Canonical CV specifies C# Desktop + PHP Web. Candidate evidence consisted of Flutter/Dart mobile client + PHP REST API + MySQL database. Canonical CV retained unchanged. Conflicting source archive quarantined from public distribution pending owner review.",
   },
   "cafe-pos-system": {
     slug: "cafe-pos-system",
@@ -389,9 +383,10 @@ export const credentialEvidenceMap: Record<string, CredentialEvidenceMeta> = {
   },
   "cert-sphere-2023": {
     id: "cert-sphere-2023",
-    status: "missing",
-    evidenceKind: "none",
-    notes: "SPHERE Standards training completed in 2023; physical certificate record not present in local archive.",
+    status: "verified",
+    evidenceKind: "certificate",
+    documentUrl: "https://github.com/a2sn2/certificates/blob/main/al-hamdi/AlHamdi_TrainingPrograms_2023_2024.pdf",
+    notes: "Verified via official grouped training programs credential document (page 5) in a2sn2/certificates repository.",
   },
   "cert-nh-icdl-2020": {
     id: "cert-nh-icdl-2020",

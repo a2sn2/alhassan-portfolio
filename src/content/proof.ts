@@ -11,8 +11,8 @@ export const proofContent: ProofContent = {
       id: "proof-project-sources",
       title: "Project Source Repositories & Archives",
       quote:
-        "14 of 16 engineering systems backed by verified source code across standalone GitHub repositories and local source archives.",
-      metric: "14 / 16 Source Backed",
+        "Verified source repositories and curated code archives covering 12 canonical engineering projects.",
+      metric: "12 Verified Project Sources",
       url: "/projects",
       type: "metric",
     },
@@ -20,8 +20,8 @@ export const proofContent: ProofContent = {
       id: "proof-credentials",
       title: "Credential Evidence Index",
       quote:
-        "21 verified certificates with original PDFs, alongside structured tracking for ongoing technical programs.",
-      metric: "21 Verified Certificates",
+        "22 verified certificates with original PDFs, alongside structured tracking for ongoing technical programs.",
+      metric: "22 Verified Certificates",
       url: "/capabilities",
       type: "certification",
     },

@@ -4,8 +4,9 @@
   "issuer": "Al-Hamdi Foundation",
   "year": "2023",
   "category": "Foundation",
-  "status": "missing",
-  "evidenceKind": "none",
+  "status": "verified",
+  "evidenceKind": "certificate",
   "publicEvidencePath": null,
-  "notes": "SPHERE Standards training completed in 2023; physical certificate record not present in local archive."
+  "publicEvidenceUrl": "https://github.com/a2sn2/certificates/blob/main/al-hamdi/AlHamdi_TrainingPrograms_2023_2024.pdf",
+  "notes": "Verified via official grouped training programs credential document (page 5) in a2sn2/certificates repository."
 }

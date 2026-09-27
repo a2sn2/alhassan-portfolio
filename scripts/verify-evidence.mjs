@@ -247,13 +247,19 @@ async function run() {
   }
 
   for (const c of manifestCredentials) {
-    if (c.publicPath) {
-      const fullC = path.join(root, c.publicPath);
-      check(fs.existsSync(fullC), `Credential certificate PDF exists: ${c.publicPath}`);
+    const pubPath = c.publicEvidencePath || c.publicPath;
+    if (pubPath) {
+      const fullC = path.join(root, pubPath);
+      check(fs.existsSync(fullC), `Credential certificate PDF exists: ${pubPath}`);
       if (fs.existsSync(fullC)) {
         const stats = fs.statSync(fullC);
-        check(stats.size > 1000, `Certificate PDF is valid non-empty binary (>1KB): ${c.publicPath} (${stats.size} bytes)`);
+        check(stats.size > 1000, `Certificate PDF is valid non-empty binary (>1KB): ${pubPath} (${stats.size} bytes)`);
       }
+    } else if (c.status === "verified") {
+      check(
+        Boolean(c.publicEvidenceUrl && c.publicEvidenceUrl.startsWith("https://")),
+        `Verified credential '${c.id}' without local path has valid HTTPS publicEvidenceUrl: ${c.publicEvidenceUrl}`
+      );
     }
   }
 
@@ -426,8 +432,8 @@ async function run() {
     check(!match, `Zero Windows absolute paths in ${item.name} (match: ${match ? match[0] : "none"})`);
   }
 
-  // 15. Overall verification summary
-  console.log("\n▶ [15/15] Evidence Hub Coverage Summary");
+  // 15. Overall verification summary & Strong Invariants A-G
+  console.log("\n▶ [15/15] Evidence Hub Coverage Summary & Deterministic Invariants...");
   const verifiedProjects = manifestProjects.filter((p) => p.status === "verified");
   const conflictProjects = manifestProjects.filter((p) => p.status === "conflict");
   const partialProjects = manifestProjects.filter((p) => p.status === "partial");
@@ -445,9 +451,153 @@ async function run() {
   check(partialProjects.length === 1, `Partial projects count is 1 (found ${partialProjects.length})`);
   check(missingProjects.length === 2, `Missing projects count is 2 (found ${missingProjects.length})`);
 
-  check(verifiedCerts.length === 21, `Verified certificates count is 21 (found ${verifiedCerts.length})`);
+  check(verifiedCerts.length === 22, `Verified certificates count is 22 (found ${verifiedCerts.length})`);
   check(ongoingCerts.length === 3, `Ongoing credentials count is 3 (found ${ongoingCerts.length})`);
-  check(missingCerts.length === 2, `Missing credentials count is 2 (found ${missingCerts.length})`);
+  check(missingCerts.length === 1, `Missing credentials count is 1 (found ${missingCerts.length})`);
+
+  // Invariant A: Manifest summary counts equal actual manifest status counts
+  console.log("\n  --- Invariant A: Manifest counts equal actual item status counts ---");
+  check(
+    manifest.counts.credentialsVerified === verifiedCerts.length,
+    `Manifest counts.credentialsVerified (${manifest.counts.credentialsVerified}) equals actual verified count (${verifiedCerts.length})`
+  );
+  check(
+    manifest.counts.credentialsOngoing === ongoingCerts.length,
+    `Manifest counts.credentialsOngoing (${manifest.counts.credentialsOngoing}) equals actual ongoing count (${ongoingCerts.length})`
+  );
+  check(
+    manifest.counts.credentialsMissing === missingCerts.length,
+    `Manifest counts.credentialsMissing (${manifest.counts.credentialsMissing}) equals actual missing count (${missingCerts.length})`
+  );
+  check(
+    manifest.counts.projectsVerified === verifiedProjects.length,
+    `Manifest counts.projectsVerified (${manifest.counts.projectsVerified}) equals actual verified count (${verifiedProjects.length})`
+  );
+  check(
+    manifest.counts.projectsConflict === conflictProjects.length,
+    `Manifest counts.projectsConflict (${manifest.counts.projectsConflict}) equals actual conflict count (${conflictProjects.length})`
+  );
+  check(
+    manifest.counts.projectsPartial === partialProjects.length,
+    `Manifest counts.projectsPartial (${manifest.counts.projectsPartial}) equals actual partial count (${partialProjects.length})`
+  );
+  check(
+    manifest.counts.projectsMissing === missingProjects.length,
+    `Manifest counts.projectsMissing (${manifest.counts.projectsMissing}) equals actual missing count (${missingProjects.length})`
+  );
+
+  // Invariant B: Every verified credential has evidenceKind certificate/document, valid path/URL, and existing tracked artifact if local
+  console.log("\n  --- Invariant B: Verified credentials have genuine artifacts/URLs ---");
+  for (const c of verifiedCerts) {
+    check(
+      c.evidenceKind === "certificate" || c.evidenceKind === "document",
+      `Verified credential '${c.id}' has evidenceKind 'certificate' or 'document' (found: ${c.evidenceKind})`
+    );
+    const hasPathOrUrl = Boolean(c.publicEvidencePath || c.publicEvidenceUrl || c.publicPath);
+    check(
+      hasPathOrUrl,
+      `Verified credential '${c.id}' has real public path or URL`
+    );
+    const localPath = c.publicEvidencePath || c.publicPath;
+    if (localPath) {
+      const fullPath = path.join(root, localPath);
+      check(fs.existsSync(fullPath), `Local credential artifact exists on disk: ${localPath}`);
+    }
+  }
+
+  // Invariant C: Every missing credential has no public certificate CTA
+  console.log("\n  --- Invariant C: Missing credentials have zero public CTAs ---");
+  for (const c of missingCerts) {
+    check(
+      c.evidenceKind === "none",
+      `Missing credential '${c.id}' has evidenceKind 'none'`
+    );
+    check(
+      !c.publicEvidencePath && !c.publicPath && !c.publicEvidenceUrl,
+      `Missing credential '${c.id}' has no public path or URL in manifest`
+    );
+    const enMatch = enCerts.find((x) => x.id === c.id);
+    const arMatch = arCerts.find((x) => x.id === c.id);
+    const deMatch = deCerts.find((x) => x.id === c.id);
+    check(!enMatch?.evidence?.url, `EN missing credential '${c.id}' has no certificate CTA`);
+    check(!arMatch?.evidence?.url, `AR missing credential '${c.id}' has no certificate CTA`);
+    check(!deMatch?.evidence?.url, `DE missing credential '${c.id}' has no certificate CTA`);
+  }
+
+  // Invariant D: Homepage verified-project metric strictly equals count of verified projects (12), not verified + partial + conflict
+  console.log("\n  --- Invariant D: Homepage verified-project metric equals exact verified count (12) ---");
+  const enProofMod = loadTsModule("src/content/proof.ts");
+  const arProofMod = loadTsModule("src/content/ar/proof.ts");
+  const deProofMod = loadTsModule("src/content/de/proof.ts");
+
+  const enProjectProof = enProofMod.proofContent?.items?.find((i) => i.id === "proof-project-sources");
+  const arProjectProof = arProofMod.proofContentAr?.items?.find((i) => i.id === "proof-project-sources");
+  const deProjectProof = deProofMod.proofContentDe?.items?.find((i) => i.id === "proof-project-sources");
+
+  const exactVerifiedCount = verifiedProjects.length; // 12
+  check(
+    enProjectProof?.metric === `${exactVerifiedCount} Verified Project Sources`,
+    `EN Home proof metric equals exact verified count: '${enProjectProof?.metric}'`
+  );
+  check(
+    arProjectProof?.metric === `${exactVerifiedCount} مصدر مشروع موثّق`,
+    `AR Home proof metric equals exact verified count: '${arProjectProof?.metric}'`
+  );
+  check(
+    deProjectProof?.metric === `${exactVerifiedCount} verifizierte Projektquellen`,
+    `DE Home proof metric equals exact verified count: '${deProjectProof?.metric}'`
+  );
+  check(
+    !enProjectProof?.metric?.includes("14") && !enProjectProof?.quote?.includes("14"),
+    "EN Home proof does not overclaim with unverified projects (no '14')"
+  );
+
+  // Invariant E: Conflict project must NOT receive public repository/archive CTA
+  console.log("\n  --- Invariant E: Conflict project receives zero public repository/archive CTAs ---");
+  for (const p of conflictProjects) {
+    check(!p.repositoryUrl, `Conflict manifest project '${p.slug}' has no repositoryUrl`);
+    check(!p.archivePath, `Conflict manifest project '${p.slug}' has no archivePath`);
+    const enP = enProjects.find((x) => x.slug === p.slug);
+    const arP = arProjects.find((x) => x.slug === p.slug);
+    const deP = deProjects.find((x) => x.slug === p.slug);
+    check(!enP?.githubUrl, `Conflict project '${p.slug}' has no githubUrl in EN`);
+    check(!arP?.githubUrl, `Conflict project '${p.slug}' has no githubUrl in AR`);
+    check(!deP?.githubUrl, `Conflict project '${p.slug}' has no githubUrl in DE`);
+    check(!enP?.repository, `Conflict project '${p.slug}' has no repository object in EN`);
+    check(!arP?.repository, `Conflict project '${p.slug}' has no repository object in AR`);
+    check(!deP?.repository, `Conflict project '${p.slug}' has no repository object in DE`);
+  }
+
+  // Invariant F: Missing project must NOT receive public repository/archive CTA
+  console.log("\n  --- Invariant F: Missing projects receive zero public repository/archive CTAs ---");
+  for (const p of missingProjects) {
+    check(!p.repositoryUrl, `Missing manifest project '${p.slug}' has no repositoryUrl`);
+    check(!p.archivePath, `Missing manifest project '${p.slug}' has no archivePath`);
+    const enP = enProjects.find((x) => x.slug === p.slug);
+    const arP = arProjects.find((x) => x.slug === p.slug);
+    const deP = deProjects.find((x) => x.slug === p.slug);
+    check(!enP?.githubUrl, `Missing project '${p.slug}' has no githubUrl in EN`);
+    check(!arP?.githubUrl, `Missing project '${p.slug}' has no githubUrl in AR`);
+    check(!deP?.githubUrl, `Missing project '${p.slug}' has no githubUrl in DE`);
+    check(!enP?.repository, `Missing project '${p.slug}' has no repository object in EN`);
+    check(!arP?.repository, `Missing project '${p.slug}' has no repository object in AR`);
+    check(!deP?.repository, `Missing project '${p.slug}' has no repository object in DE`);
+  }
+
+  // Invariant G: Partial project may receive source archive CTA but must not use a 'verified' public status label
+  console.log("\n  --- Invariant G: Partial project does not claim verified status ---");
+  for (const p of partialProjects) {
+    const enP = enProjects.find((x) => x.slug === p.slug);
+    const evidenceItem = enP?.evidence?.[0];
+    check(
+      evidenceItem?.status === "partial",
+      `Partial project '${p.slug}' evidence status is 'partial' (not verified)`
+    );
+    check(
+      !p.notes?.toLowerCase().includes("verified source"),
+      `Partial project '${p.slug}' notes do not claim verified source`
+    );
+  }
 
   console.log("\n============================================================");
   if (failures.length > 0) {

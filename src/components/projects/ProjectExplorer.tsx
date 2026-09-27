@@ -8,6 +8,7 @@ import { ProjectItem, ProjectCategory } from "@/contracts/projects";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/utils/cn";
 import { formatProjectCategory } from "@/utils/categories";
+import { projectEvidenceMap } from "@/content/evidence";
 
 interface ProjectExplorerProps {
   items: ProjectItem[];
@@ -31,7 +32,15 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
     return `/projects/${slug}`;
   };
 
-  const getSourceLabel = (source: "standalone" | "portfolio-archive" | undefined) => {
+  const getSourceLabel = (
+    source: "standalone" | "portfolio-archive" | undefined,
+    status?: string
+  ) => {
+    if (status === "partial") {
+      if (isGerman) return "Ausgewähltes Quellarchiv";
+      if (isArabic) return "أرشيف مصدري جزئي";
+      return "Selected Source Archive";
+    }
     if (source === "standalone") {
       if (isGerman) return "QUELLCODE · GitHub";
       if (isArabic) return "المصدر · GitHub";
@@ -44,8 +53,14 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
 
   const getSourceAriaLabel = (
     projectTitle: string,
-    source: "standalone" | "portfolio-archive" | undefined
+    source: "standalone" | "portfolio-archive" | undefined,
+    status?: string
   ) => {
+    if (status === "partial") {
+      if (isGerman) return `${projectTitle} — Ausgewähltes Quellarchiv`;
+      if (isArabic) return `${projectTitle} — أرشيف مصدري جزئي`;
+      return `${projectTitle} — Selected Source Archive`;
+    }
     if (source === "standalone") {
       if (isGerman) return `${projectTitle} — Quellcode auf GitHub`;
       if (isArabic) return `${projectTitle} — الكود المصدري على GitHub`;
@@ -238,22 +253,33 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                       <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                     </Link>
 
-                    {project.repository?.url && (
-                      <a
-                        href={project.repository.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.sourceSignalLink}
-                        aria-label={getSourceAriaLabel(project.title, project.repository.source)}
-                      >
-                        <span className={styles.sourceSignalText}>
-                          {getSourceLabel(project.repository.source)}
-                        </span>
-                        <span className={styles.sourceSignalArrow} aria-hidden="true">
-                          ↗
-                        </span>
-                      </a>
-                    )}
+                    {(() => {
+                      const status = projectEvidenceMap[project.slug]?.status;
+                      const hasSourceSignal =
+                        (status === "verified" || status === "partial") &&
+                        Boolean(project.repository?.url);
+                      if (!hasSourceSignal || !project.repository?.url) return null;
+                      return (
+                        <a
+                          href={project.repository.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.sourceSignalLink}
+                          aria-label={getSourceAriaLabel(
+                            project.title,
+                            project.repository.source,
+                            status
+                          )}
+                        >
+                          <span className={styles.sourceSignalText}>
+                            {getSourceLabel(project.repository.source, status)}
+                          </span>
+                          <span className={styles.sourceSignalArrow} aria-hidden="true">
+                            ↗
+                          </span>
+                        </a>
+                      );
+                    })()}
                   </div>
                 </div>
               </article>
@@ -345,22 +371,33 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                     <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                   </Link>
 
-                  {project.repository?.url && (
-                    <a
-                      href={project.repository.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.sourceSignalLink}
-                      aria-label={getSourceAriaLabel(project.title, project.repository.source)}
-                    >
-                      <span className={styles.sourceSignalText}>
-                        {getSourceLabel(project.repository.source)}
-                      </span>
-                      <span className={styles.sourceSignalArrow} aria-hidden="true">
-                        ↗
-                      </span>
-                    </a>
-                  )}
+                  {(() => {
+                    const status = projectEvidenceMap[project.slug]?.status;
+                    const hasSourceSignal =
+                      (status === "verified" || status === "partial") &&
+                      Boolean(project.repository?.url);
+                    if (!hasSourceSignal || !project.repository?.url) return null;
+                    return (
+                      <a
+                        href={project.repository.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.sourceSignalLink}
+                        aria-label={getSourceAriaLabel(
+                          project.title,
+                          project.repository.source,
+                          status
+                        )}
+                      >
+                        <span className={styles.sourceSignalText}>
+                          {getSourceLabel(project.repository.source, status)}
+                        </span>
+                        <span className={styles.sourceSignalArrow} aria-hidden="true">
+                          ↗
+                        </span>
+                      </a>
+                    );
+                  })()}
                 </div>
               </article>
             ))}
@@ -463,22 +500,33 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                       <span>{isGerman ? "Details" : isArabic ? "التفاصيل" : "Details"}</span>
                       <span aria-hidden="true">{isArabic ? "←" : "→"}</span>
                     </Link>
-                    {project.repository?.url && (
-                      <a
-                        href={project.repository.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.sourceSignalLink}
-                        aria-label={getSourceAriaLabel(project.title, project.repository.source)}
-                      >
-                        <span className={styles.sourceSignalText}>
-                          {getSourceLabel(project.repository.source)}
-                        </span>
-                        <span className={styles.sourceSignalArrow} aria-hidden="true">
-                          ↗
-                        </span>
-                      </a>
-                    )}
+                    {(() => {
+                      const status = projectEvidenceMap[project.slug]?.status;
+                      const hasSourceSignal =
+                        (status === "verified" || status === "partial") &&
+                        Boolean(project.repository?.url);
+                      if (!hasSourceSignal || !project.repository?.url) return null;
+                      return (
+                        <a
+                          href={project.repository.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.sourceSignalLink}
+                          aria-label={getSourceAriaLabel(
+                            project.title,
+                            project.repository.source,
+                            status
+                          )}
+                        >
+                          <span className={styles.sourceSignalText}>
+                            {getSourceLabel(project.repository.source, status)}
+                          </span>
+                          <span className={styles.sourceSignalArrow} aria-hidden="true">
+                            ↗
+                          </span>
+                        </a>
+                      );
+                    })()}
                   </div>
                 </article>
               ))}
