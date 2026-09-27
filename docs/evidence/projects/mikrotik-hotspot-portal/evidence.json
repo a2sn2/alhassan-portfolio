@@ -1,0 +1,12 @@
+{
+  "slug": "mikrotik-hotspot-portal",
+  "title": "MikroTik Hotspot Portal",
+  "status": "missing",
+  "sourceKind": "none",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": null,
+  "technologiesConfirmed": [],
+  "notes": "Hardware and network configuration project (MikroTik RouterOS, Dual-WAN, PPPoE, RADIUS). No software source code or dedicated GitHub repository preserved in local archive."
+}

@@ -1,0 +1,11 @@
+{
+  "id": "cert-nh-aplus-2025",
+  "title": "CompTIA A+",
+  "issuer": "New Horizons Institutes",
+  "year": "2025",
+  "category": "Systems & Networks",
+  "status": "verified",
+  "evidenceKind": "certificate",
+  "publicEvidencePath": "docs/evidence/certifications/cert-nh-aplus-2025/certificate.pdf",
+  "notes": "Industry-standard hardware, OS, and troubleshooting certification course delivered by New Horizons Institute."
+}

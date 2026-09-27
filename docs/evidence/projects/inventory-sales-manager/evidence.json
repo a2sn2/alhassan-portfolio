@@ -1,0 +1,18 @@
+{
+  "slug": "inventory-sales-manager",
+  "title": "Inventory & Sales Manager",
+  "status": "verified",
+  "sourceKind": "source-archive",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/inventory-sales-manager/source",
+  "technologiesConfirmed": [
+    "PHP",
+    "MySQL",
+    "HTML5",
+    "CSS3",
+    "JavaScript"
+  ],
+  "notes": "Full-stack PHP/MySQL retail inventory management system supporting CRUD operations, purchase history, and stock tracking for consumer electronics."
+}

@@ -1,0 +1,18 @@
+{
+  "slug": "real-time-image-classification-api",
+  "title": "Real-Time Image Classification API",
+  "status": "verified",
+  "sourceKind": "repository",
+  "repositoryUrl": "https://github.com/a2sn2/ImageClassify_ML_Batch1",
+  "repositoryName": "a2sn2/ImageClassify_ML_Batch1",
+  "secondaryRepoUrl": null,
+  "archivePath": null,
+  "technologiesConfirmed": [
+    "Python",
+    "Flask",
+    "EfficientNetB0",
+    "ImageNet",
+    "REST API"
+  ],
+  "notes": "Dedicated GitHub repository implementing a lightweight Flask HTTP microservice with pre-trained EfficientNetB0 for top-3 ImageNet class prediction."
+}

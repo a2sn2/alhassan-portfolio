@@ -9,3 +9,4 @@ export * from "./contact";
 export * from "./social";
 export * from "./navigation";
 export * from "./siteMetadata";
+export * from "./evidence";

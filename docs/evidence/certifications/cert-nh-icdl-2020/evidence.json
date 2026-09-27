@@ -1,0 +1,11 @@
+{
+  "id": "cert-nh-icdl-2020",
+  "title": "ICDL (International Computer Driving Licence)",
+  "issuer": "New Horizons Institutes",
+  "year": "2020",
+  "category": "Foundation",
+  "status": "verified",
+  "evidenceKind": "certificate",
+  "publicEvidencePath": "docs/evidence/certifications/cert-nh-icdl-2020/certificate.pdf",
+  "notes": "International Computer Driving Licence certification covering office productivity suites, operating systems, and internet fundamentals."
+}

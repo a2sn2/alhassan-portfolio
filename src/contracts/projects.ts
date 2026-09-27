@@ -34,6 +34,8 @@ export interface ProjectItem {
    */
   featured: boolean;
   evidenceDepth?: "rich" | "basic" | "minimal";
+  repository?: import("./evidence").ProjectRepository;
+  evidence?: import("./evidence").EvidenceReference[];
 }
 
 export type PresentationTier = "featured" | "core" | "archive";

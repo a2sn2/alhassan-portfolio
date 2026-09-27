@@ -1,0 +1,17 @@
+{
+  "slug": "obstacle-avoidance",
+  "title": "Obstacle Avoidance",
+  "status": "verified",
+  "sourceKind": "source-archive",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/obstacle-avoidance/source",
+  "technologiesConfirmed": [
+    "Python",
+    "TensorFlow",
+    "Depth Estimation",
+    "Jupyter Notebook"
+  ],
+  "notes": "Local source archive includes od.ipynb monocular depth estimation pipeline. 4 pre-trained model weight binaries (~92.5 MB each) are flagged and excluded from Git tracking in compliance with binary size policies."
+}

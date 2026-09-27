@@ -252,6 +252,115 @@
   transform: translateY(-2px);
 }
 
+
+/* ==========================================================================
+   Engineering Project Record
+   ========================================================================== */
+.projectRecord {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-primary);
+  overflow: hidden;
+}
+
+.recordHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-surface-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.recordKicker {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  color: var(--color-brand);
+}
+
+.recordSlug {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}
+
+.recordTable {
+  display: flex;
+  flex-direction: column;
+}
+
+.recordRow {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-size: var(--text-xs);
+}
+
+.recordRow:last-child {
+  border-bottom: none;
+}
+
+.recordKey {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.recordValue {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.recordStatusText {
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+}
+
+.recordLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  color: var(--color-brand);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.recordLink:hover {
+  text-decoration: underline;
+}
+
+.recordArrow {
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1;
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.recordLink:hover .recordArrow {
+  transform: translate(2px, -2px);
+}
+
+.recordLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
 @media (max-width: 900px) {
   .contentLayout {
     grid-template-columns: 1fr;
@@ -261,3 +370,12 @@
     display: none;
   }
 }
+
+@media (max-width: 640px) {
+  .recordRow {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+  }
+}
+

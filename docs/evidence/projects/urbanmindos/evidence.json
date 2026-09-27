@@ -1,0 +1,17 @@
+{
+  "slug": "urbanmindos",
+  "title": "URBANMINDOS — Smart City Operating System",
+  "status": "verified",
+  "sourceKind": "repository",
+  "repositoryUrl": "https://github.com/a2sn2/UrbanMindOS",
+  "repositoryName": "a2sn2/UrbanMindOS",
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/urbanmindos/source",
+  "technologiesConfirmed": [
+    "HTML5",
+    "CSS3",
+    "JavaScript",
+    "Concept Design"
+  ],
+  "notes": "Dedicated GitHub repository and local snapshot of the smart city operating system concept website showcasing autonomous urban air mobility coordination."
+}

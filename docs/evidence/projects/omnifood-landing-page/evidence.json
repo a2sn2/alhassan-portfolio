@@ -1,0 +1,16 @@
+{
+  "slug": "omnifood-landing-page",
+  "title": "OMNIFOOD — Responsive Landing Page",
+  "status": "verified",
+  "sourceKind": "repository",
+  "repositoryUrl": "https://github.com/a2sn2/OmnifoodHTML-CSS",
+  "repositoryName": "a2sn2/OmnifoodHTML-CSS",
+  "secondaryRepoUrl": null,
+  "archivePath": null,
+  "technologiesConfirmed": [
+    "HTML5",
+    "CSS3",
+    "Responsive Design"
+  ],
+  "notes": "Dedicated GitHub repository for responsive food delivery landing page with hero layout, customer testimonials, meal showcase, and navigation."
+}

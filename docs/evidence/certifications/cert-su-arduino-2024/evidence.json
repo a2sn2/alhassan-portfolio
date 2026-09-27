@@ -1,0 +1,11 @@
+{
+  "id": "cert-su-arduino-2024",
+  "title": "Arduino",
+  "issuer": "Sana'a University – Faculty of Engineering",
+  "year": "2024",
+  "category": "Engineering & Hardware",
+  "status": "verified",
+  "evidenceKind": "certificate",
+  "publicEvidencePath": "docs/evidence/certifications/cert-su-arduino-2024/certificate.pdf",
+  "notes": "Hands-on microcontroller programming, sensor interfacing, and hardware prototyping certificate."
+}

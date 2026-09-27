@@ -12,6 +12,7 @@ export interface CredentialItem {
   year: string;
   category: CredentialCategory;
   status?: "Completed" | "In Progress" | "Ongoing";
+  evidence?: import("./evidence").EvidenceReference;
 }
 
 export interface MembershipItem {

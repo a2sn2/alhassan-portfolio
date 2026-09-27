@@ -10,6 +10,7 @@ The following asset suites are **intentionally public** and permanently tracked 
 1. `docs/ALHassan_Baligh_ALShami_CV_Package/` — Official multi-lingual CV packages (German, English, Arabic) in Standard and ATS-optimized editions.
 2. `docs/Themes/Jaib Theme/` — Comprehensive design system reference material, color specifications, design prompts, and interactive identity previews.
 3. `docs/images/` — Official high-resolution source personal portrait photography suite (`AllPic.png`, `FacePic.jpeg`).
+4. `docs/evidence/` — Portfolio Evidence Hub containing 16 project evidence archives and 26 credential records (refer to `docs/evidence/evidence-manifest.json` for detailed machine-readable manifest and `docs/evidence/EVIDENCE-MATRIX.md` for full cross-reference matrix).
 
 These files serve as the canonical source material for portfolio content verification and visual design consistency. They must never be deleted, renamed without traceability, or excluded via `.gitignore`.
 

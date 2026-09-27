@@ -5,6 +5,7 @@ import styles from "./CapabilitiesMatrix.module.css";
 import { SkillGroup } from "@/contracts/skills";
 import { CredentialItem, CredentialCategory, MembershipItem } from "@/contracts/credentials";
 import { cn } from "@/utils/cn";
+import { PORTFOLIO_TREE_BASE } from "@/content/evidence";
 
 interface CapabilitiesMatrixProps {
   skillGroups: SkillGroup[];
@@ -144,23 +145,56 @@ export function CapabilitiesMatrix({
           })}
         </div>
 
-        <div className={styles.certGrid}>
-          {filteredCerts.map((cert) => (
-            <div key={cert.id} className={styles.certCard}>
-              <div className={styles.certTop}>
-                <span className={styles.certYear}>
-                  <bdi>{cert.year}</bdi>
-                </span>
-                {cert.status && (
-                  <span className={styles.certStatus}>
-                    {certStatusMap[locale]?.[cert.status] || cert.status}
+        {/* Credential Ledger */}
+        <div className={styles.certLedger}>
+          {filteredCerts.map((cert) => {
+            const isVerifiedWithDoc = cert.evidence?.status === "verified" && cert.evidence.url;
+            const isOngoingOrProgress = cert.status === "Ongoing" || cert.status === "In Progress";
+            const localizedStatus = cert.status ? certStatusMap[locale]?.[cert.status] || cert.status : null;
+            const actionText = isDe ? "Zertifikat ansehen" : isAr ? "عرض الشهادة" : "View Certificate";
+
+            return (
+              <article key={cert.id} className={styles.ledgerRow}>
+                <div className={styles.ledgerYearCell}>
+                  <span className={styles.ledgerYear}>
+                    <bdi>{cert.year}</bdi>
                   </span>
-                )}
-              </div>
-              <h3 className={styles.certTitle}>{cert.title}</h3>
-              <span className={styles.certIssuer}>{cert.issuer}</span>
-            </div>
-          ))}
+                </div>
+
+                <div className={styles.ledgerMainCell}>
+                  <h3 className={styles.ledgerTitle}>{cert.title}</h3>
+                  <div className={styles.ledgerMeta}>
+                    <span className={styles.ledgerIssuer}>{cert.issuer}</span>
+                    <span className={styles.ledgerDivider} aria-hidden="true">·</span>
+                    <span className={styles.ledgerCategory}>
+                      {isAr ? certCatLabelAr[cert.category] : isDe ? certCatLabelDe[cert.category] : cert.category}
+                    </span>
+                  </div>
+                </div>
+
+                <div className={styles.ledgerActionCell}>
+                  {isVerifiedWithDoc ? (
+                    <a
+                      href={cert.evidence!.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.certActionLink}
+                      aria-label={`${cert.title} — ${actionText}`}
+                    >
+                      <span>{actionText}</span>
+                      <span className={styles.certActionArrow} aria-hidden="true">
+                        ↗
+                      </span>
+                    </a>
+                  ) : isOngoingOrProgress ? (
+                    <span className={styles.certStatusBadge}>
+                      {localizedStatus}
+                    </span>
+                  ) : null}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -194,39 +228,60 @@ export function CapabilitiesMatrix({
         </div>
       </section>
 
-      {/* 4. Verified Proof Repository Callout */}
+      {/* 4. Portfolio Evidence Hub Callout */}
       <div className={styles.repoCallout}>
         <div className={styles.repoInfo}>
-          <h3 className={styles.repoTitle}>
-            {isAr
-              ? "المستودع الرقمي للشهادات"
-              : isDe
-              ? "Offizielles Zertifikats-Repository"
-              : "Official Certificates Repository"}
-          </h3>
+          <div className={styles.repoHeaderGroup}>
+            <span className={styles.repoKicker}>
+              {isAr ? "[ مركز التوثيق الأساسي ]" : isDe ? "[ PRIMÄRER NACHWEISINDEX ]" : "[ PRIMARY EVIDENCE INDEX ]"}
+            </span>
+            <h3 className={styles.repoTitle}>
+              {isAr
+                ? "مركز توثيق المشاريع والشهادات"
+                : isDe
+                ? "Portfolio Evidence Hub & Nachweise"
+                : "Portfolio Evidence Hub & Documentation"}
+            </h3>
+          </div>
           <p className={styles.repoDesc}>
             {isAr
-              ? "جميع وثائق الشهادات والمشاركات الأكاديمية موثقة ومتاحة في مستودع رقمي عام ومفتوح."
+              ? "أرشيفات المصادر البرمجية ووثائق الشهادات المعتمدة وملفات التوثيق الهندسي مفهرسة ومتاحة ضمن docs/evidence."
               : isDe
-              ? "Zertifikatsdokumente und akademische Nachweise sind in einem offenen öffentlichen Repository katalogisiert."
-              : "All certificate documents, official completions, and academic credentials are cataloged in an open public repository."}
+              ? "Zentralisierte Quellarchive, verifizierte Zertifikats-PDFs und deterministische Ingenieurnachweise katalogisiert unter docs/evidence."
+              : "Centralized source archives, verified certification PDFs, and deterministic engineering evidence indexed under docs/evidence."}
           </p>
+          <div className={styles.legacyCalloutRow}>
+            <span className={styles.legacyLabel}>
+              {isAr ? "مستودع الشهادات المجمعة:" : isDe ? "Offizielles Zertifikats-Repository (Archiv):" : "Legacy Grouped Repository:"}
+            </span>{" "}
+            <a
+              href={certRepoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.legacyLink}
+            >
+              <span>a2sn2 / certificates</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
-        <a
-          href={certRepoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.repoBtn}
-        >
-          <span>
-            {isAr
-              ? "عرض مستودع الشهادات"
-              : isDe
-              ? "Zertifikats-Repository ansehen"
-              : "View Certificates Repository"}
-          </span>
-          <span aria-hidden="true">↗</span>
-        </a>
+        <div className={styles.repoActions}>
+          <a
+            href={PORTFOLIO_TREE_BASE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.repoBtn}
+          >
+            <span>
+              {isAr
+                ? "استكشاف مركز التوثيق"
+                : isDe
+                ? "Evidence Hub erkunden"
+                : "Explore Evidence Hub"}
+            </span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </div>
   );

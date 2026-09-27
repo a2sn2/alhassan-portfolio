@@ -1,0 +1,18 @@
+{
+  "slug": "pump-station-analytics",
+  "title": "Pump Station Analytics",
+  "status": "verified",
+  "sourceKind": "repository",
+  "repositoryUrl": "https://github.com/a2sn2/pump_DA_Batch2",
+  "repositoryName": "a2sn2/pump_DA_Batch2",
+  "secondaryRepoUrl": null,
+  "archivePath": null,
+  "technologiesConfirmed": [
+    "Python",
+    "Pandas",
+    "Scikit-Learn",
+    "Jupyter Notebook",
+    "Predictive Maintenance"
+  ],
+  "notes": "Dedicated GitHub repository containing pump station multivariate telemetry dataset (wastewater_pump_station_data.csv) and exploratory/predictive maintenance analysis notebook (pump_DA_Batch2.ipynb)."
+}

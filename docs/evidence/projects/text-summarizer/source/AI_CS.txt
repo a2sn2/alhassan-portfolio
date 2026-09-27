@@ -1,0 +1,22 @@
+1- AI Planning (Automated Planning & Scheduling)
+
+2- Constraint Satisfaction Problems (CSP) 
+
+3- Generate or rank candidate sentences or sequences of words in tasks like machine translation, text summarization, or speech recognition.
+
+4- Information Retrieval: how can Search algorithms power search engines, enabling users to find relevant information from large collections of documents or web pages.
+
+5- Object Detection:  identify and locate specific objects within an image, drawing bounding boxes around them.
+
+6- Image Classification:how can classify images into predefined categories or labels, such as identifying whether an image contains a cat or a dog.
+
+7- Search Engines
+
+8- E-commerce Product Search: In e-commerce applications, search algorithms are used to help users find products based on their search queries
+
+9- Content Recommendations: AI search algorithms can be employed to provide personalized content recommendations to users based on their browsing behavior, preferences, and contextual information.
+
+10- Auto-Complete and Query Suggestions: Search algorithms can be used to provide auto-complete suggestions as users type their search queries
+
+11 - Faceted Search and Filtering: AI search algorithms can enable faceted search and filtering capabilities in web application
+

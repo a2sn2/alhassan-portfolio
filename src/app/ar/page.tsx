@@ -10,7 +10,9 @@ import {
   experienceContentAr,
   skillsContentAr,
   credentialsContentAr,
+  proofContentAr,
 } from "@/content/ar";
+import { ProofSection } from "@/components/sections/ProofSection";
 import styles from "../home.module.css";
 
 export default function ArabicHomePage() {
@@ -170,6 +172,9 @@ export default function ArabicHomePage() {
           </div>
         </Container>
       </section>
+
+      {/* 5. Proof & Verification Section */}
+      <ProofSection content={proofContentAr} locale="ar" />
 
       {/* Chapter 1 of 5 sequential navigation */}
       <ChapterNav currentChapterIndex={1} />

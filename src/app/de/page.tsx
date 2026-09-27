@@ -10,7 +10,9 @@ import {
   experienceContentDe,
   skillsContentDe,
   credentialsContentDe,
+  proofContentDe,
 } from "@/content/de";
+import { ProofSection } from "@/components/sections/ProofSection";
 import { formatProjectCategory } from "@/utils/categories";
 import styles from "../home.module.css";
 
@@ -169,6 +171,9 @@ export default function GermanHomePage() {
           </div>
         </Container>
       </section>
+
+      {/* 5. Proof & Verification Section */}
+      <ProofSection content={proofContentDe} locale="de" />
 
       {/* Chapter 1 of 6 sequential navigation */}
       <ChapterNav currentChapterIndex={1} locale="de" />

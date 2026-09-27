@@ -40,3 +40,10 @@ yarn-error.log*
 # Vercel & Turbo
 .vercel
 .turbo
+
+# Evidence Raw & Local Staging
+/docs/evidence/_private/
+/docs/evidence/_unclassified/
+/docs/evidence/_raw-private/
+/docs/evidence/usniversity projects/
+/docs/evidence/إيبسون/

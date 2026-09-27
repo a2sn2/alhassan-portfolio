@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./ProjectCaseStudy.module.css";
 import { ProjectItem } from "@/contracts/projects";
 import { formatProjectCategory } from "@/utils/categories";
+import { projectEvidenceMap } from "@/content/evidence";
 
 interface ProjectCaseStudyProps {
   project: ProjectItem;
@@ -93,6 +94,173 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
 
   const isRichCaseStudy = chapters.length >= 3;
   const backHref = isDe ? "/de/projects" : isAr ? "/ar/projects" : "/projects";
+
+  const meta = projectEvidenceMap[project.slug];
+  const secondaryRepo = project.evidence?.find(
+    (e) => e.kind === "repository" && e.label === "Supporting Academic Archive"
+  );
+
+  const getStatusLabel = (status?: string) => {
+    switch (status) {
+      case "verified":
+        return isDe
+          ? "Verifiziert (Quellcode-belegt)"
+          : isAr
+          ? "موثّق (مدعوم بالمصدر)"
+          : "Verified (Source-backed)";
+      case "partial":
+        return isDe
+          ? "Ausgewähltes Quellarchiv"
+          : isAr
+          ? "أرشيف مصدري جزئي"
+          : "Selected Source Archive";
+      default:
+        return null;
+    }
+  };
+
+  const getPrimaryActionLabel = () => {
+    if (meta?.status === "partial") {
+      return isDe
+        ? "Ausgewähltes Quellarchiv"
+        : isAr
+        ? "أرشيف مصدري جزئي"
+        : "Selected Source Archive";
+    }
+    return isDe
+      ? "Auf GitHub ansehen"
+      : isAr
+      ? "عرض في GitHub"
+      : "View on GitHub";
+  };
+
+  const renderProjectRecord = () => {
+    // Only render for verified or partial evidence.
+    // Internal conflict and missing governance states must NOT be exposed to public visitors.
+    if (!meta || meta.status === "conflict" || meta.status === "missing") {
+      return null;
+    }
+
+    const isPartial = meta.status === "partial";
+    const statusLabel = getStatusLabel(meta.status);
+    const sourceKeyLabel = isPartial
+      ? isDe
+        ? "Quellarchiv"
+        : isAr
+        ? "أرشيف المصدر"
+        : "Source Archive"
+      : isDe
+      ? "Quellcode"
+      : isAr
+      ? "الكود المصدري"
+      : "Source Code";
+
+    const sourceDisplayLabel = isPartial
+      ? isDe
+        ? "Ausgewähltes Quellarchiv"
+        : isAr
+        ? "أرشيف مصدري جزئي"
+        : "Selected Source Archive"
+      : project.repository?.repositoryName;
+
+    return (
+      <section
+        className={styles.projectRecord}
+        aria-label={
+          isDe
+            ? "Projektdatensatz"
+            : isAr
+            ? "سجل المشروع الهندسي"
+            : "Engineering Project Record"
+        }
+      >
+        <div className={styles.recordHeader}>
+          <span className={styles.recordKicker}>
+            {isDe
+              ? "[ PROJEKTDATENSATZ ]"
+              : isAr
+              ? "[ سجل المشروع الهندسي ]"
+              : "[ PROJECT RECORD ]"}
+          </span>
+          <span className={styles.recordSlug}>
+            <bdi>id: {project.slug}</bdi>
+          </span>
+        </div>
+        <div className={styles.recordTable}>
+          {project.repository && (
+            <div className={styles.recordRow}>
+              <span className={styles.recordKey}>{sourceKeyLabel}</span>
+              <div className={styles.recordValue}>
+                <a
+                  href={project.repository.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.recordLink}
+                  aria-label={`${project.title} — ${sourceDisplayLabel}`}
+                >
+                  <span>{sourceDisplayLabel}</span>
+                  <span className={styles.recordArrow} aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          <div className={styles.recordRow}>
+            <span className={styles.recordKey}>
+              {isDe ? "Nachweisstatus" : isAr ? "حالة التوثيق" : "Evidence Status"}
+            </span>
+            <div className={styles.recordValue}>
+              <span className={styles.recordStatusText}>{statusLabel}</span>
+            </div>
+          </div>
+
+          {meta?.evidenceUrl && (
+            <div className={styles.recordRow}>
+              <span className={styles.recordKey}>
+                {isDe ? "Nachweisdatensatz" : isAr ? "ملف التوثيق" : "Documentation"}
+              </span>
+              <div className={styles.recordValue}>
+                <a
+                  href={meta.evidenceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.recordLink}
+                >
+                  <span>docs/evidence/projects/{project.slug}</span>
+                  <span className={styles.recordArrow} aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {secondaryRepo && (
+            <div className={styles.recordRow}>
+              <span className={styles.recordKey}>
+                {isDe ? "Akademisches Archiv" : isAr ? "الأرشيف الأكاديمي" : "Academic Archive"}
+              </span>
+              <div className={styles.recordValue}>
+                <a
+                  href={secondaryRepo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.recordLink}
+                >
+                  <span>a2sn2 / GraduationProject</span>
+                  <span className={styles.recordArrow} aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  };
 
   return (
     <article className={styles.caseStudy}>
@@ -310,6 +478,8 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
               </section>
             )}
 
+            {renderProjectRecord()}
+
             <div className={styles.actionsRow}>
               {project.githubUrl && (
                 <a
@@ -318,13 +488,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   rel="noopener noreferrer"
                   className={styles.btnPrimary}
                 >
-                  <span>
-                    {isDe
-                      ? "Auf GitHub ansehen"
-                      : isAr
-                      ? "عرض في GitHub"
-                      : "View on GitHub"}
-                  </span>
+                  <span>{getPrimaryActionLabel()}</span>
                   <span aria-hidden="true">↗</span>
                 </a>
               )}
@@ -379,6 +543,8 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
             </section>
           )}
 
+          {renderProjectRecord()}
+
           <div className={styles.actionsRow}>
             {project.githubUrl && (
               <a
@@ -387,13 +553,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                 rel="noopener noreferrer"
                 className={styles.btnPrimary}
               >
-                <span>
-                  {isDe
-                    ? "Auf GitHub ansehen"
-                    : isAr
-                    ? "عرض في GitHub"
-                    : "View on GitHub"}
-                </span>
+                <span>{getPrimaryActionLabel()}</span>
                 <span aria-hidden="true">↗</span>
               </a>
             )}

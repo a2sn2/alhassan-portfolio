@@ -1,6 +1,7 @@
 import { ProjectsContent, ProjectItem, ProjectCategory } from "@/contracts";
+import { attachProjectEvidence } from "../evidence";
 
-export const projectItemsDe: ProjectItem[] = [
+const rawProjectItemsDe: ProjectItem[] = [
   {
     id: "real-time-object-detection",
     slug: "real-time-object-detection",
@@ -12,7 +13,6 @@ export const projectItemsDe: ProjectItem[] = [
     solution: "Hochperformante Pipeline mit Python, PyTorch und OpenCV zur Live-Kamerabildverarbeitung.",
     technologies: ["Python", "PyTorch", "OpenCV"],
     result: "Live-Pipeline mit Echtzeitvisualisierung der Ergebnisse.",
-    githubUrl: "https://github.com/a2sn2",
     featured: true,
     presentationTier: "featured",
     evidenceDepth: "rich",
@@ -25,7 +25,6 @@ export const projectItemsDe: ProjectItem[] = [
     category: "Systems & Robotics",
     badge: "Mobile & Robotik",
     technologies: ["Flutter", "Dart", "Android"],
-    githubUrl: "https://github.com/a2sn2",
     featured: true,
     presentationTier: "featured",
     evidenceDepth: "basic",
@@ -50,7 +49,6 @@ export const projectItemsDe: ProjectItem[] = [
     category: "Computer Vision & AI",
     badge: "Microservice-API",
     technologies: ["Python", "Flask", "API"],
-    githubUrl: "https://github.com/a2sn2",
     featured: false,
     presentationTier: "core",
     evidenceDepth: "basic",
@@ -200,6 +198,8 @@ export const projectItemsDe: ProjectItem[] = [
     evidenceDepth: "basic",
   },
 ];
+
+export const projectItemsDe: ProjectItem[] = rawProjectItemsDe.map(attachProjectEvidence);
 
 export const projectCategoriesDe: ProjectCategory[] = [
   "All",

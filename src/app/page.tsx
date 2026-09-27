@@ -10,7 +10,9 @@ import {
   experienceContent,
   skillsContent,
   credentialsContent,
+  proofContent,
 } from "@/content";
+import { ProofSection } from "@/components/sections/ProofSection";
 import styles from "./home.module.css";
 
 export default function HomePage() {
@@ -166,6 +168,9 @@ export default function HomePage() {
           </div>
         </Container>
       </section>
+
+      {/* 5. Proof & Verification Section */}
+      <ProofSection content={proofContent} locale="en" />
 
       {/* Chapter 1 of 6 sequential navigation */}
       <ChapterNav currentChapterIndex={1} />

@@ -1,15 +1,8 @@
-import { CredentialsContent } from "@/contracts";
+import { CredentialsContent, CredentialItem } from "@/contracts";
+import { attachCredentialEvidence } from "../evidence";
 
-export const credentialsContentDe: CredentialsContent = {
-  kicker: "Zertifikate & Nachweise",
-  title: "Zertifikate, Kurse & Mitgliedschaften",
-  description:
-    "Technische Zertifikate, Studienprogramme und Mitgliedschaften in Fachorganisationen in den Bereichen KI, Netzwerke, eingebettete Systeme und Management.",
-  overviewText:
-    "Deep Learning, Computer Vision, Robotik, eingebettete Systeme, Netzwerk-Routing und Projektmanagement.",
-  certificationsRepoUrl: "https://github.com/a2sn2/certificates",
-  certifications: [
-    {
+const rawCertifications: CredentialItem[] = [
+  {
       id: "cert-cyberai-2026",
       title: "Automatisierung & KI-Agenten",
       issuer: "CYBERAI Club",
@@ -83,7 +76,7 @@ export const credentialsContentDe: CredentialsContent = {
       category: "Engineering & Hardware",
     },
     {
-      id: "cert-su-network-admin-2025",
+      id: "cert-su-netadmin-2025",
       title: "Netzwerkadministration",
       issuer: "Sana'a University – Faculty of Engineering",
       year: "2025",
@@ -97,7 +90,7 @@ export const credentialsContentDe: CredentialsContent = {
       category: "AI & Data",
     },
     {
-      id: "cert-nh-comptia-2025",
+      id: "cert-nh-aplus-2025",
       title: "CompTIA A+",
       issuer: "New Horizons Institute",
       year: "2025",
@@ -160,7 +153,7 @@ export const credentialsContentDe: CredentialsContent = {
       category: "Professional & Management",
     },
     {
-      id: "cert-alhamdi-small-proj-2024",
+      id: "cert-alhamdi-projmgmt-2024",
       title: "Kleinprojektmanagement",
       issuer: "Al-Hamdi Foundation",
       year: "2024",
@@ -174,7 +167,7 @@ export const credentialsContentDe: CredentialsContent = {
       category: "Professional & Management",
     },
     {
-      id: "cert-alhamdi-sphere-2023",
+      id: "cert-sphere-2023",
       title: "Humanitäre Nothilfe — SPHERE Standards",
       issuer: "Al-Hamdi Foundation",
       year: "2023",
@@ -193,8 +186,18 @@ export const credentialsContentDe: CredentialsContent = {
       issuer: "Science & Technology Center",
       year: "2019",
       category: "Engineering & Hardware",
-    },
-  ],
+    }
+];
+
+export const credentialsContentDe: CredentialsContent = {
+  kicker: "Zertifikate & Nachweise",
+  title: "Fachzertifikate & Engagement in Fachgesellschaften",
+  description:
+    "Verifizierte Zertifikate, akademische Fachprogramme und Mitgliedschaften in Fachorganisationen in den Bereichen KI, Netzwerke, Embedded Systems und Projektmanagement.",
+  overviewText:
+    "Deep Learning, Computer Vision, Robotik, Embedded Systems, Netzwerk-Routing und Projektmanagement.",
+  certificationsRepoUrl: "https://github.com/a2sn2/certificates",
+  certifications: rawCertifications.map(attachCredentialEvidence),
   memberships: [
     {
       id: "membership-cyberai",
@@ -230,5 +233,6 @@ export const credentialsContentDe: CredentialsContent = {
       description:
         "Aktiv in KI-/Robotik- und Programmierbereichen; Peer-Mentoring und Unterstützung der Veranstaltungslogistik.",
     },
+  
   ],
 };

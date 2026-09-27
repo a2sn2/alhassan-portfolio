@@ -1,0 +1,17 @@
+{
+  "slug": "cafe-pos-system",
+  "title": "Café POS System",
+  "status": "verified",
+  "sourceKind": "source-archive",
+  "repositoryUrl": null,
+  "repositoryName": null,
+  "secondaryRepoUrl": null,
+  "archivePath": "docs/evidence/projects/cafe-pos-system/source",
+  "technologiesConfirmed": [
+    "Java",
+    "Java Swing",
+    "JDBC",
+    "Apache Derby SQL"
+  ],
+  "notes": "Java desktop Point of Sale application using Java Swing GUI and JDBC connection to Apache Derby database. Includes Login, Items CRUD, Selling, and ViewSells reporting modules."
+}
