@@ -203,8 +203,16 @@
 /* Experience Snapshot (Editorial Column Rhythm) */
 .experienceCards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr 1.35fr 1fr;
   gap: var(--space-8);
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .experienceCards {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
 }
 
 .experienceCard {
@@ -221,6 +229,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-2);
   font-size: var(--text-xs);
 }
 
@@ -248,6 +257,160 @@
   line-height: 1.6;
   color: var(--color-text-secondary);
 }
+
+/* Home Jaib Career Progression Feature */
+.progressionHighlightCard {
+  background-color: color-mix(in srgb, var(--color-brand) 3%, var(--color-surface-primary));
+  border: 1px solid color-mix(in srgb, var(--color-brand) 18%, var(--color-border));
+  border-top: 3px solid var(--color-brand);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-subtle);
+  gap: var(--space-3);
+}
+
+.progressionBadge {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-brand);
+  background-color: color-mix(in srgb, var(--color-brand) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+.progressionTimelineBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.progressionBarLine {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.progressionBarTrack {
+  flex: 1;
+  height: 2px;
+  background-color: var(--color-border);
+}
+
+.progressionBarDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  flex-shrink: 0;
+}
+
+.progressionBarDotCurrent {
+  background-color: var(--color-brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand) 25%, transparent);
+}
+
+.homeStagesList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.homeStageItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.homeStageItemCurrent {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+}
+
+.homeStageDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  flex-shrink: 0;
+}
+
+.homeStageDotCurrent {
+  background-color: var(--color-brand);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand) 25%, transparent);
+}
+
+.homeStageNum {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-tertiary);
+}
+
+.homeStageTitle {
+  font-size: var(--text-xs);
+  flex: 1;
+}
+
+.homeStageItemCurrent .homeStageTitle {
+  color: var(--color-brand);
+  font-weight: var(--weight-bold);
+}
+
+.homeStageCurrentTag {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  color: var(--color-brand);
+  background-color: color-mix(in srgb, var(--color-brand) 10%, transparent);
+  padding: 1px 5px;
+  border-radius: var(--radius-full);
+}
+
+.progressionSummary {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin-top: auto;
+}
+
+.progressionCtaWrap {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.progressionCtaLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-brand);
+  text-decoration: none;
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.progressionCtaLink:hover {
+  transform: translateX(2px);
+}
+
+:global([dir="rtl"]) .progressionCtaLink:hover {
+  transform: translateX(-2px);
+}
+
 
 /* Capabilities Preview (Editorial Rule Architecture) */
 .capabilitiesPreviewGrid {

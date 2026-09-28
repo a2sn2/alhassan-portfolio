@@ -7,7 +7,7 @@
 /* Desktop Split Layout */
 .desktopLayout {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 360px 1fr;
   gap: var(--space-8);
   align-items: start;
 }
@@ -15,7 +15,7 @@
 .timelineNav {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
   position: sticky;
   top: 5.5rem;
   max-height: calc(100vh - 7rem);
@@ -32,6 +32,7 @@
   border-radius: 2px;
 }
 
+/* Single Role Tab */
 .roleTab {
   display: flex;
   flex-direction: column;
@@ -88,6 +89,205 @@
   color: var(--color-text-muted);
 }
 
+/* Grouped Jaib Career Progression Block */
+.progressionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: color-mix(in srgb, var(--color-surface-primary) 96%, var(--color-surface-hover));
+  position: relative;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.progressionBlockActive {
+  border-color: color-mix(in srgb, var(--color-brand) 40%, var(--color-border));
+  background-color: color-mix(in srgb, var(--color-brand) 3%, var(--color-surface-primary));
+}
+
+.progressionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: none;
+  border: none;
+  text-align: start;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.progressionHeader:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.progressionCompany {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-brand);
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+
+.progressionKickerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.progressionLabel {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-primary);
+}
+
+.progressionPeriod {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+/* Stepper Track & Stages */
+.progressionStepper {
+  position: relative;
+  display: flex;
+  padding-inline-start: var(--space-3);
+}
+
+.stepperTrack {
+  position: absolute;
+  inset-inline-start: 18px;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  background-color: var(--color-border);
+  border-radius: 1px;
+}
+
+.stepperFill {
+  width: 100%;
+  background-color: var(--color-brand);
+  transition: height 200ms var(--ease-standard);
+  border-radius: 1px;
+}
+
+.stagesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.stageButton {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: none;
+  border: 1px solid transparent;
+  text-align: start;
+  cursor: pointer;
+  transition: all 180ms var(--ease-standard);
+  width: 100%;
+}
+
+.stageButton:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.stageButtonSelected {
+  background-color: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface-primary));
+  border-color: color-mix(in srgb, var(--color-brand) 30%, transparent);
+}
+
+.stageNodeDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-surface-primary);
+  flex-shrink: 0;
+  margin-top: 5px;
+  transition: all 180ms var(--ease-standard);
+}
+
+.stageNodeDotPassed {
+  border-color: var(--color-brand);
+  background-color: var(--color-surface-primary);
+}
+
+.stageNodeDotSelected {
+  border-color: var(--color-brand);
+  background-color: var(--color-brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand) 25%, transparent);
+}
+
+.stageNodeDotCurrent {
+  border-color: var(--color-brand);
+}
+
+.stageButtonContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.stageNumberRoleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.stageNumber {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-tertiary);
+}
+
+.stageRoleTitle {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.stageButtonSelected .stageRoleTitle {
+  color: var(--color-brand);
+  font-weight: var(--weight-bold);
+}
+
+.currentTagBadge {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  color: var(--color-brand);
+  background-color: color-mix(in srgb, var(--color-brand) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  padding: 1px 5px;
+  border-radius: var(--radius-full);
+}
+
+.stagePeriodText {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
 /* Detail Panel */
 .detailPanel {
   padding: var(--space-8);
@@ -99,8 +299,120 @@
   flex-direction: column;
   gap: var(--space-6);
   min-height: 480px;
+  animation: detailFadeIn 200ms var(--ease-standard);
 }
 
+@keyframes detailFadeIn {
+  from {
+    opacity: 0.85;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Contextual Strip */
+.contextualStrip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  background-color: color-mix(in srgb, var(--color-brand) 5%, var(--color-surface-primary));
+  border: 1px solid color-mix(in srgb, var(--color-brand) 18%, var(--color-border));
+}
+
+.contextualHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.contextualKicker {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-brand);
+}
+
+.contextualSubtitle {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.contextualStepper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.contextualConnector {
+  flex: 1;
+  min-width: 16px;
+  height: 2px;
+  background-color: var(--color-border);
+  transition: background-color 200ms var(--ease-standard);
+}
+
+.contextualConnectorActive {
+  background-color: var(--color-brand);
+}
+
+.contextualNode {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 180ms var(--ease-standard);
+  color: var(--color-text-secondary);
+}
+
+.contextualNode:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.contextualNodeSelected {
+  background-color: color-mix(in srgb, var(--color-brand) 12%, transparent);
+  color: var(--color-brand);
+  font-weight: var(--weight-bold);
+}
+
+.contextualDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-surface-primary);
+  transition: all 180ms var(--ease-standard);
+}
+
+.contextualNodePassed .contextualDot {
+  border-color: var(--color-brand);
+}
+
+.contextualNodeSelected .contextualDot {
+  border-color: var(--color-brand);
+  background-color: var(--color-brand);
+}
+
+.contextualLabel {
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+/* Detail Panel Elements */
 .panelHeader {
   display: flex;
   flex-direction: column;
@@ -225,8 +537,17 @@
   box-shadow: var(--shadow-subtle);
 }
 
+.mobileJourneyItem {
+  border-color: color-mix(in srgb, var(--color-brand) 30%, var(--color-border));
+}
+
+.mobileJourneyItemOpen {
+  border-color: var(--color-brand);
+}
+
 .mobileTrigger {
   width: 100%;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -266,6 +587,14 @@
   font-weight: var(--weight-medium);
 }
 
+.mobileJourneyKicker {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  color: var(--color-brand);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.02em;
+}
+
 .mobilePeriod {
   font-family: var(--font-geist-mono), monospace;
   font-size: 11px;
@@ -289,6 +618,144 @@
   gap: var(--space-4);
 }
 
+/* Mobile Journey Specific Styles */
+.mobileJourneyBody {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background-color: color-mix(in srgb, var(--color-brand) 2%, var(--color-surface-primary));
+}
+
+.mobileStepper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: var(--space-4);
+}
+
+.mobileStageBtn {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-primary);
+  text-align: start;
+  cursor: pointer;
+  transition: all 180ms var(--ease-standard);
+  width: 100%;
+}
+
+.mobileStageBtn:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.mobileStageBtnActive {
+  border-color: var(--color-brand);
+  background-color: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface-primary));
+}
+
+.mobileStageDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-surface-primary);
+  flex-shrink: 0;
+  transition: all 180ms var(--ease-standard);
+}
+
+.mobileStageDotActive {
+  border-color: var(--color-brand);
+  background-color: var(--color-brand);
+}
+
+.mobileStageDotCurrent {
+  border-color: var(--color-brand);
+}
+
+.mobileStageTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.mobileStageTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.mobileStageNum {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-tertiary);
+}
+
+.mobileStageName {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.mobileStageBtnActive .mobileStageName {
+  color: var(--color-brand);
+}
+
+.mobileCurrentBadge {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  color: var(--color-brand);
+  background-color: color-mix(in srgb, var(--color-brand) 12%, transparent);
+  padding: 1px 5px;
+  border-radius: var(--radius-full);
+}
+
+.mobileStagePeriod {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.mobileActiveDetail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--color-surface-primary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.mobileActiveHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobileActiveRole {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.mobileActiveMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
 @media (max-width: 860px) {
   .desktopLayout {
     display: none;
@@ -296,5 +763,23 @@
 
   .mobileLayout {
     display: flex;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .stepperFill,
+  .stageButton,
+  .stageNodeDot,
+  .detailPanel,
+  .contextualConnector,
+  .contextualNode,
+  .contextualDot,
+  .mobileStageBtn,
+  .mobileStageDot,
+  .mobileTrigger,
+  .mobileIcon {
+    transition: none !important;
+    animation: none !important;
   }
 }

@@ -12,16 +12,21 @@ import {
   credentialsContentDe,
   proofContentDe,
 } from "@/content/de";
+import { jaibExperienceJourney } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
 import { formatProjectCategory } from "@/utils/categories";
 import { Reveal } from "@/components/ui/Reveal";
+import { cn } from "@/utils/cn";
 import styles from "../home.module.css";
 
 export default function GermanHomePage() {
   const featuredProjects = projectItemsDe.filter(
     (p) => p.presentationTier === "featured"
   );
-  const recentRoles = experienceContentDe.items.slice(0, 3);
+  const asaasRole = experienceContentDe.items.find((i) => i.id === "asaas-ai-qa");
+  const foundationRole = experienceContentDe.items.find(
+    (i) => i.id === "water-sanitation-trainee"
+  );
 
   return (
     <div className={styles.homeWrapper}>
@@ -114,23 +119,133 @@ export default function GermanHomePage() {
           </div>
 
           <div className={styles.experienceCards}>
-            {recentRoles.map((role, index) => (
-              <Reveal key={role.id} delay={index * 50} className={styles.experienceCard}>
+            {/* A. Current QA / company leadership context */}
+            {asaasRole && (
+              <Reveal delay={0} className={styles.experienceCard}>
                 <div className={styles.roleHeader}>
-                  <span className={styles.roleCompany}>{role.company}</span>
-                  <span className={styles.rolePeriod}>{role.period}</span>
+                  <span className={styles.roleCompany}>{asaasRole.company}</span>
+                  <span className={styles.rolePeriod}>
+                    <bdi>{asaasRole.period}</bdi>
+                  </span>
                 </div>
-                <h3 className={styles.roleTitle}>{role.role}</h3>
-                <p className={styles.roleDesc}>{role.description}</p>
+                <h3 className={styles.roleTitle}>{asaasRole.role}</h3>
+                <p className={styles.roleDesc}>{asaasRole.description}</p>
                 <div className={styles.techPills}>
-                  {role.technologies.map((t) => (
+                  {asaasRole.technologies.map((t) => (
                     <span key={t} className={styles.techPill}>
                       {t}
                     </span>
                   ))}
                 </div>
               </Reveal>
-            ))}
+            )}
+
+            {/* B. Jaib Wallet Career Progression Editorial Feature */}
+            <Reveal
+              delay={50}
+              className={cn(styles.experienceCard, styles.progressionHighlightCard)}
+            >
+              <div className={styles.roleHeader}>
+                <span className={styles.roleCompany}>
+                  {jaibExperienceJourney.organization.de}
+                </span>
+                <span className={styles.progressionBadge}>
+                  {jaibExperienceJourney.label.de}
+                </span>
+              </div>
+
+              <div className={styles.progressionTimelineBar}>
+                <span className={styles.progressionDateStart}>
+                  <bdi>Sept. 2025</bdi>
+                </span>
+                <div className={styles.progressionBarLine} aria-hidden="true">
+                  <span className={styles.progressionBarDot} />
+                  <span className={styles.progressionBarTrack} />
+                  <span
+                    className={cn(
+                      styles.progressionBarDot,
+                      styles.progressionBarDotCurrent
+                    )}
+                  />
+                </div>
+                <span className={styles.progressionDateEnd}>
+                  <bdi>heute</bdi>
+                </span>
+              </div>
+
+              <div className={styles.homeStagesList}>
+                {jaibExperienceJourney.stages.map((stage) => {
+                  const roleItem = experienceContentDe.items.find(
+                    (i) => i.id === stage.roleId
+                  );
+                  return (
+                    <div
+                      key={stage.roleId}
+                      className={cn(
+                        styles.homeStageItem,
+                        stage.isCurrent && styles.homeStageItemCurrent
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          styles.homeStageDot,
+                          stage.isCurrent && styles.homeStageDotCurrent
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span className={styles.homeStageNum}>
+                        {stage.stageNumber}
+                      </span>
+                      <span className={styles.homeStageTitle}>
+                        {roleItem ? roleItem.role : stage.shortTitle.de}
+                      </span>
+                      {stage.isCurrent && (
+                        <span className={styles.homeStageCurrentTag}>
+                          {jaibExperienceJourney.currentBadge.de}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <p className={styles.progressionSummary}>
+                {jaibExperienceJourney.summary.de}
+              </p>
+
+              <div className={styles.progressionCtaWrap}>
+                <Link
+                  href="/de/experience#ahd-financial-deputy"
+                  className={styles.progressionCtaLink}
+                >
+                  <span>{jaibExperienceJourney.cta.de}</span>
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </Reveal>
+
+            {/* C. Earlier Engineering Foundation */}
+            {foundationRole && (
+              <Reveal delay={100} className={styles.experienceCard}>
+                <div className={styles.roleHeader}>
+                  <span className={styles.roleCompany}>
+                    {foundationRole.company}
+                  </span>
+                  <span className={styles.rolePeriod}>
+                    <bdi>{foundationRole.period}</bdi>
+                  </span>
+                </div>
+                <h3 className={styles.roleTitle}>{foundationRole.role}</h3>
+                <p className={styles.roleDesc}>{foundationRole.description}</p>
+                <div className={styles.techPills}>
+                  {foundationRole.technologies.map((t) => (
+                    <span key={t} className={styles.techPill}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </Reveal>
+            )}
           </div>
         </Container>
       </section>
