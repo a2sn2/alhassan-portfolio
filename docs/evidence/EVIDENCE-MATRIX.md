@@ -4,13 +4,14 @@ This matrix establishes the definitive relationship between the canonical portfo
 
 ---
 
-## 1. Projects Evidence Matrix (16 Canonical Systems)
+## 1. Projects Evidence Matrix (17 Canonical Systems)
 
 | Canonical Slug | Project Title | Canonical Technologies | Evidence Status | Evidence Kind | Public Source Link | Verification Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `ai-tic-tac-toe` | **AI Tic-Tac-Toe** | Python, Pygame, Minimax AI | `VERIFIED` | `source-archive` | [`source/`](./projects/ai-tic-tac-toe/source) | Complete standalone Python/Pygame game application implementing recursive Minimax decision tree logic for 3x3 board states with interactive graphics. |
 | `arduino-traffic-light` | **Arduino Traffic Light Controller** | — | *Missing* | `none` | — | Embedded hardware microcontroller prototype. Firmware source code (.ino) and breadboard schematics not present in local archive. |
 | `cafe-pos-system` | **Café POS System** | Java, Java Swing, JDBC, Apache Derby SQL | `VERIFIED` | `source-archive` | [`source/`](./projects/cafe-pos-system/source) | Java desktop Point of Sale application using Java Swing GUI and JDBC connection to Apache Derby database. Includes Login, Items CRUD, Selling, and ViewSells reporting modules. |
+| `foundationkit-dotnet` | **FoundationKit — .NET Full-Stack System Foundation** | .NET 10, C#, ASP.NET Core, Blazor WebAssembly, Entity Framework Core, SQL Server, OpenAPI, xUnit | `VERIFIED` | `repository` | [`a2sn2/foundationkit-dotnet`](https://github.com/a2sn2/foundationkit-dotnet) | Composable .NET 10 full-stack system-building foundation with 17 reusable NuGet packages, deterministic Composer tooling, Project Studio, and executable Workbench. Consumer-ready Core baseline — Pre-production. |
 | `inventory-sales-manager` | **Inventory & Sales Manager** | PHP, MySQL, HTML5, CSS3, JavaScript | `VERIFIED` | `source-archive` | [`source/`](./projects/inventory-sales-manager/source) | Full-stack PHP/MySQL retail inventory management system supporting CRUD operations, purchase history, and stock tracking for consumer electronics. |
 | `mikrotik-hotspot-portal` | **MikroTik Hotspot Portal** | — | *Missing* | `none` | — | Hardware and network configuration project (MikroTik RouterOS, Dual-WAN, PPPoE, RADIUS). No software source code or dedicated GitHub repository preserved in local archive. |
 | `obstacle-avoidance` | **Obstacle Avoidance** | Python, TensorFlow, Depth Estimation, Jupyter Notebook | `VERIFIED` | `source-archive` | [`source/`](./projects/obstacle-avoidance/source) | Local source archive includes od.ipynb monocular depth estimation pipeline. 4 pre-trained model weight binaries (~92.5 MB each) are flagged and excluded from Git tracking in compliance with binary size policies. |

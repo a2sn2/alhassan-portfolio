@@ -1,0 +1,29 @@
+{
+  "slug": "foundationkit-dotnet",
+  "title": "FoundationKit — .NET Full-Stack System Foundation",
+  "status": "verified",
+  "sourceKind": "repository",
+  "repository": {
+    "url": "https://github.com/a2sn2/foundationkit-dotnet",
+    "name": "a2sn2 / foundationkit-dotnet",
+    "source": "standalone",
+    "isPublic": true,
+    "license": "MIT",
+    "primaryLanguage": "C#",
+    "framework": ".NET 10"
+  },
+  "period": "2026",
+  "statusQualification": "Consumer-ready Core baseline — Pre-production",
+  "packageCount": 17,
+  "technologiesConfirmed": [
+    ".NET 10",
+    "C#",
+    "ASP.NET Core",
+    "Blazor WebAssembly",
+    "Entity Framework Core",
+    "SQL Server",
+    "OpenAPI",
+    "xUnit"
+  ],
+  "verificationNotes": "Independently verified standalone GitHub repository created in 2026. Composable .NET 10 full-stack system-building foundation with 17 reusable NuGet packages, deterministic schema-driven Composer generation, Project Studio visual composition workflow, and executable Workbench host."
+}

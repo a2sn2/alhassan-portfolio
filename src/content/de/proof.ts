@@ -11,8 +11,8 @@ export const proofContentDe: ProofContent = {
       id: "proof-project-sources",
       title: "Projekt-Repositories & Quellcode-Archive",
       quote:
-        "Verifizierte Quellcode-Repositories und kuratierte Code-Archive für 12 anerkannte Ingenieurprojekte.",
-      metric: "12 verifizierte Projektquellen",
+        "Verifizierte Quellcode-Repositories und kuratierte Code-Archive für 13 anerkannte Ingenieurprojekte.",
+      metric: "13 verifizierte Projektquellen",
       url: "/de/projects",
       type: "metric",
     },

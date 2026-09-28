@@ -3,6 +3,45 @@ import { attachProjectEvidence } from "../evidence";
 
 const rawProjectItemsAr: ProjectItem[] = [
   {
+    id: "foundationkit-dotnet",
+    slug: "foundationkit-dotnet",
+    title: "FoundationKit — بنية أنظمة .NET متكاملة الطبقات",
+    tagline:
+      "منصة تطوير متكاملة لـ .NET 10 تضم 17 حزمة قابلة لإعادة الاستخدام، وتوليد كود منضبط عبر Composer، وProject Studio، وبيئة تشغيل Workbench تفاعلية.",
+    category: "Full-Stack & Web",
+    badge: "منصة للمطورين",
+    period: "2026",
+    problem:
+      "التكرار الهندسي في إعداد البنى التحتية الشاملة لتطبيقات .NET المؤسسية، وعقود النقل، وطبقات البيانات، وربط الواجهات الأمامية، مع ضرورة بقاء الشيفرة المولدة قابلة للفحص والفهم ومملوكة للمستخدم بالكامل.",
+    solution:
+      "يوفر FoundationKit أساساً تركيبياً متكاملاً مبنياً على .NET 10 يجمع بين حزم Core الأساسية القابلة لإعادة الاستخدام، وتوليد الكود الحتمي عبر أداة Composer، والتركيب المرئي عبر Project Studio، ومضيف التشغيل المرجعي Workbench، ونماذج القراءة الموجهة لـ SQL، ونقل البيانات عبر عقود OpenAPI، وعملاء C# موثوقي الأنواع، وتطبيقات Blazor المولدة.",
+    architecture:
+      "Project Studio / Composer → Domain → Application → Infrastructure → Web API / SQL Server → Runtime OpenAPI → Postman + Typed C# Client → Blazor WebAssembly",
+    implementationHighlights: [
+      "17 حزمة NuGet قابلة لإعادة الاستخدام مع حزم الرموز تغطي المفاهيم التقنية المتقاطعة والبنية التحتية",
+      "توليد حتمي منضبط للشيفرة المصدرية معتمداً على المخططات (schema-v1/schema-v2) مع مخرجات معمارية نظيفة مملوكة بالكامل للمستهلك",
+      "بيئة Project Studio للتركيب البصري وتوفير معاينة تفاعلية للمشروع قبل التنفيذ الفعلي",
+      "مضيف Workbench مرجعي تنفيذي للتحقق اللحظي من تكامل واجهة برمجة التطبيقات وقاعدة بيانات SQL Server ومستودع EF Core",
+      "عقود نقل تشغيلية مبنية على OpenAPI تدعم مزامنة مجموعات Postman وتوليد عميل C# البرمجي المكتوب بقوة",
+      "بوابات فحص معمارية مؤتمتة، وتحليل أمني عبر CodeQL، وسلاسل تحقق متقدمة لإثبات صحة التوليد",
+    ],
+    technologies: [
+      ".NET 10",
+      "C#",
+      "ASP.NET Core",
+      "Blazor WebAssembly",
+      "Entity Framework Core",
+      "SQL Server",
+      "OpenAPI",
+      "xUnit",
+    ],
+    result:
+      "بنية أساسية موجهة للاستخدام وقابلة للتكامل — قيد مرحلة ما قبل الإنتاج (Pre-production). تقدم 17 حزمة برمجية معتمدة، وتوليداً حتمياً للمشاريع، وبيئة تشغيل واختبار متكاملة تحقق مسار نظام متكامل الطبقات.",
+    featured: true,
+    presentationTier: "featured",
+    evidenceDepth: "rich",
+  },
+  {
     id: "real-time-object-detection",
     slug: "real-time-object-detection",
     title: "كشف الأجسام بالزمن الحقيقي",

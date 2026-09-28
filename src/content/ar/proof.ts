@@ -11,8 +11,8 @@ export const proofContentAr: ProofContent = {
       id: "proof-project-sources",
       title: "مستودعات وأرشيفات الأكواد المصدرية",
       quote:
-        "مستودعات برمجية وأرشيفات كود موثقة تغطي 12 مشروعاً هندسياً معتمداً.",
-      metric: "12 مصدر مشروع موثّق",
+        "مستودعات برمجية وأرشيفات كود موثقة تغطي 13 مشروعاً هندسياً معتمداً.",
+      metric: "13 مصدر مشروع موثّق",
       url: "/ar/projects",
       type: "metric",
     },

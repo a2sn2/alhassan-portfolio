@@ -11,8 +11,8 @@ export const proofContent: ProofContent = {
       id: "proof-project-sources",
       title: "Project Source Repositories & Archives",
       quote:
-        "Verified source repositories and curated code archives covering 12 canonical engineering projects.",
-      metric: "12 Verified Project Sources",
+        "Verified source repositories and curated code archives covering 13 canonical engineering projects.",
+      metric: "13 Verified Project Sources",
       url: "/projects",
       type: "metric",
     },

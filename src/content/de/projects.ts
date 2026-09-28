@@ -3,6 +3,45 @@ import { attachProjectEvidence } from "../evidence";
 
 const rawProjectItemsDe: ProjectItem[] = [
   {
+    id: "foundationkit-dotnet",
+    slug: "foundationkit-dotnet",
+    title: "FoundationKit — .NET Full-Stack-Systemfoundation",
+    tagline:
+      "Modulare .NET 10-Entwicklerplattform mit 17 wiederverwendbaren Paketen, deterministischer Composer-Codegenerierung, Project Studio und ausführbarem Workbench-Host.",
+    category: "Full-Stack & Web",
+    badge: "Entwicklerplattform",
+    period: "2026",
+    problem:
+      "Wiederkehrender Engineering-Aufwand beim Aufbau von Enterprise-.NET-Full-Stack-Grundlagen, Plattformfähigkeiten, Transportverträgen, Datenzugriff und Frontend-Anbindung bei gleichzeitiger Wahrung vollständiger Quellcode-Transparenz und Ownership für Consumer.",
+    solution:
+      "FoundationKit liefert ein modulares .NET 10-Fundament für die Systementwicklung, das wiederverwendbare Core-Plattformpakete, deterministische schemabasierte Composer-Generierung, visuelle Komposition im Project Studio, den ausführbaren Referenzhost Workbench, SQL-orientierte Read-Modelle, OpenAPI-basierte Transportverträge, typisierte C#-Clients und generierte Blazor-Anwendungen kombiniert.",
+    architecture:
+      "Project Studio / Composer → Domain → Application → Infrastructure → Web API / SQL Server → Runtime OpenAPI → Postman + Typed C# Client → Blazor WebAssembly",
+    implementationHighlights: [
+      "17 wiederverwendbare NuGet-Pakete inklusive Symbol-Paketen für querschnittliche Plattformabstraktionen",
+      "Deterministische, schemagesteuerte Composer-Codegenerierung (schema-v1/schema-v2) mit verbrauchereigenem Clean-Architecture-Code",
+      "Visuelle Project-Studio-Kompositionsumgebung mit interaktivem Vorschau-Workflow vor dem Generieren",
+      "Ausführbarer Workbench-Referenzhost zur End-to-End-Verifikation über Web-API, EF Core und SQL Server",
+      "Laufzeitbasierte OpenAPI-Verträge für Postman-Collections und stark typisierte C#-Client-Generierung",
+      "Automatisierte Architekturtests (xUnit), CodeQL-Sicherheitsanalysen und mehrstufige Generierungsprüfungen",
+    ],
+    technologies: [
+      ".NET 10",
+      "C#",
+      "ASP.NET Core",
+      "Blazor WebAssembly",
+      "Entity Framework Core",
+      "SQL Server",
+      "OpenAPI",
+      "xUnit",
+    ],
+    result:
+      "Konsumentenreife Core-Baseline — Vorproduktionsstatus (Pre-production). Liefert 17 wiederverwendbare Pakete, deterministische Codegenerierung, Project Studio, ausführbaren Workbench-Host und einen vollständigen Full-Stack-Projektpfad.",
+    featured: true,
+    presentationTier: "featured",
+    evidenceDepth: "rich",
+  },
+  {
     id: "real-time-object-detection",
     slug: "real-time-object-detection",
     title: "Echtzeit-Objekterkennung",

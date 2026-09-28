@@ -2,8 +2,8 @@
   "version": 1,
   "generatedAt": "2026-09-26T15:49:29.518Z",
   "counts": {
-    "projectsTotal": 16,
-    "projectsVerified": 12,
+    "projectsTotal": 17,
+    "projectsVerified": 13,
     "projectsPartial": 1,
     "projectsConflict": 1,
     "projectsMissing": 2,
@@ -11,7 +11,7 @@
     "credentialsVerified": 22,
     "credentialsOngoing": 3,
     "credentialsMissing": 1,
-    "candidatesTotal": 7
+    "candidatesTotal": 6
   },
   "projects": [
     {
@@ -58,6 +58,27 @@
         "Apache Derby SQL"
       ],
       "notes": "Java desktop Point of Sale application using Java Swing GUI and JDBC connection to Apache Derby database. Includes Login, Items CRUD, Selling, and ViewSells reporting modules."
+    },
+    {
+      "slug": "foundationkit-dotnet",
+      "title": "FoundationKit — .NET Full-Stack System Foundation",
+      "status": "verified",
+      "sourceKind": "repository",
+      "repositoryUrl": "https://github.com/a2sn2/foundationkit-dotnet",
+      "repositoryName": "a2sn2/foundationkit-dotnet",
+      "secondaryRepoUrl": null,
+      "archivePath": null,
+      "technologiesConfirmed": [
+        ".NET 10",
+        "C#",
+        "ASP.NET Core",
+        "Blazor WebAssembly",
+        "Entity Framework Core",
+        "SQL Server",
+        "OpenAPI",
+        "xUnit"
+      ],
+      "notes": "Verified public GitHub repository implementing a composable .NET 10 full-stack system-building foundation with 17 reusable NuGet packages, deterministic Composer generation, Project Studio, and executable Workbench. Consumer-ready Core baseline — Pre-production."
     },
     {
       "slug": "inventory-sales-manager",
@@ -590,12 +611,6 @@
       "category": "Developer Utility",
       "path": "Historical archive",
       "reason": "Internal archiving utility"
-    },
-    {
-      "name": "foundationkit-dotnet",
-      "category": ".NET Library",
-      "path": "Historical candidate",
-      "reason": "Standalone library exploration"
     },
     {
       "name": "template",

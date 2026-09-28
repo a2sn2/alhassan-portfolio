@@ -105,3 +105,24 @@ This document records the audit findings for external GitHub repositories associ
 ## 9. a2sn2/project_uni
 - **Status**: Empty / Staging
 - **Assessment**: Empty placeholder repository; documented for complete index coverage without modification.
+
+---
+
+## 10. a2sn2/foundationkit-dotnet
+- **Target Project**: `foundationkit-dotnet`
+- **URL**: [https://github.com/a2sn2/foundationkit-dotnet](https://github.com/a2sn2/foundationkit-dotnet)
+- **Status**: Active / Public
+- **Primary Language**: C# (.NET 10)
+- **License**: MIT
+- **Created**: 2026
+- **Files & Packages Inspected**:
+  - 17 reusable NuGet packages + symbol packages
+  - `schema-v1`/`schema-v2` deterministic Composer tooling
+  - Project Studio configuration and preview workspace
+  - Executable Workbench reference host and runtime integration testbed
+  - SQL-first read models, EF Core, SQL Server generation path
+  - OpenAPI transport contract, Postman collections, typed C# client generation
+  - Generated Blazor application modules
+  - CI, CodeQL static analysis, architecture tests (xUnit), and generation proof workflows
+- **Assessment**: Primary canonical repository for FoundationKit — .NET Full-Stack System Foundation. Independently verified substantial engineering project. Operational status: **Consumer-ready Core baseline — Pre-production**.
+
