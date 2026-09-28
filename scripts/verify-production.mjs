@@ -180,7 +180,7 @@ async function main() {
   for (const route of PRIMARY_ROUTES_EN) {
     const url = `${BASE_URL}${route}`;
     try {
-      const response = await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[route] = { status, ok: status === 200 };
       if (status !== 200) {
@@ -199,7 +199,7 @@ async function main() {
   for (const route of PRIMARY_ROUTES_AR) {
     const url = `${BASE_URL}${route}`;
     try {
-      const response = await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[route] = { status, ok: status === 200 };
       if (status !== 200) {
@@ -218,7 +218,7 @@ async function main() {
   for (const route of PRIMARY_ROUTES_DE) {
     const url = `${BASE_URL}${route}`;
     try {
-      const response = await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[route] = { status, ok: status === 200 };
       if (status !== 200) {
@@ -235,7 +235,7 @@ async function main() {
 
   // Discover 17 English project detail routes from /projects
   console.log('  Discovering English project routes from /projects...');
-  await page.goto(`${BASE_URL}/projects`, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.goto(`${BASE_URL}/projects`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   const discoveredEnProjects = await page.$$eval('a[href^="/projects/"]', (anchors) => {
     const urls = anchors
       .map((a) => a.getAttribute('href')?.split('?')[0]?.split('#')[0])
@@ -245,7 +245,7 @@ async function main() {
 
   // Discover 17 Arabic project detail routes from /ar/projects
   console.log('  Discovering Arabic project routes from /ar/projects...');
-  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   const discoveredArProjects = await page.$$eval('a[href^="/ar/projects/"]', (anchors) => {
     const urls = anchors
       .map((a) => a.getAttribute('href')?.split('?')[0]?.split('#')[0])
@@ -255,7 +255,7 @@ async function main() {
 
   // Discover 17 German project detail routes from /de/projects
   console.log('  Discovering German project routes from /de/projects...');
-  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   const discoveredDeProjects = await page.$$eval('a[href^="/de/projects/"]', (anchors) => {
     const urls = anchors
       .map((a) => a.getAttribute('href')?.split('?')[0]?.split('#')[0])
@@ -300,7 +300,7 @@ async function main() {
   let enProjectHttp200 = 0;
   for (const projRoute of discoveredEnProjects) {
     try {
-      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[projRoute] = { status, ok: status === 200 };
       if (status === 200) {
@@ -318,7 +318,7 @@ async function main() {
   let arProjectHttp200 = 0;
   for (const projRoute of discoveredArProjects) {
     try {
-      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[projRoute] = { status, ok: status === 200 };
       if (status === 200) {
@@ -336,7 +336,7 @@ async function main() {
   let deProjectHttp200 = 0;
   for (const projRoute of discoveredDeProjects) {
     try {
-      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[projRoute] = { status, ok: status === 200 };
       if (status === 200) {
@@ -403,7 +403,7 @@ async function main() {
   console.log('\n▶ [3/13] Checking Canonical Content Integrity (English, Arabic & German)...');
   
   // English Home
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const enHomeText = await page.innerText('body');
   const checkEnSnippet = (label, expected) => {
     const found = enHomeText.includes(expected);
@@ -418,12 +418,12 @@ async function main() {
   checkEnSnippet('availability', 'Available for Engineering Opportunities');
 
   // English Contact & About
-  await page.goto(`${BASE_URL}/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/contact`, { waitUntil: 'domcontentloaded' });
   const enContactText = await page.innerText('body');
   if (!enContactText.includes('hassan1alshami6@gmail.com')) failures.push('Missing email on EN /contact');
   else console.log('  ✓ Found email on EN /contact');
 
-  await page.goto(`${BASE_URL}/about`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/about`, { waitUntil: 'domcontentloaded' });
   const enAboutText = await page.innerText('body');
   if (!enAboutText.includes('Arabic') || !enAboutText.includes('Native')) failures.push('Missing Arabic language on EN /about');
   if (!enAboutText.includes('English') || !enAboutText.includes('B2')) failures.push('Missing English language on EN /about');
@@ -431,7 +431,7 @@ async function main() {
   console.log('  ✓ Verified EN /about languages');
 
   // Arabic Home (/ar)
-  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'domcontentloaded' });
   const arHomeText = await page.innerText('body');
   const checkArSnippet = (label, expected) => {
     const found = arHomeText.includes(expected);
@@ -446,7 +446,7 @@ async function main() {
   checkArSnippet('focus', 'محاور التركيز');
 
   // Arabic About (/ar/about)
-  await page.goto(`${BASE_URL}/ar/about`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/about`, { waitUntil: 'domcontentloaded' });
   const arAboutText = await page.innerText('body');
   if (!arAboutText.includes('جامعة تونتك الدولية للتكنولوجيا')) failures.push('Missing university on AR /ar/about');
   if (!arAboutText.includes('بكالوريوس في علوم الحاسوب')) failures.push('Missing degree on AR /ar/about');
@@ -456,19 +456,19 @@ async function main() {
   console.log('  ✓ Verified AR /ar/about education & languages');
 
   // Arabic Experience (/ar/experience)
-  await page.goto(`${BASE_URL}/ar/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/experience`, { waitUntil: 'domcontentloaded' });
   const arRolesCount = await page.locator('div[role="tablist"] button[role="tab"]').count();
   if (arRolesCount !== 9) failures.push(`Expected 9 Arabic experience roles, found ${arRolesCount}`);
   else console.log(`  ✓ Verified 9 Arabic experience roles in /ar/experience`);
 
   // Arabic Projects (/ar/projects)
-  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'domcontentloaded' });
   const arProjectsCount = await page.locator('article[class*="projectCard"]').count();
   if (arProjectsCount !== 17) failures.push(`Expected 17 Arabic projects, found ${arProjectsCount}`);
   else console.log(`  ✓ Verified 17 Arabic projects in /ar/projects`);
 
   // Arabic Capabilities (/ar/capabilities)
-  await page.goto(`${BASE_URL}/ar/capabilities`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/capabilities`, { waitUntil: 'domcontentloaded' });
   const arCapText = await page.innerText('body');
   if (!arCapText.includes('CYBERAI CLUB') || !arCapText.includes('SPE') || !arCapText.includes('مؤسسة الحمدي')) {
     failures.push('Missing key memberships in /ar/capabilities');
@@ -477,7 +477,7 @@ async function main() {
   }
 
   // Arabic Contact (/ar/contact)
-  await page.goto(`${BASE_URL}/ar/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/contact`, { waitUntil: 'domcontentloaded' });
   const arContactText = await page.innerText('body');
   if (!arContactText.includes('hassan1alshami6@gmail.com')) failures.push('Missing email in /ar/contact');
   if (!arContactText.includes('+967772765120')) failures.push('Missing phone in /ar/contact');
@@ -488,7 +488,7 @@ async function main() {
   }
 
   // German Home (/de)
-  await page.goto(`${BASE_URL}/de`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de`, { waitUntil: 'domcontentloaded' });
   const deHomeText = await page.innerText('body');
   const checkDeSnippet = (label, expected) => {
     const found = deHomeText.includes(expected);
@@ -502,7 +502,7 @@ async function main() {
   checkDeSnippet('availability', 'Verfügbar für Software- & Engineering-Projekte');
 
   // German About (/de/about)
-  await page.goto(`${BASE_URL}/de/about`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/about`, { waitUntil: 'domcontentloaded' });
   const deAboutText = await page.innerText('body');
   if (!deAboutText.includes('International University of Technology Twintech')) failures.push('Missing university on DE /de/about');
   if (!deAboutText.includes('B.Sc. in Informatik')) failures.push('Missing degree on DE /de/about');
@@ -512,19 +512,19 @@ async function main() {
   console.log('  ✓ Verified DE /de/about education & languages');
 
   // German Experience (/de/experience)
-  await page.goto(`${BASE_URL}/de/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/experience`, { waitUntil: 'domcontentloaded' });
   const deRolesCount = await page.locator('div[role="tablist"] button[role="tab"]').count();
   if (deRolesCount !== 9) failures.push(`Expected 9 German experience roles, found ${deRolesCount}`);
   else console.log(`  ✓ Verified 9 German experience roles in /de/experience`);
 
   // German Projects (/de/projects)
-  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'domcontentloaded' });
   const deProjectsCount = await page.locator('article[class*="projectCard"]').count();
   if (deProjectsCount !== 17) failures.push(`Expected 17 German projects, found ${deProjectsCount}`);
   else console.log(`  ✓ Verified 17 German projects in /de/projects`);
 
   // German Capabilities (/de/capabilities)
-  await page.goto(`${BASE_URL}/de/capabilities`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/capabilities`, { waitUntil: 'domcontentloaded' });
   const deCapText = await page.innerText('body');
   if (!deCapText.includes('CYBERAI CLUB') || !deCapText.includes('SPE') || !deCapText.includes('Al-Hamdi Foundation')) {
     failures.push('Missing key memberships in /de/capabilities');
@@ -533,7 +533,7 @@ async function main() {
   }
 
   // German Contact (/de/contact)
-  await page.goto(`${BASE_URL}/de/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/contact`, { waitUntil: 'domcontentloaded' });
   const deContactText = await page.innerText('body');
   if (!deContactText.includes('hassan1alshami6@gmail.com')) failures.push('Missing email in /de/contact');
   if (!deContactText.includes('772 765 120') && !deContactText.includes('+967772765120')) failures.push('Missing phone in /de/contact');
@@ -599,7 +599,7 @@ async function main() {
   await page.setViewportSize({ width: 1440, height: 900 });
 
   // English Filter
-  await page.goto(`${BASE_URL}/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/projects`, { waitUntil: 'domcontentloaded' });
   const enFilterButtons = page.locator('div[role="group"] button');
   if (await enFilterButtons.count() > 1) {
     await enFilterButtons.nth(1).click();
@@ -611,7 +611,7 @@ async function main() {
   }
 
   // Arabic Filter
-  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'domcontentloaded' });
   const arFilterButtons = page.locator('div[role="group"] button');
   if (await arFilterButtons.count() > 1) {
     await arFilterButtons.nth(1).click();
@@ -623,7 +623,7 @@ async function main() {
   }
 
   // German Filter
-  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'domcontentloaded' });
   const deFilterButtons = page.locator('div[role="group"] button');
   if (await deFilterButtons.count() > 1) {
     await deFilterButtons.nth(1).click();
@@ -641,7 +641,7 @@ async function main() {
   
   // English Tabs & Accordion
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`${BASE_URL}/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/experience`, { waitUntil: 'domcontentloaded' });
   const enTabs = page.locator('div[role="tablist"] button[role="tab"]');
   if (await enTabs.count() > 1) {
     await enTabs.nth(1).click();
@@ -652,7 +652,7 @@ async function main() {
   }
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   const enAcc = page.locator('button[aria-controls^="mobile-body-"]');
   if (await enAcc.count() > 1) {
     await enAcc.nth(1).click();
@@ -662,7 +662,7 @@ async function main() {
 
   // Arabic Tabs & Accordion
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`${BASE_URL}/ar/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/experience`, { waitUntil: 'domcontentloaded' });
   const arTabs = page.locator('div[role="tablist"] button[role="tab"]');
   if (await arTabs.count() > 1) {
     await arTabs.nth(1).click();
@@ -673,7 +673,7 @@ async function main() {
   }
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   const arAcc = page.locator('button[aria-controls^="mobile-body-"]');
   if (await arAcc.count() > 1) {
     await arAcc.nth(1).click();
@@ -683,7 +683,7 @@ async function main() {
 
   // German Tabs & Accordion
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`${BASE_URL}/de/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/experience`, { waitUntil: 'domcontentloaded' });
   const deTabs = page.locator('div[role="tablist"] button[role="tab"]');
   if (await deTabs.count() > 1) {
     await deTabs.nth(1).click();
@@ -694,7 +694,7 @@ async function main() {
   }
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   const deAcc = page.locator('button[aria-controls^="mobile-body-"]');
   if (await deAcc.count() > 1) {
     await deAcc.nth(1).click();
@@ -709,7 +709,7 @@ async function main() {
   await page.setViewportSize({ width: 390, height: 844 });
 
   // EN Drawer
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const enDrawerBtn = page.locator('button[aria-controls="mobile-nav-drawer"]');
   const enDrawer = page.locator('div#mobile-nav-drawer');
   if (await enDrawerBtn.count() > 0 && await enDrawer.count() > 0) {
@@ -723,7 +723,7 @@ async function main() {
   }
 
   // AR Drawer
-  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'domcontentloaded' });
   const arDrawerBtn = page.locator('button[aria-controls="mobile-nav-drawer"]');
   const arDrawer = page.locator('div#mobile-nav-drawer');
   if (await arDrawerBtn.count() > 0 && await arDrawer.count() > 0) {
@@ -737,7 +737,7 @@ async function main() {
   }
 
   // DE Drawer
-  await page.goto(`${BASE_URL}/de`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de`, { waitUntil: 'domcontentloaded' });
   const deDrawerBtn = page.locator('button[aria-controls="mobile-nav-drawer"]');
   const deDrawer = page.locator('div#mobile-nav-drawer');
   if (await deDrawerBtn.count() > 0 && await deDrawer.count() > 0) {
@@ -757,7 +757,7 @@ async function main() {
   await page.setViewportSize({ width: 1440, height: 900 });
 
   // EN Palette
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const enSearchBtn = page.locator('header button[aria-label*="command palette" i]').first();
   if (await enSearchBtn.isVisible()) {
     await enSearchBtn.click();
@@ -779,7 +779,7 @@ async function main() {
   }
 
   // AR Palette
-  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'domcontentloaded' });
   const arSearchBtn = page.locator('header button[aria-label*="لوحة الأوامر" i]').first();
   if (await arSearchBtn.isVisible()) {
     await arSearchBtn.click();
@@ -801,7 +801,7 @@ async function main() {
   }
 
   // DE Palette
-  await page.goto(`${BASE_URL}/de`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de`, { waitUntil: 'domcontentloaded' });
   const deSearchBtn = page.locator('header button[aria-label*="Befehlspalette" i]').first();
   if (await deSearchBtn.isVisible()) {
     await deSearchBtn.click();
@@ -828,7 +828,7 @@ async function main() {
   console.log('\n▶ [9/13] Testing Trilingual Language Switcher & State Sync...');
   
   // 1. /about -> /de/about
-  await page.goto(`${BASE_URL}/about`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/about`, { waitUntil: 'domcontentloaded' });
   await triggerLanguageSwitch(page, 'de');
   await page.waitForURL(/\/de\/about/);
   await page.waitForFunction(() => document.documentElement.getAttribute('lang') === 'de', { timeout: 5000 });
@@ -865,7 +865,7 @@ async function main() {
   }
 
   // 4. Hash preservation: /experience#ahd-financial-deputy -> /de/experience#ahd-financial-deputy
-  await page.goto(`${BASE_URL}/experience#ahd-financial-deputy`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/experience#ahd-financial-deputy`, { waitUntil: 'domcontentloaded' });
   await triggerLanguageSwitch(page, 'de');
   await page.waitForURL(/\/de\/experience/);
   if (!page.url().includes('#ahd-financial-deputy')) {
@@ -875,7 +875,7 @@ async function main() {
   }
 
   // 5. Query preservation: /projects?filter=systems -> /de/projects?filter=systems
-  await page.goto(`${BASE_URL}/projects?filter=systems`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/projects?filter=systems`, { waitUntil: 'domcontentloaded' });
   await triggerLanguageSwitch(page, 'de');
   await page.waitForURL(/\/de\/projects/);
   if (!page.url().includes('filter=systems')) {
@@ -889,7 +889,7 @@ async function main() {
   // -------------------------------------------------------------
   console.log('\n▶ [10/13] Testing Theme Persistence & Cross-Locale Retention...');
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
 
   const themeToggleBtn = page.locator('header button[aria-label*="theme" i]:visible, header button[aria-label*="Design" i]:visible, header button[aria-label*="المظهر" i]:visible').first();
 
@@ -899,7 +899,7 @@ async function main() {
     const toggledTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
     
     // Reload check
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'domcontentloaded' });
     const reloadedTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
     if (reloadedTheme !== toggledTheme) {
       failures.push('Theme failed to persist on page reload');
@@ -908,7 +908,7 @@ async function main() {
     }
 
     // Cross-locale check: navigate to /de/about
-    await page.goto(`${BASE_URL}/de/about`, { waitUntil: 'networkidle' });
+    await page.goto(`${BASE_URL}/de/about`, { waitUntil: 'domcontentloaded' });
     const deTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
     if (deTheme !== toggledTheme) {
       failures.push(`Theme failed cross-locale retention: expected ${toggledTheme}, found ${deTheme}`);
@@ -983,7 +983,7 @@ async function main() {
   console.log('\n▶ [12/13] Verifying Live SEO Metadata & Sitemap.xml...');
   
   // 1. Root / reciprocal hreflang & x-default
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const enCan = await page.locator('link[rel="canonical"]').getAttribute('href');
   const enHreflangEn = await page.locator('link[rel="alternate"][hreflang="en"]').getAttribute('href');
   const enHreflangAr = await page.locator('link[rel="alternate"][hreflang="ar"]').getAttribute('href');
@@ -1003,7 +1003,7 @@ async function main() {
   }
 
   // 2. German /de metadata (og:locale = de_DE)
-  await page.goto(`${BASE_URL}/de`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de`, { waitUntil: 'domcontentloaded' });
   const deOgLocale = await page.locator('meta[property="og:locale"]').getAttribute('content');
   if (deOgLocale !== 'de_DE') {
     failures.push(`German og:locale is "${deOgLocale}" (expected de_DE)`);
@@ -1012,7 +1012,7 @@ async function main() {
   }
 
   // 3. Arabic /ar metadata (og:locale = ar_YE)
-  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'domcontentloaded' });
   const arOgLocale = await page.locator('meta[property="og:locale"]').getAttribute('content');
   if (arOgLocale !== 'ar_YE') {
     failures.push(`Arabic og:locale is "${arOgLocale}" (expected ar_YE)`);
@@ -1048,17 +1048,17 @@ async function main() {
   // 13. CV DOWNLOAD ACTIONS & HTTP 200 STATUSES
   // -------------------------------------------------------------
   console.log('\n▶ [13/13] Verifying Public CV Actions & HTTP 200 Statuses...');
-  await page.goto(`${BASE_URL}/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/contact`, { waitUntil: 'domcontentloaded' });
   const enCvLinks = await page.locator('a[href^="/cv/"]').count();
   if (enCvLinks !== 6) failures.push(`Expected 6 CV links on /contact, found ${enCvLinks}`);
   else console.log('  ✓ Exactly 6 CV download links found on /contact');
 
-  await page.goto(`${BASE_URL}/ar/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/contact`, { waitUntil: 'domcontentloaded' });
   const arCvLinks = await page.locator('a[href^="/cv/"]').count();
   if (arCvLinks !== 6) failures.push(`Expected 6 CV links on /ar/contact, found ${arCvLinks}`);
   else console.log('  ✓ Exactly 6 CV download links found on /ar/contact');
 
-  await page.goto(`${BASE_URL}/de/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/contact`, { waitUntil: 'domcontentloaded' });
   const deCvLinks = await page.locator('a[href^="/cv/"]').count();
   if (deCvLinks !== 6) failures.push(`Expected 6 CV links on /de/contact, found ${deCvLinks}`);
   else console.log('  ✓ Exactly 6 CV download links found on /de/contact');
