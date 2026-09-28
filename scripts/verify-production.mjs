@@ -4,17 +4,17 @@
  * Production Verification & Trilingual Release Hardening Script
  * 
  * Validates the deployment of https://alhassan-portfolio-phi.vercel.app (or custom target):
- * 1. HTTP 200 status for all 66 indexable routes (18 core EN/AR/DE + 48 project detail EN/AR/DE)
+ * 1. HTTP 200 status for all 69 indexable routes (18 core EN/AR/DE + 51 project detail EN/AR/DE)
  * 2. Document state verification (html lang/dir) across English (en/ltr), Arabic (ar/rtl), and German (de/ltr)
  * 3. Strict content integrity (canonical identity, roles, locations, skills, languages, credentials, contact)
- * 4. Complete absence of ungrounded phrases and metrics across all 66 public routes
+ * 4. Complete absence of ungrounded phrases and metrics across all 69 public routes
  * 5. Accessible ProjectExplorer category filtering in English, Arabic, and German
  * 6. ExperienceExplorer desktop tablist/tabpanel sync and mobile accordion expansion (EN, AR & DE)
  * 7. Header mobile drawer authentic visibility, accessibility, and Escape closure (EN, AR & DE)
  * 8. Command Palette keyboard activation (Ctrl+K), dialog visibility, and Escape closure (EN, AR & DE)
  * 9. Trilingual Language Switcher route, query, and hash preservation with document state sync
  * 10. Theme toggling, persistence on reload, and cross-route/cross-locale retention
- * 11. Responsive overflow matrix (zero horizontal scroll) across 21 routes x 4 viewports (84 tests)
+ * 11. Responsive overflow matrix (zero horizontal scroll) across 24 routes x 4 viewports (96 tests)
  * 12. Live SEO metadata, canonicals, reciprocal hreflang (en, ar, de, x-default), og:locale, and sitemap.xml
  * 13. CV package actions (exactly 6 variants, canonical /cv/ URLs, HTTP 200, mailto links on EN, AR & DE)
  * 
@@ -61,6 +61,10 @@ const PRIMARY_ROUTES_DE = [
 const REPRESENTATIVE_PROJECT_EN = '/projects/real-time-object-detection';
 const REPRESENTATIVE_PROJECT_AR = '/ar/projects/real-time-object-detection';
 const REPRESENTATIVE_PROJECT_DE = '/de/projects/real-time-object-detection';
+
+const FOUNDATIONKIT_PROJECT_EN = '/projects/foundationkit-dotnet';
+const FOUNDATIONKIT_PROJECT_AR = '/ar/projects/foundationkit-dotnet';
+const FOUNDATIONKIT_PROJECT_DE = '/de/projects/foundationkit-dotnet';
 
 const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 900 },
@@ -229,7 +233,7 @@ async function main() {
     }
   }
 
-  // Discover 16 English project detail routes from /projects
+  // Discover 17 English project detail routes from /projects
   console.log('  Discovering English project routes from /projects...');
   await page.goto(`${BASE_URL}/projects`, { waitUntil: 'networkidle', timeout: 30000 });
   const discoveredEnProjects = await page.$$eval('a[href^="/projects/"]', (anchors) => {
@@ -239,7 +243,7 @@ async function main() {
     return Array.from(new Set(urls));
   });
 
-  // Discover 16 Arabic project detail routes from /ar/projects
+  // Discover 17 Arabic project detail routes from /ar/projects
   console.log('  Discovering Arabic project routes from /ar/projects...');
   await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'networkidle', timeout: 30000 });
   const discoveredArProjects = await page.$$eval('a[href^="/ar/projects/"]', (anchors) => {
@@ -249,7 +253,7 @@ async function main() {
     return Array.from(new Set(urls));
   });
 
-  // Discover 16 German project detail routes from /de/projects
+  // Discover 17 German project detail routes from /de/projects
   console.log('  Discovering German project routes from /de/projects...');
   await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'networkidle', timeout: 30000 });
   const discoveredDeProjects = await page.$$eval('a[href^="/de/projects/"]', (anchors) => {
@@ -259,7 +263,7 @@ async function main() {
     return Array.from(new Set(urls));
   });
 
-  const EXPECTED_PROJECT_COUNT = 16;
+  const EXPECTED_PROJECT_COUNT = 17;
   results.projectDetailRoutes = {
     expectedPerLocale: EXPECTED_PROJECT_COUNT,
     discoveredEn: discoveredEnProjects.length,
@@ -292,7 +296,7 @@ async function main() {
     console.log(`  ✓ Successfully discovered exactly ${EXPECTED_PROJECT_COUNT} German project detail routes`);
   }
 
-  // Verify all 48 project routes return HTTP 200
+  // Verify all 51 project routes return HTTP 200
   let enProjectHttp200 = 0;
   for (const projRoute of discoveredEnProjects) {
     try {
@@ -349,7 +353,7 @@ async function main() {
 
   const totalPublicRoutes = PRIMARY_ROUTES_EN.length + PRIMARY_ROUTES_AR.length + PRIMARY_ROUTES_DE.length +
     discoveredEnProjects.length + discoveredArProjects.length + discoveredDeProjects.length;
-  console.log(`  ✓ Total public routes verified: ${totalPublicRoutes} (expected 66)`);
+  console.log(`  ✓ Total public routes verified: ${totalPublicRoutes} (expected 69)`);
 
   // -------------------------------------------------------------
   // 2. DOCUMENT STATE VERIFICATION (lang & dir)
@@ -460,8 +464,8 @@ async function main() {
   // Arabic Projects (/ar/projects)
   await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'networkidle' });
   const arProjectsCount = await page.locator('article[class*="projectCard"]').count();
-  if (arProjectsCount !== 16) failures.push(`Expected 16 Arabic projects, found ${arProjectsCount}`);
-  else console.log(`  ✓ Verified 16 Arabic projects in /ar/projects`);
+  if (arProjectsCount !== 17) failures.push(`Expected 17 Arabic projects, found ${arProjectsCount}`);
+  else console.log(`  ✓ Verified 17 Arabic projects in /ar/projects`);
 
   // Arabic Capabilities (/ar/capabilities)
   await page.goto(`${BASE_URL}/ar/capabilities`, { waitUntil: 'networkidle' });
@@ -516,8 +520,8 @@ async function main() {
   // German Projects (/de/projects)
   await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'networkidle' });
   const deProjectsCount = await page.locator('article[class*="projectCard"]').count();
-  if (deProjectsCount !== 16) failures.push(`Expected 16 German projects, found ${deProjectsCount}`);
-  else console.log(`  ✓ Verified 16 German projects in /de/projects`);
+  if (deProjectsCount !== 17) failures.push(`Expected 17 German projects, found ${deProjectsCount}`);
+  else console.log(`  ✓ Verified 17 German projects in /de/projects`);
 
   // German Capabilities (/de/capabilities)
   await page.goto(`${BASE_URL}/de/capabilities`, { waitUntil: 'networkidle' });
@@ -540,7 +544,7 @@ async function main() {
   }
 
   // -------------------------------------------------------------
-  // 4. FULL CONTENT-INTEGRITY SCAN FOR BANNED PHRASES (66 Routes)
+  // 4. FULL CONTENT-INTEGRITY SCAN FOR BANNED PHRASES (69 Routes)
   // -------------------------------------------------------------
   console.log('\n▶ [4/13] Full Content-Integrity Scan for Ungrounded Phrases...');
   const allScanRoutes = [
@@ -918,16 +922,19 @@ async function main() {
   }
 
   // -------------------------------------------------------------
-  // 11. RESPONSIVE OVERFLOW MATRIX (21 Routes x 4 Viewports = 84)
+  // 11. RESPONSIVE OVERFLOW MATRIX (24 Routes x 4 Viewports = 96)
   // -------------------------------------------------------------
-  console.log('\n▶ [11/13] Testing Responsive Overflow Matrix (21 Routes x 4 Viewports = 84 Tests)...');
+  console.log('\n▶ [11/13] Testing Responsive Overflow Matrix (24 Routes x 4 Viewports = 96 Tests)...');
   const RESPONSIVE_ROUTES = [
     ...PRIMARY_ROUTES_EN,
     REPRESENTATIVE_PROJECT_EN,
+    FOUNDATIONKIT_PROJECT_EN,
     ...PRIMARY_ROUTES_AR,
     REPRESENTATIVE_PROJECT_AR,
+    FOUNDATIONKIT_PROJECT_AR,
     ...PRIMARY_ROUTES_DE,
-    REPRESENTATIVE_PROJECT_DE
+    REPRESENTATIVE_PROJECT_DE,
+    FOUNDATIONKIT_PROJECT_DE
   ];
   const overflowResults = [];
 
@@ -967,7 +974,7 @@ async function main() {
 
   const overflowFailures = overflowResults.filter((r) => r.overflow);
   if (overflowFailures.length === 0) {
-    console.log(`  ✓ All 84 route-viewport matrix combinations are completely free of horizontal overflow`);
+    console.log(`  ✓ All ${overflowResults.length} route-viewport matrix combinations are completely free of horizontal overflow`);
   }
 
   // -------------------------------------------------------------
@@ -1024,10 +1031,10 @@ async function main() {
     const urlCount = urlMatches ? urlMatches.length : 0;
     console.log(`  sitemap.xml URL count: ${urlCount}`);
     
-    if (urlCount !== 66) {
-      failures.push(`sitemap.xml expected exactly 66 URLs (18 core + 48 project detail), found ${urlCount}`);
+    if (urlCount !== 69) {
+      failures.push(`sitemap.xml expected exactly 69 URLs (18 core + 51 project detail), found ${urlCount}`);
     } else {
-      console.log('  ✓ sitemap.xml contains exactly 66 indexable URLs');
+      console.log('  ✓ sitemap.xml contains exactly 69 indexable URLs');
     }
 
     if (!xml.includes('hreflang="en"') || !xml.includes('hreflang="ar"') || !xml.includes('hreflang="de"') || !xml.includes('hreflang="x-default"')) {
@@ -1094,18 +1101,18 @@ async function main() {
 
   console.log(`\n✅ ALL TRILINGUAL PRODUCTION RELEASE CHECKS PASSED DETERMINISTICALLY!`);
   console.log(`   - 18/18 Core Routes (6 EN + 6 AR + 6 DE) Return HTTP 200`);
-  console.log(`   - 48/48 Project Detail Routes (16 EN + 16 AR + 16 DE) Discovered & Return HTTP 200`);
+  console.log(`   - 51/51 Project Detail Routes (17 EN + 17 AR + 17 DE) Discovered & Return HTTP 200`);
   console.log(`   - Document state (lang/dir) verified on all routes across EN, AR, and DE`);
   console.log(`   - Full Content Integrity Verified across English, Arabic, and German`);
-  console.log(`   - Banned-phrase scan clean across all 66 routes`);
+  console.log(`   - Banned-phrase scan clean across all 69 routes`);
   console.log(`   - Accessible Project Filter Verified (EN, AR & DE)`);
   console.log(`   - Experience Explorer Desktop Tabs & Mobile Accordions Verified (EN, AR & DE)`);
   console.log(`   - Mobile Drawer Authentic Visibility & Escape Verified (EN, AR & DE)`);
   console.log(`   - Command Palette Ctrl+K & Escape Verified (EN, AR & DE)`);
   console.log(`   - Trilingual Language Switcher & State Sync Verified`);
   console.log(`   - Theme Persistence across reload and locale transitions Verified`);
-  console.log(`   - 84/84 Route-Viewport Overflow Matrix Clean (21 routes x 4 viewports)`);
-  console.log(`   - Live SEO & Sitemap.xml with 66 URLs and en/ar/de/x-default Verified`);
+  console.log(`   - 96/96 Route-Viewport Overflow Matrix Clean (24 routes x 4 viewports)`);
+  console.log(`   - Live SEO & Sitemap.xml with 69 URLs and en/ar/de/x-default Verified`);
   console.log(`   - 6/6 CV Packages Validated with HTTP 200 on EN, AR and DE`);
   console.log(`============================================================\n`);
   process.exit(0);

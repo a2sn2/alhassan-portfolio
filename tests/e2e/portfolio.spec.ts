@@ -157,9 +157,9 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   }) => {
     await page.goto("/projects");
 
-    // Verify all 16 projects displayed initially
+    // Verify all 17 projects displayed initially
     const articles = page.locator("article");
-    await expect(articles).toHaveCount(16);
+    await expect(articles).toHaveCount(17);
 
     // Filter by 'Computer Vision & AI'
     await page.click('button:has-text("Computer Vision & AI")');
@@ -662,7 +662,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     // 2. Project Explorer in Arabic
     await page.goto("/ar/projects");
     const articles = page.locator("article");
-    await expect(articles).toHaveCount(16);
+    await expect(articles).toHaveCount(17);
 
     // Filter by 'الرؤية الحاسوبية والذكاء الاصطناعي'
     await page.click('button:has-text("الرؤية الحاسوبية والذكاء الاصطناعي")');
@@ -1174,10 +1174,11 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
   test("TC-35: Project hierarchy and technology parity EN <-> DE", async () => {
     // Assert 1:1 structural and evidence parity between English and German project sets
-    expect(projectItemsDe.length).toBe(16);
-    expect(projectItems.length).toBe(16);
+    expect(projectItemsDe.length).toBe(17);
+    expect(projectItems.length).toBe(17);
 
     const expectedGermanTechnologies: Record<string, string[]> = {
+      "foundationkit-dotnet": [".NET 10", "C#", "ASP.NET Core", "Blazor WebAssembly", "Entity Framework Core", "SQL Server", "OpenAPI", "xUnit"],
       "real-time-object-detection": ["Python", "PyTorch", "OpenCV"],
       "robocam-controller": ["Flutter", "Dart", "Android"],
       "pump-station-analytics": ["Vorausschauende Wartung"],
@@ -1565,21 +1566,21 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       {
         route: "/",
         heading: "Deterministic Engineering Evidence",
-        projectMetric: "12 Verified Project Sources",
+        projectMetric: "13 Verified Project Sources",
         certMetric: "22 Verified Certificates",
         count: 4,
       },
       {
         route: "/ar",
         heading: "التوثيق والإثباتات الهندسية",
-        projectMetric: "12 مصدر مشروع موثّق",
+        projectMetric: "13 مصدر مشروع موثّق",
         certMetric: "22 شهادة معتمدة",
         count: 4,
       },
       {
         route: "/de",
         heading: "Deterministische Ingenieurnachweise",
-        projectMetric: "12 verifizierte Projektquellen",
+        projectMetric: "13 verifizierte Projektquellen",
         certMetric: "22 verifizierte Zertifikate",
         count: 4,
       },
@@ -1759,7 +1760,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     }
   });
 
-  test("TC-53: Homepage verified project metric matches exact verified count (12) across EN, AR, DE", async ({
+  test("TC-53: Homepage verified project metric matches exact verified count (13) across EN, AR, DE", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -1769,9 +1770,9 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.waitForLoadState("networkidle");
     const enProof = page.locator("#proof");
     await expect(enProof).toBeVisible();
-    await expect(enProof).toContainText("12 Verified Project Sources");
+    await expect(enProof).toContainText("13 Verified Project Sources");
     await expect(enProof).toContainText(
-      "Verified source repositories and curated code archives covering 12 canonical engineering projects."
+      "Verified source repositories and curated code archives covering 13 canonical engineering projects."
     );
     await expect(enProof).not.toContainText("14 of 16");
     await expect(enProof).not.toContainText("conflict");
@@ -1782,7 +1783,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.waitForLoadState("networkidle");
     const arProof = page.locator("#proof");
     await expect(arProof).toBeVisible();
-    await expect(arProof).toContainText("12 مصدر مشروع موثّق");
+    await expect(arProof).toContainText("13 مصدر مشروع موثّق");
     await expect(arProof).not.toContainText("14 من 16");
 
     // 3. DE Homepage
@@ -1790,7 +1791,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.waitForLoadState("networkidle");
     const deProof = page.locator("#proof");
     await expect(deProof).toBeVisible();
-    await expect(deProof).toContainText("12 verifizierte Projektquellen");
+    await expect(deProof).toContainText("13 verifizierte Projektquellen");
     await expect(deProof).not.toContainText("14 von 16");
   });
 
@@ -1825,6 +1826,56 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await expect(cyberaiCard).toBeVisible();
     const cyberaiCta = cyberaiCard.locator('a:has-text("View Certificate")');
     await expect(cyberaiCta).toHaveCount(0);
+  });
+
+  test("TC-55: HeroPortraitStage rendered with custom structural frame on /, /ar, /de", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    const heroRoutes = [
+      { route: "/", alt: "Professional studio portrait" },
+      { route: "/ar", alt: "صورة شخصية احترافية في الاستوديو" },
+      { route: "/de", alt: "Professionelles Studio-Porträt" },
+    ];
+
+    for (const { route, alt } of heroRoutes) {
+      await page.goto(route);
+      await page.waitForLoadState("networkidle");
+
+      const stage = page.locator('[data-testid="hero-portrait-stage"]');
+      await expect(stage).toBeVisible();
+
+      const image = stage.locator("img");
+      await expect(image).toBeVisible();
+      await expect(image).toHaveAttribute("alt", alt);
+    }
+  });
+
+  test("TC-56: ProfileIdentityMark rendered in About and Contact headers across all locales", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    const pagesWithMark = [
+      "/about",
+      "/ar/about",
+      "/de/about",
+      "/contact",
+      "/ar/contact",
+      "/de/contact",
+    ];
+
+    for (const route of pagesWithMark) {
+      await page.goto(route);
+      await page.waitForLoadState("networkidle");
+
+      const mark = page.locator('[data-testid="profile-identity-mark"]');
+      await expect(mark).toBeVisible();
+
+      const image = mark.locator("img");
+      await expect(image).toBeVisible();
+    }
   });
 });
 

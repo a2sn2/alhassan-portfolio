@@ -4,7 +4,7 @@
  * Deterministic Portfolio Evidence Hub Verifier
  *
  * Verifies that:
- * 1. All 16 canonical project slugs have an evidence record.
+ * 1. All 17 canonical project slugs have an evidence record.
  * 2. All 26 canonical credential IDs have an evidence record.
  * 3. Zero duplicate project slugs exist.
  * 4. Zero duplicate credential IDs exist.
@@ -36,6 +36,7 @@ const candidatesReadmePath = path.join(root, "docs", "evidence", "candidates", "
 const auditDocPath = path.join(root, "docs", "evidence", "GITHUB-REPOSITORY-AUDIT.md");
 
 const CANONICAL_PROJECT_SLUGS = [
+  "foundationkit-dotnet",
   "real-time-object-detection",
   "robocam-controller",
   "pump-station-analytics",
@@ -182,14 +183,14 @@ async function run() {
 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 
-  // 2. Canonical 16 project slugs & duplicate detection
-  console.log("\n▶ [2/15] Verifying 16/16 project slugs in manifest and content layers...");
+  // 2. Canonical 17 project slugs & duplicate detection
+  console.log("\n▶ [2/15] Verifying 17/17 project slugs in manifest and content layers...");
   const manifestProjects = manifest.projects || [];
   const manifestProjectSlugs = manifestProjects.map((p) => p.slug);
   const uniqueProjectSlugs = new Set(manifestProjectSlugs);
 
-  check(manifestProjects.length === 16, `Manifest contains exactly 16 projects (found ${manifestProjects.length})`);
-  check(uniqueProjectSlugs.size === 16, `All 16 project slugs are unique (found ${uniqueProjectSlugs.size})`);
+  check(manifestProjects.length === 17, `Manifest contains exactly 17 projects (found ${manifestProjects.length})`);
+  check(uniqueProjectSlugs.size === 17, `All 17 project slugs are unique (found ${uniqueProjectSlugs.size})`);
 
   for (const slug of CANONICAL_PROJECT_SLUGS) {
     check(uniqueProjectSlugs.has(slug), `Project slug '${slug}' exists in manifest`);
@@ -204,9 +205,9 @@ async function run() {
   const arProjects = arProjectsMod.projectItemsAr || [];
   const deProjects = deProjectsMod.projectItemsDe || [];
 
-  check(enProjects.length === 16, `EN content layer has 16 projects (found ${enProjects.length})`);
-  check(arProjects.length === 16, `AR content layer has 16 projects (found ${arProjects.length})`);
-  check(deProjects.length === 16, `DE content layer has 16 projects (found ${deProjects.length})`);
+  check(enProjects.length === 17, `EN content layer has 17 projects (found ${enProjects.length})`);
+  check(arProjects.length === 17, `AR content layer has 17 projects (found ${arProjects.length})`);
+  check(deProjects.length === 17, `DE content layer has 17 projects (found ${deProjects.length})`);
 
   // 3. Canonical 26 credential IDs & duplicate detection
   console.log("\n▶ [3/15] Verifying 26/26 credential IDs in manifest and content layers...");
@@ -387,7 +388,7 @@ async function run() {
 
   // 13. Exact source URL and evidence parity across EN, AR, and DE
   console.log("\n▶ [13/15] Verifying exact cross-locale source URL and evidence parity...");
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 17; i++) {
     const en = enProjects[i];
     const ar = arProjects[i];
     const de = deProjects[i];
@@ -443,10 +444,10 @@ async function run() {
   const ongoingCerts = manifestCredentials.filter((c) => c.status === "ongoing");
   const missingCerts = manifestCredentials.filter((c) => c.status === "missing");
 
-  console.log(`  - Projects Total: 16 (Verified: ${verifiedProjects.length}, Conflict: ${conflictProjects.length}, Partial: ${partialProjects.length}, Missing: ${missingProjects.length})`);
+  console.log(`  - Projects Total: 17 (Verified: ${verifiedProjects.length}, Conflict: ${conflictProjects.length}, Partial: ${partialProjects.length}, Missing: ${missingProjects.length})`);
   console.log(`  - Credentials Total: 26 (Verified PDFs: ${verifiedCerts.length}, Ongoing: ${ongoingCerts.length}, Missing: ${missingCerts.length})`);
 
-  check(verifiedProjects.length === 12, `Verified projects count is 12 (found ${verifiedProjects.length})`);
+  check(verifiedProjects.length === 13, `Verified projects count is 13 (found ${verifiedProjects.length})`);
   check(conflictProjects.length === 1, `Conflict projects count is 1 (found ${conflictProjects.length})`);
   check(partialProjects.length === 1, `Partial projects count is 1 (found ${partialProjects.length})`);
   check(missingProjects.length === 2, `Missing projects count is 2 (found ${missingProjects.length})`);
@@ -524,8 +525,8 @@ async function run() {
     check(!deMatch?.evidence?.url, `DE missing credential '${c.id}' has no certificate CTA`);
   }
 
-  // Invariant D: Homepage verified-project metric strictly equals count of verified projects (12), not verified + partial + conflict
-  console.log("\n  --- Invariant D: Homepage verified-project metric equals exact verified count (12) ---");
+  // Invariant D: Homepage verified-project metric strictly equals count of verified projects (13), not verified + partial + conflict
+  console.log("\n  --- Invariant D: Homepage verified-project metric equals exact verified count (13) ---");
   const enProofMod = loadTsModule("src/content/proof.ts");
   const arProofMod = loadTsModule("src/content/ar/proof.ts");
   const deProofMod = loadTsModule("src/content/de/proof.ts");
