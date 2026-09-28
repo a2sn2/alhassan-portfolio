@@ -14,6 +14,7 @@ import {
 } from "@/content/de";
 import { ProofSection } from "@/components/sections/ProofSection";
 import { formatProjectCategory } from "@/utils/categories";
+import { Reveal } from "@/components/ui/Reveal";
 import styles from "../home.module.css";
 
 export default function GermanHomePage() {
@@ -38,14 +39,19 @@ export default function GermanHomePage() {
               </h2>
             </div>
             <Link href="/de/projects" className={styles.viewAllLink}>
-              <span>Alle 16 Projekte ansehen</span>
+              <span>{`Alle ${projectItemsDe.length} Projekte ansehen`}</span>
               <span aria-hidden="true">→</span>
             </Link>
           </div>
 
           <div className={styles.projectsGrid}>
-            {featuredProjects.map((project) => (
-              <article key={project.id} className={styles.projectCard}>
+            {featuredProjects.map((project, index) => (
+              <Reveal
+                as="article"
+                key={project.id}
+                delay={index * 50}
+                className={styles.projectCard}
+              >
                 <div className={styles.cardHeader}>
                   <Badge variant="category">{formatProjectCategory(project.category, "de")}</Badge>
                   {project.badge && (
@@ -85,7 +91,7 @@ export default function GermanHomePage() {
                     <span aria-hidden="true">→</span>
                   </Link>
                 </div>
-              </article>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -108,8 +114,8 @@ export default function GermanHomePage() {
           </div>
 
           <div className={styles.experienceCards}>
-            {recentRoles.map((role) => (
-              <div key={role.id} className={styles.experienceCard}>
+            {recentRoles.map((role, index) => (
+              <Reveal key={role.id} delay={index * 50} className={styles.experienceCard}>
                 <div className={styles.roleHeader}>
                   <span className={styles.roleCompany}>{role.company}</span>
                   <span className={styles.rolePeriod}>{role.period}</span>
@@ -123,7 +129,7 @@ export default function GermanHomePage() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -146,28 +152,28 @@ export default function GermanHomePage() {
           </div>
 
           <div className={styles.capabilitiesPreviewGrid}>
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={0} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>Kernbereiche</h3>
               <p className={styles.capText}>
                 {skillsContentDe.groups.map((g) => g.category).join(" · ")}
               </p>
-            </div>
+            </Reveal>
 
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={50} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>
                 {credentialsContentDe.certifications.length} Zertifikate & Kurse
               </h3>
               <p className={styles.capText}>
                 {credentialsContentDe.overviewText}
               </p>
-            </div>
+            </Reveal>
 
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={100} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>Berufliche Mitgliedschaften</h3>
               <p className={styles.capText}>
                 {credentialsContentDe.memberships.map((m) => m.organization).join(" · ")}
               </p>
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>

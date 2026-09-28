@@ -99,13 +99,6 @@ export function Footer() {
                 ? `© ${currentYear} ${identity.fullName}. جميع الحقوق محفوظة.`
                 : `© ${currentYear} ${identity.fullName}. All rights reserved.`}
             </span>
-            <span>
-              {isGerman
-                ? "Erstellt mit Next.js App Router & JAIB Visual System."
-                : isArabic
-                ? "تم البناء باستخدام Next.js App Router ونظام جيب البصري."
-                : "Built with Next.js App Router & JAIB Visual System."}
-            </span>
           </div>
         </div>
       </Container>

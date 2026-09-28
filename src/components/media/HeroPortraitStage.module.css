@@ -1,0 +1,198 @@
+/* ==========================================================================
+   Hero Portrait Stage Component Styles
+   Architectural portrait stage for AllPic.png with restrained technical
+   structural frame, JAIB-red accent, corner marks, and desktop micro-interaction.
+   ========================================================================== */
+
+.stageWrapper {
+  --ptr-x: 0;
+  --ptr-y: 0;
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  justify-self: end;
+}
+
+:global([dir="rtl"]) .stageWrapper {
+  justify-self: start;
+}
+
+/* Wide desktop: controlled 18-28px overlap/connection with Field Map below */
+@media (min-width: 1024px) {
+  .stageWrapper {
+    margin-bottom: -24px;
+    z-index: 2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Subtle Architectural Offset Rail / Structural Frame
+   -------------------------------------------------------------------------- */
+.structuralFrame {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-block-end: -12px;
+  inset-inline-start: 12px;
+  inset-inline-end: -12px;
+  border-inline-end: 1px solid var(--color-border);
+  border-block-end: 1px solid var(--color-border);
+  pointer-events: none;
+  z-index: 1;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.4, 1);
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .structuralFrame {
+    transform: translate(
+      calc(var(--ptr-x) * 2px),
+      calc(var(--ptr-y) * 2px)
+    );
+  }
+}
+
+/* Corner registration marks on structural frame */
+.cornerMarkBR {
+  position: absolute;
+  inset-block-end: -7px;
+  inset-inline-end: -5px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  color: var(--color-brand);
+  line-height: 1;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Primary Photographic Stage Container
+   -------------------------------------------------------------------------- */
+.photoStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-primary);
+  box-shadow: var(--shadow-card);
+  z-index: 2;
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.4, 1),
+              box-shadow var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .photoStage {
+    transform: translate(
+      calc(var(--ptr-x) * 4px),
+      calc(var(--ptr-y) * 4px)
+    );
+  }
+
+  .stageWrapper:hover .photoStage {
+    border-color: var(--color-brand-border);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Restrained JAIB brand accent indicator on top edge */
+.jaibAccentRail {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  width: 40px;
+  height: 3px;
+  background-color: var(--color-brand);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Minimal corner registration mark on top-start */
+.cornerMarkTL {
+  position: absolute;
+  top: 6px;
+  inset-inline-start: 8px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  user-select: none;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.photoStageInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+
+/* Dark mode intentional matting frame */
+:global(html[data-theme="dark"]) .photoStage {
+  border: 1px solid var(--color-border-strong);
+  background-color: var(--color-surface-elevated);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
+  padding: 4px;
+}
+
+:global(html[data-theme="dark"]) .photoStageInner {
+  border-radius: calc(var(--radius-lg) - 4px);
+}
+
+:global(html[data-theme="dark"]) .structuralFrame {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.stageImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Viewport Adjustments (Clean stacked composition, no overlap)
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .stageWrapper {
+    max-width: 320px;
+    margin-bottom: 0;
+  }
+  
+  .structuralFrame {
+    inset-block-start: 8px;
+    inset-block-end: -8px;
+    inset-inline-start: 8px;
+    inset-inline-end: -8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stageWrapper {
+    max-width: 260px;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .structuralFrame {
+    display: none; /* Clean stacked composition without aggressive offset on narrow mobile */
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion Guarantee (Strict neutralization)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .structuralFrame,
+  .photoStage {
+    transform: none !important;
+    transition: none !important;
+  }
+}

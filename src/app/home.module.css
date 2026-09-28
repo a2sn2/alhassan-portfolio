@@ -52,11 +52,25 @@
   font-weight: var(--weight-semibold);
   color: var(--color-brand);
   text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
+}
+
+.viewAllLink span:last-child {
+  display: inline-block;
   transition: transform var(--duration-fast) var(--ease-standard);
 }
 
-.viewAllLink:hover {
-  transform: translateX(4px);
+.viewAllLink:hover span:last-child {
+  transform: translateX(3px);
+}
+
+:global([dir="rtl"]) .viewAllLink:hover span:last-child {
+  transform: translateX(-3px);
+}
+
+.viewAllLink:active {
+  transform: scale(0.985);
 }
 
 .viewAllLink:focus-visible {
@@ -81,12 +95,14 @@
   gap: var(--space-3);
   box-shadow: var(--shadow-subtle);
   transition: border-color var(--duration-fast) var(--ease-standard),
-              transform var(--duration-fast) var(--ease-standard);
+              transform var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
 }
 
 .projectCard:hover {
-  border-color: var(--color-brand);
-  transform: translateY(-3px);
+  border-color: var(--color-brand-border);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
 }
 
 .cardHeader {
@@ -164,10 +180,24 @@
   font-weight: var(--weight-semibold);
   color: var(--color-brand);
   text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 
-.caseStudyLink:hover {
-  text-decoration: underline;
+.caseStudyLink span:last-child {
+  display: inline-block;
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.caseStudyLink:hover span:last-child {
+  transform: translateX(3px);
+}
+
+:global([dir="rtl"]) .caseStudyLink:hover span:last-child {
+  transform: translateX(-3px);
+}
+
+.caseStudyLink:active {
+  transform: scale(0.985);
 }
 
 /* Experience Snapshot (Editorial Column Rhythm) */
@@ -254,5 +284,16 @@
   .capabilitiesPreviewGrid {
     grid-template-columns: 1fr;
     gap: var(--space-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projectCard,
+  .viewAllLink,
+  .caseStudyLink,
+  .viewAllLink span:last-child,
+  .caseStudyLink span:last-child {
+    transform: none !important;
+    transition: none !important;
   }
 }

@@ -7,8 +7,9 @@ import styles from "./Sections.module.css";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { Identity } from "@/contracts/identity";
-import { ProfilePortrait } from "@/components/media/ProfilePortrait";
+import { HeroPortraitStage } from "@/components/media/HeroPortraitStage";
 import { SupportedLocale } from "@/content/profileMedia";
+import { Reveal } from "@/components/ui/Reveal";
 
 interface HeroSectionProps {
   content: Identity;
@@ -163,12 +164,13 @@ export function HeroSection({ content }: HeroSectionProps) {
 
             {/* Studio Portrait Column */}
             <div className={styles.heroPortraitContainer}>
-              <ProfilePortrait
-                variant="studio"
-                locale={currentLocale}
-                priority
-                sizes="(max-width: 480px) 240px, (max-width: 860px) 280px, (max-width: 1200px) 380px, 420px"
-              />
+              <Reveal delay={80}>
+                <HeroPortraitStage
+                  locale={currentLocale}
+                  priority
+                  sizes="(max-width: 480px) 260px, (max-width: 860px) 320px, 420px"
+                />
+              </Reveal>
             </div>
           </div>
 

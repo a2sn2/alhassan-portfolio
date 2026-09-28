@@ -14,6 +14,26 @@
   padding-bottom: var(--space-8);
 }
 
+.introMarkRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-1);
+}
+
+.introMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.signatureName {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  letter-spacing: -0.01em;
+}
+
 .kicker {
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
@@ -94,6 +114,10 @@
   border-color: var(--color-brand);
   background-color: var(--color-surface-hover);
   transform: translateX(4px);
+}
+
+:global([dir="rtl"]) .channelCard:hover {
+  transform: translateX(-4px);
 }
 
 .channelCardPrimary {
@@ -239,5 +263,13 @@
 @media (max-width: 860px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channelCard,
+  .cvCard {
+    transform: none !important;
+    transition: none !important;
   }
 }

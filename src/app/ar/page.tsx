@@ -13,6 +13,7 @@ import {
   proofContentAr,
 } from "@/content/ar";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { Reveal } from "@/components/ui/Reveal";
 import styles from "../home.module.css";
 
 export default function ArabicHomePage() {
@@ -37,14 +38,19 @@ export default function ArabicHomePage() {
               </h2>
             </div>
             <Link href="/ar/projects" className={styles.viewAllLink}>
-              <span>عرض جميع المشاريع (16 مشروعاً)</span>
+              <span>{`عرض جميع المشاريع (${projectItemsAr.length} مشروعاً)`}</span>
               <span aria-hidden="true">←</span>
             </Link>
           </div>
 
           <div className={styles.projectsGrid}>
-            {featuredProjects.map((project) => (
-              <article key={project.id} className={styles.projectCard}>
+            {featuredProjects.map((project, index) => (
+              <Reveal
+                as="article"
+                key={project.id}
+                delay={index * 50}
+                className={styles.projectCard}
+              >
                 <div className={styles.cardHeader}>
                   <Badge variant="category">{project.category}</Badge>
                   {project.badge && (
@@ -84,7 +90,7 @@ export default function ArabicHomePage() {
                     <span aria-hidden="true">←</span>
                   </Link>
                 </div>
-              </article>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -107,8 +113,8 @@ export default function ArabicHomePage() {
           </div>
 
           <div className={styles.experienceCards}>
-            {recentRoles.map((role) => (
-              <div key={role.id} className={styles.experienceCard}>
+            {recentRoles.map((role, index) => (
+              <Reveal key={role.id} delay={index * 50} className={styles.experienceCard}>
                 <div className={styles.roleHeader}>
                   <span className={styles.roleCompany}>{role.company}</span>
                   <span className={styles.rolePeriod}>
@@ -124,7 +130,7 @@ export default function ArabicHomePage() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -147,28 +153,28 @@ export default function ArabicHomePage() {
           </div>
 
           <div className={styles.capabilitiesPreviewGrid}>
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={0} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>المجالات الأساسية</h3>
               <p className={styles.capText}>
                 {skillsContentAr.groups.map((g) => g.category).join(" · ")}
               </p>
-            </div>
+            </Reveal>
 
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={50} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>
                 {credentialsContentAr.certifications.length} شهادة ودورة
               </h3>
               <p className={styles.capText}>
                 {credentialsContentAr.overviewText}
               </p>
-            </div>
+            </Reveal>
 
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={100} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>المشاركات والعضويات المهنية</h3>
               <p className={styles.capText}>
                 {credentialsContentAr.memberships.map((m) => m.organization).join(" · ")}
               </p>
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>
