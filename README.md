@@ -9,7 +9,8 @@
 
 Production URL: [https://www.engalhassanalshami.com](https://www.engalhassanalshami.com)  
 Repository: [https://github.com/a2sn2/alhassan-portfolio](https://github.com/a2sn2/alhassan-portfolio)  
-Owner: **ALHassan Baligh ALShami**
+Owner: **ALHassan Baligh ALShami**  
+Monitoring: **Vercel Web Analytics + Speed Insights** ([Site Management](docs/operations/SITE-MANAGEMENT.md))
 
 ---
 
@@ -53,6 +54,7 @@ This repository is governed by the **Universal Software Project Execution Playbo
 - [Local Development Runbook](docs/operations/LOCAL-DEVELOPMENT.md) — Setup, scripts, and local debugging.
 - [Deployment Runbook](docs/operations/DEPLOYMENT.md) — CI/CD automation, preview environments, and production promotion.
 - [Rollback Runbook](docs/operations/ROLLBACK.md) — Instant Vercel recovery and Git synchronization.
+- [Site Management & Analytics](docs/operations/SITE-MANAGEMENT.md) — Operational management, Vercel Web Analytics, and Speed Insights telemetry.
 
 ---
 
@@ -76,7 +78,7 @@ npm run build                # Next.js static prerender (69 public/indexable por
 npm run verify:cv-content    # Deterministic CV source parity audit across English, Arabic & German
 npm run verify:evidence      # Deterministic project and credential evidence verification
 npm run verify:release-docs  # Deterministic release documentation and metric baseline verification
-npx playwright test          # E2E (62/62 tests) and WCAG 2.1 AA accessibility suite
+npx playwright test          # E2E (63/63 tests) and WCAG 2.1 AA accessibility suite
 npm run verify:production    # Trilingual production route, responsive overflow (24 representative routes × 4 viewports = 96 combinations), SEO & sitemap verification (69 public routes)
 npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (24 routes x 5 viewports x 2 themes + 15 interactive states = 255 pairs)
 ```

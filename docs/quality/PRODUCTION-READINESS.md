@@ -17,7 +17,7 @@
 | **Accessibility (a11y)**| WCAG 2.1 AA compliant. High contrast, focus rings, keyboard accessible mobile drawer, skip-link. | **READY** |
 | **SEO & Crawlability** | Prerendered static HTML, canonical URL strategy, `robots.txt`, `sitemap.xml` (69 indexable URLs with en/ar/de/x-default alternates), and JSON-LD `Person`/`WebSite` schemas. | **READY** |
 | **Performance Budgets** | Prerendered static pages with zero client database queries and minimal client-side JavaScript. | **READY** |
-| **Observability** | Vercel deployment logs, runtime edge logs, and Core Web Vitals monitoring enabled natively. | **READY** |
+| **Observability & Analytics** | Vercel deployment logs, runtime edge logs, first-party Web Analytics (@vercel/analytics), and Speed Insights (@vercel/speed-insights) real-user Core Web Vitals instrumented natively. | **READY** |
 | **Disaster Recovery** | Instant rollback to prior deployment SHA in Vercel dashboard. Git history clean and fully traceable. | **READY** |
 
 ---

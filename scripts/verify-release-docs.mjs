@@ -7,7 +7,7 @@
  * - 17 Portfolio Presentation Projects (16 from Official CV Catalogue + 1 FoundationKit)
  * - 16 Official Canonical CV Projects (preserved in CV content contracts and parity docs)
  * - 69 Public Indexable Routes (18 core + 51 project details across EN, AR, DE)
- * - 60/60 E2E Tests (Playwright + Axe accessibility suite)
+ * - 63/63 E2E Tests (Playwright + Axe accessibility suite)
  * - 24 Canonical Visual Routes (8 EN + 8 AR + 8 DE)
  * - 240 Static Screenshot Pairs + 15 Interactive States = 255 Total Visual Pairs
  * - 96 Responsive Route-Viewport Combinations (24 representative routes × 4 viewports)
@@ -50,9 +50,9 @@ check(
 );
 
 check(
-  'README: 62/62 E2E tests documented in test command',
-  readmeContent.includes('62/62 tests'),
-  'Expected "62/62 tests" not found in README.md'
+  'README: 63/63 E2E tests documented in test command',
+  readmeContent.includes('63/63 tests'),
+  'Expected "63/63 tests" not found in README.md'
 );
 
 check(
@@ -120,6 +120,12 @@ check(
   'README: Zero stale 60/60 E2E tests references',
   !readmeContent.includes('60/60 tests'),
   'Stale "60/60 tests" found in README.md'
+);
+
+check(
+  'README: Zero stale 62/62 E2E tests references',
+  !readmeContent.includes('62/62 tests'),
+  'Stale "62/62 tests" found in README.md'
 );
 
 check(
@@ -252,20 +258,20 @@ check(
   `Expected 16 projects in src/content/cv/projects.ts, found ${cvProjectMatches.length}`
 );
 
-// Check that E2E test suite has 62 test cases
+// Check that E2E test suite has 63 test cases
 const e2eSpecPath = path.join(ROOT_DIR, 'tests', 'e2e', 'portfolio.spec.ts');
 const e2eSpecContent = fs.readFileSync(e2eSpecPath, 'utf8');
 const testMatches = e2eSpecContent.match(/test\("TC-\d+/g) || [];
 check(
-  'E2E Test Suite: tests/e2e/portfolio.spec.ts defines exactly 62 test cases (TC-01 through TC-62)',
-  testMatches.length === 62,
-  `Expected 62 test cases in portfolio.spec.ts, found ${testMatches.length}`
+  'E2E Test Suite: tests/e2e/portfolio.spec.ts defines exactly 63 test cases (TC-01 through TC-63)',
+  testMatches.length === 63,
+  `Expected 63 test cases in portfolio.spec.ts, found ${testMatches.length}`
 );
 
 // -------------------------------------------------------------
 // 6. OFFICIAL CUSTOM DOMAIN & ACTIVE PRODUCTION INVARIANTS
 // -------------------------------------------------------------
-console.log('\n▶ [6/6] Verifying Official Custom Domain & Active Production Invariants...');
+console.log('\n▶ [6/7] Verifying Official Custom Domain & Active Production Invariants...');
 
 const siteMetaEn = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'siteMetadata.ts'), 'utf8');
 const siteMetaAr = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'ar', 'siteMetadata.ts'), 'utf8');
@@ -304,6 +310,47 @@ check(
   !readmeContent.includes('alhassan-portfolio-phi.vercel.app'),
   'Old active Vercel URL found in active configuration or README!'
 );
+
+// -------------------------------------------------------------
+// 7. SITE MANAGEMENT & ANALYTICS OPERATIONS DOCS
+// -------------------------------------------------------------
+console.log('\n▶ [7/7] Verifying Site Management & Analytics Documentation...');
+const siteMgmtPath = path.join(ROOT_DIR, 'docs', 'operations', 'SITE-MANAGEMENT.md');
+const siteMgmtExists = fs.existsSync(siteMgmtPath);
+
+check(
+  'Site Management Doc: docs/operations/SITE-MANAGEMENT.md exists',
+  siteMgmtExists,
+  'Expected docs/operations/SITE-MANAGEMENT.md to exist'
+);
+
+if (siteMgmtExists) {
+  const siteMgmtContent = fs.readFileSync(siteMgmtPath, 'utf8');
+
+  check(
+    'Site Management Doc: Documents official domain https://www.engalhassanalshami.com',
+    siteMgmtContent.includes('https://www.engalhassanalshami.com'),
+    'Expected official domain https://www.engalhassanalshami.com not found in SITE-MANAGEMENT.md'
+  );
+
+  check(
+    'Site Management Doc: Documents Vercel Web Analytics (@vercel/analytics)',
+    siteMgmtContent.includes('@vercel/analytics'),
+    'Expected @vercel/analytics reference not found in SITE-MANAGEMENT.md'
+  );
+
+  check(
+    'Site Management Doc: Documents Vercel Speed Insights (@vercel/speed-insights)',
+    siteMgmtContent.includes('@vercel/speed-insights'),
+    'Expected @vercel/speed-insights reference not found in SITE-MANAGEMENT.md'
+  );
+
+  check(
+    'Site Management Doc: Preserves zero private token exposure',
+    !siteMgmtContent.includes('VERCEL_TOKEN') && !siteMgmtContent.includes('secret_'),
+    'Sensitive token patterns found in SITE-MANAGEMENT.md'
+  );
+}
 
 // -------------------------------------------------------------
 // SUMMARY

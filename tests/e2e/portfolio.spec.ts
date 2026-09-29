@@ -2137,9 +2137,10 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const rootAppleIconRes = await context.request.get("/apple-icon.png");
     expect(rootAppleIconRes.status()).toBe(200);
 
-    // 3. Icon content is not the old favicon asset (old asset was 25931 bytes, new is ~6783 bytes)
+    // 3. Icon content is not the old generic asset (25931 bytes) nor FacePic asset (6783 bytes)
     const faviconBody = await faviconRes.body();
     expect(faviconBody.length).not.toBe(25931);
+    expect(faviconBody.length).not.toBe(6783);
     expect(faviconBody.length).toBeGreaterThan(0);
 
     // 4. Verify icon image dimensions >= 180 for high-res icon in page context
@@ -2220,6 +2221,69 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const robotsText = await robotsRes.text();
     expect(robotsText).toContain("Sitemap: https://www.engalhassanalshami.com/sitemap.xml");
     expect(robotsText).not.toContain("alhassan-portfolio-phi.vercel.app");
+  });
+
+  test("TC-63: Vercel Web Analytics and Speed Insights instrumentation on /, /ar, and /de", async ({
+    page,
+  }) => {
+    const consoleErrors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") {
+        consoleErrors.push(msg.text());
+      }
+    });
+
+    const routes = ["/", "/ar", "/de"];
+
+    for (const route of routes) {
+      await page.goto(route);
+      await page.waitForLoadState("domcontentloaded");
+      await page.waitForTimeout(300);
+
+      // 1. Verify Vercel Web Analytics and Speed Insights client functions/queues are initialized
+      const analyticsState = await page.evaluate(() => {
+        const hasVa = typeof (window as unknown as { va?: unknown }).va === "function";
+        const hasSi = typeof (window as unknown as { si?: unknown }).si === "function";
+        const analyticsScripts = Array.from(document.querySelectorAll("script")).filter(
+          (s) =>
+            (s.src.includes("insights/script") || s.src.includes("va.vercel-scripts.com/v1/script")) &&
+            !s.src.includes("speed-insights")
+        );
+        const speedInsightsScripts = Array.from(document.querySelectorAll("script")).filter((s) =>
+          s.src.includes("speed-insights")
+        );
+        return {
+          hasVa,
+          hasSi,
+          analyticsScriptCount: analyticsScripts.length,
+          speedInsightsScriptCount: speedInsightsScripts.length,
+        };
+      });
+
+      expect(analyticsState.hasVa, `window.va initialized on ${route}`).toBe(true);
+      expect(analyticsState.hasSi, `window.si initialized on ${route}`).toBe(true);
+      expect(analyticsState.analyticsScriptCount, `Expected exactly 1 analytics script tag on ${route}`).toBe(1);
+      expect(analyticsState.speedInsightsScriptCount, `Expected exactly 1 speed insights script tag on ${route}`).toBe(1);
+
+      // 2. Verify no visible DOM elements or layout shifts caused by analytics
+      const nonScriptAfterFooter = await page.evaluate(() => {
+        const footer = document.querySelector("footer");
+        if (!footer) return 0;
+        let count = 0;
+        let sibling = footer.nextElementSibling;
+        while (sibling) {
+          if (sibling.tagName !== "SCRIPT" && sibling.tagName !== "NEXT-ROUTE-ANNOUNCER") {
+            count++;
+          }
+          sibling = sibling.nextElementSibling;
+        }
+        return count;
+      });
+      expect(nonScriptAfterFooter, `No unexpected UI elements rendered after footer on ${route}`).toBe(0);
+    }
+
+    // 3. Zero console runtime errors across all tested routes
+    expect(consoleErrors, "Console runtime errors detected during analytics initialization").toHaveLength(0);
   });
 });
 
