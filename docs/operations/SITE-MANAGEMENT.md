@@ -22,7 +22,11 @@ The portfolio platform is designed as an ultra-high performance, statically gene
 
 ### 2. Vercel Web Analytics
 - **Instrumentation:** First-party integration via `@vercel/analytics` mounted in Root Layout (`src/app/layout.tsx`).
-- **Privacy Standard:** Zero third-party trackers, zero cookies, zero PII collection (no emails, phone numbers, or form contents collected).
+- **Privacy Standard:**
+  - No third-party analytics stack was introduced.
+  - No custom analytics events transmit emails, phone numbers, form contents, or other intentionally supplied personal identifiers.
+  - Vercel Web Analytics and Speed Insights are the only analytics/performance instrumentation used.
+  - Privacy and legal obligations should be reviewed separately if future forms, custom events, advertising, or additional trackers are introduced.
 - **Metrics Collected:**
   - Unique Visitors & Page Views
   - Route & Path Performance (`/`, `/about`, `/ar`, `/de`, etc.)
@@ -54,10 +58,10 @@ The portfolio platform is designed as an ultra-high performance, statically gene
 
 ### 6. Firewall & Security
 - **Security Headers:** Enforced via `next.config.ts`:
-  - `Content-Security-Policy`
-  - `X-Frame-Options: DENY`
   - `X-Content-Type-Options: nosniff`
+  - `X-Frame-Options: DENY`
   - `Referrer-Policy: strict-origin-when-cross-origin`
   - `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+  - `X-DNS-Prefetch-Control: on`
 - **DDoS Mitigation:** Automated L3/L4/L7 mitigation powered by Vercel edge infrastructure.
 - **Dependency Hygiene:** Regular automated audits enforcing 0 high/critical vulnerabilities.

@@ -271,7 +271,7 @@ check(
 // -------------------------------------------------------------
 // 6. OFFICIAL CUSTOM DOMAIN & ACTIVE PRODUCTION INVARIANTS
 // -------------------------------------------------------------
-console.log('\n▶ [6/7] Verifying Official Custom Domain & Active Production Invariants...');
+console.log('\n▶ [6/8] Verifying Official Custom Domain & Active Production Invariants...');
 
 const siteMetaEn = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'siteMetadata.ts'), 'utf8');
 const siteMetaAr = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'ar', 'siteMetadata.ts'), 'utf8');
@@ -314,7 +314,7 @@ check(
 // -------------------------------------------------------------
 // 7. SITE MANAGEMENT & ANALYTICS OPERATIONS DOCS
 // -------------------------------------------------------------
-console.log('\n▶ [7/7] Verifying Site Management & Analytics Documentation...');
+console.log('\n▶ [7/8] Verifying Site Management & Analytics Documentation...');
 const siteMgmtPath = path.join(ROOT_DIR, 'docs', 'operations', 'SITE-MANAGEMENT.md');
 const siteMgmtExists = fs.existsSync(siteMgmtPath);
 
@@ -345,10 +345,63 @@ if (siteMgmtExists) {
     'Expected @vercel/speed-insights reference not found in SITE-MANAGEMENT.md'
   );
 
+  // Check A: SITE-MANAGEMENT.md must NOT claim Content-Security-Policy unless next.config actually contains it
+  const nextConfigContent = fs.readFileSync(path.join(ROOT_DIR, 'next.config.ts'), 'utf8');
+  const nextConfigHasCsp = nextConfigContent.includes('Content-Security-Policy');
+  const siteMgmtHasCsp = siteMgmtContent.includes('Content-Security-Policy');
+  check(
+    'Site Management Doc: Security header claims match next.config.ts (no inaccurate CSP claim)',
+    nextConfigHasCsp ? siteMgmtHasCsp : !siteMgmtHasCsp,
+    'SITE-MANAGEMENT.md claims Content-Security-Policy but next.config.ts does not enforce it'
+  );
+
   check(
     'Site Management Doc: Preserves zero private token exposure',
     !siteMgmtContent.includes('VERCEL_TOKEN') && !siteMgmtContent.includes('secret_'),
     'Sensitive token patterns found in SITE-MANAGEMENT.md'
+  );
+}
+
+// -------------------------------------------------------------
+// 8. ASSET MANIFEST SPECIFICATION
+// -------------------------------------------------------------
+console.log('\n▶ [8/8] Verifying Asset Manifest Specification...');
+const assetManifestPath = path.join(ROOT_DIR, 'docs', 'REPOSITORY-ASSET-MANIFEST.md');
+const assetManifestExists = fs.existsSync(assetManifestPath);
+
+check(
+  'Asset Manifest: docs/REPOSITORY-ASSET-MANIFEST.md exists',
+  assetManifestExists,
+  'Expected docs/REPOSITORY-ASSET-MANIFEST.md to exist'
+);
+
+if (assetManifestExists) {
+  const assetManifestContent = fs.readFileSync(assetManifestPath, 'utf8');
+
+  // Check B: REPOSITORY-ASSET-MANIFEST.md must state 17 Portfolio project evidence records
+  check(
+    'Asset Manifest: States exactly 17 Portfolio project evidence records',
+    assetManifestContent.includes('17 Portfolio project evidence records'),
+    'Expected "17 Portfolio project evidence records" not found in REPOSITORY-ASSET-MANIFEST.md'
+  );
+
+  // Check C: Canonical CV project count remains 16
+  check(
+    'Asset Manifest: Preserves canonical CV breakdown (16 projects from the official CV catalogue)',
+    assetManifestContent.includes('16 projects from the official CV catalogue'),
+    'Expected "16 projects from the official CV catalogue" not found in REPOSITORY-ASSET-MANIFEST.md'
+  );
+
+  check(
+    'Asset Manifest: Clarifies FoundationKit as additional evidence-backed project',
+    assetManifestContent.includes('1 additional evidence-backed Portfolio project: FoundationKit'),
+    'Expected FoundationKit breakdown not found in REPOSITORY-ASSET-MANIFEST.md'
+  );
+
+  check(
+    'Asset Manifest: Tracks drawingface.png as official browser/app icon source',
+    assetManifestContent.includes('drawingface.png') && assetManifestContent.includes('Official browser/application icon source'),
+    'Expected drawingface.png tracking entry not found in REPOSITORY-ASSET-MANIFEST.md'
   );
 }
 
