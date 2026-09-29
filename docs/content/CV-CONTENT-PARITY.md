@@ -40,6 +40,7 @@ To guarantee complete factual fidelity to the official CV while maintaining a mo
   - Maps skills into atomic badges for filtering and visual rendering in `CapabilitiesMatrix`.
   - Exposes interests on `/about` via an editorial layout without cluttering cards.
   - Maintains project case-study depths (Problem / Solution / Technologies / Result) across presentation tiers (Featured, Core, Archive).
+  - **Public Portfolio Projects (17 projects)**: The public Portfolio currently contains 17 projects: 16 source-exact CV project entries plus FoundationKit as an additional evidence-backed Portfolio project (flagship system foundation). Canonical CV verification expectations remain strictly at 16 official items.
   - Keeps credentials status-free unless explicitly stated as Ongoing / In Progress.
 
 ---

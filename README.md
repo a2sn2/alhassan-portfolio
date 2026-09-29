@@ -72,26 +72,27 @@ npm run dev
 # 4. Run automated verification suite
 npm run lint                 # ESLint code style
 npm run typecheck            # TypeScript strict checks
-npm run build                # Next.js static prerender (66 public/indexable portfolio routes + framework/internal routes)
+npm run build                # Next.js static prerender (69 public/indexable portfolio routes + framework/internal routes; 74 static output routes generated)
 npm run verify:cv-content    # Deterministic CV source parity audit across English, Arabic & German
 npm run verify:evidence      # Deterministic project and credential evidence verification
-npx playwright test          # E2E (49/49 tests) and WCAG 2.1 AA accessibility suite
-npm run verify:production    # Trilingual production route, responsive overflow, SEO & sitemap verification (66 public routes)
-npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (21 routes x 5 viewports x 2 themes + 15 interactive states = 225 pairs)
+npm run verify:release-docs  # Deterministic release documentation and metric baseline verification
+npx playwright test          # E2E (60/60 tests) and WCAG 2.1 AA accessibility suite
+npm run verify:production    # Trilingual production route, responsive overflow (24 representative routes × 4 viewports = 96 combinations), SEO & sitemap verification (69 public routes)
+npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (24 routes x 5 viewports x 2 themes + 15 interactive states = 255 pairs)
 ```
 
 ### 🔬 Strict Visual Parity Verifier (`npm run verify:visual-parity`)
 Performs deterministic, pixel-level visual diff auditing between local development (`http://localhost:3000`) and live production (`https://alhassan-portfolio-phi.vercel.app`):
-- **21 Canonical Routes**:
-  - English (7): `/`, `/about`, `/experience`, `/projects`, `/capabilities`, `/contact`, `/projects/real-time-object-detection`
-  - Arabic (7): `/ar`, `/ar/about`, `/ar/experience`, `/ar/projects`, `/ar/capabilities`, `/ar/contact`, `/ar/projects/real-time-object-detection`
-  - German (7): `/de`, `/de/about`, `/de/experience`, `/de/projects`, `/de/capabilities`, `/de/contact`, `/de/projects/real-time-object-detection`
+- **24 Canonical Routes**:
+  - English (8): `/`, `/about`, `/experience`, `/projects`, `/capabilities`, `/contact`, `/projects/real-time-object-detection`, `/projects/foundationkit-dotnet`
+  - Arabic (8): `/ar`, `/ar/about`, `/ar/experience`, `/ar/projects`, `/ar/capabilities`, `/ar/contact`, `/ar/projects/real-time-object-detection`, `/ar/projects/foundationkit-dotnet`
+  - German (8): `/de`, `/de/about`, `/de/experience`, `/de/projects`, `/de/capabilities`, `/de/contact`, `/de/projects/real-time-object-detection`, `/de/projects/foundationkit-dotnet`
 - **5 Viewports**: Desktop Large (1440×900), Desktop Medium (1280×800), Tablet (768×1024), Mobile (390×844), Narrow Mobile (320×700)
 - **2 Themes**: Light and Dark modes
-- **210 Static Screenshot Pairs**: 21 routes × 5 viewports × 2 themes
+- **240 Static Screenshot Pairs**: 24 routes × 5 viewports × 2 themes
 - **15 Interactive States**: Category filter selection, Experience role selection, Mobile drawer open, Command Palette open, Theme toggled (evaluated for English, Arabic, and German)
-- **225 Total Visual Parity Pairs**: Evaluated deterministically with 0-pixel delta tolerance
-- **Coverage & Indexing Parity**: Validates 66 public indexable sitemap URLs (18 core + 48 project detail) across Next.js static prerender build targets
+- **255 Total Visual Parity Pairs**: Evaluated deterministically with 0-pixel delta tolerance
+- **Coverage & Indexing Parity**: Validates 69 public indexable sitemap URLs (18 core + 51 project detail) across Next.js static prerender build targets
 - **Exact Pixel Comparison**: Uncompressed raw RGB byte inspection calculating exact changed-pixel counts, percentages, max channel deltas, and visual difference bounding boxes
 - **Geometry & Typography Checks**: Validates `getBoundingClientRect()` dimensions and computed typography (`font-family`, `font-size`, `font-weight`, `line-height`, `letter-spacing`, `color`)
 - **Dev-Only Masking**: Masks strictly Next.js development artifacts (`nextjs-portal`, `#nextjs-dev-overlay`, `[data-nextjs-toast]`, etc.) while leaving all application UI and content unmasked

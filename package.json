@@ -12,6 +12,7 @@
     "verify:production": "node scripts/verify-production.mjs",
     "verify:cv-content": "node scripts/verify-cv-content.mjs",
     "verify:evidence": "node scripts/verify-evidence.mjs",
+    "verify:release-docs": "node scripts/verify-release-docs.mjs",
     "verify:visual-parity": "node scripts/verify-visual-parity.mjs"
   },
   "dependencies": {

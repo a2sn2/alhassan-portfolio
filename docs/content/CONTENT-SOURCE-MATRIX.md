@@ -104,6 +104,18 @@ Technologies are attached to projects **only** where explicitly supported by the
 | `omnifood-landing-page` | OMNIFOOD — Responsive Landing Page | Full-Stack & Web | **BASIC** | `Responsive Web` | **VERIFIED & CONSISTENT** |
 | `urbanmindos` | URBANMINDOS — Smart City Operating System | Systems & Robotics | **BASIC** | `Concept Design`, `Urban Air Mobility` | **VERIFIED & CONSISTENT** |
 
+### 5.1 Additional Evidence-Backed Portfolio Project
+
+| ID / Slug | Title | Category | Verified Evidence Depth | Strictly Attached Technologies (Explicitly Sourced) | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `foundationkit-dotnet` | FoundationKit — .NET Full-Stack System Foundation | Systems & Architecture | **FLAGSHIP / RICH** | `.NET 10`, `C#`, `ASP.NET Core`, `Blazor WebAssembly`, `Entity Framework Core`, `SQL Server`, `OpenAPI`, `xUnit` | **OWNER-APPROVED PORTFOLIO ADDITION + EVIDENCE-BACKED PROJECT** |
+
+- **Classification**: **OWNER-APPROVED PORTFOLIO ADDITION + EVIDENCE-BACKED PROJECT**
+- **Canonical Code Source**: Dedicated standalone GitHub repository [`a2sn2/foundationkit-dotnet`](https://github.com/a2sn2/foundationkit-dotnet)
+- **Status**: **VERIFIED REPOSITORY EVIDENCE**
+- **Operational Qualification**: **Consumer-ready Core baseline — Pre-production**
+- **Canonical vs. Presentation Scope**: FoundationKit is part of the public Portfolio presentation (bringing total portfolio presentation projects to 17), but is **not** represented as one of the 16 project entries in the current official CV package. This distinction is strictly maintained to preserve source-pure CV content parity while reflecting complete verified engineering work in the public showcase.
+
 ---
 
 ## 6. Technical Skills & Languages

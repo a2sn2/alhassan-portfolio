@@ -8,11 +8,11 @@ The Portfolio Evidence Hub serves as the authoritative, tamper-evident repositor
 
 1. **Proof & Traceability**: Provides public reviewers, engineering managers, and technical evaluators with direct, unverifiable proof backing every canonical project and credential claim.
 2. **Canonical CV vs. Evidence Distinction**:
-   - `src/content/cv/**` represents the **canonical CV layer** (immutable ground truth for professional statements).
-   - `docs/evidence/**` functions as the **verification layer**. Evidence may *confirm*, *partially support*, or *flag a conflict* with canonical statements, but evidence **never silently rewrites** canonical facts.
+   - `src/content/cv/**` represents the **canonical CV layer** (immutable ground truth for professional statements, tracking the 16 project entries and 26 certifications from the official CV package).
+   - `docs/evidence/**` functions as the **verification layer** for the public Portfolio presentation (17 projects: 16 CV projects + FoundationKit, and 26 credential records). Evidence may *confirm*, *partially support*, or *flag a conflict* with canonical statements, but evidence **never silently rewrites** canonical facts.
 3. **Dedicated Repositories vs. Local Archives**:
-   - For projects with active standalone GitHub repositories (e.g. \`yolo-object-detection\`, \`pump_DA_Batch2\`, \`ImageClassify_ML_Batch1\`, \`UrbanMindOS\`, \`OmnifoodHTML-CSS\`), the dedicated repository remains the primary development home. The Evidence Hub provides indexing, provenance documentation, and metadata links.
-   - For systems developed in university or offline lab environments without standalone repositories, clean and audited source archives are preserved under \`docs/evidence/projects/<slug>/source/\`.
+   - For projects with active standalone GitHub repositories (e.g. `foundationkit-dotnet`, `yolo-object-detection`, `pump_DA_Batch2`, `ImageClassify_ML_Batch1`, `UrbanMindOS`, `OmnifoodHTML-CSS`), the dedicated repository remains the primary development home. The Evidence Hub provides indexing, provenance documentation, and metadata links. FoundationKit source is maintained in its dedicated standalone repository (`a2sn2/foundationkit-dotnet`) and not duplicated into the local evidence tree.
+   - For systems developed in university or offline lab environments without standalone repositories, clean and audited source archives are preserved under `docs/evidence/projects/<slug>/source/`.
 
 ---
 
@@ -39,11 +39,12 @@ If physical evidence discovers an implementation difference against canonical CV
 ```
 docs/evidence/
 ├── README.md                  # This governance and architecture guide
-├── EVIDENCE-MATRIX.md         # Full tabular matrix of 16 projects & 26 credentials
+├── EVIDENCE-MATRIX.md         # Full tabular matrix of 17 projects & 26 credentials
 ├── evidence-manifest.json     # Machine-readable verification manifest
 ├── GITHUB-REPOSITORY-AUDIT.md # Provenance audit of external GitHub repositories
 │
-├── projects/                  # 16 Canonical project evidence folders
+├── projects/                  # 17 Portfolio project evidence records (16 CV catalogue + 1 evidence-backed: FoundationKit)
+│   ├── foundationkit-dotnet/  # (Evidence metadata & README; standalone GitHub repository a2sn2/foundationkit-dotnet is canonical code source)
 │   ├── real-time-object-detection/
 │   ├── robocam-controller/
 │   ├── pump-station-analytics/
@@ -61,11 +62,11 @@ docs/evidence/
 │   ├── cafe-pos-system/
 │   └── omnifood-landing-page/
 │
-├── certifications/            # 26 Canonical credential records (21 verified PDFs)
+├── certifications/            # 26 Canonical credential records (22 verified, 3 ongoing, 1 missing; 21 local certificate.pdf files)
 │   └── <credential-id>/
 │       ├── README.md
 │       ├── evidence.json
-│       └── certificate.pdf    (for verified records)
+│       └── certificate.pdf    (for verified records with local PDF)
 │
 └── candidates/                # Catalog of non-canonical experimental projects
     └── README.md

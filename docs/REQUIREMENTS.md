@@ -67,4 +67,4 @@ The portfolio serves as the primary public professional presence for **ALHassan 
 | **Authentication / Login** | **No** | Public website; no user accounts exist. |
 | **Database / CMS** | **No** | Verified content is maintained statically in Git. |
 | **Contact Form Backend** | **No** | Standard `mailto:` meets current needs without spam bots/API keys. |
-| **Full Multilingual / RTL** | Conditional | Architecture uses logical properties for future support; translation deferred. |
+| **Full Multilingual / RTL** | Yes | Implemented across English, Arabic (RTL), and German with route-level localization, reciprocal hreflang, and document state sync. |
