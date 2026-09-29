@@ -5,7 +5,8 @@ import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { aboutContentAr } from "@/content/ar/about";
 import { siteMetadataAr } from "@/content/ar/siteMetadata";
-import { ProfilePortrait } from "@/components/media/ProfilePortrait";
+import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
+import { Reveal } from "@/components/ui/Reveal";
 import styles from "../../about/about.module.css";
 
 export const metadata: Metadata = {
@@ -33,35 +34,33 @@ export default function ArabicAboutPage() {
     <div className={styles.aboutPage}>
       <Container>
         {/* Page Header */}
-        <header className={styles.header}>
-          <div className={styles.headerContent}>
-            <span className={styles.kicker}>{aboutContentAr.kicker}</span>
+        <Reveal>
+          <header className={styles.header}>
+            <div className={styles.introMarkRow}>
+              <ProfileIdentityMark locale="ar" priority />
+              <div className={styles.introMeta}>
+                <span className={styles.kicker}>{aboutContentAr.kicker}</span>
+                <span className={styles.signatureName}>الحسن بليغ الشامي</span>
+              </div>
+            </div>
             <h1 className={styles.title}>{aboutContentAr.title}</h1>
             <p className={styles.description}>{aboutContentAr.description}</p>
-          </div>
-          <div className={styles.headerPortrait}>
-            <ProfilePortrait
-              variant="formal"
-              locale="ar"
-              priority
-              sizes="(max-width: 640px) 240px, (max-width: 860px) 260px, 300px"
-            />
-          </div>
-        </header>
+          </header>
+        </Reveal>
 
         {/* Narrative & Credentials Layout */}
         <div className={styles.narrativeLayout} style={{ marginTop: "var(--space-10)" }}>
           {/* Main Editorial Story */}
-          <div className={styles.storyColumn}>
+          <Reveal delay={60} className={styles.storyColumn}>
             {aboutContentAr.paragraphs.map((para, index) => (
               <p key={index} className={styles.storyParagraph}>
                 {para}
               </p>
             ))}
-          </div>
+          </Reveal>
 
           {/* Education & Language Sidebar */}
-          <div className={styles.sidebarColumn}>
+          <Reveal delay={100} className={styles.sidebarColumn}>
             {/* Education Feature */}
             <div className={styles.educationCard}>
               <span className={styles.cardKicker}>الأسس الأكاديمية</span>
@@ -111,58 +110,64 @@ export default function ArabicAboutPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
 
         {/* Engineering Philosophy & Principles */}
-        <section className={styles.principlesSection} aria-labelledby="heading-principles">
-          <h2 id="heading-principles" className={styles.sectionTitle}>
-            المبادئ الهندسية وفلسفة العمل
-          </h2>
-          <div className={styles.principlesGrid}>
-            {aboutContentAr.principles.map((principle) => (
-              <div key={principle.title} className={styles.principleCard}>
-                <h3 className={styles.principleTitle}>{principle.title}</h3>
-                <p className={styles.principleDesc}>{principle.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Engineering Interests & Broader Pursuits */}
-        {aboutContentAr.interests && aboutContentAr.interests.length > 0 && (
-          <section className={styles.interestsSection} aria-labelledby="heading-interests">
-            <h2 id="heading-interests" className={styles.sectionTitle}>
-              الاهتمامات الهندسية والمجالات العامة
+        <Reveal delay={80}>
+          <section className={styles.principlesSection} aria-labelledby="heading-principles">
+            <h2 id="heading-principles" className={styles.sectionTitle}>
+              المبادئ الهندسية وفلسفة العمل
             </h2>
-            <div className={styles.interestsGrid}>
-              {aboutContentAr.interests.map((interest) => (
-                <div key={interest.id} className={styles.interestCard}>
-                  <div className={styles.interestHeader}>
-                    <span className={styles.interestCategory}>محور {interest.category}</span>
-                  </div>
-                  <p className={styles.interestSummary}>{interest.summary}</p>
-                  <div className={styles.interestChips}>
-                    {interest.items.map((item) => (
-                      <span key={item} className={styles.interestChip}>
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+            <div className={styles.principlesGrid}>
+              {aboutContentAr.principles.map((principle) => (
+                <div key={principle.title} className={styles.principleCard}>
+                  <h3 className={styles.principleTitle}>{principle.title}</h3>
+                  <p className={styles.principleDesc}>{principle.description}</p>
                 </div>
               ))}
             </div>
           </section>
+        </Reveal>
+
+        {/* Engineering Interests & Broader Pursuits */}
+        {aboutContentAr.interests && aboutContentAr.interests.length > 0 && (
+          <Reveal delay={120}>
+            <section className={styles.interestsSection} aria-labelledby="heading-interests">
+              <h2 id="heading-interests" className={styles.sectionTitle}>
+                الاهتمامات الهندسية والمجالات العامة
+              </h2>
+              <div className={styles.interestsGrid}>
+                {aboutContentAr.interests.map((interest) => (
+                  <div key={interest.id} className={styles.interestCard}>
+                    <div className={styles.interestHeader}>
+                      <span className={styles.interestCategory}>محور {interest.category}</span>
+                    </div>
+                    <p className={styles.interestSummary}>{interest.summary}</p>
+                    <div className={styles.interestChips}>
+                      {interest.items.map((item) => (
+                        <span key={item} className={styles.interestChip}>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </Reveal>
         )}
 
         {/* References Policy */}
-        <div className={styles.referencesBanner} style={{ marginTop: "var(--space-10)" }}>
-          <p className={styles.refText}>{aboutContentAr.referencesNote}</p>
-          <Link href="/ar/contact" className={styles.contactCta}>
-            <span>طلب المراجع وبيانات التواصل الرسمية</span>
-            <span aria-hidden="true">←</span>
-          </Link>
-        </div>
+        <Reveal delay={160}>
+          <div className={styles.referencesBanner} style={{ marginTop: "var(--space-10)" }}>
+            <p className={styles.refText}>{aboutContentAr.referencesNote}</p>
+            <Link href="/ar/contact" className={styles.contactCta}>
+              <span>طلب المراجع وبيانات التواصل الرسمية</span>
+              <span aria-hidden="true">←</span>
+            </Link>
+          </div>
+        </Reveal>
       </Container>
 
       {/* Chapter 2 of 6 sequential navigation */}

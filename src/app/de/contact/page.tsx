@@ -4,6 +4,8 @@ import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 import { contactContentDe, siteMetadataDe } from "@/content/de";
+import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
+import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "../../contact/contact.module.css";
 
@@ -32,16 +34,24 @@ export default function GermanContactPage() {
     <div className={styles.contactPage}>
       <Container>
         {/* Page Header */}
-        <header className={styles.header}>
-          <span className={styles.kicker}>{contactContentDe.kicker}</span>
-          <h1 className={styles.title}>{contactContentDe.title}</h1>
-          <p className={styles.description}>{contactContentDe.description}</p>
-        </header>
+        <Reveal>
+          <header className={styles.header}>
+            <div className={styles.introMarkRow}>
+              <ProfileIdentityMark locale="de" />
+              <div className={styles.introMeta}>
+                <span className={styles.kicker}>{contactContentDe.kicker}</span>
+                <span className={styles.signatureName}>ALHassan Baligh ALShami</span>
+              </div>
+            </div>
+            <h1 className={styles.title}>{contactContentDe.title}</h1>
+            <p className={styles.description}>{contactContentDe.description}</p>
+          </header>
+        </Reveal>
 
         {/* Channels & CV Packages Layout */}
         <div className={styles.layout} style={{ marginTop: "var(--space-10)" }}>
           {/* Direct Channels Column */}
-          <div className={styles.channelsColumn}>
+          <Reveal delay={60} className={styles.channelsColumn}>
             <h2 className={styles.sectionTitle}>Direkte Kommunikationskanäle</h2>
             <div className={styles.channelCards}>
               {contactContentDe.methods.map((method) => (
@@ -82,10 +92,10 @@ export default function GermanContactPage() {
                 Standort: {contactContentDe.location}.
               </p>
             </div>
-          </div>
+          </Reveal>
 
           {/* Official CV Downloads Column */}
-          <div className={styles.cvColumn}>
+          <Reveal delay={100} className={styles.cvColumn}>
             <h2 className={styles.sectionTitle}>Offizielle mehrsprachige Lebenslauf-Pakete</h2>
             <div className={styles.cvGrid}>
               {contactContentDe.cvDocuments.map((doc) => (
@@ -116,7 +126,7 @@ export default function GermanContactPage() {
               <span className={styles.noticeTitle}>Referenzen</span>
               <p className={styles.noticeText}>{contactContentDe.referencesNote}</p>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
 

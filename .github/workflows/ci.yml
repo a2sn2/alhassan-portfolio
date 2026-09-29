@@ -41,6 +41,9 @@ jobs:
       - name: Verify Official Portfolio Evidence Hub
         run: npm run verify:evidence
 
+      - name: Verify Release Documentation & Metrics
+        run: npm run verify:release-docs
+
       - name: Run Code Linting
         run: npm run lint
 

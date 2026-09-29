@@ -12,14 +12,20 @@ import {
   credentialsContentAr,
   proofContentAr,
 } from "@/content/ar";
+import { jaibExperienceJourney } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { Reveal } from "@/components/ui/Reveal";
+import { cn } from "@/utils/cn";
 import styles from "../home.module.css";
 
 export default function ArabicHomePage() {
   const featuredProjects = projectItemsAr.filter(
     (p) => p.presentationTier === "featured"
   );
-  const recentRoles = experienceContentAr.items.slice(0, 3);
+  const asaasRole = experienceContentAr.items.find((i) => i.id === "asaas-ai-qa");
+  const foundationRole = experienceContentAr.items.find(
+    (i) => i.id === "water-sanitation-control-trainee"
+  );
 
   return (
     <div className={styles.homeWrapper}>
@@ -37,14 +43,19 @@ export default function ArabicHomePage() {
               </h2>
             </div>
             <Link href="/ar/projects" className={styles.viewAllLink}>
-              <span>عرض جميع المشاريع (16 مشروعاً)</span>
+              <span>{`عرض جميع المشاريع (${projectItemsAr.length} مشروعاً)`}</span>
               <span aria-hidden="true">←</span>
             </Link>
           </div>
 
           <div className={styles.projectsGrid}>
-            {featuredProjects.map((project) => (
-              <article key={project.id} className={styles.projectCard}>
+            {featuredProjects.map((project, index) => (
+              <Reveal
+                as="article"
+                key={project.id}
+                delay={index * 50}
+                className={styles.projectCard}
+              >
                 <div className={styles.cardHeader}>
                   <Badge variant="category">{project.category}</Badge>
                   {project.badge && (
@@ -84,7 +95,7 @@ export default function ArabicHomePage() {
                     <span aria-hidden="true">←</span>
                   </Link>
                 </div>
-              </article>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -107,25 +118,133 @@ export default function ArabicHomePage() {
           </div>
 
           <div className={styles.experienceCards}>
-            {recentRoles.map((role) => (
-              <div key={role.id} className={styles.experienceCard}>
+            {/* A. Current QA / company leadership context */}
+            {asaasRole && (
+              <Reveal delay={0} className={styles.experienceCard}>
                 <div className={styles.roleHeader}>
-                  <span className={styles.roleCompany}>{role.company}</span>
+                  <span className={styles.roleCompany}>{asaasRole.company}</span>
                   <span className={styles.rolePeriod}>
-                    <bdi>{role.period}</bdi>
+                    <bdi>{asaasRole.period}</bdi>
                   </span>
                 </div>
-                <h3 className={styles.roleTitle}>{role.role}</h3>
-                <p className={styles.roleDesc}>{role.description}</p>
+                <h3 className={styles.roleTitle}>{asaasRole.role}</h3>
+                <p className={styles.roleDesc}>{asaasRole.description}</p>
                 <div className={styles.techPills}>
-                  {role.technologies.map((t) => (
+                  {asaasRole.technologies.map((t) => (
                     <span key={t} className={styles.techPill}>
                       <bdi>{t}</bdi>
                     </span>
                   ))}
                 </div>
+              </Reveal>
+            )}
+
+            {/* B. Jaib Wallet Career Progression Editorial Feature */}
+            <Reveal
+              delay={50}
+              className={cn(styles.experienceCard, styles.progressionHighlightCard)}
+            >
+              <div className={styles.roleHeader}>
+                <span className={styles.roleCompany}>
+                  {jaibExperienceJourney.organization.ar}
+                </span>
+                <span className={styles.progressionBadge}>
+                  {jaibExperienceJourney.label.ar}
+                </span>
               </div>
-            ))}
+
+              <div className={styles.progressionTimelineBar}>
+                <span className={styles.progressionDateStart}>
+                  <bdi>سبتمبر 2025</bdi>
+                </span>
+                <div className={styles.progressionBarLine} aria-hidden="true">
+                  <span className={styles.progressionBarDot} />
+                  <span className={styles.progressionBarTrack} />
+                  <span
+                    className={cn(
+                      styles.progressionBarDot,
+                      styles.progressionBarDotCurrent
+                    )}
+                  />
+                </div>
+                <span className={styles.progressionDateEnd}>
+                  <bdi>الآن</bdi>
+                </span>
+              </div>
+
+              <div className={styles.homeStagesList}>
+                {jaibExperienceJourney.stages.map((stage) => {
+                  const roleItem = experienceContentAr.items.find(
+                    (i) => i.id === stage.roleId
+                  );
+                  return (
+                    <div
+                      key={stage.roleId}
+                      className={cn(
+                        styles.homeStageItem,
+                        stage.isCurrent && styles.homeStageItemCurrent
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          styles.homeStageDot,
+                          stage.isCurrent && styles.homeStageDotCurrent
+                        )}
+                        aria-hidden="true"
+                      />
+                      <span className={styles.homeStageNum}>
+                        {stage.stageNumber}
+                      </span>
+                      <span className={styles.homeStageTitle}>
+                        {roleItem ? roleItem.role : stage.shortTitle.ar}
+                      </span>
+                      {stage.isCurrent && (
+                        <span className={styles.homeStageCurrentTag}>
+                          {jaibExperienceJourney.currentBadge.ar}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <p className={styles.progressionSummary}>
+                {jaibExperienceJourney.summary.ar}
+              </p>
+
+              <div className={styles.progressionCtaWrap}>
+                <Link
+                  href="/ar/experience#ahd-financial-deputy"
+                  className={styles.progressionCtaLink}
+                >
+                  <span>{jaibExperienceJourney.cta.ar}</span>
+                  <span aria-hidden="true">←</span>
+                </Link>
+              </div>
+            </Reveal>
+
+            {/* C. Earlier Engineering Foundation */}
+            {foundationRole && (
+              <Reveal delay={100} className={styles.experienceCard}>
+                <div className={styles.roleHeader}>
+                  <span className={styles.roleCompany}>
+                    {foundationRole.company}
+                  </span>
+                  <span className={styles.rolePeriod}>
+                    <bdi>{foundationRole.period}</bdi>
+                  </span>
+                </div>
+                <h3 className={styles.roleTitle}>{foundationRole.role}</h3>
+                <p className={styles.roleDesc}>{foundationRole.description}</p>
+                <div className={styles.techPills}>
+                  {foundationRole.technologies.map((t) => (
+                    <span key={t} className={styles.techPill}>
+                      <bdi>{t}</bdi>
+                    </span>
+                  ))}
+                </div>
+              </Reveal>
+            )}
           </div>
         </Container>
       </section>
@@ -147,28 +266,28 @@ export default function ArabicHomePage() {
           </div>
 
           <div className={styles.capabilitiesPreviewGrid}>
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={0} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>المجالات الأساسية</h3>
               <p className={styles.capText}>
                 {skillsContentAr.groups.map((g) => g.category).join(" · ")}
               </p>
-            </div>
+            </Reveal>
 
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={50} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>
                 {credentialsContentAr.certifications.length} شهادة ودورة
               </h3>
               <p className={styles.capText}>
                 {credentialsContentAr.overviewText}
               </p>
-            </div>
+            </Reveal>
 
-            <div className={styles.capHighlightCard}>
+            <Reveal delay={100} className={styles.capHighlightCard}>
               <h3 className={styles.capTitle}>المشاركات والعضويات المهنية</h3>
               <p className={styles.capText}>
                 {credentialsContentAr.memberships.map((m) => m.organization).join(" · ")}
               </p>
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>

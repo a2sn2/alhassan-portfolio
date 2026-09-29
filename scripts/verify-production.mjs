@@ -4,17 +4,17 @@
  * Production Verification & Trilingual Release Hardening Script
  * 
  * Validates the deployment of https://alhassan-portfolio-phi.vercel.app (or custom target):
- * 1. HTTP 200 status for all 66 indexable routes (18 core EN/AR/DE + 48 project detail EN/AR/DE)
+ * 1. HTTP 200 status for all 69 indexable routes (18 core EN/AR/DE + 51 project detail EN/AR/DE)
  * 2. Document state verification (html lang/dir) across English (en/ltr), Arabic (ar/rtl), and German (de/ltr)
  * 3. Strict content integrity (canonical identity, roles, locations, skills, languages, credentials, contact)
- * 4. Complete absence of ungrounded phrases and metrics across all 66 public routes
+ * 4. Complete absence of ungrounded phrases and metrics across all 69 public routes
  * 5. Accessible ProjectExplorer category filtering in English, Arabic, and German
  * 6. ExperienceExplorer desktop tablist/tabpanel sync and mobile accordion expansion (EN, AR & DE)
  * 7. Header mobile drawer authentic visibility, accessibility, and Escape closure (EN, AR & DE)
  * 8. Command Palette keyboard activation (Ctrl+K), dialog visibility, and Escape closure (EN, AR & DE)
  * 9. Trilingual Language Switcher route, query, and hash preservation with document state sync
  * 10. Theme toggling, persistence on reload, and cross-route/cross-locale retention
- * 11. Responsive overflow matrix (zero horizontal scroll) across 21 routes x 4 viewports (84 tests)
+ * 11. Responsive overflow matrix (zero horizontal scroll) across 24 routes x 4 viewports (96 tests)
  * 12. Live SEO metadata, canonicals, reciprocal hreflang (en, ar, de, x-default), og:locale, and sitemap.xml
  * 13. CV package actions (exactly 6 variants, canonical /cv/ URLs, HTTP 200, mailto links on EN, AR & DE)
  * 
@@ -61,6 +61,10 @@ const PRIMARY_ROUTES_DE = [
 const REPRESENTATIVE_PROJECT_EN = '/projects/real-time-object-detection';
 const REPRESENTATIVE_PROJECT_AR = '/ar/projects/real-time-object-detection';
 const REPRESENTATIVE_PROJECT_DE = '/de/projects/real-time-object-detection';
+
+const FOUNDATIONKIT_PROJECT_EN = '/projects/foundationkit-dotnet';
+const FOUNDATIONKIT_PROJECT_AR = '/ar/projects/foundationkit-dotnet';
+const FOUNDATIONKIT_PROJECT_DE = '/de/projects/foundationkit-dotnet';
 
 const VIEWPORTS = [
   { name: 'desktop', width: 1440, height: 900 },
@@ -176,7 +180,7 @@ async function main() {
   for (const route of PRIMARY_ROUTES_EN) {
     const url = `${BASE_URL}${route}`;
     try {
-      const response = await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[route] = { status, ok: status === 200 };
       if (status !== 200) {
@@ -195,7 +199,7 @@ async function main() {
   for (const route of PRIMARY_ROUTES_AR) {
     const url = `${BASE_URL}${route}`;
     try {
-      const response = await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[route] = { status, ok: status === 200 };
       if (status !== 200) {
@@ -214,7 +218,7 @@ async function main() {
   for (const route of PRIMARY_ROUTES_DE) {
     const url = `${BASE_URL}${route}`;
     try {
-      const response = await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[route] = { status, ok: status === 200 };
       if (status !== 200) {
@@ -229,9 +233,9 @@ async function main() {
     }
   }
 
-  // Discover 16 English project detail routes from /projects
+  // Discover 17 English project detail routes from /projects
   console.log('  Discovering English project routes from /projects...');
-  await page.goto(`${BASE_URL}/projects`, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.goto(`${BASE_URL}/projects`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   const discoveredEnProjects = await page.$$eval('a[href^="/projects/"]', (anchors) => {
     const urls = anchors
       .map((a) => a.getAttribute('href')?.split('?')[0]?.split('#')[0])
@@ -239,9 +243,9 @@ async function main() {
     return Array.from(new Set(urls));
   });
 
-  // Discover 16 Arabic project detail routes from /ar/projects
+  // Discover 17 Arabic project detail routes from /ar/projects
   console.log('  Discovering Arabic project routes from /ar/projects...');
-  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   const discoveredArProjects = await page.$$eval('a[href^="/ar/projects/"]', (anchors) => {
     const urls = anchors
       .map((a) => a.getAttribute('href')?.split('?')[0]?.split('#')[0])
@@ -249,9 +253,9 @@ async function main() {
     return Array.from(new Set(urls));
   });
 
-  // Discover 16 German project detail routes from /de/projects
+  // Discover 17 German project detail routes from /de/projects
   console.log('  Discovering German project routes from /de/projects...');
-  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'networkidle', timeout: 30000 });
+  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'domcontentloaded', timeout: 30000 });
   const discoveredDeProjects = await page.$$eval('a[href^="/de/projects/"]', (anchors) => {
     const urls = anchors
       .map((a) => a.getAttribute('href')?.split('?')[0]?.split('#')[0])
@@ -259,7 +263,7 @@ async function main() {
     return Array.from(new Set(urls));
   });
 
-  const EXPECTED_PROJECT_COUNT = 16;
+  const EXPECTED_PROJECT_COUNT = 17;
   results.projectDetailRoutes = {
     expectedPerLocale: EXPECTED_PROJECT_COUNT,
     discoveredEn: discoveredEnProjects.length,
@@ -292,11 +296,11 @@ async function main() {
     console.log(`  ✓ Successfully discovered exactly ${EXPECTED_PROJECT_COUNT} German project detail routes`);
   }
 
-  // Verify all 48 project routes return HTTP 200
+  // Verify all 51 project routes return HTTP 200
   let enProjectHttp200 = 0;
   for (const projRoute of discoveredEnProjects) {
     try {
-      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[projRoute] = { status, ok: status === 200 };
       if (status === 200) {
@@ -314,7 +318,7 @@ async function main() {
   let arProjectHttp200 = 0;
   for (const projRoute of discoveredArProjects) {
     try {
-      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[projRoute] = { status, ok: status === 200 };
       if (status === 200) {
@@ -332,7 +336,7 @@ async function main() {
   let deProjectHttp200 = 0;
   for (const projRoute of discoveredDeProjects) {
     try {
-      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'networkidle', timeout: 30000 });
+      const response = await page.goto(`${BASE_URL}${projRoute}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const status = response ? response.status() : 0;
       results.routes[projRoute] = { status, ok: status === 200 };
       if (status === 200) {
@@ -349,7 +353,7 @@ async function main() {
 
   const totalPublicRoutes = PRIMARY_ROUTES_EN.length + PRIMARY_ROUTES_AR.length + PRIMARY_ROUTES_DE.length +
     discoveredEnProjects.length + discoveredArProjects.length + discoveredDeProjects.length;
-  console.log(`  ✓ Total public routes verified: ${totalPublicRoutes} (expected 66)`);
+  console.log(`  ✓ Total public routes verified: ${totalPublicRoutes} (expected 69)`);
 
   // -------------------------------------------------------------
   // 2. DOCUMENT STATE VERIFICATION (lang & dir)
@@ -399,7 +403,7 @@ async function main() {
   console.log('\n▶ [3/13] Checking Canonical Content Integrity (English, Arabic & German)...');
   
   // English Home
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const enHomeText = await page.innerText('body');
   const checkEnSnippet = (label, expected) => {
     const found = enHomeText.includes(expected);
@@ -414,12 +418,12 @@ async function main() {
   checkEnSnippet('availability', 'Available for Engineering Opportunities');
 
   // English Contact & About
-  await page.goto(`${BASE_URL}/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/contact`, { waitUntil: 'domcontentloaded' });
   const enContactText = await page.innerText('body');
   if (!enContactText.includes('hassan1alshami6@gmail.com')) failures.push('Missing email on EN /contact');
   else console.log('  ✓ Found email on EN /contact');
 
-  await page.goto(`${BASE_URL}/about`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/about`, { waitUntil: 'domcontentloaded' });
   const enAboutText = await page.innerText('body');
   if (!enAboutText.includes('Arabic') || !enAboutText.includes('Native')) failures.push('Missing Arabic language on EN /about');
   if (!enAboutText.includes('English') || !enAboutText.includes('B2')) failures.push('Missing English language on EN /about');
@@ -427,7 +431,7 @@ async function main() {
   console.log('  ✓ Verified EN /about languages');
 
   // Arabic Home (/ar)
-  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'domcontentloaded' });
   const arHomeText = await page.innerText('body');
   const checkArSnippet = (label, expected) => {
     const found = arHomeText.includes(expected);
@@ -442,7 +446,7 @@ async function main() {
   checkArSnippet('focus', 'محاور التركيز');
 
   // Arabic About (/ar/about)
-  await page.goto(`${BASE_URL}/ar/about`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/about`, { waitUntil: 'domcontentloaded' });
   const arAboutText = await page.innerText('body');
   if (!arAboutText.includes('جامعة تونتك الدولية للتكنولوجيا')) failures.push('Missing university on AR /ar/about');
   if (!arAboutText.includes('بكالوريوس في علوم الحاسوب')) failures.push('Missing degree on AR /ar/about');
@@ -452,19 +456,19 @@ async function main() {
   console.log('  ✓ Verified AR /ar/about education & languages');
 
   // Arabic Experience (/ar/experience)
-  await page.goto(`${BASE_URL}/ar/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/experience`, { waitUntil: 'domcontentloaded' });
   const arRolesCount = await page.locator('div[role="tablist"] button[role="tab"]').count();
   if (arRolesCount !== 9) failures.push(`Expected 9 Arabic experience roles, found ${arRolesCount}`);
   else console.log(`  ✓ Verified 9 Arabic experience roles in /ar/experience`);
 
   // Arabic Projects (/ar/projects)
-  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'domcontentloaded' });
   const arProjectsCount = await page.locator('article[class*="projectCard"]').count();
-  if (arProjectsCount !== 16) failures.push(`Expected 16 Arabic projects, found ${arProjectsCount}`);
-  else console.log(`  ✓ Verified 16 Arabic projects in /ar/projects`);
+  if (arProjectsCount !== 17) failures.push(`Expected 17 Arabic projects, found ${arProjectsCount}`);
+  else console.log(`  ✓ Verified 17 Arabic projects in /ar/projects`);
 
   // Arabic Capabilities (/ar/capabilities)
-  await page.goto(`${BASE_URL}/ar/capabilities`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/capabilities`, { waitUntil: 'domcontentloaded' });
   const arCapText = await page.innerText('body');
   if (!arCapText.includes('CYBERAI CLUB') || !arCapText.includes('SPE') || !arCapText.includes('مؤسسة الحمدي')) {
     failures.push('Missing key memberships in /ar/capabilities');
@@ -473,7 +477,7 @@ async function main() {
   }
 
   // Arabic Contact (/ar/contact)
-  await page.goto(`${BASE_URL}/ar/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/contact`, { waitUntil: 'domcontentloaded' });
   const arContactText = await page.innerText('body');
   if (!arContactText.includes('hassan1alshami6@gmail.com')) failures.push('Missing email in /ar/contact');
   if (!arContactText.includes('+967772765120')) failures.push('Missing phone in /ar/contact');
@@ -484,7 +488,7 @@ async function main() {
   }
 
   // German Home (/de)
-  await page.goto(`${BASE_URL}/de`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de`, { waitUntil: 'domcontentloaded' });
   const deHomeText = await page.innerText('body');
   const checkDeSnippet = (label, expected) => {
     const found = deHomeText.includes(expected);
@@ -498,7 +502,7 @@ async function main() {
   checkDeSnippet('availability', 'Verfügbar für Software- & Engineering-Projekte');
 
   // German About (/de/about)
-  await page.goto(`${BASE_URL}/de/about`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/about`, { waitUntil: 'domcontentloaded' });
   const deAboutText = await page.innerText('body');
   if (!deAboutText.includes('International University of Technology Twintech')) failures.push('Missing university on DE /de/about');
   if (!deAboutText.includes('B.Sc. in Informatik')) failures.push('Missing degree on DE /de/about');
@@ -508,19 +512,19 @@ async function main() {
   console.log('  ✓ Verified DE /de/about education & languages');
 
   // German Experience (/de/experience)
-  await page.goto(`${BASE_URL}/de/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/experience`, { waitUntil: 'domcontentloaded' });
   const deRolesCount = await page.locator('div[role="tablist"] button[role="tab"]').count();
   if (deRolesCount !== 9) failures.push(`Expected 9 German experience roles, found ${deRolesCount}`);
   else console.log(`  ✓ Verified 9 German experience roles in /de/experience`);
 
   // German Projects (/de/projects)
-  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'domcontentloaded' });
   const deProjectsCount = await page.locator('article[class*="projectCard"]').count();
-  if (deProjectsCount !== 16) failures.push(`Expected 16 German projects, found ${deProjectsCount}`);
-  else console.log(`  ✓ Verified 16 German projects in /de/projects`);
+  if (deProjectsCount !== 17) failures.push(`Expected 17 German projects, found ${deProjectsCount}`);
+  else console.log(`  ✓ Verified 17 German projects in /de/projects`);
 
   // German Capabilities (/de/capabilities)
-  await page.goto(`${BASE_URL}/de/capabilities`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/capabilities`, { waitUntil: 'domcontentloaded' });
   const deCapText = await page.innerText('body');
   if (!deCapText.includes('CYBERAI CLUB') || !deCapText.includes('SPE') || !deCapText.includes('Al-Hamdi Foundation')) {
     failures.push('Missing key memberships in /de/capabilities');
@@ -529,7 +533,7 @@ async function main() {
   }
 
   // German Contact (/de/contact)
-  await page.goto(`${BASE_URL}/de/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/contact`, { waitUntil: 'domcontentloaded' });
   const deContactText = await page.innerText('body');
   if (!deContactText.includes('hassan1alshami6@gmail.com')) failures.push('Missing email in /de/contact');
   if (!deContactText.includes('772 765 120') && !deContactText.includes('+967772765120')) failures.push('Missing phone in /de/contact');
@@ -540,7 +544,7 @@ async function main() {
   }
 
   // -------------------------------------------------------------
-  // 4. FULL CONTENT-INTEGRITY SCAN FOR BANNED PHRASES (66 Routes)
+  // 4. FULL CONTENT-INTEGRITY SCAN FOR BANNED PHRASES (69 Routes)
   // -------------------------------------------------------------
   console.log('\n▶ [4/13] Full Content-Integrity Scan for Ungrounded Phrases...');
   const allScanRoutes = [
@@ -595,7 +599,7 @@ async function main() {
   await page.setViewportSize({ width: 1440, height: 900 });
 
   // English Filter
-  await page.goto(`${BASE_URL}/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/projects`, { waitUntil: 'domcontentloaded' });
   const enFilterButtons = page.locator('div[role="group"] button');
   if (await enFilterButtons.count() > 1) {
     await enFilterButtons.nth(1).click();
@@ -607,7 +611,7 @@ async function main() {
   }
 
   // Arabic Filter
-  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/projects`, { waitUntil: 'domcontentloaded' });
   const arFilterButtons = page.locator('div[role="group"] button');
   if (await arFilterButtons.count() > 1) {
     await arFilterButtons.nth(1).click();
@@ -619,7 +623,7 @@ async function main() {
   }
 
   // German Filter
-  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/projects`, { waitUntil: 'domcontentloaded' });
   const deFilterButtons = page.locator('div[role="group"] button');
   if (await deFilterButtons.count() > 1) {
     await deFilterButtons.nth(1).click();
@@ -637,7 +641,7 @@ async function main() {
   
   // English Tabs & Accordion
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`${BASE_URL}/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/experience`, { waitUntil: 'domcontentloaded' });
   const enTabs = page.locator('div[role="tablist"] button[role="tab"]');
   if (await enTabs.count() > 1) {
     await enTabs.nth(1).click();
@@ -648,7 +652,7 @@ async function main() {
   }
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   const enAcc = page.locator('button[aria-controls^="mobile-body-"]');
   if (await enAcc.count() > 1) {
     await enAcc.nth(1).click();
@@ -658,7 +662,7 @@ async function main() {
 
   // Arabic Tabs & Accordion
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`${BASE_URL}/ar/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/experience`, { waitUntil: 'domcontentloaded' });
   const arTabs = page.locator('div[role="tablist"] button[role="tab"]');
   if (await arTabs.count() > 1) {
     await arTabs.nth(1).click();
@@ -669,7 +673,7 @@ async function main() {
   }
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   const arAcc = page.locator('button[aria-controls^="mobile-body-"]');
   if (await arAcc.count() > 1) {
     await arAcc.nth(1).click();
@@ -679,7 +683,7 @@ async function main() {
 
   // German Tabs & Accordion
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`${BASE_URL}/de/experience`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/experience`, { waitUntil: 'domcontentloaded' });
   const deTabs = page.locator('div[role="tablist"] button[role="tab"]');
   if (await deTabs.count() > 1) {
     await deTabs.nth(1).click();
@@ -690,7 +694,7 @@ async function main() {
   }
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   const deAcc = page.locator('button[aria-controls^="mobile-body-"]');
   if (await deAcc.count() > 1) {
     await deAcc.nth(1).click();
@@ -705,7 +709,7 @@ async function main() {
   await page.setViewportSize({ width: 390, height: 844 });
 
   // EN Drawer
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const enDrawerBtn = page.locator('button[aria-controls="mobile-nav-drawer"]');
   const enDrawer = page.locator('div#mobile-nav-drawer');
   if (await enDrawerBtn.count() > 0 && await enDrawer.count() > 0) {
@@ -719,7 +723,7 @@ async function main() {
   }
 
   // AR Drawer
-  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'domcontentloaded' });
   const arDrawerBtn = page.locator('button[aria-controls="mobile-nav-drawer"]');
   const arDrawer = page.locator('div#mobile-nav-drawer');
   if (await arDrawerBtn.count() > 0 && await arDrawer.count() > 0) {
@@ -733,7 +737,7 @@ async function main() {
   }
 
   // DE Drawer
-  await page.goto(`${BASE_URL}/de`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de`, { waitUntil: 'domcontentloaded' });
   const deDrawerBtn = page.locator('button[aria-controls="mobile-nav-drawer"]');
   const deDrawer = page.locator('div#mobile-nav-drawer');
   if (await deDrawerBtn.count() > 0 && await deDrawer.count() > 0) {
@@ -753,7 +757,7 @@ async function main() {
   await page.setViewportSize({ width: 1440, height: 900 });
 
   // EN Palette
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const enSearchBtn = page.locator('header button[aria-label*="command palette" i]').first();
   if (await enSearchBtn.isVisible()) {
     await enSearchBtn.click();
@@ -775,7 +779,7 @@ async function main() {
   }
 
   // AR Palette
-  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'domcontentloaded' });
   const arSearchBtn = page.locator('header button[aria-label*="لوحة الأوامر" i]').first();
   if (await arSearchBtn.isVisible()) {
     await arSearchBtn.click();
@@ -797,7 +801,7 @@ async function main() {
   }
 
   // DE Palette
-  await page.goto(`${BASE_URL}/de`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de`, { waitUntil: 'domcontentloaded' });
   const deSearchBtn = page.locator('header button[aria-label*="Befehlspalette" i]').first();
   if (await deSearchBtn.isVisible()) {
     await deSearchBtn.click();
@@ -824,7 +828,7 @@ async function main() {
   console.log('\n▶ [9/13] Testing Trilingual Language Switcher & State Sync...');
   
   // 1. /about -> /de/about
-  await page.goto(`${BASE_URL}/about`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/about`, { waitUntil: 'domcontentloaded' });
   await triggerLanguageSwitch(page, 'de');
   await page.waitForURL(/\/de\/about/);
   await page.waitForFunction(() => document.documentElement.getAttribute('lang') === 'de', { timeout: 5000 });
@@ -861,7 +865,7 @@ async function main() {
   }
 
   // 4. Hash preservation: /experience#ahd-financial-deputy -> /de/experience#ahd-financial-deputy
-  await page.goto(`${BASE_URL}/experience#ahd-financial-deputy`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/experience#ahd-financial-deputy`, { waitUntil: 'domcontentloaded' });
   await triggerLanguageSwitch(page, 'de');
   await page.waitForURL(/\/de\/experience/);
   if (!page.url().includes('#ahd-financial-deputy')) {
@@ -871,7 +875,7 @@ async function main() {
   }
 
   // 5. Query preservation: /projects?filter=systems -> /de/projects?filter=systems
-  await page.goto(`${BASE_URL}/projects?filter=systems`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/projects?filter=systems`, { waitUntil: 'domcontentloaded' });
   await triggerLanguageSwitch(page, 'de');
   await page.waitForURL(/\/de\/projects/);
   if (!page.url().includes('filter=systems')) {
@@ -885,7 +889,7 @@ async function main() {
   // -------------------------------------------------------------
   console.log('\n▶ [10/13] Testing Theme Persistence & Cross-Locale Retention...');
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
 
   const themeToggleBtn = page.locator('header button[aria-label*="theme" i]:visible, header button[aria-label*="Design" i]:visible, header button[aria-label*="المظهر" i]:visible').first();
 
@@ -895,7 +899,7 @@ async function main() {
     const toggledTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
     
     // Reload check
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'domcontentloaded' });
     const reloadedTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
     if (reloadedTheme !== toggledTheme) {
       failures.push('Theme failed to persist on page reload');
@@ -904,7 +908,7 @@ async function main() {
     }
 
     // Cross-locale check: navigate to /de/about
-    await page.goto(`${BASE_URL}/de/about`, { waitUntil: 'networkidle' });
+    await page.goto(`${BASE_URL}/de/about`, { waitUntil: 'domcontentloaded' });
     const deTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
     if (deTheme !== toggledTheme) {
       failures.push(`Theme failed cross-locale retention: expected ${toggledTheme}, found ${deTheme}`);
@@ -918,16 +922,19 @@ async function main() {
   }
 
   // -------------------------------------------------------------
-  // 11. RESPONSIVE OVERFLOW MATRIX (21 Routes x 4 Viewports = 84)
+  // 11. RESPONSIVE OVERFLOW MATRIX (24 Routes x 4 Viewports = 96)
   // -------------------------------------------------------------
-  console.log('\n▶ [11/13] Testing Responsive Overflow Matrix (21 Routes x 4 Viewports = 84 Tests)...');
+  console.log('\n▶ [11/13] Testing Responsive Overflow Matrix (24 Routes x 4 Viewports = 96 Tests)...');
   const RESPONSIVE_ROUTES = [
     ...PRIMARY_ROUTES_EN,
     REPRESENTATIVE_PROJECT_EN,
+    FOUNDATIONKIT_PROJECT_EN,
     ...PRIMARY_ROUTES_AR,
     REPRESENTATIVE_PROJECT_AR,
+    FOUNDATIONKIT_PROJECT_AR,
     ...PRIMARY_ROUTES_DE,
-    REPRESENTATIVE_PROJECT_DE
+    REPRESENTATIVE_PROJECT_DE,
+    FOUNDATIONKIT_PROJECT_DE
   ];
   const overflowResults = [];
 
@@ -967,7 +974,7 @@ async function main() {
 
   const overflowFailures = overflowResults.filter((r) => r.overflow);
   if (overflowFailures.length === 0) {
-    console.log(`  ✓ All 84 route-viewport matrix combinations are completely free of horizontal overflow`);
+    console.log(`  ✓ All ${overflowResults.length} route-viewport matrix combinations are completely free of horizontal overflow`);
   }
 
   // -------------------------------------------------------------
@@ -976,7 +983,7 @@ async function main() {
   console.log('\n▶ [12/13] Verifying Live SEO Metadata & Sitemap.xml...');
   
   // 1. Root / reciprocal hreflang & x-default
-  await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
   const enCan = await page.locator('link[rel="canonical"]').getAttribute('href');
   const enHreflangEn = await page.locator('link[rel="alternate"][hreflang="en"]').getAttribute('href');
   const enHreflangAr = await page.locator('link[rel="alternate"][hreflang="ar"]').getAttribute('href');
@@ -996,7 +1003,7 @@ async function main() {
   }
 
   // 2. German /de metadata (og:locale = de_DE)
-  await page.goto(`${BASE_URL}/de`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de`, { waitUntil: 'domcontentloaded' });
   const deOgLocale = await page.locator('meta[property="og:locale"]').getAttribute('content');
   if (deOgLocale !== 'de_DE') {
     failures.push(`German og:locale is "${deOgLocale}" (expected de_DE)`);
@@ -1005,7 +1012,7 @@ async function main() {
   }
 
   // 3. Arabic /ar metadata (og:locale = ar_YE)
-  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar`, { waitUntil: 'domcontentloaded' });
   const arOgLocale = await page.locator('meta[property="og:locale"]').getAttribute('content');
   if (arOgLocale !== 'ar_YE') {
     failures.push(`Arabic og:locale is "${arOgLocale}" (expected ar_YE)`);
@@ -1024,10 +1031,10 @@ async function main() {
     const urlCount = urlMatches ? urlMatches.length : 0;
     console.log(`  sitemap.xml URL count: ${urlCount}`);
     
-    if (urlCount !== 66) {
-      failures.push(`sitemap.xml expected exactly 66 URLs (18 core + 48 project detail), found ${urlCount}`);
+    if (urlCount !== 69) {
+      failures.push(`sitemap.xml expected exactly 69 URLs (18 core + 51 project detail), found ${urlCount}`);
     } else {
-      console.log('  ✓ sitemap.xml contains exactly 66 indexable URLs');
+      console.log('  ✓ sitemap.xml contains exactly 69 indexable URLs');
     }
 
     if (!xml.includes('hreflang="en"') || !xml.includes('hreflang="ar"') || !xml.includes('hreflang="de"') || !xml.includes('hreflang="x-default"')) {
@@ -1041,17 +1048,17 @@ async function main() {
   // 13. CV DOWNLOAD ACTIONS & HTTP 200 STATUSES
   // -------------------------------------------------------------
   console.log('\n▶ [13/13] Verifying Public CV Actions & HTTP 200 Statuses...');
-  await page.goto(`${BASE_URL}/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/contact`, { waitUntil: 'domcontentloaded' });
   const enCvLinks = await page.locator('a[href^="/cv/"]').count();
   if (enCvLinks !== 6) failures.push(`Expected 6 CV links on /contact, found ${enCvLinks}`);
   else console.log('  ✓ Exactly 6 CV download links found on /contact');
 
-  await page.goto(`${BASE_URL}/ar/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/ar/contact`, { waitUntil: 'domcontentloaded' });
   const arCvLinks = await page.locator('a[href^="/cv/"]').count();
   if (arCvLinks !== 6) failures.push(`Expected 6 CV links on /ar/contact, found ${arCvLinks}`);
   else console.log('  ✓ Exactly 6 CV download links found on /ar/contact');
 
-  await page.goto(`${BASE_URL}/de/contact`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/de/contact`, { waitUntil: 'domcontentloaded' });
   const deCvLinks = await page.locator('a[href^="/cv/"]').count();
   if (deCvLinks !== 6) failures.push(`Expected 6 CV links on /de/contact, found ${deCvLinks}`);
   else console.log('  ✓ Exactly 6 CV download links found on /de/contact');
@@ -1094,18 +1101,18 @@ async function main() {
 
   console.log(`\n✅ ALL TRILINGUAL PRODUCTION RELEASE CHECKS PASSED DETERMINISTICALLY!`);
   console.log(`   - 18/18 Core Routes (6 EN + 6 AR + 6 DE) Return HTTP 200`);
-  console.log(`   - 48/48 Project Detail Routes (16 EN + 16 AR + 16 DE) Discovered & Return HTTP 200`);
+  console.log(`   - 51/51 Project Detail Routes (17 EN + 17 AR + 17 DE) Discovered & Return HTTP 200`);
   console.log(`   - Document state (lang/dir) verified on all routes across EN, AR, and DE`);
   console.log(`   - Full Content Integrity Verified across English, Arabic, and German`);
-  console.log(`   - Banned-phrase scan clean across all 66 routes`);
+  console.log(`   - Banned-phrase scan clean across all 69 routes`);
   console.log(`   - Accessible Project Filter Verified (EN, AR & DE)`);
   console.log(`   - Experience Explorer Desktop Tabs & Mobile Accordions Verified (EN, AR & DE)`);
   console.log(`   - Mobile Drawer Authentic Visibility & Escape Verified (EN, AR & DE)`);
   console.log(`   - Command Palette Ctrl+K & Escape Verified (EN, AR & DE)`);
   console.log(`   - Trilingual Language Switcher & State Sync Verified`);
   console.log(`   - Theme Persistence across reload and locale transitions Verified`);
-  console.log(`   - 84/84 Route-Viewport Overflow Matrix Clean (21 routes x 4 viewports)`);
-  console.log(`   - Live SEO & Sitemap.xml with 66 URLs and en/ar/de/x-default Verified`);
+  console.log(`   - 96/96 Route-Viewport Overflow Matrix Clean (24 routes x 4 viewports)`);
+  console.log(`   - Live SEO & Sitemap.xml with 69 URLs and en/ar/de/x-default Verified`);
   console.log(`   - 6/6 CV Packages Validated with HTTP 200 on EN, AR and DE`);
   console.log(`============================================================\n`);
   process.exit(0);

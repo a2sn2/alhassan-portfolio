@@ -4,6 +4,8 @@ import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 import { contactContent, siteMetadata } from "@/content";
+import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
+import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "./contact.module.css";
 
@@ -31,16 +33,24 @@ export default function ContactPage() {
     <div className={styles.contactPage}>
       <Container>
         {/* Page Header */}
-        <header className={styles.header}>
-          <span className={styles.kicker}>{contactContent.kicker}</span>
-          <h1 className={styles.title}>{contactContent.title}</h1>
-          <p className={styles.description}>{contactContent.description}</p>
-        </header>
+        <Reveal>
+          <header className={styles.header}>
+            <div className={styles.introMarkRow}>
+              <ProfileIdentityMark locale="en" />
+              <div className={styles.introMeta}>
+                <span className={styles.kicker}>{contactContent.kicker}</span>
+                <span className={styles.signatureName}>ALHassan Baligh ALShami</span>
+              </div>
+            </div>
+            <h1 className={styles.title}>{contactContent.title}</h1>
+            <p className={styles.description}>{contactContent.description}</p>
+          </header>
+        </Reveal>
 
         {/* Channels & CV Packages Layout */}
         <div className={styles.layout} style={{ marginTop: "var(--space-10)" }}>
           {/* Direct Channels Column */}
-          <div className={styles.channelsColumn}>
+          <Reveal delay={60} className={styles.channelsColumn}>
             <h2 className={styles.sectionTitle}>Direct Communication Channels</h2>
             <div className={styles.channelCards}>
               {contactContent.methods.map((method) => (
@@ -78,10 +88,10 @@ export default function ContactPage() {
                 roles, remote collaborations, and technical partnerships.
               </p>
             </div>
-          </div>
+          </Reveal>
 
           {/* Official CV Downloads Column */}
-          <div className={styles.cvColumn}>
+          <Reveal delay={100} className={styles.cvColumn}>
             <h2 className={styles.sectionTitle}>Official Multi-Language CV Packages</h2>
             <div className={styles.cvGrid}>
               {contactContent.cvDocuments.map((doc) => (
@@ -112,7 +122,7 @@ export default function ContactPage() {
               <span className={styles.noticeTitle}>References Policy</span>
               <p className={styles.noticeText}>{contactContent.referencesNote}</p>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
 

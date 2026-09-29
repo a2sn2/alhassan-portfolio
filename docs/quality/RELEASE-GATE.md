@@ -19,8 +19,9 @@ This document defines the strict gate criteria required before merging any branc
 | **G-09: Dependency Audit** | Zero high or critical security vulnerabilities. | `npm audit` | PASS |
 | **G-10: SEO & Structured Data** | Valid metadataBase, robots.txt, sitemap, JSON-LD. | Metadata inspection | PASS |
 | **G-11: Preview Verification** | Vercel PR preview inspected and smoke-tested. | Vercel URL QA | PASS |
-| **G-12: Visual Parity Audit** | Strict pixel diffing, geometry, and typography parity. | `npm run verify:visual-parity` | PASS |
-| **G-13: Human Sign-off** | Explicit owner approval granted before main merge. | User Approval Gate | PASS |
+| **G-12: Visual Parity Audit** | Strict pixel diffing, geometry, and typography parity (255 pairs). | `npm run verify:visual-parity` | PASS |
+| **G-13: Release Docs & Baseline Parity** | 17 Portfolio projects, 16 CV projects, 60 E2E tests, 69 routes verified. | `npm run verify:release-docs` | PASS |
+| **G-14: Human Sign-off** | Explicit owner approval granted before main merge. | User Approval Gate | PASS |
 
 ---
 

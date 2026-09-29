@@ -6,32 +6,32 @@
 }
 
 .header {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(2rem, 4vw, 4rem);
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: var(--space-8);
-}
-
-.headerContent {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  max-width: 720px;
+  gap: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-8);
+  max-width: 72ch;
 }
 
-.headerPortrait {
+.introMarkRow {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 320px;
-  justify-self: end;
+  gap: var(--space-4);
+  margin-bottom: var(--space-1);
 }
 
-:global([dir="rtl"]) .headerPortrait {
-  justify-self: start;
+.introMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.signatureName {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  letter-spacing: -0.01em;
 }
 
 .kicker {
@@ -54,6 +54,7 @@
   font-size: var(--text-lg);
   color: var(--color-text-secondary);
   line-height: 1.6;
+  max-width: 68ch;
 }
 
 /* Narrative Grid */
@@ -83,26 +84,16 @@
 }
 
 .educationCard {
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-brand);
   background-color: var(--color-surface-primary);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  box-shadow: var(--shadow-subtle);
   position: relative;
   overflow: hidden;
-}
-
-.educationCard::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background-color: var(--color-brand);
 }
 
 .cardKicker {
@@ -143,14 +134,13 @@
 
 /* Languages */
 .languagesCard {
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   background-color: var(--color-surface-primary);
   padding: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  box-shadow: var(--shadow-subtle);
 }
 
 .langList {
@@ -219,14 +209,12 @@
 }
 
 .principleCard {
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  background-color: var(--color-surface-primary);
-  padding: var(--space-6);
+  border-top: 2px solid var(--color-brand);
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding: var(--space-4) 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  box-shadow: var(--shadow-subtle);
 }
 
 .principleTitle {
@@ -257,14 +245,13 @@
 }
 
 .interestCard {
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background-color: var(--color-surface-primary);
-  padding: var(--space-6);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  box-shadow: var(--shadow-subtle);
 }
 
 .interestHeader {

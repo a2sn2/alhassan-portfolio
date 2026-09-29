@@ -4,6 +4,8 @@ import { Container } from "@/components/ui/Container";
 import { ChapterNav } from "@/components/ui/ChapterNav";
 import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 import { contactContentAr, siteMetadataAr } from "@/content/ar";
+import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
+import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "../../contact/contact.module.css";
 
@@ -32,16 +34,24 @@ export default function ArabicContactPage() {
     <div className={styles.contactPage}>
       <Container>
         {/* Page Header */}
-        <header className={styles.header}>
-          <span className={styles.kicker}>{contactContentAr.kicker}</span>
-          <h1 className={styles.title}>{contactContentAr.title}</h1>
-          <p className={styles.description}>{contactContentAr.description}</p>
-        </header>
+        <Reveal>
+          <header className={styles.header}>
+            <div className={styles.introMarkRow}>
+              <ProfileIdentityMark locale="ar" />
+              <div className={styles.introMeta}>
+                <span className={styles.kicker}>{contactContentAr.kicker}</span>
+                <span className={styles.signatureName}>الحسن بليغ الشامي</span>
+              </div>
+            </div>
+            <h1 className={styles.title}>{contactContentAr.title}</h1>
+            <p className={styles.description}>{contactContentAr.description}</p>
+          </header>
+        </Reveal>
 
         {/* Channels & CV Packages Layout */}
         <div className={styles.layout} style={{ marginTop: "var(--space-10)" }}>
           {/* Direct Channels Column */}
-          <div className={styles.channelsColumn}>
+          <Reveal delay={60} className={styles.channelsColumn}>
             <h2 className={styles.sectionTitle}>قنوات التواصل المباشرة</h2>
             <div className={styles.channelCards}>
               {contactContentAr.methods.map((method) => (
@@ -84,10 +94,10 @@ export default function ArabicContactPage() {
                 المقر: صنعاء، اليمن.
               </p>
             </div>
-          </div>
+          </Reveal>
 
           {/* Official CV Downloads Column */}
-          <div className={styles.cvColumn}>
+          <Reveal delay={100} className={styles.cvColumn}>
             <h2 className={styles.sectionTitle}>حزم السيرة الذاتية الرسمية متعددة اللغات</h2>
             <div className={styles.cvGrid}>
               {contactContentAr.cvDocuments.map((doc) => (
@@ -123,7 +133,7 @@ export default function ArabicContactPage() {
               <span className={styles.noticeTitle}>سياسة المعرفين المهنيين</span>
               <p className={styles.noticeText}>{contactContentAr.referencesNote}</p>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
 

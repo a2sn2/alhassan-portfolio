@@ -89,7 +89,7 @@ export const experienceContent: ExperienceContent = {
       ],
     },
     {
-      id: "ahd-financial-support-trainee",
+      id: "ahd-financial-cs-trainee",
       company: "AHD for Financial Services – Jaib Wallet",
       role: "Customer Service Trainee",
       period: "Sep – Dec 2025",

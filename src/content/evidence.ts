@@ -10,11 +10,33 @@ export const PORTFOLIO_TREE_BASE = `${PORTFOLIO_REPO_BASE}/tree/main/docs/eviden
 export const PORTFOLIO_BLOB_BASE = `${PORTFOLIO_REPO_BASE}/blob/main/docs/evidence`;
 
 /**
- * Shared, canonical evidence metadata for all 16 projects.
+ * Shared, canonical evidence metadata for all 17 projects.
  * Consumed identically across English, Arabic, and German content layers
  * to guarantee zero translation drift on technical facts and repository links.
  */
 export const projectEvidenceMap: Record<string, ProjectEvidenceMeta> = {
+  "foundationkit-dotnet": {
+    slug: "foundationkit-dotnet",
+    status: "verified",
+    sourceKind: "repository",
+    repository: {
+      url: "https://github.com/a2sn2/foundationkit-dotnet",
+      repositoryName: "a2sn2 / foundationkit-dotnet",
+      source: "standalone",
+    },
+    evidenceUrl: `${PORTFOLIO_TREE_BASE}/projects/foundationkit-dotnet`,
+    technologiesConfirmed: [
+      ".NET 10",
+      "C#",
+      "ASP.NET Core",
+      "Blazor WebAssembly",
+      "Entity Framework Core",
+      "SQL Server",
+      "OpenAPI",
+      "xUnit",
+    ],
+    notes: "Composable .NET 10 full-stack system-building foundation with 17 reusable NuGet packages, deterministic Composer tooling, Project Studio, and executable Workbench. Consumer-ready Core baseline — Pre-production.",
+  },
   "real-time-object-detection": {
     slug: "real-time-object-detection",
     status: "verified",

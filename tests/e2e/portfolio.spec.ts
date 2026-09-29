@@ -139,8 +139,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     ).toBeVisible();
 
     // Switch to another role via tab click
-    await page.click('button:has-text("AHD for Financial Services – Jaib Wallet")');
-    await expect(detailPanel.locator("text=Deputy Development Manager")).toBeVisible();
+    await page.click("#tab-ahd-financial-deputy");
+    await expect(detailPanel.locator("h2", { hasText: "Deputy Development Manager" })).toBeVisible();
 
     // Deep linking via hash parameter
     await page.goto("/experience#water-sanitation-corp");
@@ -157,9 +157,9 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
   }) => {
     await page.goto("/projects");
 
-    // Verify all 16 projects displayed initially
+    // Verify all 17 projects displayed initially
     const articles = page.locator("article");
-    await expect(articles).toHaveCount(16);
+    await expect(articles).toHaveCount(17);
 
     // Filter by 'Computer Vision & AI'
     await page.click('button:has-text("Computer Vision & AI")');
@@ -662,7 +662,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     // 2. Project Explorer in Arabic
     await page.goto("/ar/projects");
     const articles = page.locator("article");
-    await expect(articles).toHaveCount(16);
+    await expect(articles).toHaveCount(17);
 
     // Filter by 'الرؤية الحاسوبية والذكاء الاصطناعي'
     await page.click('button:has-text("الرؤية الحاسوبية والذكاء الاصطناعي")');
@@ -1174,10 +1174,11 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
   test("TC-35: Project hierarchy and technology parity EN <-> DE", async () => {
     // Assert 1:1 structural and evidence parity between English and German project sets
-    expect(projectItemsDe.length).toBe(16);
-    expect(projectItems.length).toBe(16);
+    expect(projectItemsDe.length).toBe(17);
+    expect(projectItems.length).toBe(17);
 
     const expectedGermanTechnologies: Record<string, string[]> = {
+      "foundationkit-dotnet": [".NET 10", "C#", "ASP.NET Core", "Blazor WebAssembly", "Entity Framework Core", "SQL Server", "OpenAPI", "xUnit"],
       "real-time-object-detection": ["Python", "PyTorch", "OpenCV"],
       "robocam-controller": ["Flutter", "Dart", "Android"],
       "pump-station-analytics": ["Vorausschauende Wartung"],
@@ -1565,21 +1566,21 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       {
         route: "/",
         heading: "Deterministic Engineering Evidence",
-        projectMetric: "12 Verified Project Sources",
+        projectMetric: "13 Verified Project Sources",
         certMetric: "22 Verified Certificates",
         count: 4,
       },
       {
         route: "/ar",
         heading: "التوثيق والإثباتات الهندسية",
-        projectMetric: "12 مصدر مشروع موثّق",
+        projectMetric: "13 مصدر مشروع موثّق",
         certMetric: "22 شهادة معتمدة",
         count: 4,
       },
       {
         route: "/de",
         heading: "Deterministische Ingenieurnachweise",
-        projectMetric: "12 verifizierte Projektquellen",
+        projectMetric: "13 verifizierte Projektquellen",
         certMetric: "22 verifizierte Zertifikate",
         count: 4,
       },
@@ -1759,7 +1760,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     }
   });
 
-  test("TC-53: Homepage verified project metric matches exact verified count (12) across EN, AR, DE", async ({
+  test("TC-53: Homepage verified project metric matches exact verified count (13) across EN, AR, DE", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -1769,9 +1770,9 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.waitForLoadState("networkidle");
     const enProof = page.locator("#proof");
     await expect(enProof).toBeVisible();
-    await expect(enProof).toContainText("12 Verified Project Sources");
+    await expect(enProof).toContainText("13 Verified Project Sources");
     await expect(enProof).toContainText(
-      "Verified source repositories and curated code archives covering 12 canonical engineering projects."
+      "Verified source repositories and curated code archives covering 13 canonical engineering projects."
     );
     await expect(enProof).not.toContainText("14 of 16");
     await expect(enProof).not.toContainText("conflict");
@@ -1782,7 +1783,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.waitForLoadState("networkidle");
     const arProof = page.locator("#proof");
     await expect(arProof).toBeVisible();
-    await expect(arProof).toContainText("12 مصدر مشروع موثّق");
+    await expect(arProof).toContainText("13 مصدر مشروع موثّق");
     await expect(arProof).not.toContainText("14 من 16");
 
     // 3. DE Homepage
@@ -1790,7 +1791,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.waitForLoadState("networkidle");
     const deProof = page.locator("#proof");
     await expect(deProof).toBeVisible();
-    await expect(deProof).toContainText("12 verifizierte Projektquellen");
+    await expect(deProof).toContainText("13 verifizierte Projektquellen");
     await expect(deProof).not.toContainText("14 von 16");
   });
 
@@ -1826,6 +1827,271 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const cyberaiCta = cyberaiCard.locator('a:has-text("View Certificate")');
     await expect(cyberaiCta).toHaveCount(0);
   });
+
+  test("TC-55: HeroPortraitStage rendered with custom structural frame on /, /ar, /de", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    const heroRoutes = [
+      { route: "/", alt: "Professional studio portrait" },
+      { route: "/ar", alt: "صورة شخصية احترافية في الاستوديو" },
+      { route: "/de", alt: "Professionelles Studio-Porträt" },
+    ];
+
+    for (const { route, alt } of heroRoutes) {
+      await page.goto(route);
+      await page.waitForLoadState("networkidle");
+
+      const stage = page.locator('[data-testid="hero-portrait-stage"]');
+      await expect(stage).toBeVisible();
+
+      const image = stage.locator("img");
+      await expect(image).toBeVisible();
+      await expect(image).toHaveAttribute("alt", alt);
+    }
+  });
+
+  test("TC-56: ProfileIdentityMark rendered in About and Contact headers across all locales", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    const pagesWithMark = [
+      "/about",
+      "/ar/about",
+      "/de/about",
+      "/contact",
+      "/ar/contact",
+      "/de/contact",
+    ];
+
+    for (const route of pagesWithMark) {
+      await page.goto(route);
+      await page.waitForLoadState("networkidle");
+
+      const mark = page.locator('[data-testid="profile-identity-mark"]');
+      await expect(mark).toBeVisible();
+
+      const image = mark.locator("img");
+      await expect(image).toBeVisible();
+    }
+  });
+
+  test("TC-57: Home page renders unified Jaib progression feature instead of independent cards across EN, AR, DE", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    const homeRoutes = [
+      {
+        url: "/",
+        progressionTitle: "Career Progression",
+        company: "AHD for Financial Services – Jaib Wallet",
+        roles: [
+          "Customer Service Trainee",
+          "Development Trainee",
+          "Developer, Development Dept.",
+          "Deputy Development Manager",
+        ],
+        ctaText: "Explore progression",
+        ctaHref: "/experience#ahd-financial-deputy",
+      },
+      {
+        url: "/ar",
+        progressionTitle: "مسار التطور المهني",
+        company: "عهد للخدمات المالية - محفظة جيب",
+        roles: [
+          "متدرب في خدمة العملاء",
+          "متدرب في قسم التطوير",
+          "مُطوِّر في قسم التطوير",
+          "نائب إدارة التطوير",
+        ],
+        ctaText: "استكشف المسار",
+        ctaHref: "/ar/experience#ahd-financial-deputy",
+      },
+      {
+        url: "/de",
+        progressionTitle: "Berufliche Entwicklung",
+        company: "AHD Financial Services – Jaib Wallet",
+        roles: [
+          "Trainee im Kundenservice",
+          "Trainee, Entwicklungsabteilung",
+          "Entwickler, Entwicklungsabteilung",
+          "Stellv. Entwicklungsleiter",
+        ],
+        ctaText: "Entwicklung ansehen",
+        ctaHref: "/de/experience#ahd-financial-deputy",
+      },
+    ];
+
+    for (const route of homeRoutes) {
+      await page.goto(route.url);
+      await page.waitForLoadState("networkidle");
+
+      // Verify exactly 3 experience cards exist in the snapshot section
+      const expSection = page.locator('section[aria-labelledby="heading-experience-snapshot"]');
+      await expect(expSection).toBeVisible();
+
+      // The 3 cards: Asaas AI, Jaib Progression Feature, and Water & Sanitation
+      const cards = expSection.locator("[class*='experienceCards'] > *");
+      await expect(cards).toHaveCount(3);
+
+      // Verify the unified Jaib progression card exists
+      const progressionCard = expSection.locator("[class*='progressionHighlightCard']");
+      await expect(progressionCard).toBeVisible();
+      await expect(progressionCard).toContainText(route.company);
+      await expect(progressionCard).toContainText(route.progressionTitle);
+
+      // Verify all 4 roles are contained inside this single progression component
+      for (const roleTitle of route.roles) {
+        await expect(progressionCard).toContainText(roleTitle);
+      }
+
+      // Verify CTA link
+      const ctaLink = progressionCard.locator(`a[href="${route.ctaHref}"]`);
+      await expect(ctaLink).toBeVisible();
+      await expect(ctaLink).toContainText(route.ctaText);
+    }
+  });
+
+  test("TC-58: Experience Explorer desktop career progression grouping, stages, selection, and current role emphasis", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/experience");
+    await page.waitForLoadState("networkidle");
+
+    // 1. Desktop Jaib is rendered as one organization progression group
+    const progressionBlock = page.locator("#progression-ahd-jaib");
+    await expect(progressionBlock).toBeVisible();
+    await expect(progressionBlock).toContainText("AHD for Financial Services – Jaib Wallet");
+    await expect(progressionBlock).toContainText("Career Progression");
+
+    // 2. Group has exactly 4 stages
+    const stageButtons = progressionBlock.locator("button[role='tab']");
+    await expect(stageButtons).toHaveCount(4);
+
+    // 3. Stages appear oldest -> newest
+    const stageTexts = await stageButtons.allInnerTexts();
+    expect(stageTexts[0]).toContain("Customer Service Trainee");
+    expect(stageTexts[1]).toContain("Development Trainee");
+    expect(stageTexts[2]).toContain("Developer, Development Dept.");
+    expect(stageTexts[3]).toContain("Deputy Development Manager");
+
+    // 4. Current state is attached only to Deputy stage
+    await expect(stageButtons.nth(3)).toContainText("Current Role");
+    await expect(stageButtons.nth(0)).not.toContainText("Current Role");
+    await expect(stageButtons.nth(1)).not.toContainText("Current Role");
+    await expect(stageButtons.nth(2)).not.toContainText("Current Role");
+
+    // 5. Click Developer: detail panel becomes Developer
+    await stageButtons.nth(2).click();
+    const detailPanel = page.locator('[role="tabpanel"]');
+    await expect(detailPanel.locator("h2")).toHaveText("Developer, Development Dept.");
+    // Detail panel includes contextual strip showing Stage 03 / 04
+    await expect(detailPanel.locator("[class*='contextualStrip']")).toBeVisible();
+    await expect(detailPanel.locator("[class*='contextualSubtitle']")).toContainText("Stage 03 / 04");
+
+    // 6. Click Deputy: detail panel becomes Deputy Development Manager
+    await stageButtons.nth(3).click();
+    await expect(detailPanel.locator("h2")).toHaveText("Deputy Development Manager");
+    await expect(detailPanel.locator("[class*='contextualSubtitle']")).toContainText("Stage 04 / 04");
+  });
+
+  test("TC-59: Experience Explorer deep-linking, old alias hash resolution, and mobile journey accordion", async ({
+    page,
+  }) => {
+    // 7. Deep-link #ahd-financial-developer selects Developer
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/experience#ahd-financial-developer");
+    await page.waitForLoadState("networkidle");
+    const detailPanel = page.locator('[role="tabpanel"]');
+    await expect(detailPanel.locator("h2")).toHaveText("Developer, Development Dept.");
+
+    // 8. Old alias #ahd-financial-support-trainee resolves correctly in English
+    await page.goto("/experience#ahd-financial-support-trainee");
+    await page.waitForLoadState("networkidle");
+    await expect(detailPanel.locator("h2")).toHaveText("Customer Service Trainee");
+    expect(page.url()).toContain("#ahd-financial-cs-trainee");
+
+    // 9. Mobile: exactly one Jaib accordion group exists, not four independent organization accordions
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/experience");
+    await page.waitForLoadState("networkidle");
+
+    const mobileLayout = page.locator("[class*='mobileLayout']");
+    await expect(mobileLayout).toBeVisible();
+
+    const jaibMobileAccordions = mobileLayout.locator("#ahd-jaib");
+    await expect(jaibMobileAccordions).toHaveCount(1);
+
+    // 10. Selecting mobile stage updates role detail
+    const jaibAccordionTrigger = jaibMobileAccordions.locator("button[aria-controls='mobile-body-ahd-jaib']");
+    await jaibAccordionTrigger.click();
+
+    // Verify 4 stages inside mobile stepper
+    const mobileStageBtns = jaibMobileAccordions.locator("[class*='mobileStageBtn']");
+    await expect(mobileStageBtns).toHaveCount(4);
+
+    // Click Developer stage on mobile
+    await mobileStageBtns.nth(2).click();
+    const mobileActiveRole = jaibMobileAccordions.locator("[class*='mobileActiveRole']");
+    await expect(mobileActiveRole).toHaveText("Developer, Development Dept.");
+  });
+
+  test("TC-60: Trilingual parity, RTL logical layout, and reduced motion responsiveness in career progression", async ({
+    page,
+  }) => {
+    // 11. Arabic progression is RTL-correct
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/ar/experience");
+    await page.waitForLoadState("networkidle");
+
+    const htmlDir = await page.getAttribute("html", "dir");
+    expect(htmlDir).toBe("rtl");
+
+    const arProgressionBlock = page.locator("#progression-ahd-jaib");
+    await expect(arProgressionBlock).toContainText("عهد للخدمات المالية - محفظة جيب");
+    await expect(arProgressionBlock).toContainText("مسار التطور المهني");
+
+    // Click third stage in Arabic
+    const arStages = arProgressionBlock.locator("button[role='tab']");
+    await arStages.nth(2).click();
+    const arDetail = page.locator('[role="tabpanel"]');
+    await expect(arDetail.locator("h2")).toHaveText("مُطوِّر في قسم التطوير");
+    await expect(arDetail.locator("[class*='contextualSubtitle']")).toContainText("المرحلة 03 / 04");
+
+    // 12. German long labels do not overflow
+    await page.goto("/de/experience");
+    await page.waitForLoadState("networkidle");
+
+    const deProgressionBlock = page.locator("#progression-ahd-jaib");
+    await expect(deProgressionBlock).toContainText("AHD Financial Services – Jaib Wallet");
+    await expect(deProgressionBlock).toContainText("Berufliche Entwicklung");
+
+    const deStages = deProgressionBlock.locator("button[role='tab']");
+    await deStages.nth(3).click();
+    const deDetail = page.locator('[role="tabpanel"]');
+    await expect(deDetail.locator("h2")).toHaveText("Stellv. Entwicklungsleiter");
+    await expect(deDetail.locator("[class*='contextualSubtitle']")).toContainText("Phase 04 / 04");
+
+    const isOverflowing = await page.evaluate(() => {
+      return document.documentElement.scrollWidth > document.documentElement.clientWidth;
+    });
+    expect(isOverflowing).toBe(false);
+
+    // 13. Reduced motion removes connector/detail animation
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/experience");
+    await page.waitForLoadState("networkidle");
+
+    const connectorTransition = await page.locator("[class*='stepperFill']").evaluate((el) => {
+      return window.getComputedStyle(el).transition;
+    });
+    expect(connectorTransition).toMatch(/none|all 0s/);
+  });
 });
+
 
 

@@ -3,6 +3,45 @@ import { attachProjectEvidence } from "./evidence";
 
 const rawProjectItems: ProjectItem[] = [
   {
+    id: "foundationkit-dotnet",
+    slug: "foundationkit-dotnet",
+    title: "FoundationKit — .NET Full-Stack System Foundation",
+    tagline:
+      "Composable .NET 10 developer platform with 17 reusable packages, deterministic Composer generation, Project Studio, and an executable Workbench host.",
+    category: "Full-Stack & Web",
+    badge: "Developer Platform",
+    period: "2026",
+    problem:
+      "Repeatedly assembling enterprise full-stack .NET foundations, platform capabilities, transport contracts, data access, frontend wiring, and generated project structure while keeping the generated source code inspectable, reproducible, and consumer-owned.",
+    solution:
+      "FoundationKit provides a composable .NET 10 system-building foundation combining reusable Core platform packages, deterministic schema-driven Composer generation, Project Studio visual composition, Workbench runtime reference host, SQL-first read models, OpenAPI-driven transport, strongly-typed clients, and generated Blazor applications.",
+    architecture:
+      "Project Studio / Composer → Domain → Application → Infrastructure → Web API / SQL Server → Runtime OpenAPI → Postman + Typed C# Client → Blazor WebAssembly",
+    implementationHighlights: [
+      "17 reusable NuGet packages + symbol packages covering cross-cutting platform abstractions and infrastructure",
+      "Schema-driven deterministic Composer code generation (schema-v1/schema-v2) producing inspectable, consumer-owned Clean Architecture layers",
+      "Project Studio visual composition workspace enabling interactive preview-before-write generation workflows",
+      "Executable Workbench reference host validating end-to-end integration across Web API, EF Core, and SQL Server persistence",
+      "Runtime OpenAPI transport contracts powering automated Postman collection sync and strongly-typed C# client generation",
+      "Automated architecture rule gates, CodeQL security scanning, and multi-stage generation proof verification workflows",
+    ],
+    technologies: [
+      ".NET 10",
+      "C#",
+      "ASP.NET Core",
+      "Blazor WebAssembly",
+      "Entity Framework Core",
+      "SQL Server",
+      "OpenAPI",
+      "xUnit",
+    ],
+    result:
+      "Consumer-ready Core baseline — Pre-production. Delivers 17 reusable NuGet packages, deterministic project generation, interactive Project Studio, executable Workbench testbed, and a complete inspectable full-stack application path.",
+    featured: true,
+    presentationTier: "featured",
+    evidenceDepth: "rich",
+  },
+  {
     id: "real-time-object-detection",
     slug: "real-time-object-detection",
     title: "Real-Time Object Detection",

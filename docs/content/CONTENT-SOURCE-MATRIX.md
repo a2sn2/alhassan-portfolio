@@ -49,6 +49,7 @@ To maintain absolute transparency and integrity, content across the portfolio is
 | **Professional Principles** | "Pragmatic Implementation", "End-to-End System Visibility", "Quality & Review Rigor" | Synthesized working principles reflecting verified experience | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
 | **Project 3 Narrative Framing** | Problem/Context: "Real-time object detection on a live video stream."<br>Solution: "Python/PyTorch + OpenCV pipeline for live object detection."<br>Result: "Live pipeline with real-time visual output." | Strict conservative source-grounded framing in `src/content/projects.ts` (`real-time-object-detection`) | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
 | **Experience Role Summaries** | 1-sentence overviews for each of the 9 roles in `src/content/experience.ts` | Editorial condensation of verbatim responsibility bullets | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
+| **Jaib Wallet Career Progression Framing** | EN: "A continuous path within Jaib Wallet from customer-facing operations, into development training and hands-on software delivery, and onward to development-management responsibilities."<br>AR: "مسار مهني متصل داخل محفظة جيب بدأ من فهم العمليات وخدمة العملاء، ثم الانتقال إلى التدريب والتطوير البرمجي العملي، وصولًا إلى مسؤوليات إدارة التطوير."<br>DE: "Ein zusammenhängender Entwicklungsweg bei Jaib Wallet – vom kunden- und betriebsnahen Einstieg über die technische Ausbildung und praktische Softwareentwicklung bis hin zu Verantwortung im Entwicklungsmanagement." | Factual sequential role chronology across 4 verified roles within the same organization; owner-approved derived career-progression framing without promotion claims | **VERIFIED & CONSISTENT** | **OWNER-APPROVED DERIVED COPY** |
 
 ---
 
@@ -102,6 +103,18 @@ Technologies are attached to projects **only** where explicitly supported by the
 | `cafe-pos-system` | Café POS System | Full-Stack & Web | **BASIC** | `Java Swing`, `JDBC` | **VERIFIED & CONSISTENT** |
 | `omnifood-landing-page` | OMNIFOOD — Responsive Landing Page | Full-Stack & Web | **BASIC** | `Responsive Web` | **VERIFIED & CONSISTENT** |
 | `urbanmindos` | URBANMINDOS — Smart City Operating System | Systems & Robotics | **BASIC** | `Concept Design`, `Urban Air Mobility` | **VERIFIED & CONSISTENT** |
+
+### 5.1 Additional Evidence-Backed Portfolio Project
+
+| ID / Slug | Title | Category | Verified Evidence Depth | Strictly Attached Technologies (Explicitly Sourced) | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `foundationkit-dotnet` | FoundationKit — .NET Full-Stack System Foundation | Systems & Architecture | **FLAGSHIP / RICH** | `.NET 10`, `C#`, `ASP.NET Core`, `Blazor WebAssembly`, `Entity Framework Core`, `SQL Server`, `OpenAPI`, `xUnit` | **OWNER-APPROVED PORTFOLIO ADDITION + EVIDENCE-BACKED PROJECT** |
+
+- **Classification**: **OWNER-APPROVED PORTFOLIO ADDITION + EVIDENCE-BACKED PROJECT**
+- **Canonical Code Source**: Dedicated standalone GitHub repository [`a2sn2/foundationkit-dotnet`](https://github.com/a2sn2/foundationkit-dotnet)
+- **Status**: **VERIFIED REPOSITORY EVIDENCE**
+- **Operational Qualification**: **Consumer-ready Core baseline — Pre-production**
+- **Canonical vs. Presentation Scope**: FoundationKit is part of the public Portfolio presentation (bringing total portfolio presentation projects to 17), but is **not** represented as one of the 16 project entries in the current official CV package. This distinction is strictly maintained to preserve source-pure CV content parity while reflecting complete verified engineering work in the public showcase.
 
 ---
 

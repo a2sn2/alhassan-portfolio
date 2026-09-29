@@ -18,7 +18,7 @@
  *    - Education source purity (no location attached to canonical education)
  * 3. Portfolio presentation layer (src/content/):
  *    - All 9 experience roles retain active-voice responsibilities (not stripped)
- *    - All 16 projects, 26 certifications, 5 memberships, 3 interests present
+ *    - All 17 projects, 26 certifications, 5 memberships, 3 interests present
  *    - Certifications do not assign invented "Completed" statuses
  *    - Certifications use "Al-Hamdi Foundation"
  *    - Social channels and contact details align
@@ -446,11 +446,11 @@ async function run() {
     `All experience items retain active responsibilities (${emptyRespCount} empty items found)`
   );
 
-  // Projects in portfolio presentation
+  // Projects in portfolio presentation (16 printed CV projects + foundationkit-dotnet = 17 presentation projects)
   const pubProjects = pubProjectsMod.projectItems || pubProjectsMod.projectsContent?.items || [];
   check(
-    pubProjects.length === manifest.projects.length,
-    `Portfolio project catalogue count: ${pubProjects.length} (expected ${manifest.projects.length})`
+    pubProjects.length === 17,
+    `Portfolio project catalogue count: ${pubProjects.length} (expected 17)`
   );
 
   // Certifications in portfolio presentation
@@ -820,8 +820,8 @@ async function run() {
 
   const pubProjectsAr = pubProjectsModAr.projectItemsAr || pubProjectsModAr.projectsContentAr?.items || [];
   check(
-    pubProjectsAr.length === manifestAr.projects.length,
-    `Arabic portfolio project catalogue count: ${pubProjectsAr.length} (expected ${manifestAr.projects.length})`
+    pubProjectsAr.length === 17,
+    `Arabic portfolio project catalogue count: ${pubProjectsAr.length} (expected 17)`
   );
 
   const pubCertsAr = pubCertsModAr.credentialsContentAr?.certifications || [];
@@ -853,8 +853,8 @@ async function run() {
   const enSlugs = pubProjects.map((p) => p.slug);
   const arSlugs = pubProjectsAr.map((p) => p.slug);
   check(
-    enSlugs.length === 16 && arSlugs.length === 16,
-    `Both English (16) and Arabic (16) have exactly 16 project slugs`
+    enSlugs.length === 17 && arSlugs.length === 17,
+    `Both English (17) and Arabic (17) have exactly 17 project slugs`
   );
   let slugMismatches = 0;
   enSlugs.forEach((slug) => {
@@ -871,7 +871,7 @@ async function run() {
   });
   check(
     slugMismatches === 0,
-    `All 16 project slugs match 1:1 between English and Arabic versions`
+    `All 17 project slugs match 1:1 between English and Arabic versions`
   );
 
   // 11. Arabic Reference Display Policy Verification
@@ -1177,8 +1177,8 @@ async function run() {
     `German experienceContent has all 9 roles`
   );
   check(
-    presProjectsModDe.projectItemsDe?.length === 16,
-    `German projectItems has all 16 projects`
+    presProjectsModDe.projectItemsDe?.length === 17,
+    `German projectItems has all 17 projects`
   );
   check(
     presSkillsModDe.skillsContentDe?.groups?.length === 5,
@@ -1213,8 +1213,8 @@ async function run() {
   console.log("\n▶ [16/18] Verifying Trilingual Project Slug Parity (EN == AR == DE)...");
   const deSlugs = presProjectsModDe.projectItemsDe.map((p) => p.slug);
   check(
-    deSlugs.length === 16,
-    `German projects list has exactly 16 slugs`
+    deSlugs.length === 17,
+    `German projects list has exactly 17 slugs`
   );
   let trilingualSlugMismatches = 0;
   enSlugs.forEach((slug) => {
@@ -1231,7 +1231,7 @@ async function run() {
   });
   check(
     trilingualSlugMismatches === 0,
-    `All 16 project slugs match 1:1 across English, Arabic, and German versions`
+    `All 17 project slugs match 1:1 across English, Arabic, and German versions`
   );
 
   // 17. German Reference Display Policy Verification

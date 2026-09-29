@@ -7,13 +7,13 @@
  * between Local (http://localhost:3000) and Production / Preview deployment.
  * 
  * Matrix:
- * - 21 Routes: 7 English (/, /about, /experience, /projects, /capabilities, /contact, /projects/real-time-object-detection)
- *              7 Arabic (/ar, /ar/about, /ar/experience, /ar/projects, /ar/capabilities, /ar/contact, /ar/projects/real-time-object-detection)
- *              7 German (/de, /de/about, /de/experience, /de/projects, /de/capabilities, /de/contact, /de/projects/real-time-object-detection)
+ * - 24 Routes: 8 English (/, /about, /experience, /projects, /capabilities, /contact, /projects/real-time-object-detection, /projects/foundationkit-dotnet)
+ *              8 Arabic (/ar, /ar/about, /ar/experience, /ar/projects, /ar/capabilities, /ar/contact, /ar/projects/real-time-object-detection, /ar/projects/foundationkit-dotnet)
+ *              8 German (/de, /de/about, /de/experience, /de/projects, /de/capabilities, /de/contact, /de/projects/real-time-object-detection, /de/projects/foundationkit-dotnet)
  * - 5 Viewports: 1440x900, 1280x800, 768x1024, 390x844, 320x700
  * - 2 Themes: light, dark
  * - 15 Interactive States: 5 English + 5 Arabic + 5 German
- * Total: 210 static + 15 interactive = 225 visual comparison pairs
+ * Total: 240 static + 15 interactive = 255 visual comparison pairs
  * 
  * Normalization:
  * - Masks ONLY known dev-only artifacts (nextjs-portal, [data-nextjs-toast], #nextjs-dev-overlay, etc.)
@@ -46,7 +46,7 @@ fs.mkdirSync(PROD_SCREENSHOTS_DIR, { recursive: true });
 fs.mkdirSync(DIFFS_DIR, { recursive: true });
 
 const ROUTES = [
-  // English Routes (7)
+  // English Routes (8)
   { id: 'en-home', path: '/' },
   { id: 'en-about', path: '/about' },
   { id: 'en-experience', path: '/experience' },
@@ -54,8 +54,9 @@ const ROUTES = [
   { id: 'en-capabilities', path: '/capabilities' },
   { id: 'en-contact', path: '/contact' },
   { id: 'en-case-study', path: '/projects/real-time-object-detection' },
+  { id: 'en-flagship', path: '/projects/foundationkit-dotnet' },
 
-  // Arabic Routes (7)
+  // Arabic Routes (8)
   { id: 'ar-home', path: '/ar' },
   { id: 'ar-about', path: '/ar/about' },
   { id: 'ar-experience', path: '/ar/experience' },
@@ -63,15 +64,17 @@ const ROUTES = [
   { id: 'ar-capabilities', path: '/ar/capabilities' },
   { id: 'ar-contact', path: '/ar/contact' },
   { id: 'ar-case-study', path: '/ar/projects/real-time-object-detection' },
+  { id: 'ar-flagship', path: '/ar/projects/foundationkit-dotnet' },
 
-  // German Routes (7)
+  // German Routes (8)
   { id: 'de-home', path: '/de' },
   { id: 'de-about', path: '/de/about' },
   { id: 'de-experience', path: '/de/experience' },
   { id: 'de-projects', path: '/de/projects' },
   { id: 'de-capabilities', path: '/de/capabilities' },
   { id: 'de-contact', path: '/de/contact' },
-  { id: 'de-case-study', path: '/de/projects/real-time-object-detection' }
+  { id: 'de-case-study', path: '/de/projects/real-time-object-detection' },
+  { id: 'de-flagship', path: '/de/projects/foundationkit-dotnet' }
 ];
 
 const VIEWPORTS = [
@@ -84,9 +87,9 @@ const VIEWPORTS = [
 
 const THEMES = ['light', 'dark'];
 
-const STATIC_PAIR_COUNT = ROUTES.length * VIEWPORTS.length * THEMES.length; // 21 * 5 * 2 = 210
+const STATIC_PAIR_COUNT = ROUTES.length * VIEWPORTS.length * THEMES.length; // 24 * 5 * 2 = 240
 const INTERACTIVE_PAIR_COUNT = 15; // 5 EN + 5 AR + 5 DE
-const TOTAL_PAIRS_EXPECTED = STATIC_PAIR_COUNT + INTERACTIVE_PAIR_COUNT; // 225
+const TOTAL_PAIRS_EXPECTED = STATIC_PAIR_COUNT + INTERACTIVE_PAIR_COUNT; // 255
 
 async function launchBrowser() {
   try {

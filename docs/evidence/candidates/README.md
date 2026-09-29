@@ -1,13 +1,13 @@
 # Candidate Projects Inventory (Non-Canonical)
 
-This document catalogs non-canonical project directories discovered during local evidence inventorying. In accordance with portfolio governance rules, these projects are preserved and documented as **Candidates Only** and are **not** published into the official 16-project canonical portfolio.
+This document catalogs non-canonical project directories discovered during local evidence inventorying. In accordance with portfolio governance rules, these projects are preserved and documented as **Candidates Only** and are **not** published into the official 17-project canonical portfolio.
 
 ---
 
 ## 1. PhoneDroneSim
 - **Evidence Location**: `docs/evidence/usniversity projects/PhoneDroneSim` (and `a2sn2/GraduationProject/extras/PhoneDroneSim.rar`)
 - **Technical Summary**: Drone flight simulation and mobile telemetry control experiments related to aerial robotics.
-- **Reason Not Public in Portfolio**: Candidate system developed as experimental exploration alongside the graduation project; not part of the approved 16 canonical projects baseline.
+- **Reason Not Public in Portfolio**: Candidate system developed as experimental exploration alongside the graduation project; not part of the approved 17 canonical projects baseline.
 
 ---
 
@@ -37,16 +37,7 @@ This document catalogs non-canonical project directories discovered during local
 - **Technical Summary**: Utility scripts for file extraction and archiving routines.
 - **Reason Not Public in Portfolio**: Internal developer utility script; not an engineering showcase project.
 
----
-
-## 6. foundationkit-dotnet
-- **Evidence Location**: Historical repository candidate
-- **Technical Summary**: .NET utility class library and foundation helpers.
-- **Reason Not Public in Portfolio**: Standalone library exploration; not currently featured as an active canonical portfolio system.
-
----
-
-## 7. template
+## 6. template
 - **Evidence Location**: Template directories
 - **Technical Summary**: Generic project starter boilerplate.
 - **Reason Not Public in Portfolio**: Non-substantive template scaffolding.
