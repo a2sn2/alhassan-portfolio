@@ -1,8 +1,8 @@
 import { SiteMetadata } from "@/contracts/siteMetadata";
 
 export const siteMetadata = {
-  siteUrl: "https://alhassan-portfolio-phi.vercel.app",
-  productionDomain: "alhassan-portfolio-phi.vercel.app",
+  siteUrl: "https://www.engalhassanalshami.com",
+  productionDomain: "www.engalhassanalshami.com",
   titleTemplate: "%s | ALHassan Baligh ALShami",
   defaultTitle: "ALHassan Baligh ALShami — Software Engineer",
   defaultDescription:

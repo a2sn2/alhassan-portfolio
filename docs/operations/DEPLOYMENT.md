@@ -1,6 +1,6 @@
 # Deployment & Promotion Runbook
 
-**Production URL:** `https://alhassan-portfolio-phi.vercel.app`  
+**Production URL:** `https://www.engalhassanalshami.com`  
 **Production Branch:** `main`  
 **Hosting Provider:** Vercel Global Edge Network  
 
@@ -28,7 +28,7 @@ Release Gate Verification Passed
        │
        ▼ (Merge Pull Request into main)
 Vercel Production Deployment
-  └── Atomic promotion to https://alhassan-portfolio-phi.vercel.app
+  └── Atomic promotion to https://www.engalhassanalshami.com
        │
        ▼
 Production Smoke Test

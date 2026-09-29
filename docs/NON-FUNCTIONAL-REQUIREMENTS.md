@@ -65,7 +65,7 @@ The layout must render flawlessly without horizontal clipping, text truncation, 
 
 ## 5. SEO & Web Identity
 
-- **Canonical URL:** Enforce `https://alhassan-portfolio-phi.vercel.app` as single canonical origin.
+- **Canonical URL:** Enforce `https://www.engalhassanalshami.com` as single canonical origin.
 - **Metadata Routes:** Programmatic `robots.txt` allowing indexing and pointing to `sitemap.xml`.
 - **Structured Data:** Valid JSON-LD `@graph` containing `Schema.org/Person` and `Schema.org/WebSite`.
 - **Social Graph:** Open Graph and Twitter Card metadata configured with preview cards.

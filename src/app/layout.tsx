@@ -9,6 +9,8 @@ import { DocumentLocaleSync } from "@/components/layout/DocumentLocaleSync";
 import { siteMetadata } from "@/content/siteMetadata";
 import { identityContent } from "@/content/identity";
 import { socialLinks } from "@/content/social";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -146,6 +148,8 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

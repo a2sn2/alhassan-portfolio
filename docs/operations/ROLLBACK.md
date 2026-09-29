@@ -14,7 +14,7 @@ Because deployments on Vercel are immutable and atomic, you can instantly restor
 4. Locate the last known healthy production deployment.
 5. Click the three dots menu (`...`) on the right side of the deployment row.
 6. Click **Instant Rollback**.
-7. Confirm the prompt. The healthy deployment is immediately promoted to serve `https://alhassan-portfolio-phi.vercel.app` instantly.
+7. Confirm the prompt. The healthy deployment is immediately promoted to serve `https://www.engalhassanalshami.com` instantly.
 
 ---
 

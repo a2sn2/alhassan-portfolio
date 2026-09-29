@@ -34,7 +34,7 @@ import * as path from 'path';
 import sharp from 'sharp';
 
 const LOCAL_BASE = process.env.LOCAL_BASE || 'http://localhost:3000';
-const PROD_BASE = process.env.PROD_BASE || 'https://alhassan-portfolio-phi.vercel.app';
+const PROD_BASE = process.env.PROD_BASE || 'https://www.engalhassanalshami.com';
 
 const OUTPUT_DIR = path.resolve(process.cwd(), 'test-results', 'visual-parity');
 const LOCAL_SCREENSHOTS_DIR = path.join(OUTPUT_DIR, 'screenshots', 'local');

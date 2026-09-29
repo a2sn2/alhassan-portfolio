@@ -9,8 +9,8 @@ This document establishes the deterministic integrity baseline for tracked sourc
 The following asset suites are **intentionally public** and permanently tracked in the repository:
 1. `docs/ALHassan_Baligh_ALShami_CV_Package/` — Official multi-lingual CV packages (German, English, Arabic) in Standard and ATS-optimized editions.
 2. `docs/Themes/Jaib Theme/` — Comprehensive design system reference material, color specifications, design prompts, and interactive identity previews.
-3. `docs/images/` — Official high-resolution source personal portrait photography suite (`AllPic.png`, `FacePic.jpeg`).
-4. `docs/evidence/` — Portfolio Evidence Hub containing 16 project evidence archives and 26 credential records (refer to `docs/evidence/evidence-manifest.json` for detailed machine-readable manifest and `docs/evidence/EVIDENCE-MATRIX.md` for full cross-reference matrix).
+3. `docs/images/` — Official high-resolution source personal portrait photography suite (`AllPic.png`, `FacePic.jpeg`) and official browser/application icon source (`drawingface.png`).
+4. `docs/evidence/` — Portfolio Evidence Hub containing 17 Portfolio project evidence records (composed of 16 projects from the official CV catalogue + 1 additional evidence-backed Portfolio project: FoundationKit) and 26 credential records (refer to `docs/evidence/evidence-manifest.json` for detailed machine-readable manifest and `docs/evidence/EVIDENCE-MATRIX.md` for full cross-reference matrix).
 
 These files serve as the canonical source material for portfolio content verification and visual design consistency. They must never be deleted, renamed without traceability, or excluded via `.gitignore`.
 
@@ -22,6 +22,7 @@ These files serve as the canonical source material for portfolio content verific
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `docs/images/AllPic.png` | `public/images/profile/alhassan-studio.png` | 1254 × 1254 (PNG, 1:1) | 1,898,660 | `2dc8c86107ac9131adad4ae311f84bcd8ca55e40591831320c38977198e2055e` | Profile Photography / Primary Editorial Studio Portrait (Hero) |
 | `docs/images/FacePic.jpeg` | `public/images/profile/alhassan-formal.jpeg` | 2400 × 2814 (JPEG) | 1,898,824 | `ec36fe585feff7c858188af4f2c0bf67455c9fc68547155499bc623fb184cf08` | Profile Photography / Formal Professional Portrait (About Intro) |
+| `docs/images/drawingface.png` | `src/app/icon.png`, `src/app/apple-icon.png`, `src/app/favicon.ico` | 891 × 1148 (PNG, Alpha) | 86,745 | `25f0c642f4f1d4463c93497177c00c540405ca15d3d20eb53087e0a9cd50bd8f` | Official browser/application icon source |
 | `docs/ALHassan_Baligh_ALShami_CV_Package/Deutsch/Lebenslauf_ALHassan_Baligh_ALShami_ATS-Version.pdf` | `public/cv/ALHassan_Baligh_ALShami_CV_German_ATS.pdf` | Document (PDF) | 3,377,730 | `6fd6e4acb1a180c758be67d3ab628b67ffc8dcd1a9039063377a1e6507c2cb94` | Source CV / German (ATS Edition) |
 | `docs/ALHassan_Baligh_ALShami_CV_Package/Deutsch/Lebenslauf_ALHassan_Baligh_ALShami_Standardversion.pdf` | `public/cv/ALHassan_Baligh_ALShami_CV_German_Standard.pdf` | Document (PDF) | 8,873,416 | `7001ecceab794a1fc92b2b2a0abe614f491e2a2ccdb6835dec583a1aa05ce6c3` | Source CV / German (Standard Edition) |
 | `docs/ALHassan_Baligh_ALShami_CV_Package/English/ALHassan_Baligh_ALShami_CV_ATS.pdf` | `public/cv/ALHassan_Baligh_ALShami_CV_English_ATS.pdf` | Document (PDF) | 3,320,365 | `ec0b5a2d342c808e2e20f97295decf2c8c4517424d4a8b06fede7685801daf8d` | Source CV / English (ATS Edition) |
@@ -47,6 +48,7 @@ const crypto = require('crypto');
 const files = [
   'docs/images/AllPic.png',
   'docs/images/FacePic.jpeg',
+  'docs/images/drawingface.png',
   'docs/ALHassan_Baligh_ALShami_CV_Package/Deutsch/Lebenslauf_ALHassan_Baligh_ALShami_ATS-Version.pdf',
   'docs/ALHassan_Baligh_ALShami_CV_Package/Deutsch/Lebenslauf_ALHassan_Baligh_ALShami_Standardversion.pdf',
   'docs/ALHassan_Baligh_ALShami_CV_Package/English/ALHassan_Baligh_ALShami_CV_ATS.pdf',

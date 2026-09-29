@@ -7,7 +7,7 @@
  * - 17 Portfolio Presentation Projects (16 from Official CV Catalogue + 1 FoundationKit)
  * - 16 Official Canonical CV Projects (preserved in CV content contracts and parity docs)
  * - 69 Public Indexable Routes (18 core + 51 project details across EN, AR, DE)
- * - 60/60 E2E Tests (Playwright + Axe accessibility suite)
+ * - 63/63 E2E Tests (Playwright + Axe accessibility suite)
  * - 24 Canonical Visual Routes (8 EN + 8 AR + 8 DE)
  * - 240 Static Screenshot Pairs + 15 Interactive States = 255 Total Visual Pairs
  * - 96 Responsive Route-Viewport Combinations (24 representative routes × 4 viewports)
@@ -50,9 +50,9 @@ check(
 );
 
 check(
-  'README: 60/60 E2E tests documented in test command',
-  readmeContent.includes('60/60 tests'),
-  'Expected "60/60 tests" not found in README.md'
+  'README: 63/63 E2E tests documented in test command',
+  readmeContent.includes('63/63 tests'),
+  'Expected "63/63 tests" not found in README.md'
 );
 
 check(
@@ -114,6 +114,18 @@ check(
   'README: Zero stale 49/49 E2E tests references',
   !readmeContent.includes('49/49 tests'),
   'Stale "49/49 tests" found in README.md'
+);
+
+check(
+  'README: Zero stale 60/60 E2E tests references',
+  !readmeContent.includes('60/60 tests'),
+  'Stale "60/60 tests" found in README.md'
+);
+
+check(
+  'README: Zero stale 62/62 E2E tests references',
+  !readmeContent.includes('62/62 tests'),
+  'Stale "62/62 tests" found in README.md'
 );
 
 check(
@@ -246,15 +258,152 @@ check(
   `Expected 16 projects in src/content/cv/projects.ts, found ${cvProjectMatches.length}`
 );
 
-// Check that E2E test suite has 60 test cases
+// Check that E2E test suite has 63 test cases
 const e2eSpecPath = path.join(ROOT_DIR, 'tests', 'e2e', 'portfolio.spec.ts');
 const e2eSpecContent = fs.readFileSync(e2eSpecPath, 'utf8');
 const testMatches = e2eSpecContent.match(/test\("TC-\d+/g) || [];
 check(
-  'E2E Test Suite: tests/e2e/portfolio.spec.ts defines exactly 60 test cases (TC-01 through TC-60)',
-  testMatches.length === 60,
-  `Expected 60 test cases in portfolio.spec.ts, found ${testMatches.length}`
+  'E2E Test Suite: tests/e2e/portfolio.spec.ts defines exactly 63 test cases (TC-01 through TC-63)',
+  testMatches.length === 63,
+  `Expected 63 test cases in portfolio.spec.ts, found ${testMatches.length}`
 );
+
+// -------------------------------------------------------------
+// 6. OFFICIAL CUSTOM DOMAIN & ACTIVE PRODUCTION INVARIANTS
+// -------------------------------------------------------------
+console.log('\n▶ [6/8] Verifying Official Custom Domain & Active Production Invariants...');
+
+const siteMetaEn = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'siteMetadata.ts'), 'utf8');
+const siteMetaAr = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'ar', 'siteMetadata.ts'), 'utf8');
+const siteMetaDe = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'de', 'siteMetadata.ts'), 'utf8');
+
+check(
+  'SiteMetadata EN: official production domain is https://www.engalhassanalshami.com',
+  siteMetaEn.includes('siteUrl: "https://www.engalhassanalshami.com"') && siteMetaEn.includes('productionDomain: "www.engalhassanalshami.com"'),
+  'Expected official production domain https://www.engalhassanalshami.com in src/content/siteMetadata.ts'
+);
+
+check(
+  'SiteMetadata AR: official production domain is https://www.engalhassanalshami.com',
+  siteMetaAr.includes('siteUrl: "https://www.engalhassanalshami.com"') && siteMetaAr.includes('productionDomain: "www.engalhassanalshami.com"'),
+  'Expected official production domain https://www.engalhassanalshami.com in src/content/ar/siteMetadata.ts'
+);
+
+check(
+  'SiteMetadata DE: official production domain is https://www.engalhassanalshami.com',
+  siteMetaDe.includes('siteUrl: "https://www.engalhassanalshami.com"') && siteMetaDe.includes('productionDomain: "www.engalhassanalshami.com"'),
+  'Expected official production domain https://www.engalhassanalshami.com in src/content/de/siteMetadata.ts'
+);
+
+check(
+  'README: Production URL points to custom domain https://www.engalhassanalshami.com',
+  readmeContent.includes('Production URL: [https://www.engalhassanalshami.com](https://www.engalhassanalshami.com)'),
+  'Expected custom domain in Production URL link in README.md'
+);
+
+// Zero old active Vercel domain in active configuration / metadata
+check(
+  'Active Config Guard: Zero old Vercel URL in active metadata or README',
+  !siteMetaEn.includes('alhassan-portfolio-phi.vercel.app') &&
+  !siteMetaAr.includes('alhassan-portfolio-phi.vercel.app') &&
+  !siteMetaDe.includes('alhassan-portfolio-phi.vercel.app') &&
+  !readmeContent.includes('alhassan-portfolio-phi.vercel.app'),
+  'Old active Vercel URL found in active configuration or README!'
+);
+
+// -------------------------------------------------------------
+// 7. SITE MANAGEMENT & ANALYTICS OPERATIONS DOCS
+// -------------------------------------------------------------
+console.log('\n▶ [7/8] Verifying Site Management & Analytics Documentation...');
+const siteMgmtPath = path.join(ROOT_DIR, 'docs', 'operations', 'SITE-MANAGEMENT.md');
+const siteMgmtExists = fs.existsSync(siteMgmtPath);
+
+check(
+  'Site Management Doc: docs/operations/SITE-MANAGEMENT.md exists',
+  siteMgmtExists,
+  'Expected docs/operations/SITE-MANAGEMENT.md to exist'
+);
+
+if (siteMgmtExists) {
+  const siteMgmtContent = fs.readFileSync(siteMgmtPath, 'utf8');
+
+  check(
+    'Site Management Doc: Documents official domain https://www.engalhassanalshami.com',
+    siteMgmtContent.includes('https://www.engalhassanalshami.com'),
+    'Expected official domain https://www.engalhassanalshami.com not found in SITE-MANAGEMENT.md'
+  );
+
+  check(
+    'Site Management Doc: Documents Vercel Web Analytics (@vercel/analytics)',
+    siteMgmtContent.includes('@vercel/analytics'),
+    'Expected @vercel/analytics reference not found in SITE-MANAGEMENT.md'
+  );
+
+  check(
+    'Site Management Doc: Documents Vercel Speed Insights (@vercel/speed-insights)',
+    siteMgmtContent.includes('@vercel/speed-insights'),
+    'Expected @vercel/speed-insights reference not found in SITE-MANAGEMENT.md'
+  );
+
+  // Check A: SITE-MANAGEMENT.md must NOT claim Content-Security-Policy unless next.config actually contains it
+  const nextConfigContent = fs.readFileSync(path.join(ROOT_DIR, 'next.config.ts'), 'utf8');
+  const nextConfigHasCsp = nextConfigContent.includes('Content-Security-Policy');
+  const siteMgmtHasCsp = siteMgmtContent.includes('Content-Security-Policy');
+  check(
+    'Site Management Doc: Security header claims match next.config.ts (no inaccurate CSP claim)',
+    nextConfigHasCsp ? siteMgmtHasCsp : !siteMgmtHasCsp,
+    'SITE-MANAGEMENT.md claims Content-Security-Policy but next.config.ts does not enforce it'
+  );
+
+  check(
+    'Site Management Doc: Preserves zero private token exposure',
+    !siteMgmtContent.includes('VERCEL_TOKEN') && !siteMgmtContent.includes('secret_'),
+    'Sensitive token patterns found in SITE-MANAGEMENT.md'
+  );
+}
+
+// -------------------------------------------------------------
+// 8. ASSET MANIFEST SPECIFICATION
+// -------------------------------------------------------------
+console.log('\n▶ [8/8] Verifying Asset Manifest Specification...');
+const assetManifestPath = path.join(ROOT_DIR, 'docs', 'REPOSITORY-ASSET-MANIFEST.md');
+const assetManifestExists = fs.existsSync(assetManifestPath);
+
+check(
+  'Asset Manifest: docs/REPOSITORY-ASSET-MANIFEST.md exists',
+  assetManifestExists,
+  'Expected docs/REPOSITORY-ASSET-MANIFEST.md to exist'
+);
+
+if (assetManifestExists) {
+  const assetManifestContent = fs.readFileSync(assetManifestPath, 'utf8');
+
+  // Check B: REPOSITORY-ASSET-MANIFEST.md must state 17 Portfolio project evidence records
+  check(
+    'Asset Manifest: States exactly 17 Portfolio project evidence records',
+    assetManifestContent.includes('17 Portfolio project evidence records'),
+    'Expected "17 Portfolio project evidence records" not found in REPOSITORY-ASSET-MANIFEST.md'
+  );
+
+  // Check C: Canonical CV project count remains 16
+  check(
+    'Asset Manifest: Preserves canonical CV breakdown (16 projects from the official CV catalogue)',
+    assetManifestContent.includes('16 projects from the official CV catalogue'),
+    'Expected "16 projects from the official CV catalogue" not found in REPOSITORY-ASSET-MANIFEST.md'
+  );
+
+  check(
+    'Asset Manifest: Clarifies FoundationKit as additional evidence-backed project',
+    assetManifestContent.includes('1 additional evidence-backed Portfolio project: FoundationKit'),
+    'Expected FoundationKit breakdown not found in REPOSITORY-ASSET-MANIFEST.md'
+  );
+
+  check(
+    'Asset Manifest: Tracks drawingface.png as official browser/app icon source',
+    assetManifestContent.includes('drawingface.png') && assetManifestContent.includes('Official browser/application icon source'),
+    'Expected drawingface.png tracking entry not found in REPOSITORY-ASSET-MANIFEST.md'
+  );
+}
 
 // -------------------------------------------------------------
 // SUMMARY
