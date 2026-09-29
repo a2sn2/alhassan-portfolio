@@ -10,7 +10,7 @@
 - **Owner / Author:** ALHassan Baligh ALShami
 - **Local Workspace:** `D:\Projects\alhassan-portfolio`
 - **Source Repository:** `https://github.com/a2sn2/alhassan-portfolio`
-- **Production URL:** `https://alhassan-portfolio-phi.vercel.app`
+- **Production URL:** `https://www.engalhassanalshami.com`
 - **Production Branch:** `main`
 - **Hosting Platform:** Vercel (Edge Network)
 

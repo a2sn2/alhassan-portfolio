@@ -2,7 +2,7 @@
 
 **Platform:** ALHassan Baligh ALShami — Personal Portfolio  
 **Target Environment:** Vercel Global Edge Network  
-**Canonical Domain:** `https://alhassan-portfolio-phi.vercel.app`  
+**Canonical Domain:** `https://www.engalhassanalshami.com`  
 
 ---
 

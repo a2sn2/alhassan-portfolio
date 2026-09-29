@@ -3,7 +3,7 @@
 /**
  * Production Verification & Trilingual Release Hardening Script
  * 
- * Validates the deployment of https://alhassan-portfolio-phi.vercel.app (or custom target):
+ * Validates the deployment of https://www.engalhassanalshami.com (or custom target):
  * 1. HTTP 200 status for all 69 indexable routes (18 core EN/AR/DE + 51 project detail EN/AR/DE)
  * 2. Document state verification (html lang/dir) across English (en/ltr), Arabic (ar/rtl), and German (de/ltr)
  * 3. Strict content integrity (canonical identity, roles, locations, skills, languages, credentials, contact)
@@ -28,7 +28,7 @@ import { chromium } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const PRODUCTION_URL = process.env.PRODUCTION_URL || 'https://alhassan-portfolio-phi.vercel.app';
+const PRODUCTION_URL = process.env.PRODUCTION_URL || 'https://www.engalhassanalshami.com';
 const BASE_URL = PRODUCTION_URL.replace(/\/+$/, '');
 
 const PRIMARY_ROUTES_EN = [

@@ -7,7 +7,7 @@
 ---
 
 ## Context
-The application is connected via Git integration: Local → Git → GitHub → Vercel. Production branch is `main`. The production URL is `https://alhassan-portfolio-phi.vercel.app`. The platform requires zero-downtime deployments, atomic preview URLs for pull requests, and instant rollback capabilities.
+The application is connected via Git integration: Local → Git → GitHub → Vercel. Production branch is `main`. The production URL is `https://www.engalhassanalshami.com`. The platform requires zero-downtime deployments, atomic preview URLs for pull requests, and instant rollback capabilities.
 
 ## Decision
 Retain Vercel as the hosting platform, using its native Git integration. Preview environments are automatically created for every pull request, allowing visual and runtime verification before merging into `main`. The production deployment is triggered exclusively by merging approved changes into `main`.

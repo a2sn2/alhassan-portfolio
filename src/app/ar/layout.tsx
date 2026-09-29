@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { siteMetadataAr } from "@/content/ar/siteMetadata";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://alhassan-portfolio-phi.vercel.app"),
+  metadataBase: new URL(siteMetadataAr.siteUrl),
   title: {
     default: siteMetadataAr.defaultTitle,
     template: siteMetadataAr.titleTemplate,

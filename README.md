@@ -1,13 +1,13 @@
 # ALHassan Baligh ALShami — Personal Portfolio Platform
 
 [![CI Pipeline](https://github.com/a2sn2/alhassan-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/a2sn2/alhassan-portfolio/actions/workflows/ci.yml)
-[![Vercel Deployment](https://img.shields.io/badge/Vercel-Production-black?logo=vercel)](https://alhassan-portfolio-phi.vercel.app)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Production-black?logo=vercel)](https://www.engalhassanalshami.com)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.3.5-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript Strict](https://img.shields.io/badge/TypeScript-5.x_Strict-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![WCAG 2.1 AA](https://img.shields.io/badge/Accessibility-WCAG_2.1_AA-green)](docs/quality/TEST-STRATEGY.md)
 [![Locales: EN | AR | DE](https://img.shields.io/badge/Locales-EN%20%7C%20AR%20%7C%20DE-blueviolet)](src/content/)
 
-Production URL: [https://alhassan-portfolio-phi.vercel.app](https://alhassan-portfolio-phi.vercel.app)  
+Production URL: [https://www.engalhassanalshami.com](https://www.engalhassanalshami.com)  
 Repository: [https://github.com/a2sn2/alhassan-portfolio](https://github.com/a2sn2/alhassan-portfolio)  
 Owner: **ALHassan Baligh ALShami**
 
@@ -76,13 +76,13 @@ npm run build                # Next.js static prerender (69 public/indexable por
 npm run verify:cv-content    # Deterministic CV source parity audit across English, Arabic & German
 npm run verify:evidence      # Deterministic project and credential evidence verification
 npm run verify:release-docs  # Deterministic release documentation and metric baseline verification
-npx playwright test          # E2E (60/60 tests) and WCAG 2.1 AA accessibility suite
+npx playwright test          # E2E (62/62 tests) and WCAG 2.1 AA accessibility suite
 npm run verify:production    # Trilingual production route, responsive overflow (24 representative routes × 4 viewports = 96 combinations), SEO & sitemap verification (69 public routes)
 npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (24 routes x 5 viewports x 2 themes + 15 interactive states = 255 pairs)
 ```
 
 ### 🔬 Strict Visual Parity Verifier (`npm run verify:visual-parity`)
-Performs deterministic, pixel-level visual diff auditing between local development (`http://localhost:3000`) and live production (`https://alhassan-portfolio-phi.vercel.app`):
+Performs deterministic, pixel-level visual diff auditing between local development (`http://localhost:3000`) and live production (`https://www.engalhassanalshami.com`):
 - **24 Canonical Routes**:
   - English (8): `/`, `/about`, `/experience`, `/projects`, `/capabilities`, `/contact`, `/projects/real-time-object-detection`, `/projects/foundationkit-dotnet`
   - Arabic (8): `/ar`, `/ar/about`, `/ar/experience`, `/ar/projects`, `/ar/capabilities`, `/ar/contact`, `/ar/projects/real-time-object-detection`, `/ar/projects/foundationkit-dotnet`

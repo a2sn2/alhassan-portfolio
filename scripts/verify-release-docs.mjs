@@ -50,9 +50,9 @@ check(
 );
 
 check(
-  'README: 60/60 E2E tests documented in test command',
-  readmeContent.includes('60/60 tests'),
-  'Expected "60/60 tests" not found in README.md'
+  'README: 62/62 E2E tests documented in test command',
+  readmeContent.includes('62/62 tests'),
+  'Expected "62/62 tests" not found in README.md'
 );
 
 check(
@@ -114,6 +114,12 @@ check(
   'README: Zero stale 49/49 E2E tests references',
   !readmeContent.includes('49/49 tests'),
   'Stale "49/49 tests" found in README.md'
+);
+
+check(
+  'README: Zero stale 60/60 E2E tests references',
+  !readmeContent.includes('60/60 tests'),
+  'Stale "60/60 tests" found in README.md'
 );
 
 check(
@@ -246,14 +252,57 @@ check(
   `Expected 16 projects in src/content/cv/projects.ts, found ${cvProjectMatches.length}`
 );
 
-// Check that E2E test suite has 60 test cases
+// Check that E2E test suite has 62 test cases
 const e2eSpecPath = path.join(ROOT_DIR, 'tests', 'e2e', 'portfolio.spec.ts');
 const e2eSpecContent = fs.readFileSync(e2eSpecPath, 'utf8');
 const testMatches = e2eSpecContent.match(/test\("TC-\d+/g) || [];
 check(
-  'E2E Test Suite: tests/e2e/portfolio.spec.ts defines exactly 60 test cases (TC-01 through TC-60)',
-  testMatches.length === 60,
-  `Expected 60 test cases in portfolio.spec.ts, found ${testMatches.length}`
+  'E2E Test Suite: tests/e2e/portfolio.spec.ts defines exactly 62 test cases (TC-01 through TC-62)',
+  testMatches.length === 62,
+  `Expected 62 test cases in portfolio.spec.ts, found ${testMatches.length}`
+);
+
+// -------------------------------------------------------------
+// 6. OFFICIAL CUSTOM DOMAIN & ACTIVE PRODUCTION INVARIANTS
+// -------------------------------------------------------------
+console.log('\n▶ [6/6] Verifying Official Custom Domain & Active Production Invariants...');
+
+const siteMetaEn = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'siteMetadata.ts'), 'utf8');
+const siteMetaAr = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'ar', 'siteMetadata.ts'), 'utf8');
+const siteMetaDe = fs.readFileSync(path.join(ROOT_DIR, 'src', 'content', 'de', 'siteMetadata.ts'), 'utf8');
+
+check(
+  'SiteMetadata EN: official production domain is https://www.engalhassanalshami.com',
+  siteMetaEn.includes('siteUrl: "https://www.engalhassanalshami.com"') && siteMetaEn.includes('productionDomain: "www.engalhassanalshami.com"'),
+  'Expected official production domain https://www.engalhassanalshami.com in src/content/siteMetadata.ts'
+);
+
+check(
+  'SiteMetadata AR: official production domain is https://www.engalhassanalshami.com',
+  siteMetaAr.includes('siteUrl: "https://www.engalhassanalshami.com"') && siteMetaAr.includes('productionDomain: "www.engalhassanalshami.com"'),
+  'Expected official production domain https://www.engalhassanalshami.com in src/content/ar/siteMetadata.ts'
+);
+
+check(
+  'SiteMetadata DE: official production domain is https://www.engalhassanalshami.com',
+  siteMetaDe.includes('siteUrl: "https://www.engalhassanalshami.com"') && siteMetaDe.includes('productionDomain: "www.engalhassanalshami.com"'),
+  'Expected official production domain https://www.engalhassanalshami.com in src/content/de/siteMetadata.ts'
+);
+
+check(
+  'README: Production URL points to custom domain https://www.engalhassanalshami.com',
+  readmeContent.includes('Production URL: [https://www.engalhassanalshami.com](https://www.engalhassanalshami.com)'),
+  'Expected custom domain in Production URL link in README.md'
+);
+
+// Zero old active Vercel domain in active configuration / metadata
+check(
+  'Active Config Guard: Zero old Vercel URL in active metadata or README',
+  !siteMetaEn.includes('alhassan-portfolio-phi.vercel.app') &&
+  !siteMetaAr.includes('alhassan-portfolio-phi.vercel.app') &&
+  !siteMetaDe.includes('alhassan-portfolio-phi.vercel.app') &&
+  !readmeContent.includes('alhassan-portfolio-phi.vercel.app'),
+  'Old active Vercel URL found in active configuration or README!'
 );
 
 // -------------------------------------------------------------

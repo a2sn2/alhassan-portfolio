@@ -2091,6 +2091,136 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     });
     expect(connectorTransition).toMatch(/none|all 0s/);
   });
+
+  test("TC-61: Brand favicon and icon set delivery on fresh browser context", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+
+    // 1. Icon declarations exist in head
+    const faviconLink = page.locator('link[rel="icon"][href*="favicon.ico"]');
+    const iconPngLink = page.locator('link[rel="icon"][href*="icon.png"]');
+    const appleIconLink = page.locator('link[rel="apple-touch-icon"]');
+
+    await expect(faviconLink).toHaveCount(1);
+    await expect(iconPngLink).toHaveCount(1);
+    await expect(appleIconLink).toHaveCount(1);
+
+    const faviconHref = await faviconLink.getAttribute("href");
+    const iconPngHref = await iconPngLink.getAttribute("href");
+    const appleIconHref = await appleIconLink.getAttribute("href");
+
+    expect(faviconHref).toBeTruthy();
+    expect(iconPngHref).toBeTruthy();
+    expect(appleIconHref).toBeTruthy();
+
+    // 2. URLs return HTTP 200
+    const faviconRes = await context.request.get(faviconHref!);
+    expect(faviconRes.status()).toBe(200);
+
+    const iconPngRes = await context.request.get(iconPngHref!);
+    expect(iconPngRes.status()).toBe(200);
+
+    const appleIconRes = await context.request.get(appleIconHref!);
+    expect(appleIconRes.status()).toBe(200);
+
+    // Root icon paths return HTTP 200
+    const rootFaviconRes = await context.request.get("/favicon.ico");
+    expect(rootFaviconRes.status()).toBe(200);
+
+    const rootIconPngRes = await context.request.get("/icon.png");
+    expect(rootIconPngRes.status()).toBe(200);
+
+    const rootAppleIconRes = await context.request.get("/apple-icon.png");
+    expect(rootAppleIconRes.status()).toBe(200);
+
+    // 3. Icon content is not the old favicon asset (old asset was 25931 bytes, new is ~6783 bytes)
+    const faviconBody = await faviconRes.body();
+    expect(faviconBody.length).not.toBe(25931);
+    expect(faviconBody.length).toBeGreaterThan(0);
+
+    // 4. Verify icon image dimensions >= 180 for high-res icon in page context
+    const iconDimensions = await page.evaluate(async (url) => {
+      return new Promise<{ width: number; height: number }>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+        img.onerror = () => reject(new Error("Failed to load icon image"));
+        img.src = url;
+      });
+    }, iconPngHref!);
+
+    expect(iconDimensions.width).toBeGreaterThanOrEqual(180);
+    expect(iconDimensions.height).toBeGreaterThanOrEqual(180);
+    expect(iconDimensions.width).toBe(512);
+    expect(iconDimensions.height).toBe(512);
+
+    await context.close();
+  });
+
+  test("TC-62: Custom domain canonical, sitemap, robots, and JSON-LD resolution", async ({
+    page,
+    request,
+  }) => {
+    // 1. English Homepage: canonical starts with https://www.engalhassanalshami.com
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+    const enCanonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(enCanonical).toBe("https://www.engalhassanalshami.com");
+    expect(enCanonical).not.toContain("vercel.app");
+
+    // Reciprocal hreflangs
+    const hreflangEn = await page.locator('link[rel="alternate"][hreflang="en"]').getAttribute("href");
+    const hreflangAr = await page.locator('link[rel="alternate"][hreflang="ar"]').getAttribute("href");
+    const hreflangDe = await page.locator('link[rel="alternate"][hreflang="de"]').getAttribute("href");
+    const hreflangDef = await page.locator('link[rel="alternate"][hreflang="x-default"]').getAttribute("href");
+    expect(hreflangEn).toBe("https://www.engalhassanalshami.com");
+    expect(hreflangAr).toBe("https://www.engalhassanalshami.com/ar");
+    expect(hreflangDe).toBe("https://www.engalhassanalshami.com/de");
+    expect(hreflangDef).toBe("https://www.engalhassanalshami.com");
+
+    // 2. Arabic route canonical & hreflang
+    await page.goto("/ar");
+    await page.waitForLoadState("domcontentloaded");
+    const arCanonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(arCanonical).toBe("https://www.engalhassanalshami.com/ar");
+    expect(arCanonical).not.toContain("vercel.app");
+
+    // 3. German route canonical & hreflang
+    await page.goto("/de");
+    await page.waitForLoadState("domcontentloaded");
+    const deCanonical = await page.locator('link[rel="canonical"]').getAttribute("href");
+    expect(deCanonical).toBe("https://www.engalhassanalshami.com/de");
+    expect(deCanonical).not.toContain("vercel.app");
+
+    // 4. JSON-LD Person and WebSite
+    await page.goto("/");
+    const jsonLdContent = await page.locator('script[type="application/ld+json"]').textContent();
+    expect(jsonLdContent).toBeTruthy();
+    const jsonLd = JSON.parse(jsonLdContent!);
+    const person = jsonLd["@graph"].find((node: { "@type": string }) => node["@type"] === "Person");
+    const website = jsonLd["@graph"].find((node: { "@type": string }) => node["@type"] === "WebSite");
+    expect(person["@id"]).toBe("https://www.engalhassanalshami.com/#person");
+    expect(person.url).toBe("https://www.engalhassanalshami.com");
+    expect(website["@id"]).toBe("https://www.engalhassanalshami.com/#website");
+    expect(website.url).toBe("https://www.engalhassanalshami.com");
+
+    // 5. Sitemap uses only www custom domain
+    const sitemapRes = await request.get("/sitemap.xml");
+    expect(sitemapRes.status()).toBe(200);
+    const sitemapText = await sitemapRes.text();
+    expect(sitemapText).toContain("<loc>https://www.engalhassanalshami.com");
+    expect(sitemapText).not.toContain("alhassan-portfolio-phi.vercel.app");
+
+    // 6. Robots sitemap points to custom domain
+    const robotsRes = await request.get("/robots.txt");
+    expect(robotsRes.status()).toBe(200);
+    const robotsText = await robotsRes.text();
+    expect(robotsText).toContain("Sitemap: https://www.engalhassanalshami.com/sitemap.xml");
+    expect(robotsText).not.toContain("alhassan-portfolio-phi.vercel.app");
+  });
 });
 
 
