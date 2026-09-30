@@ -111,7 +111,98 @@ async function navigateWithRetry(page, url, retries = 3) {
   }
 }
 
+async function waitForVisualStability(page, timeoutMs = 5000) {
+  await page.evaluate(async (timeout) => {
+    const start = performance.now();
+
+    // 1. Fonts ready
+    if (document.fonts) {
+      await document.fonts.ready;
+    }
+
+    // 2. Visible images ready and decoded
+    const isVisible = (el) => {
+      const r = el.getBoundingClientRect();
+      const style = window.getComputedStyle(el);
+      return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && (r.width > 0 || r.height > 0);
+    };
+
+    while (performance.now() - start < timeout) {
+      const imgs = Array.from(document.querySelectorAll('img')).filter(isVisible);
+      const allReady = imgs.every((img) => img.complete && img.naturalWidth > 0 && img.naturalHeight > 0);
+      if (allReady) {
+        for (const img of imgs) {
+          try {
+            await img.decode();
+          } catch {
+            // ignore
+          }
+        }
+        break;
+      }
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+
+    const remainingImgs = Array.from(document.querySelectorAll('img')).filter(isVisible);
+    const imagesOk = remainingImgs.every((img) => img.complete && img.naturalWidth > 0 && img.naturalHeight > 0);
+    if (!imagesOk) {
+      throw new Error(`Visual stability timeout (${timeout}ms): visible images not completed or natural dimensions not ready.`);
+    }
+
+    // 3. Layout / geometry stability across consecutive animation frames
+    const sampleGeometry = () => {
+      const selectors = [
+        'header',
+        'h1',
+        'main',
+        'footer',
+        'div[class*="ctaGroup"], div[class*="heroCtas"]',
+        'div[class*="coreFocus"], div[class*="focusRail"], div[class*="focusMap"]',
+        'section[aria-labelledby*="featured"], section[class*="selectedSection"], div[class*="selectedSection"]',
+        'article[class*="selectedCard"], article[class*="projectCard"]',
+        'div[data-testid="hero-portrait-stage"], div[class*="stageWrapper"], div[class*="photoStage"]'
+      ];
+      const metrics = [
+        document.documentElement.scrollHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollWidth,
+        document.documentElement.clientWidth
+      ];
+      for (const sel of selectors) {
+        const els = document.querySelectorAll(sel);
+        for (const el of els) {
+          const r = el.getBoundingClientRect();
+          metrics.push(r.x, r.y, r.width, r.height);
+        }
+      }
+      return metrics.join(':');
+    };
+
+    let consecutiveStableFrames = 0;
+    let previousSample = null;
+
+    while (performance.now() - start < timeout) {
+      const currentSample = sampleGeometry();
+      if (previousSample !== null && currentSample === previousSample) {
+        consecutiveStableFrames++;
+        if (consecutiveStableFrames >= 2) {
+          return true;
+        }
+      } else {
+        consecutiveStableFrames = 0;
+      }
+
+      previousSample = currentSample;
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+
+    throw new Error(`Visual stability timeout (${timeout}ms): layout geometry did not stabilize across consecutive animation frames.`);
+  }, timeoutMs);
+}
+
 async function preparePage(page, theme, isLocal = false) {
+  await page.emulateMedia({ reducedMotion: 'reduce' }).catch(() => {});
+
   // Inject settled styles (disable transitions/animations during capture)
   // On local development runtimes, hide ONLY dev-only framework overlays (toasts, error overlays, route announcers)
   await page.addStyleTag({
@@ -121,6 +212,11 @@ async function preparePage(page, theme, isLocal = false) {
         transition-delay: 0s !important;
         animation-duration: 0s !important;
         animation-delay: 0s !important;
+      }
+      [class*="reveal"],
+      [data-revealed] {
+        opacity: 1 !important;
+        transform: none !important;
       }
       ${isLocal ? `
         nextjs-portal,
@@ -151,7 +247,8 @@ async function preparePage(page, theme, isLocal = false) {
     window.scrollTo(0, 0);
   }, isLocal);
 
-  // Allow settled paint to complete deterministically
+  // Deterministic visual stability: fonts, images, and layout across consecutive animation frames
+  await waitForVisualStability(page);
   await page.waitForTimeout(300);
 }
 
@@ -364,7 +461,8 @@ async function run() {
 
         const localContext = await browser.newContext({
           viewport: { width: vp.width, height: vp.height },
-          deviceScaleFactor: 1
+          deviceScaleFactor: 1,
+          reducedMotion: 'reduce'
         });
         await localContext.addInitScript((th) => {
           try {
@@ -377,7 +475,8 @@ async function run() {
 
         const prodContext = await browser.newContext({
           viewport: { width: vp.width, height: vp.height },
-          deviceScaleFactor: 1
+          deviceScaleFactor: 1,
+          reducedMotion: 'reduce'
         });
         await prodContext.addInitScript((th) => {
           try {
@@ -793,6 +892,10 @@ async function run() {
       prodPage.click(toggleSelector)
     ]);
     await Promise.all([
+      waitForVisualStability(localPage),
+      waitForVisualStability(prodPage)
+    ]);
+    await Promise.all([
       localPage.waitForTimeout(300),
       prodPage.waitForTimeout(300)
     ]);
@@ -1129,6 +1232,10 @@ async function run() {
       prodPage.click(toggleSelector)
     ]);
     await Promise.all([
+      waitForVisualStability(localPage),
+      waitForVisualStability(prodPage)
+    ]);
+    await Promise.all([
       localPage.waitForTimeout(300),
       prodPage.waitForTimeout(300)
     ]);
@@ -1463,6 +1570,10 @@ async function run() {
     await Promise.all([
       localPage.click(toggleSelector),
       prodPage.click(toggleSelector)
+    ]);
+    await Promise.all([
+      waitForVisualStability(localPage),
+      waitForVisualStability(prodPage)
     ]);
     await Promise.all([
       localPage.waitForTimeout(300),
