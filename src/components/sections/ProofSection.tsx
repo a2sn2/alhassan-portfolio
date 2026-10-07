@@ -4,6 +4,7 @@ import styles from "./Sections.module.css";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ProofContent } from "@/contracts/proof";
+import { getLocalizedHref } from "@/utils/routing";
 
 interface ProofSectionProps {
   content: ProofContent;
@@ -13,13 +14,6 @@ interface ProofSectionProps {
 export function ProofSection({ content, locale = "en" }: ProofSectionProps) {
   const isAr = locale === "ar";
   const isDe = locale === "de";
-
-  const getLocalizedHref = (path?: string) => {
-    if (!path) return "";
-    if (isAr) return `/ar${path}`;
-    if (isDe) return `/de${path}`;
-    return path;
-  };
 
   const getActionLabel = () => {
     if (isDe) return "Erkunden";
@@ -73,7 +67,7 @@ export function ProofSection({ content, locale = "en" }: ProofSectionProps) {
                 {item.author && <span className={styles.proofAuthor}>{item.author}</span>}
                 {item.url && (
                   <Link
-                    href={getLocalizedHref(item.url)}
+                    href={getLocalizedHref(item.url, locale)}
                     className={styles.proofLink}
                     aria-label={`${item.title} — ${getActionLabel()}`}
                   >

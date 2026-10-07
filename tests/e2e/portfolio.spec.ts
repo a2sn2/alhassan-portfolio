@@ -1569,6 +1569,12 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
         projectMetric: "13 Verified Project Sources",
         certMetric: "22 Verified Certificates",
         count: 4,
+        expectedTargets: [
+          "/projects",
+          "/capabilities",
+          "/about",
+          "/contact",
+        ],
       },
       {
         route: "/ar",
@@ -1576,6 +1582,12 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
         projectMetric: "13 مصدر مشروع موثّق",
         certMetric: "22 شهادة معتمدة",
         count: 4,
+        expectedTargets: [
+          "/ar/projects",
+          "/ar/capabilities",
+          "/ar/about",
+          "/ar/contact",
+        ],
       },
       {
         route: "/de",
@@ -1583,6 +1595,12 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
         projectMetric: "13 verifizierte Projektquellen",
         certMetric: "22 verifizierte Zertifikate",
         count: 4,
+        expectedTargets: [
+          "/de/projects",
+          "/de/capabilities",
+          "/de/about",
+          "/de/contact",
+        ],
       },
     ];
 
@@ -1608,9 +1626,27 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
       expect(proofText).not.toContain("14 von 16");
       expect(proofText).not.toContain("14 من أصل 16");
 
-      // Verify proof cards count
+      // Verify proof cards count and action links (zero duplicate locale prefixes)
       const cards = proofSection.locator('article[class*="proofCard"]');
       await expect(cards).toHaveCount(loc.count);
+
+      const actionLinks = proofSection.locator('a[class*="proofLink"]');
+      await expect(actionLinks).toHaveCount(loc.expectedTargets.length);
+
+      for (let i = 0; i < loc.expectedTargets.length; i++) {
+        const expectedHref = loc.expectedTargets[i];
+        const href = await actionLinks.nth(i).getAttribute("href");
+        expect(href).toBe(expectedHref);
+
+        // Verify destination returns HTTP 200
+        const targetRes = await page.request.get(expectedHref);
+        expect(targetRes.status()).toBe(200);
+      }
+
+      // Regression guard: verify rendered page contains zero duplicate locale prefixes
+      const pageHtml = await page.content();
+      expect(pageHtml).not.toContain("/ar/ar/");
+      expect(pageHtml).not.toContain("/de/de/");
     }
   });
 
