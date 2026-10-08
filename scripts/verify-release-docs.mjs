@@ -7,7 +7,7 @@
  * - 17 Portfolio Presentation Projects (16 from Official CV Catalogue + 1 FoundationKit)
  * - 16 Official Canonical CV Projects (preserved in CV content contracts and parity docs)
  * - 69 Public Indexable Routes (18 core + 51 project details across EN, AR, DE)
- * - 63/63 E2E Tests (Playwright + Axe accessibility suite)
+ * - 64/64 E2E Tests (Playwright + Axe accessibility suite)
  * - 24 Canonical Visual Routes (8 EN + 8 AR + 8 DE)
  * - 240 Static Screenshot Pairs + 15 Interactive States = 255 Total Visual Pairs
  * - 96 Responsive Route-Viewport Combinations (24 representative routes × 4 viewports)
@@ -50,9 +50,9 @@ check(
 );
 
 check(
-  'README: 63/63 E2E tests documented in test command',
-  readmeContent.includes('63/63 tests'),
-  'Expected "63/63 tests" not found in README.md'
+  'README: 64/64 E2E tests documented in test command',
+  readmeContent.includes('64/64 tests'),
+  'Expected "64/64 tests" not found in README.md'
 );
 
 check(
@@ -126,6 +126,12 @@ check(
   'README: Zero stale 62/62 E2E tests references',
   !readmeContent.includes('62/62 tests'),
   'Stale "62/62 tests" found in README.md'
+);
+
+check(
+  'README: Zero stale 63/63 E2E tests references',
+  !readmeContent.includes('63/63 tests'),
+  'Stale "63/63 tests" found in README.md'
 );
 
 check(
@@ -258,14 +264,14 @@ check(
   `Expected 16 projects in src/content/cv/projects.ts, found ${cvProjectMatches.length}`
 );
 
-// Check that E2E test suite has 63 test cases
+// Check that E2E test suite has 64 test cases
 const e2eSpecPath = path.join(ROOT_DIR, 'tests', 'e2e', 'portfolio.spec.ts');
 const e2eSpecContent = fs.readFileSync(e2eSpecPath, 'utf8');
 const testMatches = e2eSpecContent.match(/test\("TC-\d+/g) || [];
 check(
-  'E2E Test Suite: tests/e2e/portfolio.spec.ts defines exactly 63 test cases (TC-01 through TC-63)',
-  testMatches.length === 63,
-  `Expected 63 test cases in portfolio.spec.ts, found ${testMatches.length}`
+  'E2E Test Suite: tests/e2e/portfolio.spec.ts defines exactly 64 test cases (TC-01 through TC-64)',
+  testMatches.length === 64,
+  `Expected 64 test cases in portfolio.spec.ts, found ${testMatches.length}`
 );
 
 // -------------------------------------------------------------
