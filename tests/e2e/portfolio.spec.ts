@@ -2340,6 +2340,124 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(pageErrors, "Page runtime exceptions detected during analytics initialization").toHaveLength(0);
     expect(consoleErrors, "Console runtime errors detected during analytics initialization").toHaveLength(0);
   });
+
+  test("TC-64: Navigation transition system, route progress indicator, and anchor arrival feedback", async ({
+    page,
+  }) => {
+    const pageErrors: Error[] = [];
+    const consoleErrors: string[] = [];
+    page.on("pageerror", (err) => pageErrors.push(err));
+    page.on("console", (msg) => {
+      if (msg.type() === "error") consoleErrors.push(msg.text());
+    });
+
+    // 1. Initial homepage load - verify navigation shell and data-scroll-behavior
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+
+    const htmlScrollBehavior = await page.getAttribute("html", "data-scroll-behavior");
+    expect(htmlScrollBehavior).toBe("smooth");
+
+    const transitionContainer = page.locator("[data-navigation-state]");
+    await expect(transitionContainer).toBeVisible();
+
+    // Verify initial load bypass: first mount does NOT get .pageEnter animation class
+    const initialEnterCount = await page.evaluate(() => {
+      const el = document.querySelector('[class*="pageEnter"]');
+      return el ? 1 : 0;
+    });
+    expect(initialEnterCount).toBe(0);
+
+    // A. Normal Next.js internal navigation to /about: client-side route change, render, container mount
+    await page.click('header nav a[href="/about"]');
+    await page.waitForURL("**/about");
+    await expect(page.locator("h1")).toContainText(
+      "Engineering from Academic Foundations to Production Systems"
+    );
+    await expect(transitionContainer).toBeVisible();
+    await expect(transitionContainer).toHaveAttribute("data-navigation-state", "idle");
+
+    // B. Real same-page anchor navigation: in-page rail link on project case study
+    await page.goto("/projects/real-time-object-detection");
+    await page.waitForLoadState("domcontentloaded");
+
+    const railLink = page.locator('a[href="#problem"]').first();
+    await expect(railLink).toBeVisible();
+    await railLink.click();
+
+    // Verify anchor navigation without full route transition
+    await expect(transitionContainer).toHaveAttribute("data-navigation-state", "idle");
+    expect(page.url()).toContain("#problem");
+
+    // Verify target clearance below sticky header (92px clearance from reset.css)
+    const problemSection = page.locator("#problem");
+    await expect(problemSection).toBeVisible();
+    const scrollMargin = await page.evaluate(() => {
+      const el = document.getElementById("problem");
+      return el ? window.getComputedStyle(el).scrollMarginTop : "";
+    });
+    expect(scrollMargin).toMatch(/(92px|6rem|96px)/);
+
+    // Wait for smooth scroll and assert target is positioned below sticky header
+    await page.waitForTimeout(400);
+    const problemBox = await problemSection.boundingBox();
+    expect(problemBox).not.toBeNull();
+    expect(problemBox!.y).toBeGreaterThanOrEqual(50);
+
+    // C. Query-only route navigation: recognized transition without abrupt state
+    await page.goto("/projects");
+    await page.waitForLoadState("domcontentloaded");
+
+    await page.evaluate(() => {
+      const link = document.createElement("a");
+      link.href = "/projects?category=Systems";
+      link.id = "test-query-transition-link";
+      document.body.appendChild(link);
+      link.click();
+    });
+    await page.waitForURL("**/projects?category=Systems");
+    await expect(transitionContainer).toHaveAttribute("data-navigation-state", "idle");
+
+    // D. Real cross-page hash link: homepage progression CTA to /experience#ahd-financial-deputy
+    await page.goto("/");
+    await page.waitForLoadState("domcontentloaded");
+
+    const realCrossLink = page.locator('a[href="/experience#ahd-financial-deputy"]').first();
+    await expect(realCrossLink).toBeVisible();
+    await realCrossLink.click();
+
+    await page.waitForURL("**/experience#ahd-financial-deputy");
+    await expect(page.locator("h1")).toContainText(
+      "Professional Experience & Operational Journey"
+    );
+    await page.waitForTimeout(400);
+    const expScrollY = await page.evaluate(() => window.scrollY);
+    expect(expScrollY).toBeGreaterThan(100);
+
+    // E. Back / Forward navigation: history integrity, no stuck progress, no stale retries
+    await page.goBack();
+    await page.waitForURL((url) => !url.href.includes("/experience"));
+    expect(page.url()).not.toContain("/experience");
+    await expect(transitionContainer).toHaveAttribute("data-navigation-state", "idle");
+
+    const isBarStuckBack = await page.evaluate(() => {
+      return Boolean(document.querySelector('[class*="barLoading"]'));
+    });
+    expect(isBarStuckBack).toBe(false);
+
+    await page.goForward();
+    await page.waitForURL("**/experience#ahd-financial-deputy");
+    await expect(transitionContainer).toHaveAttribute("data-navigation-state", "idle");
+
+    const isBarStuckFwd = await page.evaluate(() => {
+      return Boolean(document.querySelector('[class*="barLoading"]'));
+    });
+    expect(isBarStuckFwd).toBe(false);
+
+    // Verify zero page runtime errors throughout test execution
+    expect(pageErrors, "No page runtime exceptions during navigation suite").toHaveLength(0);
+    expect(consoleErrors, "No console errors during navigation suite").toHaveLength(0);
+  });
 });
 
 

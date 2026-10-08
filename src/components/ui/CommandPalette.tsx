@@ -84,6 +84,9 @@ export function CommandPalette() {
           : `Navigate to ${item.label}`),
       meta: `0${item.chapterIndex}`,
       action: () => {
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("navigation-start", { detail: { href: item.href } }));
+        }
         router.push(item.href);
         setIsOpen(false);
       },
@@ -98,13 +101,15 @@ export function CommandPalette() {
         description: proj.tagline,
         meta: formatProjectCategory(proj.category, isGerman ? "de" : isArabic ? "ar" : "en"),
         action: () => {
-          router.push(
-            isGerman
-              ? `/de/projects/${proj.slug}`
-              : isArabic
-              ? `/ar/projects/${proj.slug}`
-              : `/projects/${proj.slug}`
-          );
+          const target = isGerman
+            ? `/de/projects/${proj.slug}`
+            : isArabic
+            ? `/ar/projects/${proj.slug}`
+            : `/projects/${proj.slug}`;
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("navigation-start", { detail: { href: target } }));
+          }
+          router.push(target);
           setIsOpen(false);
         },
       }));

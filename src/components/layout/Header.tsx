@@ -90,6 +90,7 @@ export function Header() {
       const currentTargetHref = getLocaleHref(target);
       if (latestTarget !== currentTargetHref) {
         e.preventDefault();
+        window.dispatchEvent(new CustomEvent("navigation-start", { detail: { href: latestTarget } }));
         router.push(latestTarget);
       }
     }
