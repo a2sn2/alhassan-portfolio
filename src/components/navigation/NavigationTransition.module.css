@@ -1,0 +1,112 @@
+.transitionContainer {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 120ms cubic-bezier(0.2, 0, 0, 1),
+              transform 120ms cubic-bezier(0.2, 0, 0, 1);
+  will-change: opacity, transform;
+}
+
+.isExiting {
+  opacity: 0.92;
+  transform: translateY(-2px);
+}
+
+.pageEnter {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  animation: pageEnter 250ms cubic-bezier(0.2, 0, 0, 1) both;
+  will-change: opacity, transform;
+}
+
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Section Target Arrival Confirmation
+   ========================================================================== */
+@keyframes targetHeadingPulse {
+  0% {
+    transform: translateY(0);
+    color: inherit;
+  }
+  30% {
+    transform: translateY(-2px);
+    color: var(--color-brand);
+  }
+  70% {
+    transform: translateY(-1px);
+    color: var(--color-brand);
+  }
+  100% {
+    transform: translateY(0);
+    color: inherit;
+  }
+}
+
+.targetHeadingConfirmation {
+  animation: targetHeadingPulse 420ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+@keyframes targetCardPulse {
+  0% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  35% {
+    box-shadow: 0 0 0 2px var(--color-brand-border, rgba(228, 18, 45, 0.28));
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.targetCardConfirmation {
+  animation: targetCardPulse 420ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+/* Browser native :target support */
+:target:is(h1, h2, h3, h4, h5, h6) {
+  animation: targetHeadingPulse 420ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+:target:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+  animation: targetCardPulse 420ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+/* ==========================================================================
+   Accessibility: Reduced Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .transitionContainer {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .isExiting {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .pageEnter {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .targetHeadingConfirmation,
+  .targetCardConfirmation,
+  :target {
+    animation: none !important;
+    transform: none !important;
+  }
+}

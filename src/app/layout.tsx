@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 import { DocumentLocaleSync } from "@/components/layout/DocumentLocaleSync";
+import { NavigationTransition } from "@/components/navigation/NavigationTransition";
 import { siteMetadata } from "@/content/siteMetadata";
 import { identityContent } from "@/content/identity";
 import { socialLinks } from "@/content/social";
@@ -127,7 +128,12 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${geistMono.variable} ${notoSansArabic.variable}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+      className={`${inter.variable} ${geistMono.variable} ${notoSansArabic.variable}`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -145,7 +151,9 @@ export default function RootLayout({
         <CommandPalette />
         <Header />
         <main id="main-content" className="main-content">
-          {children}
+          <NavigationTransition>
+            {children}
+          </NavigationTransition>
         </main>
         <Footer />
         <Analytics />

@@ -78,7 +78,7 @@ npm run build                # Next.js static prerender (69 public/indexable por
 npm run verify:cv-content    # Deterministic CV source parity audit across English, Arabic & German
 npm run verify:evidence      # Deterministic project and credential evidence verification
 npm run verify:release-docs  # Deterministic release documentation and metric baseline verification
-npx playwright test          # E2E (63/63 tests) and WCAG 2.1 AA accessibility suite
+npx playwright test          # E2E (64/64 tests) and WCAG 2.1 AA accessibility suite
 npm run verify:production    # Trilingual production route, responsive overflow (24 representative routes × 4 viewports = 96 combinations), SEO & sitemap verification (69 public routes)
 npm run verify:visual-parity # Pixel-level Local vs Production visual diff audit (24 routes x 5 viewports x 2 themes + 15 interactive states = 255 pairs)
 ```

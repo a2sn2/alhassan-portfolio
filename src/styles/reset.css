@@ -10,8 +10,32 @@
 html {
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
+}
+
+html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
+
+/* Comfortable viewport placement accounting for sticky header height */
+:is(
+  main,
+  section,
+  article,
+  h1,
+  h2,
+  h3,
+  h4,
+  [data-scroll-target],
+  [id^="tab-"],
+  [id^="panel-"],
+  [id^="heading-"],
+  [id^="tier-"],
+  [id^="ahd-"],
+  [id="progression-ahd-jaib"]
+)[id] {
+  scroll-margin-top: calc(4.25rem + 1.5rem);
+}
+
 
 body {
   min-height: 100vh;
@@ -96,8 +120,10 @@ p {
 
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
+  html,
+  html[data-scroll-behavior="smooth"],
   html:focus-within {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
   }
 
   *,
