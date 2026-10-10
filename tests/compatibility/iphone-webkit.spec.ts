@@ -86,4 +86,25 @@ for (const locale of locales) {
     await expect(page.locator("main h1").first()).toBeVisible();
     await expect(drawer).toBeHidden();
   });
+  test(`WebKit mobile: dark case-study and chapter anchor (${locale.language})`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    const route = `${locale.prefix}/projects/real-time-object-detection`;
+    const response = await page.goto(route, { waitUntil: "domcontentloaded" });
+    expect(response?.status()).toBe(200);
+    await expect(page.locator("main h1").first()).toBeVisible();
+    expect(await page.locator("html").getAttribute("data-theme")).toBe("dark");
+
+    const width = await page.evaluate(() => ({
+      viewport: document.documentElement.clientWidth,
+      scroll: document.documentElement.scrollWidth,
+    }));
+    expect(width.scroll).toBeLessThanOrEqual(width.viewport + 2);
+
+    const chapterLink = page.locator('a[href="#problem"]').first();
+    await expect(chapterLink).toBeVisible();
+    await chapterLink.tap();
+    await expect(page).toHaveURL(/#problem$/);
+    await expect(page.locator("#problem")).toBeAttached();
+  });
+
 }
