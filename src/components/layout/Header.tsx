@@ -184,7 +184,8 @@ export function Header() {
   };
 
   return (
-    <header className={styles.header}>
+    <>
+      <header className={styles.header}>
       <Container>
         <div className={styles.inner}>
           {/* JAIB Brand Identity Signature */}
@@ -445,8 +446,9 @@ export function Header() {
           </div>
         </div>
       </Container>
+      </header>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Navigation Drawer — viewport-fixed sibling, outside the backdrop-filter header */}
       <div
         id="mobile-nav-drawer"
         className={cn(styles.drawer, isOpen && styles.drawerOpen)}
@@ -551,6 +553,6 @@ export function Header() {
           </div>
         </nav>
       </div>
-    </header>
+    </>
   );
 }
