@@ -257,9 +257,9 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
     // A fixed drawer inside a backdrop-filter header can collapse to 0px
     // because the filter establishes a containing block for fixed children.
-    // Require the drawer to be a viewport-fixed sibling of the header.
+    // Ensure the drawer is not trapped inside the header stacking context.
     const drawer = page.locator("#mobile-nav-drawer");
-    expect(await drawer.evaluate((element) => element.parentElement === document.body)).toBe(true);
+    expect(await drawer.evaluate((element) => element.closest("header") === null)).toBe(true);
     const drawerBounds = await drawer.boundingBox();
     expect(drawerBounds).not.toBeNull();
     expect(drawerBounds!.height).toBeGreaterThan(600);

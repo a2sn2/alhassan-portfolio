@@ -444,7 +444,7 @@
   z-index: var(--z-overlay);
   display: flex;
   flex-direction: column;
-  padding: var(--space-6) var(--space-4) var(--space-8);
+  padding: var(--space-6) var(--space-4) calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -453,6 +453,7 @@
               visibility var(--duration-base) var(--ease-standard),
               transform var(--duration-base) var(--ease-standard);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   border-bottom: 1px solid var(--color-border);
 }
 

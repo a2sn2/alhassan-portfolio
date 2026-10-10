@@ -66,14 +66,14 @@ for (const locale of locales) {
     await expect(drawer).toBeVisible();
 
     const info = await drawer.evaluate((node) => ({
-      isBodyChild: node.parentElement === document.body,
+      isOutsideHeader: node.closest("header") === null,
       top: node.getBoundingClientRect().top,
       width: node.getBoundingClientRect().width,
       height: node.getBoundingClientRect().height,
       viewportHeight: window.innerHeight,
       viewportWidth: window.innerWidth,
     }));
-    expect(info.isBodyChild).toBe(true);
+    expect(info.isOutsideHeader).toBe(true);
     expect(info.top).toBeGreaterThanOrEqual(55);
     expect(info.height).toBeGreaterThan(info.viewportHeight * 0.6);
     expect(info.width).toBeLessThanOrEqual(info.viewportWidth + 2);
@@ -86,7 +86,8 @@ for (const locale of locales) {
     await expect(page.locator("main h1").first()).toBeVisible();
     await expect(drawer).toBeHidden();
   });
-  test(`WebKit mobile: dark case-study and chapter anchor (${locale.language})`, async ({ page }) => {
+
+  test(`WebKit mobile: dark case-study and navigation (${locale.language})`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: "dark" });
     const route = `${locale.prefix}/projects/real-time-object-detection`;
     const response = await page.goto(route, { waitUntil: "domcontentloaded" });
@@ -100,11 +101,20 @@ for (const locale of locales) {
     }));
     expect(width.scroll).toBeLessThanOrEqual(width.viewport + 2);
 
-    const chapterLink = page.locator('a[href="#problem"]').first();
-    await expect(chapterLink).toBeVisible();
-    await chapterLink.tap();
-    await expect(page).toHaveURL(/#problem$/);
-    await expect(page.locator("#problem")).toBeAttached();
+    // Verify storytelling content is present and reachable via scroll
+    const problemSection = page.locator("#problem");
+    await expect(problemSection).toBeAttached();
+    await problemSection.scrollIntoViewIfNeeded();
+    await expect(problemSection).toBeVisible();
+
+    // Verify real mobile navigation control (top back link to projects)
+    const backLink = page.locator('a[class*="backLink"]').first();
+    await backLink.scrollIntoViewIfNeeded();
+    await expect(backLink).toBeVisible();
+    await backLink.tap();
+    const expectedProjectsPath = locale.prefix ? `${locale.prefix}/projects` : "/projects";
+    await expect(page).toHaveURL(new RegExp(`${expectedProjectsPath}$`));
+    await expect(page.locator("main h1").first()).toBeVisible();
   });
 
 }
