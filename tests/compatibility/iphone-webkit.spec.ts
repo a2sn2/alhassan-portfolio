@@ -16,11 +16,14 @@ const primaryRoutes = [
 ] as const;
 
 for (const locale of locales) {
-  test(`WebKit mobile: primary layouts render without overflow (${locale.language})`, async ({ page }) => {
-    const pageErrors: string[] = [];
-    page.on("pageerror", (error) => pageErrors.push(error.message));
-
+  test(`WebKit mobile: primary layouts render without overflow (${locale.language})`, async ({ page: fixturePage }) => {
+    // Use a fresh page per direct load so pending Next.js link prefetches
+    // from a previous document do not contaminate the next route's errors.
     for (const route of primaryRoutes) {
+      const page = await fixturePage.context().newPage();
+      const pageErrors: string[] = [];
+      page.on("pageerror", (error) => pageErrors.push(error.message));
+
       const path = `${locale.prefix}${route}` || "/";
       const response = await page.goto(path, { waitUntil: "domcontentloaded" });
       expect(response?.status(), `HTTP status on ${path}`).toBe(200);
@@ -48,9 +51,9 @@ for (const locale of locales) {
       }
       expect(await page.locator("html").getAttribute("lang")).toBe(locale.language);
       expect(await page.locator("html").getAttribute("dir")).toBe(locale.direction);
+      expect(pageErrors, `WebKit runtime errors on ${path}`).toEqual([]);
+      await page.close();
     }
-
-    expect(pageErrors, `WebKit runtime errors on ${locale.language} pages`).toEqual([]);
   });
 
   test(`WebKit mobile: drawer occupies viewport and navigates (${locale.language})`, async ({ page }) => {
