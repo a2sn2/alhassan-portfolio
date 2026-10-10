@@ -266,7 +266,36 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(drawerBounds!.y).toBeGreaterThanOrEqual(60);
 
 
-    // Navigate to /about via drawer
+    // Verify ARIA states and scroll lock while open
+    await expect(menuBtn).toHaveAttribute("aria-expanded", "true");
+    await expect(drawer).toHaveAttribute("aria-modal", "true");
+    await expect(drawer).toHaveAttribute("aria-hidden", "false");
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+
+    // Focus enters drawer automatically
+    const firstLink = nav.locator('a[href="/"]').first();
+    await expect(firstLink).toBeFocused();
+
+    // Verify Tab / Shift+Tab keyboard focus trap
+    // Shift+Tab from first element wraps to the last focusable element in the drawer
+    await page.keyboard.press("Shift+Tab");
+    const isFocusInDrawerAfterShiftTab = await drawer.evaluate((d) => d.contains(document.activeElement));
+    expect(isFocusInDrawerAfterShiftTab).toBe(true);
+
+    // Tab from last element wraps back to the first focusable element
+    await page.keyboard.press("Tab");
+    await expect(firstLink).toBeFocused();
+
+    // Escape closes drawer, restores background scroll, and returns focus to menu trigger
+    await page.keyboard.press("Escape");
+    await expect(drawer).toBeHidden();
+    await expect(menuBtn).toBeFocused();
+    await expect(menuBtn).toHaveAttribute("aria-expanded", "false");
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+
+    // Re-open drawer to test navigation to /about
+    await menuBtn.click();
+    await expect(drawer).toBeVisible();
     const aboutLink = nav.locator('a[href="/about"]');
     await expect(aboutLink).toBeVisible();
     await aboutLink.click();
@@ -275,6 +304,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await expect(page.locator("h1")).toContainText(
       "Engineering from Academic Foundations to Production Systems"
     );
+    expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
   });
 
   test("TC-09: Multi-viewport responsive sanity (zero horizontal overflow across all routes)", async ({

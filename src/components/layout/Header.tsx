@@ -18,6 +18,7 @@ export function Header() {
   const router = useRouter();
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const firstDrawerLinkRef = useRef<HTMLAnchorElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const langSelectorRef = useRef<HTMLDivElement>(null);
   const langTriggerRef = useRef<HTMLButtonElement>(null);
 
@@ -99,7 +100,7 @@ export function Header() {
   const homeHref = isGerman ? "/de" : isArabic ? "/ar" : "/";
   const github = socialLinks.find((s) => s.platform === "GitHub");
 
-  // Close drawer on Escape key and return focus to toggle button
+  // Close drawer on Escape key, return focus to toggle button, and trap Tab/Shift+Tab focus
   useEffect(() => {
     if (!isOpen) return;
 
@@ -107,6 +108,29 @@ export function Header() {
       if (e.key === "Escape") {
         setIsOpen(false);
         toggleButtonRef.current?.focus();
+        return;
+      }
+
+      if (e.key === "Tab" && drawerRef.current) {
+        const focusables = drawerRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+
+        const firstEl = focusables[0];
+        const lastEl = focusables[focusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstEl || !drawerRef.current.contains(document.activeElement)) {
+            e.preventDefault();
+            lastEl.focus();
+          }
+        } else {
+          if (document.activeElement === lastEl || !drawerRef.current.contains(document.activeElement)) {
+            e.preventDefault();
+            firstEl.focus();
+          }
+        }
       }
     };
 
@@ -450,6 +474,7 @@ export function Header() {
 
       {/* Mobile Navigation Drawer — viewport-fixed sibling, outside the backdrop-filter header */}
       <div
+        ref={drawerRef}
         id="mobile-nav-drawer"
         className={cn(styles.drawer, isOpen && styles.drawerOpen)}
         role="dialog"
