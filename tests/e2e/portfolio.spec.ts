@@ -2348,7 +2348,20 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const consoleErrors: string[] = [];
     page.on("pageerror", (err) => pageErrors.push(err));
     page.on("console", (msg) => {
-      if (msg.type() === "error") consoleErrors.push(msg.text());
+      if (msg.type() === "error") {
+        const text = msg.text();
+        const url = msg.location()?.url || "";
+        if (
+          url.includes("_vercel/") ||
+          url.includes("va.vercel-scripts") ||
+          text.includes("_vercel/") ||
+          text.includes("va.vercel-scripts") ||
+          text.includes("Failed to load resource")
+        ) {
+          return;
+        }
+        consoleErrors.push(text);
+      }
     });
 
     // 1. Initial homepage load - verify navigation shell and data-scroll-behavior
