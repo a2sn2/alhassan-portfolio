@@ -4,12 +4,12 @@
 }
 
 .previewSection {
-  padding: var(--space-16) 0;
+  padding: clamp(3.25rem, 5.5vw, 4.25rem) 0;
   border-bottom: 1px solid var(--color-border);
 }
 
 .previewSectionAlternate {
-  padding: var(--space-16) 0;
+  padding: clamp(3.5rem, 5.5vw, 4.5rem) 0;
   border-bottom: 1px solid var(--color-border);
   background-color: color-mix(in srgb, var(--color-surface-muted) 35%, var(--color-canvas));
 }
@@ -20,7 +20,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-4);
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-8);
 }
 
 .headerTextGroup {
@@ -78,10 +78,10 @@
   outline-offset: 2px;
 }
 
-/* Projects Grid */
+/* Projects Grid (Balanced 2x2 Desktop & Laptop Architecture) */
 .projectsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-6);
 }
 
@@ -132,13 +132,13 @@
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
   color: var(--color-text-primary);
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .projectTagline {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .projectSnippet {
@@ -147,8 +147,8 @@
   background-color: color-mix(in srgb, var(--color-surface-muted) 60%, transparent);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
-  border-left: 2px solid var(--color-brand);
-  margin-top: auto;
+  border-inline-start: 2px solid var(--color-brand);
+  line-height: 1.5;
 }
 
 .techPills {
@@ -168,6 +168,7 @@
 }
 
 .cardFooter {
+  margin-top: auto;
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-border-subtle);
 }
@@ -447,6 +448,12 @@
   .capabilitiesPreviewGrid {
     grid-template-columns: 1fr;
     gap: var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .projectCard {
+    padding: var(--space-5);
   }
 }
 
