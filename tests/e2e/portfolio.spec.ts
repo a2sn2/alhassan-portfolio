@@ -255,6 +255,17 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const nav = page.locator("nav[aria-label='Mobile Navigation Links']");
     await expect(nav).toBeVisible();
 
+    // A fixed drawer inside a backdrop-filter header can collapse to 0px
+    // because the filter establishes a containing block for fixed children.
+    // Require the drawer to be a viewport-fixed sibling of the header.
+    const drawer = page.locator("#mobile-nav-drawer");
+    expect(await drawer.evaluate((element) => element.parentElement === document.body)).toBe(true);
+    const drawerBounds = await drawer.boundingBox();
+    expect(drawerBounds).not.toBeNull();
+    expect(drawerBounds!.height).toBeGreaterThan(600);
+    expect(drawerBounds!.y).toBeGreaterThanOrEqual(60);
+
+
     // Navigate to /about via drawer
     const aboutLink = nav.locator('a[href="/about"]');
     await expect(aboutLink).toBeVisible();
