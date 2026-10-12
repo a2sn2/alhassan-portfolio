@@ -140,7 +140,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
     // Switch to another role via tab click
     await page.click("#tab-ahd-financial-deputy");
-    await expect(detailPanel.locator("h2", { hasText: "Deputy Development Manager" })).toBeVisible();
+    await expect(detailPanel.locator("h2", { hasText: "Deputy Director of the Development Department" })).toBeVisible();
 
     // Deep linking via hash parameter
     await page.goto("/experience#water-sanitation-corp");
@@ -429,7 +429,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.goto("/experience");
     const expText = await page.innerText("body");
     expect(expText).toContain("Co-Founder & Director of Quality Assurance");
-    expect(expText).toContain("Deputy Development Manager");
+    expect(expText).toContain("Deputy Director of the Development Department");
     expect(expText).toContain("Control Engineer Trainee");
     expect(expText).toContain("Network Engineer Trainee");
 
@@ -1969,7 +1969,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
           "Customer Service Trainee",
           "Development Trainee",
           "Developer, Development Dept.",
-          "Deputy Development Manager",
+          "Deputy Director of the Development Department",
         ],
         ctaText: "Explore progression",
         ctaHref: "/experience#ahd-financial-deputy",
@@ -1982,7 +1982,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
           "متدرب في خدمة العملاء",
           "متدرب في قسم التطوير",
           "مُطوِّر في قسم التطوير",
-          "نائب إدارة التطوير",
+          "نائب مدير إدارة التطوير",
         ],
         ctaText: "استكشف المسار",
         ctaHref: "/ar/experience#ahd-financial-deputy",
@@ -1995,7 +1995,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
           "Trainee im Kundenservice",
           "Trainee, Entwicklungsabteilung",
           "Entwickler, Entwicklungsabteilung",
-          "Stellv. Entwicklungsleiter",
+          "Stellvertretender Leiter der Entwicklungsabteilung",
         ],
         ctaText: "Entwicklung ansehen",
         ctaHref: "/de/experience#ahd-financial-deputy",
@@ -2054,7 +2054,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(stageTexts[0]).toContain("Customer Service Trainee");
     expect(stageTexts[1]).toContain("Development Trainee");
     expect(stageTexts[2]).toContain("Developer, Development Dept.");
-    expect(stageTexts[3]).toContain("Deputy Development Manager");
+    expect(stageTexts[3]).toContain("Deputy Director of the Development Department");
 
     // 4. Current state is attached only to Deputy stage
     await expect(stageButtons.nth(3)).toContainText("Current Role");
@@ -2070,9 +2070,9 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await expect(detailPanel.locator("[class*='contextualStrip']")).toBeVisible();
     await expect(detailPanel.locator("[class*='contextualSubtitle']")).toContainText("Stage 03 / 04");
 
-    // 6. Click Deputy: detail panel becomes Deputy Development Manager
+    // 6. Click Deputy: detail panel becomes Deputy Director of the Development Department
     await stageButtons.nth(3).click();
-    await expect(detailPanel.locator("h2")).toHaveText("Deputy Development Manager");
+    await expect(detailPanel.locator("h2")).toHaveText("Deputy Director of the Development Department");
     await expect(detailPanel.locator("[class*='contextualSubtitle']")).toContainText("Stage 04 / 04");
   });
 
@@ -2150,7 +2150,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const deStages = deProgressionBlock.locator("button[role='tab']");
     await deStages.nth(3).click();
     const deDetail = page.locator('[role="tabpanel"]');
-    await expect(deDetail.locator("h2")).toHaveText("Stellv. Entwicklungsleiter");
+    await expect(deDetail.locator("h2")).toHaveText("Stellvertretender Leiter der Entwicklungsabteilung");
     await expect(deDetail.locator("[class*='contextualSubtitle']")).toContainText("Phase 04 / 04");
 
     const isOverflowing = await page.evaluate(() => {

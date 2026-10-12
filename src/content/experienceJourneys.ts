@@ -145,9 +145,9 @@ export const jaibExperienceJourney: ExperienceJourney = {
       roleId: "ahd-financial-deputy",
       stageNumber: "04",
       shortTitle: {
-        en: "Deputy Development Manager",
-        ar: "نائب مدير التطوير",
-        de: "Stellv. Entwicklungsleiter",
+        en: "Deputy Director of the Development Department",
+        ar: "نائب مدير إدارة التطوير",
+        de: "Stellvertretender Leiter der Entwicklungsabteilung",
       },
       isCurrent: true,
     },

@@ -70,7 +70,7 @@ To maintain absolute transparency and integrity, content across the portfolio is
 | Role & Organization | Period | Location | Source File(s) | Status | Key Verified Deliverables |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Asaas AI** — Co-Founder & Director of Quality Assurance | Jan 2026 – Present | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Set testing and review standards and policies; evaluated software-system and AI-solution quality; reviewed plans, feasibility studies, and product readiness before approval and launch. |
-| **AHD Financial Services (Jaib Wallet)** — Deputy Development Manager | Jul 2026 – Present | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Organize and manage projects; analyze internal development requirements; deliver system integrations with external institutions. |
+| **AHD Financial Services (Jaib Wallet)** — Deputy Director of the Development Department | Jul 2026 – Present | Sana'a | Live Portfolio & Canonical Data (Historical CV PDFs: *Deputy Development Manager*) | **OWNER-APPROVED OFFICIAL TITLE CORRECTION** | Organize and manage projects; analyze internal development requirements; deliver system integrations with external institutions. |
 | **AHD Financial Services (Jaib Wallet)** — Developer, Development Dept. | Jan – Jul 2026 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Built a production operations/accounting product integrated with Jaib Wallet workflows; contributed to software development. |
 | **AHD Financial Services (Jaib Wallet)** — Development Trainee | Dec 2025 – Jan 2026 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Worked with .NET backend logic, SQL databases, web features, testing, and troubleshooting. |
 | **AHD Financial Services (Jaib Wallet)** — Customer Service Trainee | Sep – Dec 2025 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Handled ticketing-system calls; applied compliance policies. |
@@ -78,6 +78,14 @@ To maintain absolute transparency and integrity, content across the portfolio is
 | **Al-Rahma Foundation** — Network Engineer Trainee | Jan – Dec 2023 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Operated and maintained internal LAN/Wi-Fi networks and basic router/switch configurations; supported cabling, routine follow-up, and logs; documented incidents and suggested stability improvements. |
 | **Private Project (Healthcare & Apparel)** — Sales | 2020 – 2022 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Managed customer relationships, orders, and invoices; organized inventory data and prepared simple sales reports; followed up on purchasing and supplier communication. |
 | **Glory of Civilization Schools** — Administrative Assistant Trainee | Jan – Dec 2019 | Sana'a | All CV variants | **VERIFIED & CONSISTENT** | Supported daily school operations, events, schedules, and interdepartmental coordination. |
+
+> **Note on Title Parity (AHD Financial Services Deputy Role)**:
+> The official title displayed on the live website and canonical data model has been updated with explicit owner approval:
+> - **English:** `Deputy Director of the Development Department`
+> - **Arabic:** `نائب مدير إدارة التطوير`
+> - **German:** `Stellvertretender Leiter der Entwicklungsabteilung`
+>
+> The unchanged historical CV PDF packages (`docs/ALHassan_Baligh_ALShami_CV_Package/` and `public/cv/`) retain the historical wording (`Deputy Development Manager` / `نائب إدارة التطوير` / `Stellv. Entwicklungsleiter`) as previously issued. Verified parity is maintained between live portfolio presentations, canonical CV contracts, and automated verification fixtures, distinguishing the owner-approved live title from unchanged historical PDF references.
 
 ---
 
