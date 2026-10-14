@@ -46,7 +46,7 @@ export const canonicalExperienceOrganizations: CanonicalOrganizationItem[] = [
     roles: [
       {
         id: "ahd-deputy-dev-manager",
-        role: "Deputy Development Manager",
+        role: "Deputy Director of the Development Department",
         period: "Jul 2026 – Present",
         location: "Sana'a",
         summary:

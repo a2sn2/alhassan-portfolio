@@ -30,7 +30,7 @@ export const experienceContentDe: ExperienceContent = {
     {
       id: "ahd-financial-deputy",
       company: "AHD Financial Services – Jaib Wallet",
-      role: "Stellv. Entwicklungsleiter",
+      role: "Stellvertretender Leiter der Entwicklungsabteilung",
       period: "Juli 2026 – heute",
       location: "Sanaa",
       description:

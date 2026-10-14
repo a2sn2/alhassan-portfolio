@@ -30,7 +30,7 @@ export const experienceContent: ExperienceContent = {
     {
       id: "ahd-financial-deputy",
       company: "AHD for Financial Services – Jaib Wallet",
-      role: "Deputy Development Manager",
+      role: "Deputy Director of the Development Department",
       period: "Jul 2026 – Present",
       location: "Sana'a",
       description:

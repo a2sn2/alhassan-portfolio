@@ -22,7 +22,7 @@ To guarantee complete factual fidelity to the official CV while maintaining a mo
   - **Profile**: Verbatim statement from Page 1.
   - **Education**: Source-pure education block (`Twintech`, `B.Sc. in Computer Science`, `2021 – 2025`, graduation project thesis and repository notice). Location is not attached to the canonical education block as it is not part of the source education section.
   - **Organizations (6)**: Exact source strings, specifically `AHD for Financial Services Jaib Wallet` (no en dash in canonical source).
-  - **Experience Roles (9)**: All 9 roles across 6 organizations with verbatim official summaries.
+  - **Experience Roles (9)**: All 9 roles across 6 organizations with verbatim official summaries *(Note: The AHD Financial Services role `ahd-deputy-dev-manager` reflects the owner-approved title `Deputy Director of the Development Department`, updating the historical PDF wording `Deputy Development Manager`)*.
   - **Memberships (5)**: All 5 verified organizations, including `CYBERAI CLUB`, `SOCIETY OF PETROLEUM ENGINEERS (SPE)`, and `Al-Hamdi Foundation for Human Development`.
   - **Languages (3)**: Exact levels (Arabic Native, English B2, German B1) and star ratings.
   - **Technical Skills (9 lines)**: Exactly the 9 official grouping lines. Atomic skills are strictly pure semantic splits of each line with zero inferred/context additions (e.g. Databases -> `["Databases"]`; zero speculative additions like MySQL, Oracle, MikroTik, etc.).

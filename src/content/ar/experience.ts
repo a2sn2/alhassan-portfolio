@@ -30,7 +30,7 @@ export const experienceContentAr: ExperienceContent = {
     {
       id: "ahd-financial-deputy",
       company: "عهد للخدمات المالية - محفظة جيب",
-      role: "نائب إدارة التطوير",
+      role: "نائب مدير إدارة التطوير",
       period: "2026/07 – الآن",
       location: "صنعاء",
       description:
