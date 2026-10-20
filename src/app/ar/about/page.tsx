@@ -2,7 +2,6 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { aboutContentAr } from "@/content/ar/about";
 import { siteMetadataAr } from "@/content/ar/siteMetadata";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
@@ -170,8 +169,6 @@ export default function ArabicAboutPage() {
         </Reveal>
       </Container>
 
-      {/* Chapter 2 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={2} />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { ProjectExplorer } from "@/components/projects/ProjectExplorer";
 import { projectsContentDe } from "@/content/de/projects";
 import { siteMetadataDe } from "@/content/de/siteMetadata";
@@ -47,8 +46,6 @@ export default function GermanProjectsPage() {
         </div>
       </Container>
 
-      {/* Chapter 4 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={4} locale="de" />
     </div>
   );
 }

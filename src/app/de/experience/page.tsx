@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { ExperienceExplorer } from "@/components/experience/ExperienceExplorer";
 import { experienceContentDe } from "@/content/de/experience";
 import { siteMetadataDe } from "@/content/de/siteMetadata";
@@ -44,8 +43,6 @@ export default function GermanExperiencePage() {
         </div>
       </Container>
 
-      {/* Chapter 3 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={3} locale="de" />
     </div>
   );
 }

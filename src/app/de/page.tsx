@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { Badge } from "@/components/ui/Badge";
 import {
   identityContentDe,
@@ -296,8 +295,6 @@ export default function GermanHomePage() {
       {/* 5. Proof & Verification Section */}
       <ProofSection content={proofContentDe} locale="de" />
 
-      {/* Chapter 1 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={1} locale="de" />
     </div>
   );
 }

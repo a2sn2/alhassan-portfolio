@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 import { contactContentDe, siteMetadataDe } from "@/content/de";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
@@ -130,8 +129,6 @@ export default function GermanContactPage() {
         </div>
       </Container>
 
-      {/* Chapter 6 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={6} locale="de" />
     </div>
   );
 }

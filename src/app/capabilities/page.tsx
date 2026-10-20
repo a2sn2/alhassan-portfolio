@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { CapabilitiesMatrix } from "@/components/capabilities/CapabilitiesMatrix";
 import {
   skillsContent,
@@ -51,8 +50,6 @@ export default function CapabilitiesPage() {
         </div>
       </Container>
 
-      {/* Chapter 5 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={5} />
     </div>
   );
 }
