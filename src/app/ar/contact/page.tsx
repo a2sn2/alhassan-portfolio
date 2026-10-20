@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 import { contactContentAr, siteMetadataAr } from "@/content/ar";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
@@ -137,8 +136,6 @@ export default function ArabicContactPage() {
         </div>
       </Container>
 
-      {/* Chapter 6 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={6} locale="ar" />
     </div>
   );
 }

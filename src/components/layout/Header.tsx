@@ -182,7 +182,7 @@ export function Header() {
   // Auto-close if screen expands past mobile breakpoint
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768 && isOpen) {
+      if (window.innerWidth > 1200 && isOpen) {
         setIsOpen(false);
       }
     };

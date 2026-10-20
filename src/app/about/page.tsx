@@ -2,7 +2,6 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { aboutContent, siteMetadata } from "@/content";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
 import { Reveal } from "@/components/ui/Reveal";
@@ -166,8 +165,6 @@ export default function AboutPage() {
         </Reveal>
       </Container>
 
-      {/* Chapter 2 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={2} />
     </div>
   );
 }

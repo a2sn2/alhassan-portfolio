@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { ChapterNav } from "@/components/ui/ChapterNav";
 import { ExperienceExplorer } from "@/components/experience/ExperienceExplorer";
 import { experienceContent, siteMetadata } from "@/content";
 import styles from "./experience.module.css";
@@ -42,8 +41,6 @@ export default function ExperiencePage() {
         </div>
       </Container>
 
-      {/* Chapter 3 of 6 sequential navigation */}
-      <ChapterNav currentChapterIndex={3} />
     </div>
   );
 }

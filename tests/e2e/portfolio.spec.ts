@@ -46,8 +46,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await expect(page.locator("text=Featured Engineering Work")).toBeVisible();
     await expect(page.locator("text=Operational & Leadership Highlights")).toBeVisible();
 
-    // Chapter navigation indicates Chapter 01
-    await expect(page.locator("text=CHAPTER 01 / 06")).toBeVisible();
+    // Page footer is rendered and accessible
+    await expect(page.locator("footer")).toBeVisible();
   });
 
   test("TC-02: Multi-page navigation links navigate to all 6 primary routes", async ({
@@ -313,6 +313,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const viewports = [
       { name: "Desktop 1440", width: 1440, height: 900 },
       { name: "Laptop 1280", width: 1280, height: 800 },
+      { name: "Tablet 1024", width: 1024, height: 768 },
+      { name: "Tablet 824", width: 824, height: 1024 },
       { name: "Tablet 768", width: 768, height: 1024 },
       { name: "Mobile 390", width: 390, height: 844 },
       { name: "Narrow 320", width: 320, height: 568 },
@@ -584,8 +586,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await expect(page.locator("text=أعمال هندسية مختارة")).toBeVisible();
     await expect(page.locator("text=أبرز المحطات التشغيلية والقيادية")).toBeVisible();
 
-    // Chapter navigation indicates Chapter 01
-    await expect(page.locator("text=الفصل 01 / 06")).toBeVisible();
+    // Arabic page footer is rendered and accessible
+    await expect(page.locator("footer")).toBeVisible();
   });
 
   test("TC-15: Bidirectional language switcher preserves exact route", async ({
@@ -771,6 +773,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const viewports = [
       { name: "Desktop 1440", width: 1440, height: 900 },
       { name: "Laptop 1280", width: 1280, height: 800 },
+      { name: "Tablet 1024", width: 1024, height: 768 },
+      { name: "Tablet 824", width: 824, height: 1024 },
       { name: "Tablet 768", width: 768, height: 1024 },
       { name: "Mobile 390", width: 390, height: 844 },
       { name: "Narrow 320", width: 320, height: 568 },
@@ -956,8 +960,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await expect(page.locator("text=Ausgewählte Ingenieurarbeiten")).toBeVisible();
     await expect(page.locator("text=Operative & leitende Meilensteine")).toBeVisible();
 
-    // Chapter navigation indicates Chapter 01 in German
-    await expect(page.locator("text=KAPITEL 01 / 06")).toBeVisible();
+    // German page footer is rendered and accessible
+    await expect(page.locator("footer")).toBeVisible();
   });
 
   test("TC-26: Trilingual language switcher navigates between EN, AR, and DE with full preservation", async ({
@@ -1107,6 +1111,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const viewports = [
       { name: "Desktop 1440", width: 1440, height: 900 },
       { name: "Laptop 1280", width: 1280, height: 800 },
+      { name: "Tablet 1024", width: 1024, height: 768 },
+      { name: "Tablet 824", width: 824, height: 1024 },
       { name: "Tablet 768", width: 768, height: 1024 },
       { name: "Mobile 390", width: 390, height: 844 },
       { name: "Narrow 320", width: 320, height: 568 },
@@ -1156,8 +1162,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     const secondaryCta = page.locator('a[href="/de/about"]:has-text("Profil & Prinzipien lesen")');
     await expect(secondaryCta).toBeVisible();
 
-    // Command hint in German
-    await expect(page.locator("text=öffnet den Portfolio-Navigator von überall")).toBeVisible();
+    // Redundant Hero command hint is removed; Command Palette remains in Header
+    expect(await page.locator("text=öffnet den Portfolio-Navigator von überall").count()).toBe(0);
 
     // Section aria-label
     const heroSection = page.locator('section[aria-label="Einleitung"]');

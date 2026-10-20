@@ -35,12 +35,6 @@ export function HeroSection({ content }: HeroSectionProps) {
     ? "اقرأ النبذة والمبادئ"
     : "Read Profile & Principles";
 
-  const connector = isGerman ? "oder" : isArabic ? "أو" : "or";
-  const commandHintText = isGerman
-    ? "öffnet den Portfolio-Navigator von überall"
-    : isArabic
-    ? "يفتح لوحة التنقل من أي مكان في الموقع"
-    : "opens the Portfolio Navigator from anywhere";
 
   const focusRailAriaLabel = isGerman
     ? "Schwerpunkte der Ingenieurpraxis"
@@ -127,12 +121,6 @@ export function HeroSection({ content }: HeroSectionProps) {
                 </Link>
               </div>
 
-              <div className={styles.commandHint}>
-                <span className={styles.kbdHint}>⌘K</span>
-                <span>{connector}</span>
-                <span className={styles.kbdHint}>Ctrl+K</span>
-                <span>{commandHintText}</span>
-              </div>
 
               {/* Compact Focus Rail for Mobile: fits cleanly within first screen rhythm */}
               {content.focusPillars && content.focusPillars.length > 0 && (
