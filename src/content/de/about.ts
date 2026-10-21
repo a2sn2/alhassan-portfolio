@@ -10,6 +10,32 @@ export const aboutContentDe: AboutContent = {
     "Meine praktische Erfahrung erstreckt sich über Fintech-Entwicklung, Qualitätssicherung und Netzwerksysteme. Bei AHD Financial Services – Jaib Wallet war ich in Entwicklungs- und operativen Rollen tätig, baute produktive Systeme für Betrieb und Abrechnung auf und steuerte Systemintegrationen mit externen Institutionen. Bei Asas AI habe ich als Mitgründer und Leiter der Qualitätssicherung Test- und Review-Standards eingeführt sowie die Produktreife von KI-Lösungen bewertet.",
     "Mein ingenieurtechnischer Ansatz beruht auf ganzheitlichem Systemverständnis: von industriellen SPS-Regelkreisen und Netzwerk-Routing (MikroTik RouterOS) über Desktop-Architekturen bis hin zu modernen Web-Plattformen und Computer-Vision-Pipelines in Echtzeit.",
   ],
+  specializations: [
+    {
+      domain: "Fintech- & Unternehmenssysteme",
+      roleOrContext: "Stellvertretender Leiter der Entwicklungsabteilung · AHD / Jaib Wallet",
+      description:
+        "Entwicklung interner Abrechnungslösungen, Steuerung operativer Arbeitsabläufe und institutionelle Schnittstellenintegration.",
+    },
+    {
+      domain: "Qualitätssicherung & Review-Architektur",
+      roleOrContext: "Mitgründer & Leiter der Qualitätssicherung · Asas AI",
+      description:
+        "Einführung strukturierter Teststrategien, unternehmensweiter Code-Review-Standards und Reifegradbewertungen für KI-Systeme.",
+    },
+    {
+      domain: "Systeme, Netzwerke & Infrastruktur",
+      roleOrContext: "Netzwerktechnik & Systemadministration",
+      description:
+        "Praxisorientiertes Routing und Switching (MikroTik RouterOS), Linux-Administration und speicherprogrammierbare Steuerungen (SPS).",
+    },
+    {
+      domain: "Full-Stack-Entwicklung & Computer Vision",
+      roleOrContext: "Software-Engineering & Angewandte Forschung",
+      description:
+        "Moderne Web-Anwendungen, Desktop-Architekturen und Echtzeit-Objektverfolgungspipelines mit Python und OpenCV.",
+    },
+  ],
   education: {
     institution: "International University of Technology Twintech",
     degree: "B.Sc. in Informatik",
@@ -17,7 +43,7 @@ export const aboutContentDe: AboutContent = {
     location: "Sanaa, Jemen",
     thesisTitle: "Objektverfolgungsalgorithmus unter Linux mit Python und OpenCV",
     thesisDescription:
-      "Abschlussprojekt: Objektverfolgungsalgorithmus unter Linux mit Python und OpenCV; Live-Kamerabild mit Echtzeitvisualisierung der Ergebnisse.",
+      "Praktische Implementierung unter Linux mit Verarbeitung von Live-Kamerabildern und Echtzeitvisualisierung der Koordinaten.",
     repositoryNote:
       "Im Repository befinden sich Abschlussbericht, Notenübersicht, Studienplan und Empfehlungsschreiben.",
   },
@@ -42,7 +68,7 @@ export const aboutContentDe: AboutContent = {
     {
       id: "interest-community",
       category: "Gemeinschaft",
-      summary: "Open Source, Hackathons, Tech-Club-Veranstaltungen, Mentoring.",
+      summary: "Beiträge zu Open-Source-Projekten, Hackathons, Tech-Club-Aktivitäten und Mentoring für Studierende.",
       items: [
         "Open Source",
         "Hackathons",
@@ -53,7 +79,7 @@ export const aboutContentDe: AboutContent = {
     {
       id: "interest-personal",
       category: "Persönlich",
-      summary: "Technische Lektüre, Sport, wissenschaftliche Recherche, Sprachen.",
+      summary: "Technische Fachliteratur, Sport, wissenschaftliche Recherche und Sprachenlernen.",
       items: [
         "Technische Lektüre",
         "Sport",
@@ -65,7 +91,7 @@ export const aboutContentDe: AboutContent = {
       id: "interest-technical",
       category: "Technisch",
       summary:
-        "Web/Mobile, Modellierung & Simulation, Cloud Computing, Elektrotechnik & Steuerung.",
+        "Web- und Mobil-Plattformen, mathematische Modellierung, Simulation, Cloud Computing und Steuerungstechnik.",
       items: [
         "Web/Mobile",
         "Modellierung & Simulation",

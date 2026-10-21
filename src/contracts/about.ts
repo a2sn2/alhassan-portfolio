@@ -26,6 +26,12 @@ export interface InterestGroup {
   items: string[];
 }
 
+export interface SpecializationHighlight {
+  domain: string;
+  roleOrContext: string;
+  description: string;
+}
+
 export interface AboutContent {
   kicker: string;
   title: string;
@@ -36,5 +42,6 @@ export interface AboutContent {
   interests?: InterestGroup[];
   principles: PrincipleItem[];
   referencesNote: string;
+  specializations?: SpecializationHighlight[];
 }
 

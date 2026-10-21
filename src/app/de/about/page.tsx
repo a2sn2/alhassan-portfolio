@@ -47,7 +47,7 @@ export default function GermanAboutPage() {
           </header>
         </Reveal>
 
-        {/* Narrative & Credentials Layout */}
+        {/* 1. Professional Story & Practice Focus */}
         <div className={styles.narrativeLayout} style={{ marginTop: "var(--space-10)" }}>
           {/* Main Editorial Story */}
           <Reveal delay={60} className={styles.storyColumn}>
@@ -58,66 +58,39 @@ export default function GermanAboutPage() {
             ))}
           </Reveal>
 
-          {/* Education & Language Sidebar */}
+          {/* Core Specializations & Practice Focus Sidebar */}
           <Reveal delay={100} className={styles.sidebarColumn}>
-            {/* Education Feature */}
-            <div className={styles.educationCard}>
-              <span className={styles.cardKicker}>Akademische Grundlagen</span>
-              <h2 className={styles.degreeTitle}>{aboutContentDe.education.degree}</h2>
-              <div className={styles.institutionMeta}>
-                <strong>{aboutContentDe.education.institution}</strong>
-                <div>
-                  {aboutContentDe.education.period} · {aboutContentDe.education.location}
-                </div>
+            <div className={styles.specializationsCard}>
+              <div className={styles.specializationsHeader}>
+                <span className={styles.cardKicker}>Berufliche Praxis</span>
+                <h2 className={styles.specializationsTitle}>Ingenieurschwerpunkte</h2>
               </div>
-
-              <div className={styles.thesisBlock}>
-                <span className={styles.thesisLabel}>Abschlussarbeit & Forschung: </span>
-                <span>{aboutContentDe.education.thesisTitle}</span>
-                <p style={{ marginTop: "var(--space-2)", margin: 0 }}>
-                  {aboutContentDe.education.thesisDescription}
-                </p>
-                {aboutContentDe.education.repositoryNote && (
-                  <p
-                    style={{
-                      marginTop: "var(--space-2)",
-                      fontSize: "var(--text-xs)",
-                      color: "var(--color-text-secondary)",
-                      fontStyle: "italic",
-                    }}
-                  >
-                    {aboutContentDe.education.repositoryNote}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Verified Languages */}
-            <div className={styles.languagesCard}>
-              <span className={styles.cardKicker}>Sprachen & Kommunikation</span>
-              <div className={styles.langList}>
-                {aboutContentDe.languages.map((lang) => (
-                  <div key={lang.language} className={styles.langItem}>
-                    <div className={styles.langHeader}>
-                      <span className={styles.langName}>{lang.language}</span>
-                      <span className={styles.langLevel}>{lang.level}</span>
-                    </div>
-                    {lang.proficiency && lang.proficiency !== lang.level && (
-                      <p className={styles.langDesc}>{lang.proficiency}</p>
-                    )}
+              <div className={styles.specList}>
+                {aboutContentDe.specializations?.map((spec) => (
+                  <div key={spec.domain} className={styles.specItem}>
+                    <span className={styles.specDomain}>{spec.domain}</span>
+                    <span className={styles.specContext}>{spec.roleOrContext}</span>
+                    <p className={styles.specDesc}>{spec.description}</p>
                   </div>
                 ))}
               </div>
+              <Link href="/de/experience" className={styles.experienceLink}>
+                <span>Berufserfahrung ansehen</span>
+                <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </Reveal>
         </div>
 
-        {/* Engineering Philosophy & Principles */}
+        {/* 2. Engineering Practice & Methods — Meine Arbeitsweise */}
         <Reveal delay={80}>
           <section className={styles.principlesSection} aria-labelledby="heading-principles">
-            <h2 id="heading-principles" className={styles.sectionTitle}>
-              Ingenieurphilosophie & Arbeitsprinzipien
-            </h2>
+            <div className={styles.sectionHeader}>
+              <span className={styles.cardKicker}>Ingenieurpraxis & Methoden</span>
+              <h2 id="heading-principles" className={styles.sectionTitle}>
+                Meine Arbeitsweise
+              </h2>
+            </div>
             <div className={styles.principlesGrid}>
               {aboutContentDe.principles.map((principle) => (
                 <div key={principle.title} className={styles.principleCard}>
@@ -129,13 +102,16 @@ export default function GermanAboutPage() {
           </section>
         </Reveal>
 
-        {/* Engineering Interests & Broader Pursuits */}
+        {/* 3. Areas of Interest & Broader Pursuits — Interessengebiete */}
         {aboutContentDe.interests && aboutContentDe.interests.length > 0 && (
-          <Reveal delay={120}>
+          <Reveal delay={100}>
             <section className={styles.interestsSection} aria-labelledby="heading-interests">
-              <h2 id="heading-interests" className={styles.sectionTitle}>
-                Ingenieurinteressen & Arbeitsfelder
-              </h2>
+              <div className={styles.sectionHeader}>
+                <span className={styles.cardKicker}>Fachliche & Persönliche Schwerpunkte</span>
+                <h2 id="heading-interests" className={styles.sectionTitle}>
+                  Interessengebiete
+                </h2>
+              </div>
               <div className={styles.interestsGrid}>
                 {aboutContentDe.interests.map((interest) => (
                   <div key={interest.id} className={styles.interestCard}>
@@ -157,8 +133,71 @@ export default function GermanAboutPage() {
           </Reveal>
         )}
 
-        {/* References Policy */}
-        <Reveal delay={160}>
+        {/* 4. Academic Foundation & Communication */}
+        <Reveal delay={120}>
+          <section className={styles.foundationSection} aria-labelledby="heading-foundation">
+            <div className={styles.sectionHeader}>
+              <span className={styles.cardKicker}>Ausbildung & Sprachkompetenzen</span>
+              <h2 id="heading-foundation" className={styles.sectionTitle}>
+                Akademisches Fundament & Kommunikation
+              </h2>
+            </div>
+            <div className={styles.foundationGrid}>
+              {/* Education Card */}
+              <div className={styles.educationCard}>
+                <span className={styles.cardKicker}>Akademische Grundlagen</span>
+                <h3 className={styles.degreeTitle}>{aboutContentDe.education.degree}</h3>
+                <div className={styles.institutionMeta}>
+                  <strong>{aboutContentDe.education.institution}</strong>
+                  <div>
+                    {aboutContentDe.education.period} · {aboutContentDe.education.location}
+                  </div>
+                </div>
+
+                <div className={styles.thesisBlock}>
+                  <span className={styles.thesisLabel}>Abschlussarbeit & Forschung: </span>
+                  <span>{aboutContentDe.education.thesisTitle}</span>
+                  <p style={{ marginTop: "var(--space-2)", margin: 0 }}>
+                    {aboutContentDe.education.thesisDescription}
+                  </p>
+                  {aboutContentDe.education.repositoryNote && (
+                    <p
+                      style={{
+                        marginTop: "var(--space-2)",
+                        fontSize: "var(--text-xs)",
+                        color: "var(--color-text-secondary)",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      {aboutContentDe.education.repositoryNote}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Verified Languages */}
+              <div className={styles.languagesCard}>
+                <span className={styles.cardKicker}>Sprachen & Kommunikation</span>
+                <div className={styles.langList}>
+                  {aboutContentDe.languages.map((lang) => (
+                    <div key={lang.language} className={styles.langItem}>
+                      <div className={styles.langHeader}>
+                        <span className={styles.langName}>{lang.language}</span>
+                        <span className={styles.langLevel}>{lang.level}</span>
+                      </div>
+                      {lang.proficiency && lang.proficiency !== lang.level && (
+                        <p className={styles.langDesc}>{lang.proficiency}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        </Reveal>
+
+        {/* 5. References Policy */}
+        <Reveal delay={140}>
           <div className={styles.referencesBanner} style={{ marginTop: "var(--space-10)" }}>
             <p className={styles.refText}>{aboutContentDe.referencesNote}</p>
             <Link href="/de/contact" className={styles.contactCta}>
@@ -168,7 +207,6 @@ export default function GermanAboutPage() {
           </div>
         </Reveal>
       </Container>
-
     </div>
   );
 }

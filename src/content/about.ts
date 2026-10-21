@@ -10,6 +10,32 @@ export const aboutContent: AboutContent = {
     "My hands-on experience extends across fintech development, quality leadership, and network systems. At AHD for Financial Services – Jaib Wallet, I advanced through developer and operational roles, building internal accounting systems and managing institutional integrations. At Asaas AI, as Co-Founder & Director of Quality Assurance, I established review standards and evaluated system readiness for AI-powered solutions.",
     "My engineering ethos is rooted in end-to-end curiosity: from industrial PLC control loops and network routing (MikroTik RouterOS) to desktop architectures, full-stack web platforms, and real-time computer vision pipelines.",
   ],
+  specializations: [
+    {
+      domain: "Fintech & Enterprise Systems",
+      roleOrContext: "Deputy Director of the Development Department · AHD / Jaib Wallet",
+      description:
+        "Built internal accounting solutions, managed core operational workflows, and directed institutional integrations with partner entities.",
+    },
+    {
+      domain: "Software Quality & Review Architecture",
+      roleOrContext: "Co-Founder & Director of QA · Asaas AI",
+      description:
+        "Established structured test strategies, institutional code review standards, and comprehensive readiness evaluation for production platforms.",
+    },
+    {
+      domain: "Systems, Networks & Automation",
+      roleOrContext: "Systems & Infrastructure Engineering",
+      description:
+        "Hands-on routing and switching (MikroTik RouterOS), Linux environment management, and industrial PLC control loop automation.",
+    },
+    {
+      domain: "Full-Stack Development & Computer Vision",
+      roleOrContext: "Software Engineering & Applied Research",
+      description:
+        "Modern responsive web applications, robust desktop architectures, and real-time object tracking pipelines using Python and OpenCV.",
+    },
+  ],
   education: {
     institution: "International University of Technology Twintech",
     degree: "B.Sc. in Computer Science",
@@ -17,7 +43,7 @@ export const aboutContent: AboutContent = {
     location: "Sana'a, Yemen",
     thesisTitle: "Object-Tracking Algorithm on Linux Using Python and OpenCV",
     thesisDescription:
-      "Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results.",
+      "Implemented on Linux using live camera feed processing with real-time visualization of tracking coordinates.",
     repositoryNote:
       "See the repository for the final report, transcript, specialization plan, and recommendation letters.",
   },
@@ -42,20 +68,20 @@ export const aboutContent: AboutContent = {
     {
       id: "interest-community",
       category: "Community",
-      summary: "Open source, hackathons, tech club events, mentoring.",
+      summary: "Open source contributions, hackathons, tech club events, and student mentoring.",
       items: ["Open source", "Hackathons", "Tech club events", "Mentoring"],
     },
     {
       id: "interest-personal",
       category: "Personal",
-      summary: "Technical reading, sports, scientific research, languages.",
+      summary: "Technical reading, sports, scientific research, and foreign languages.",
       items: ["Technical reading", "Sports", "Scientific research", "Languages"],
     },
     {
       id: "interest-technical",
       category: "Technical",
       summary:
-        "Web/mobile, modeling & simulation, cloud computing, electrical systems & control.",
+        "Web and mobile platforms, mathematical modeling, simulation, cloud computing, and electrical control systems.",
       items: [
         "Web/mobile",
         "Modeling & simulation",

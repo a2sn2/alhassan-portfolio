@@ -31,6 +31,7 @@ html[data-scroll-behavior="smooth"] {
   [id^="heading-"],
   [id^="tier-"],
   [id^="ahd-"],
+  [id^="skills-"],
   [id="progression-ahd-jaib"]
 )[id] {
   scroll-margin-top: calc(4.25rem + 1.5rem);
