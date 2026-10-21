@@ -304,7 +304,7 @@ export default function ArabicHomePage() {
               <div className={styles.credHeaderGroup}>
                 <span className={styles.credKicker}>التأهيل التخصصي</span>
                 <h3 className={styles.credTitle}>
-                  {credentialsContentAr.certifications.length} دورة وبرنامج تدريبي متخصص
+                  {credentialsContentAr.certifications.length} شهادة ودورة تدريبية
                 </h3>
                 <p className={styles.credDesc}>{credentialsContentAr.overviewText}</p>
               </div>
