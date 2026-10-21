@@ -13,6 +13,7 @@ import {
 } from "@/content/ar";
 import { jaibExperienceJourney } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { getSkillGroupAnchor } from "@/utils/skills";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "../home.module.css";
@@ -267,14 +268,7 @@ export default function ArabicHomePage() {
           {/* 5 Official Capability Groups */}
           <div className={styles.capabilitiesDomainsGrid}>
             {skillsContentAr.groups.map((group, index) => {
-              const anchors = [
-                "skills-programming",
-                "skills-data",
-                "skills-systems",
-                "skills-automation",
-                "skills-qa",
-              ];
-              const anchor = anchors[index] || `skills-${index}`;
+              const anchor = getSkillGroupAnchor(group, index);
               const cardClass = `${styles.domainCard} ${styles[`domainCard${index + 1}`] || ""}`.trim();
               const displaySkills = group.skills.slice(0, 5);
 
@@ -310,16 +304,16 @@ export default function ArabicHomePage() {
               <div className={styles.credHeaderGroup}>
                 <span className={styles.credKicker}>التأهيل التخصصي</span>
                 <h3 className={styles.credTitle}>
-                  {credentialsContentAr.certifications.length} شهادة ودورة معتمدة
+                  {credentialsContentAr.certifications.length} دورة وبرنامج تدريبي متخصص
                 </h3>
                 <p className={styles.credDesc}>{credentialsContentAr.overviewText}</p>
               </div>
               <Link
                 href="/ar/capabilities#heading-certs"
                 className={styles.credActionLink}
-                aria-label="عرض جميع الشهادات المعتمدة في مصفوفة القدرات"
+                aria-label="عرض جميع الشهادات والبرامج التدريبية في مصفوفة القدرات"
               >
-                <span>عرض سجل الشهادات ({credentialsContentAr.certifications.length})</span>
+                <span>عرض سجل الشهادات والدورات ({credentialsContentAr.certifications.length})</span>
                 <span aria-hidden="true">←</span>
               </Link>
             </Reveal>

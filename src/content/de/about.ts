@@ -2,7 +2,7 @@ import { AboutContent } from "@/contracts";
 
 export const aboutContentDe: AboutContent = {
   kicker: "Profil & Werdegang",
-  title: "Vom akademischen Fundament zu produktiven Systemen",
+  title: "Software-Engineering & zuverlässige Produktivsysteme",
   description:
     "Softwareentwickler mit Sitz in Sanaa, Jemen, spezialisiert auf Softwaresysteme, Full-Stack-Anwendungsentwicklung und praxisnahe technische Lösungen.",
   paragraphs: [
@@ -15,25 +15,25 @@ export const aboutContentDe: AboutContent = {
       domain: "Fintech- & Unternehmenssysteme",
       roleOrContext: "Stellvertretender Leiter der Entwicklungsabteilung · AHD / Jaib Wallet",
       description:
-        "Entwicklung interner Abrechnungslösungen, Steuerung operativer Arbeitsabläufe und institutionelle Schnittstellenintegration.",
+        "Anforderungsanalyse, Aufbau interner Abrechnungssysteme und Koordination institutioneller Schnittstellenintegrationen.",
     },
     {
-      domain: "Qualitätssicherung & Review-Architektur",
+      domain: "Qualitätssicherung & Systembewertung",
       roleOrContext: "Mitgründer & Leiter der Qualitätssicherung · Asas AI",
       description:
-        "Einführung strukturierter Teststrategien, unternehmensweiter Code-Review-Standards und Reifegradbewertungen für KI-Systeme.",
+        "Etablierung von Test- und Review-Standards, Bewertung der Systemqualität und Prüfung der Produktreife vor der Freigabe.",
     },
     {
-      domain: "Systeme, Netzwerke & Infrastruktur",
-      roleOrContext: "Netzwerktechnik & Systemadministration",
+      domain: "Systeme, Netzwerke & Automatisierung",
+      roleOrContext: "System- & Infrastrukturtechnik",
       description:
-        "Praxisorientiertes Routing und Switching (MikroTik RouterOS), Linux-Administration und speicherprogrammierbare Steuerungen (SPS).",
+        "Routing und Switching mit MikroTik RouterOS, Linux-Systemverwaltung und Automatisierung über industrielle SPS-Steuerungen.",
     },
     {
-      domain: "Full-Stack-Entwicklung & Computer Vision",
-      roleOrContext: "Software-Engineering & Angewandte Forschung",
+      domain: "Full-Stack-Entwicklung & Angewandte Informatik",
+      roleOrContext: "Softwareentwicklung & Praxisprojekte",
       description:
-        "Moderne Web-Anwendungen, Desktop-Architekturen und Echtzeit-Objektverfolgungspipelines mit Python und OpenCV.",
+        "Moderne Webanwendungen, robuste Desktop-Architekturen und Computer-Vision-Implementierungen mit Python und OpenCV.",
     },
   ],
   education: {
@@ -43,7 +43,7 @@ export const aboutContentDe: AboutContent = {
     location: "Sanaa, Jemen",
     thesisTitle: "Objektverfolgungsalgorithmus unter Linux mit Python und OpenCV",
     thesisDescription:
-      "Praktische Implementierung unter Linux mit Verarbeitung von Live-Kamerabildern und Echtzeitvisualisierung der Koordinaten.",
+      "Objektverfolgungsalgorithmus unter Linux mit Python und OpenCV, implementiert auf einem Live-Kamera-Feed mit visueller Echtzeit-Ergebnisdarstellung.",
     repositoryNote:
       "Im Repository befinden sich Abschlussbericht, Notenübersicht, Studienplan und Empfehlungsschreiben.",
   },
@@ -68,7 +68,7 @@ export const aboutContentDe: AboutContent = {
     {
       id: "interest-community",
       category: "Gemeinschaft",
-      summary: "Beiträge zu Open-Source-Projekten, Hackathons, Tech-Club-Aktivitäten und Mentoring für Studierende.",
+      summary: "Open Source, Hackathons, Tech-Club-Aktivitäten und Mentoring.",
       items: [
         "Open Source",
         "Hackathons",
@@ -79,7 +79,7 @@ export const aboutContentDe: AboutContent = {
     {
       id: "interest-personal",
       category: "Persönlich",
-      summary: "Technische Fachliteratur, Sport, wissenschaftliche Recherche und Sprachenlernen.",
+      summary: "Technische Fachliteratur, Sport, wissenschaftliche Recherche und Fremdsprachen.",
       items: [
         "Technische Lektüre",
         "Sport",
@@ -91,9 +91,9 @@ export const aboutContentDe: AboutContent = {
       id: "interest-technical",
       category: "Technisch",
       summary:
-        "Web- und Mobil-Plattformen, mathematische Modellierung, Simulation, Cloud Computing und Steuerungstechnik.",
+        "Web- und Mobile-Plattformen, Modellierung & Simulation, Cloud Computing und Steuerungstechnik.",
       items: [
-        "Web/Mobile",
+        "Web & Mobile",
         "Modellierung & Simulation",
         "Cloud Computing",
         "Elektrotechnik & Steuerung",
@@ -118,5 +118,5 @@ export const aboutContentDe: AboutContent = {
     },
   ],
   referencesNote:
-    "Akademische und berufliche Referenzen sind auf Anfrage verfügbar.",
+    "Akademische und berufliche Referenzen von Hochschulleitung, technischen Vorgesetzten und Geschäftsführung sind auf Anfrage erhältlich.",
 };

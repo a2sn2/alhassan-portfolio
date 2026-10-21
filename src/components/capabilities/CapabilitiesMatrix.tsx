@@ -48,13 +48,7 @@ const certStatusMap: Record<"en" | "ar" | "de", Record<string, string>> = {
   de: { Ongoing: "laufend", "In Progress": "laufend", Completed: "Abgeschlossen" },
 };
 
-const skillGroupAnchorIds = [
-  "skills-programming",
-  "skills-data",
-  "skills-systems",
-  "skills-automation",
-  "skills-qa",
-];
+import { getSkillGroupAnchor } from "@/utils/skills";
 
 export function CapabilitiesMatrix({
   skillGroups,
@@ -95,7 +89,7 @@ export function CapabilitiesMatrix({
 
         <div className={styles.skillsGrid} style={{ marginTop: "var(--space-6)" }}>
           {skillGroups.map((group, index) => {
-            const anchorId = skillGroupAnchorIds[index] || `skills-${index}`;
+            const anchorId = getSkillGroupAnchor(group, index);
             return (
               <div key={group.category} id={anchorId} className={styles.skillGroupCard}>
                 <div className={styles.groupHeader}>

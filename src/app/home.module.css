@@ -501,6 +501,8 @@
   color: var(--color-brand);
   text-decoration: none;
   margin-top: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) 0;
   transition: transform var(--duration-fast) var(--ease-standard);
 }
 
@@ -510,6 +512,12 @@
 
 :global([dir="rtl"]) .domainDetailLink:hover {
   transform: translateX(-3px);
+}
+
+.domainDetailLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 /* Secondary Credentials & Evidence Bar */
@@ -576,6 +584,8 @@
   color: var(--color-brand);
   text-decoration: none;
   margin-top: var(--space-1);
+  min-height: 44px;
+  padding: var(--space-2) 0;
   transition: transform var(--duration-fast) var(--ease-standard);
 }
 
@@ -585,6 +595,12 @@
 
 :global([dir="rtl"]) .credActionLink:hover {
   transform: translateX(-3px);
+}
+
+.credActionLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 /* Legacy fallback classes */
@@ -616,20 +632,17 @@
   color: var(--color-text-secondary);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 880px) {
   .capabilitiesDomainsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .domainCard1,
   .domainCard2,
   .domainCard3,
-  .domainCard4 {
-    grid-column: span 1;
-  }
-
+  .domainCard4,
   .domainCard5 {
-    grid-column: span 2;
+    grid-column: span 1;
   }
 }
 

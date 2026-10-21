@@ -13,6 +13,7 @@ import {
 } from "@/content/de";
 import { jaibExperienceJourney } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { getSkillGroupAnchor } from "@/utils/skills";
 import { formatProjectCategory } from "@/utils/categories";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
@@ -268,14 +269,7 @@ export default function GermanHomePage() {
           {/* 5 Official Capability Groups */}
           <div className={styles.capabilitiesDomainsGrid}>
             {skillsContentDe.groups.map((group, index) => {
-              const anchors = [
-                "skills-programming",
-                "skills-data",
-                "skills-systems",
-                "skills-automation",
-                "skills-qa",
-              ];
-              const anchor = anchors[index] || `skills-${index}`;
+              const anchor = getSkillGroupAnchor(group, index);
               const cardClass = `${styles.domainCard} ${styles[`domainCard${index + 1}`] || ""}`.trim();
               const displaySkills = group.skills.slice(0, 5);
 
@@ -311,14 +305,14 @@ export default function GermanHomePage() {
               <div className={styles.credHeaderGroup}>
                 <span className={styles.credKicker}>Fachweiterbildungen</span>
                 <h3 className={styles.credTitle}>
-                  {credentialsContentDe.certifications.length} Verifizierte Zertifikate & Kurse
+                  {credentialsContentDe.certifications.length} Zertifikate & Weiterbildungsprogramme
                 </h3>
                 <p className={styles.credDesc}>{credentialsContentDe.overviewText}</p>
               </div>
               <Link
                 href="/de/capabilities#heading-certs"
                 className={styles.credActionLink}
-                aria-label="Alle verifizierten Zertifikate in der Kompetenzmatrix ansehen"
+                aria-label="Alle Zertifikate und Weiterbildungsprogramme in der Kompetenzmatrix ansehen"
               >
                 <span>Zertifikatsübersicht ansehen ({credentialsContentDe.certifications.length})</span>
                 <span aria-hidden="true">→</span>

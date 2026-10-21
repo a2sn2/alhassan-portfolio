@@ -14,6 +14,7 @@ import {
   jaibExperienceJourney,
 } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { getSkillGroupAnchor } from "@/utils/skills";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "./home.module.css";
@@ -266,14 +267,7 @@ export default function HomePage() {
           {/* 5 Official Capability Groups */}
           <div className={styles.capabilitiesDomainsGrid}>
             {skillsContent.groups.map((group, index) => {
-              const anchors = [
-                "skills-programming",
-                "skills-data",
-                "skills-systems",
-                "skills-automation",
-                "skills-qa",
-              ];
-              const anchor = anchors[index] || `skills-${index}`;
+              const anchor = getSkillGroupAnchor(group, index);
               const cardClass = `${styles.domainCard} ${styles[`domainCard${index + 1}`] || ""}`.trim();
               const displaySkills = group.skills.slice(0, 5);
 
@@ -309,16 +303,16 @@ export default function HomePage() {
               <div className={styles.credHeaderGroup}>
                 <span className={styles.credKicker}>Specialized Training</span>
                 <h3 className={styles.credTitle}>
-                  {credentialsContent.certifications.length} Verified Credentials
+                  {credentialsContent.certifications.length} Certifications & Training Programs
                 </h3>
                 <p className={styles.credDesc}>{credentialsContent.overviewText}</p>
               </div>
               <Link
                 href="/capabilities#heading-certs"
                 className={styles.credActionLink}
-                aria-label="View all verified certifications in the Capabilities Matrix"
+                aria-label="View all certifications and training programs in the Capabilities Matrix"
               >
-                <span>View Credential Ledger ({credentialsContent.certifications.length})</span>
+                <span>View All Certifications & Training ({credentialsContent.certifications.length})</span>
                 <span aria-hidden="true">→</span>
               </Link>
             </Reveal>

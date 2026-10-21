@@ -2,7 +2,7 @@ import { AboutContent } from "@/contracts";
 
 export const aboutContent: AboutContent = {
   kicker: "Profile & Engineering Journey",
-  title: "Engineering from Academic Foundations to Production Systems",
+  title: "Engineering Reliable Software & Production Systems",
   description:
     "Software engineer based in Sana'a, Yemen, specializing in software systems, full-stack application development, and practical engineering solutions.",
   paragraphs: [
@@ -15,25 +15,25 @@ export const aboutContent: AboutContent = {
       domain: "Fintech & Enterprise Systems",
       roleOrContext: "Deputy Director of the Development Department · AHD / Jaib Wallet",
       description:
-        "Built internal accounting solutions, managed core operational workflows, and directed institutional integrations with partner entities.",
+        "Analyzed development requirements, built internal accounting systems, and coordinated institutional integrations with partner entities.",
     },
     {
-      domain: "Software Quality & Review Architecture",
-      roleOrContext: "Co-Founder & Director of QA · Asaas AI",
+      domain: "Software Quality & Systems Evaluation",
+      roleOrContext: "Co-Founder & Director of Quality Assurance · Asaas AI",
       description:
-        "Established structured test strategies, institutional code review standards, and comprehensive readiness evaluation for production platforms.",
+        "Established testing and review standards, evaluated system quality, and verified product readiness prior to deployment.",
     },
     {
       domain: "Systems, Networks & Automation",
       roleOrContext: "Systems & Infrastructure Engineering",
       description:
-        "Hands-on routing and switching (MikroTik RouterOS), Linux environment management, and industrial PLC control loop automation.",
+        "Routing and switching with MikroTik RouterOS, Linux system management, and industrial PLC control loop automation.",
     },
     {
-      domain: "Full-Stack Development & Computer Vision",
-      roleOrContext: "Software Engineering & Applied Research",
+      domain: "Full-Stack Development & Applied Computer Science",
+      roleOrContext: "Software Engineering & Applied Projects",
       description:
-        "Modern responsive web applications, robust desktop architectures, and real-time object tracking pipelines using Python and OpenCV.",
+        "Modern responsive web applications, robust desktop architectures, and computer vision implementation using Python and OpenCV.",
     },
   ],
   education: {
@@ -43,7 +43,7 @@ export const aboutContent: AboutContent = {
     location: "Sana'a, Yemen",
     thesisTitle: "Object-Tracking Algorithm on Linux Using Python and OpenCV",
     thesisDescription:
-      "Implemented on Linux using live camera feed processing with real-time visualization of tracking coordinates.",
+      "Object-tracking algorithm on Linux using Python and OpenCV, implemented on a live camera feed with real-time visualization of results.",
     repositoryNote:
       "See the repository for the final report, transcript, specialization plan, and recommendation letters.",
   },
@@ -68,7 +68,7 @@ export const aboutContent: AboutContent = {
     {
       id: "interest-community",
       category: "Community",
-      summary: "Open source contributions, hackathons, tech club events, and student mentoring.",
+      summary: "Open source, hackathons, tech club events, and mentoring.",
       items: ["Open source", "Hackathons", "Tech club events", "Mentoring"],
     },
     {
@@ -81,9 +81,9 @@ export const aboutContent: AboutContent = {
       id: "interest-technical",
       category: "Technical",
       summary:
-        "Web and mobile platforms, mathematical modeling, simulation, cloud computing, and electrical control systems.",
+        "Web and mobile platforms, modeling & simulation, cloud computing, and electrical control systems.",
       items: [
-        "Web/mobile",
+        "Web & mobile",
         "Modeling & simulation",
         "Cloud computing",
         "Electrical systems & control",
@@ -104,7 +104,7 @@ export const aboutContent: AboutContent = {
     {
       title: "Quality & Review Rigor",
       description:
-        "Quality is not an afterthought. Consistent validation, structured automated testing, and comprehensive code review standards are essential for dependable software.",
+        "Quality is not an afterthought. Consistent validation, structured automated testing, and disciplined review standards are essential for dependable software.",
     },
   ],
   referencesNote:
