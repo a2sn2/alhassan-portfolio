@@ -7,6 +7,7 @@ export const skillsContentAr: SkillsContent = {
     "المجالات التقنية والأدوات ولغات البرمجة والأنظمة الممارسة عبر مجالات تطوير البرمجيات وهندسة الشبكات والأتمتة الصناعية.",
   groups: [
     {
+      id: "skills-programming",
       category: "البرمجة وأطر العمل",
       description: "لغات البرمجة الحديثة، وحزم تطوير التطبيقات، وأطر العمل.",
       skills: [
@@ -21,6 +22,7 @@ export const skillsContentAr: SkillsContent = {
       ],
     },
     {
+      id: "skills-data",
       category: "البيانات وعلوم الحاسوب",
       description: "بنى قواعد البيانات، وهياكل البيانات، والخوارزميات والتحليلات.",
       skills: [
@@ -33,6 +35,7 @@ export const skillsContentAr: SkillsContent = {
       ],
     },
     {
+      id: "skills-systems",
       category: "الأنظمة والشبكات",
       description: "أنظمة التشغيل، والبنية التحتية للتوجيه، وبروتوكولات الأمان.",
       skills: [
@@ -45,6 +48,7 @@ export const skillsContentAr: SkillsContent = {
       ],
     },
     {
+      id: "skills-automation",
       category: "الأتمتة الصناعية والأنظمة المضمّنة",
       description: "المتحكمات الدقيقة، وإشارات الحساسات، والتحكم الصناعي.",
       skills: [
@@ -57,6 +61,7 @@ export const skillsContentAr: SkillsContent = {
       ],
     },
     {
+      id: "skills-qa",
       category: "الهندسة وضمان الجودة",
       description: "منهجيات الاختبار، ومسارات العمل التشغيلية، ومراجعة الأنظمة.",
       skills: [

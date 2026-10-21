@@ -13,6 +13,7 @@ import {
 } from "@/content/ar";
 import { jaibExperienceJourney } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { getSkillGroupAnchor } from "@/utils/skills";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "../home.module.css";
@@ -255,7 +256,7 @@ export default function ArabicHomePage() {
             <div className={styles.headerTextGroup}>
               <span className={styles.kicker}>المهارات والإثباتات المعتمدة</span>
               <h2 id="heading-capabilities-preview" className={styles.heading}>
-                القدرات التقنية والشهادات المهنية
+                القدرات التقنية ومصفوفة الكفاءات
               </h2>
             </div>
             <Link href="/ar/capabilities" className={styles.viewAllLink}>
@@ -264,28 +265,75 @@ export default function ArabicHomePage() {
             </Link>
           </div>
 
-          <div className={styles.capabilitiesPreviewGrid}>
-            <Reveal delay={0} className={styles.capHighlightCard}>
-              <h3 className={styles.capTitle}>المجالات الأساسية</h3>
-              <p className={styles.capText}>
-                {skillsContentAr.groups.map((g) => g.category).join(" · ")}
-              </p>
+          {/* 5 Official Capability Groups */}
+          <div className={styles.capabilitiesDomainsGrid}>
+            {skillsContentAr.groups.map((group, index) => {
+              const anchor = getSkillGroupAnchor(group, index);
+              const cardClass = `${styles.domainCard} ${styles[`domainCard${index + 1}`] || ""}`.trim();
+              const displaySkills = group.skills.slice(0, 5);
+
+              return (
+                <Reveal key={group.category} delay={index * 40} className={cardClass}>
+                  <div className={styles.domainTop}>
+                    <h3 className={styles.domainTitle}>{group.category}</h3>
+                    <p className={styles.domainDesc}>{group.description}</p>
+                    <div className={styles.domainTechPills}>
+                      {displaySkills.map((s) => (
+                        <span key={s} className={styles.domainTechPill}>
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <Link
+                    href={`/ar/capabilities#${anchor}`}
+                    className={styles.domainDetailLink}
+                    aria-label={`استكشاف تفاصيل ${group.category}`}
+                  >
+                    <span>استكشاف تفاصيل المجال</span>
+                    <span aria-hidden="true">←</span>
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Secondary Credentials & Community Bar */}
+          <div className={styles.credentialsEvidenceBar}>
+            <Reveal delay={200} className={styles.credHighlightCard}>
+              <div className={styles.credHeaderGroup}>
+                <span className={styles.credKicker}>التأهيل التخصصي</span>
+                <h3 className={styles.credTitle}>
+                  {credentialsContentAr.certifications.length} شهادة ودورة تدريبية
+                </h3>
+                <p className={styles.credDesc}>{credentialsContentAr.overviewText}</p>
+              </div>
+              <Link
+                href="/ar/capabilities#heading-certs"
+                className={styles.credActionLink}
+                aria-label="عرض جميع الشهادات والبرامج التدريبية في مصفوفة القدرات"
+              >
+                <span>عرض سجل الشهادات والدورات ({credentialsContentAr.certifications.length})</span>
+                <span aria-hidden="true">←</span>
+              </Link>
             </Reveal>
 
-            <Reveal delay={50} className={styles.capHighlightCard}>
-              <h3 className={styles.capTitle}>
-                {credentialsContentAr.certifications.length} شهادة ودورة
-              </h3>
-              <p className={styles.capText}>
-                {credentialsContentAr.overviewText}
-              </p>
-            </Reveal>
-
-            <Reveal delay={100} className={styles.capHighlightCard}>
-              <h3 className={styles.capTitle}>المشاركات والعضويات المهنية</h3>
-              <p className={styles.capText}>
-                {credentialsContentAr.memberships.map((m) => m.organization).join(" · ")}
-              </p>
+            <Reveal delay={240} className={styles.credHighlightCard}>
+              <div className={styles.credHeaderGroup}>
+                <span className={styles.credKicker}>المجتمع والقطاع المهني</span>
+                <h3 className={styles.credTitle}>المشاركات والعضويات المهنية</h3>
+                <p className={styles.credDesc}>
+                  {credentialsContentAr.memberships.map((m) => m.organization).join(" · ")}
+                </p>
+              </div>
+              <Link
+                href="/ar/capabilities#heading-memberships"
+                className={styles.credActionLink}
+                aria-label="عرض العضويات والمشاركات في مصفوفة القدرات"
+              >
+                <span>عرض العضويات والمشاركات</span>
+                <span aria-hidden="true">←</span>
+              </Link>
             </Reveal>
           </div>
         </Container>

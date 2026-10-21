@@ -2,13 +2,39 @@ import { AboutContent } from "@/contracts";
 
 export const aboutContentDe: AboutContent = {
   kicker: "Profil & Werdegang",
-  title: "Vom akademischen Fundament zu produktiven Systemen",
+  title: "Software-Engineering & zuverlässige Produktivsysteme",
   description:
     "Softwareentwickler mit Sitz in Sanaa, Jemen, spezialisiert auf Softwaresysteme, Full-Stack-Anwendungsentwicklung und praxisnahe technische Lösungen.",
   paragraphs: [
     "Softwareentwickler mit akademischem Wissen und praktischer Erfahrung, der theoretische Konzepte in greifbare Ergebnisse in technischen Umgebungen überführt. Ausgeprägter Teamgeist, gutes Zeitmanagement und pragmatische Umsetzung; mit kontinuierlichem Fokus auf Weiterentwicklung und darauf, in dynamischen Arbeitsumfeldern wirksam beizutragen.",
     "Meine praktische Erfahrung erstreckt sich über Fintech-Entwicklung, Qualitätssicherung und Netzwerksysteme. Bei AHD Financial Services – Jaib Wallet war ich in Entwicklungs- und operativen Rollen tätig, baute produktive Systeme für Betrieb und Abrechnung auf und steuerte Systemintegrationen mit externen Institutionen. Bei Asas AI habe ich als Mitgründer und Leiter der Qualitätssicherung Test- und Review-Standards eingeführt sowie die Produktreife von KI-Lösungen bewertet.",
     "Mein ingenieurtechnischer Ansatz beruht auf ganzheitlichem Systemverständnis: von industriellen SPS-Regelkreisen und Netzwerk-Routing (MikroTik RouterOS) über Desktop-Architekturen bis hin zu modernen Web-Plattformen und Computer-Vision-Pipelines in Echtzeit.",
+  ],
+  specializations: [
+    {
+      domain: "Fintech- & Unternehmenssysteme",
+      roleOrContext: "Stellvertretender Leiter der Entwicklungsabteilung · AHD / Jaib Wallet",
+      description:
+        "Anforderungsanalyse, Aufbau interner Abrechnungssysteme und Koordination institutioneller Schnittstellenintegrationen.",
+    },
+    {
+      domain: "Qualitätssicherung & Systembewertung",
+      roleOrContext: "Mitgründer & Leiter der Qualitätssicherung · Asas AI",
+      description:
+        "Etablierung von Test- und Review-Standards, Bewertung der Systemqualität und Prüfung der Produktreife vor der Freigabe.",
+    },
+    {
+      domain: "Systeme, Netzwerke & Automatisierung",
+      roleOrContext: "System- & Infrastrukturtechnik",
+      description:
+        "Routing und Switching mit MikroTik RouterOS, Linux-Systemverwaltung und Automatisierung über industrielle SPS-Steuerungen.",
+    },
+    {
+      domain: "Full-Stack-Entwicklung & Angewandte Informatik",
+      roleOrContext: "Softwareentwicklung & Praxisprojekte",
+      description:
+        "Moderne Webanwendungen, robuste Desktop-Architekturen und Computer-Vision-Implementierungen mit Python und OpenCV.",
+    },
   ],
   education: {
     institution: "International University of Technology Twintech",
@@ -17,7 +43,7 @@ export const aboutContentDe: AboutContent = {
     location: "Sanaa, Jemen",
     thesisTitle: "Objektverfolgungsalgorithmus unter Linux mit Python und OpenCV",
     thesisDescription:
-      "Abschlussprojekt: Objektverfolgungsalgorithmus unter Linux mit Python und OpenCV; Live-Kamerabild mit Echtzeitvisualisierung der Ergebnisse.",
+      "Objektverfolgungsalgorithmus unter Linux mit Python und OpenCV, implementiert auf einem Live-Kamera-Feed mit visueller Echtzeit-Ergebnisdarstellung.",
     repositoryNote:
       "Im Repository befinden sich Abschlussbericht, Notenübersicht, Studienplan und Empfehlungsschreiben.",
   },
@@ -42,7 +68,7 @@ export const aboutContentDe: AboutContent = {
     {
       id: "interest-community",
       category: "Gemeinschaft",
-      summary: "Open Source, Hackathons, Tech-Club-Veranstaltungen, Mentoring.",
+      summary: "Open Source, Hackathons, Tech-Club-Aktivitäten und Mentoring.",
       items: [
         "Open Source",
         "Hackathons",
@@ -53,7 +79,7 @@ export const aboutContentDe: AboutContent = {
     {
       id: "interest-personal",
       category: "Persönlich",
-      summary: "Technische Lektüre, Sport, wissenschaftliche Recherche, Sprachen.",
+      summary: "Technische Fachliteratur, Sport, wissenschaftliche Recherche und Fremdsprachen.",
       items: [
         "Technische Lektüre",
         "Sport",
@@ -65,9 +91,9 @@ export const aboutContentDe: AboutContent = {
       id: "interest-technical",
       category: "Technisch",
       summary:
-        "Web/Mobile, Modellierung & Simulation, Cloud Computing, Elektrotechnik & Steuerung.",
+        "Web- und Mobile-Plattformen, Modellierung & Simulation, Cloud Computing und Steuerungstechnik.",
       items: [
-        "Web/Mobile",
+        "Web & Mobile",
         "Modellierung & Simulation",
         "Cloud Computing",
         "Elektrotechnik & Steuerung",
@@ -92,5 +118,5 @@ export const aboutContentDe: AboutContent = {
     },
   ],
   referencesNote:
-    "Akademische und berufliche Referenzen sind auf Anfrage verfügbar.",
+    "Akademische und berufliche Referenzen von Hochschulleitung, technischen Vorgesetzten und Geschäftsführung sind auf Anfrage erhältlich.",
 };

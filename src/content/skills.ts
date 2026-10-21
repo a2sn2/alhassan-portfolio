@@ -7,6 +7,7 @@ export const skillsContent: SkillsContent = {
     "Verified technical disciplines, tools, languages, and systems practiced across software development, network engineering, and industrial automation.",
   groups: [
     {
+      id: "skills-programming",
       category: "Programming & Frameworks",
       description: "Modern languages, client SDKs, and application frameworks.",
       skills: [
@@ -21,6 +22,7 @@ export const skillsContent: SkillsContent = {
       ],
     },
     {
+      id: "skills-data",
       category: "Data & Computer Science",
       description: "Database architectures, data structures, and analytics.",
       skills: [
@@ -34,6 +36,7 @@ export const skillsContent: SkillsContent = {
       ],
     },
     {
+      id: "skills-systems",
       category: "Systems & Networking",
       description: "Operating systems, routing infrastructure, and security protocols.",
       skills: [
@@ -46,6 +49,7 @@ export const skillsContent: SkillsContent = {
       ],
     },
     {
+      id: "skills-automation",
       category: "Industrial Automation & IoT",
       description: "Embedded microcontrollers, sensor telemetry, and industrial controllers.",
       skills: [
@@ -58,6 +62,7 @@ export const skillsContent: SkillsContent = {
       ],
     },
     {
+      id: "skills-qa",
       category: "Engineering & Quality Assurance",
       description: "Testing methodologies, operational workflows, and review rigor.",
       skills: [

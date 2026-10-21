@@ -48,6 +48,8 @@ const certStatusMap: Record<"en" | "ar" | "de", Record<string, string>> = {
   de: { Ongoing: "laufend", "In Progress": "laufend", Completed: "Abgeschlossen" },
 };
 
+import { getSkillGroupAnchor } from "@/utils/skills";
+
 export function CapabilitiesMatrix({
   skillGroups,
   certifications,
@@ -86,21 +88,24 @@ export function CapabilitiesMatrix({
         </div>
 
         <div className={styles.skillsGrid} style={{ marginTop: "var(--space-6)" }}>
-          {skillGroups.map((group) => (
-            <div key={group.category} className={styles.skillGroupCard}>
-              <div className={styles.groupHeader}>
-                <h3 className={styles.groupCategory}>{group.category}</h3>
-                {group.description && <p className={styles.groupDesc}>{group.description}</p>}
+          {skillGroups.map((group, index) => {
+            const anchorId = getSkillGroupAnchor(group, index);
+            return (
+              <div key={group.category} id={anchorId} className={styles.skillGroupCard}>
+                <div className={styles.groupHeader}>
+                  <h3 className={styles.groupCategory}>{group.category}</h3>
+                  {group.description && <p className={styles.groupDesc}>{group.description}</p>}
+                </div>
+                <div className={styles.pillWrap}>
+                  {group.skills.map((skill) => (
+                    <bdi key={skill} className={styles.skillPill}>
+                      {skill}
+                    </bdi>
+                  ))}
+                </div>
               </div>
-              <div className={styles.pillWrap}>
-                {group.skills.map((skill) => (
-                  <bdi key={skill} className={styles.skillPill}>
-                    {skill}
-                  </bdi>
-                ))}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

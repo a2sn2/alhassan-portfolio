@@ -7,6 +7,7 @@ export const skillsContentDe: SkillsContent = {
     "Technische Disziplinen, Werkzeuge, Programmiersprachen und Systeme aus Softwareentwicklung, Netzwerktechnik und industrieller Steuerung.",
   groups: [
     {
+      id: "skills-programming",
       category: "Programmierung & Frameworks",
       description: "Moderne Programmiersprachen, SDKs und Anwendungsframeworks.",
       skills: [
@@ -21,6 +22,7 @@ export const skillsContentDe: SkillsContent = {
       ],
     },
     {
+      id: "skills-data",
       category: "Datenbanken & Informatik",
       description: "Datenbankarchitekturen, Datenstrukturen, Algorithmen und Analytik.",
       skills: [
@@ -34,6 +36,7 @@ export const skillsContentDe: SkillsContent = {
       ],
     },
     {
+      id: "skills-systems",
       category: "Systeme & Netzwerke",
       description: "Betriebssysteme, Routing-Infrastruktur und Netzwerkprotokolle.",
       skills: [
@@ -46,6 +49,7 @@ export const skillsContentDe: SkillsContent = {
       ],
     },
     {
+      id: "skills-automation",
       category: "Industrielle Automatisierung & IoT",
       description: "Eingebettete Systeme, Sensorüberwachung und speicherprogrammierbare Steuerungen.",
       skills: [
@@ -58,6 +62,7 @@ export const skillsContentDe: SkillsContent = {
       ],
     },
     {
+      id: "skills-qa",
       category: "Engineering & Qualitätssicherung",
       description: "Testmethoden, Qualitätssicherungs-Workflows und Review-Standards.",
       skills: [

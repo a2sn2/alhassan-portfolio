@@ -14,6 +14,7 @@ import {
   jaibExperienceJourney,
 } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { getSkillGroupAnchor } from "@/utils/skills";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "./home.module.css";
@@ -254,7 +255,7 @@ export default function HomePage() {
             <div className={styles.headerTextGroup}>
               <span className={styles.kicker}>Skills & Verified Proof</span>
               <h2 id="heading-capabilities-preview" className={styles.heading}>
-                Technical Competencies & Credentials
+                Technical Competencies & Capabilities
               </h2>
             </div>
             <Link href="/capabilities" className={styles.viewAllLink}>
@@ -263,28 +264,75 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className={styles.capabilitiesPreviewGrid}>
-            <Reveal delay={0} className={styles.capHighlightCard}>
-              <h3 className={styles.capTitle}>Core Disciplines</h3>
-              <p className={styles.capText}>
-                {skillsContent.groups.map((g) => g.category).join(" · ")}
-              </p>
+          {/* 5 Official Capability Groups */}
+          <div className={styles.capabilitiesDomainsGrid}>
+            {skillsContent.groups.map((group, index) => {
+              const anchor = getSkillGroupAnchor(group, index);
+              const cardClass = `${styles.domainCard} ${styles[`domainCard${index + 1}`] || ""}`.trim();
+              const displaySkills = group.skills.slice(0, 5);
+
+              return (
+                <Reveal key={group.category} delay={index * 40} className={cardClass}>
+                  <div className={styles.domainTop}>
+                    <h3 className={styles.domainTitle}>{group.category}</h3>
+                    <p className={styles.domainDesc}>{group.description}</p>
+                    <div className={styles.domainTechPills}>
+                      {displaySkills.map((s) => (
+                        <span key={s} className={styles.domainTechPill}>
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <Link
+                    href={`/capabilities#${anchor}`}
+                    className={styles.domainDetailLink}
+                    aria-label={`Explore ${group.category} details`}
+                  >
+                    <span>Explore domain details</span>
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          {/* Secondary Credentials & Community Bar */}
+          <div className={styles.credentialsEvidenceBar}>
+            <Reveal delay={200} className={styles.credHighlightCard}>
+              <div className={styles.credHeaderGroup}>
+                <span className={styles.credKicker}>Specialized Training</span>
+                <h3 className={styles.credTitle}>
+                  {credentialsContent.certifications.length} Certifications & Training Programs
+                </h3>
+                <p className={styles.credDesc}>{credentialsContent.overviewText}</p>
+              </div>
+              <Link
+                href="/capabilities#heading-certs"
+                className={styles.credActionLink}
+                aria-label="View all certifications and training programs in the Capabilities Matrix"
+              >
+                <span>View All Certifications & Training ({credentialsContent.certifications.length})</span>
+                <span aria-hidden="true">→</span>
+              </Link>
             </Reveal>
 
-            <Reveal delay={50} className={styles.capHighlightCard}>
-              <h3 className={styles.capTitle}>
-                {credentialsContent.certifications.length} Specialized Credentials
-              </h3>
-              <p className={styles.capText}>
-                {credentialsContent.overviewText}
-              </p>
-            </Reveal>
-
-            <Reveal delay={100} className={styles.capHighlightCard}>
-              <h3 className={styles.capTitle}>Community Engagement</h3>
-              <p className={styles.capText}>
-                {credentialsContent.memberships.map((m) => m.organization).join(" · ")}
-              </p>
+            <Reveal delay={240} className={styles.credHighlightCard}>
+              <div className={styles.credHeaderGroup}>
+                <span className={styles.credKicker}>Community & Industry</span>
+                <h3 className={styles.credTitle}>Professional Affiliations</h3>
+                <p className={styles.credDesc}>
+                  {credentialsContent.memberships.map((m) => m.organization).join(" · ")}
+                </p>
+              </div>
+              <Link
+                href="/capabilities#heading-memberships"
+                className={styles.credActionLink}
+                aria-label="View community affiliations in the Capabilities Matrix"
+              >
+                <span>View Community Affiliations</span>
+                <span aria-hidden="true">→</span>
+              </Link>
             </Reveal>
           </div>
         </Container>

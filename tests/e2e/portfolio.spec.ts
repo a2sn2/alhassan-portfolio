@@ -57,7 +57,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.goto("/");
 
     const routes = [
-      { href: "/about", heading: "Engineering from Academic Foundations to Production Systems" },
+      { href: "/about", heading: "Engineering Reliable Software & Production Systems" },
       { href: "/experience", heading: "Professional Experience & Operational Journey" },
       { href: "/projects", heading: "Projects Across Systems, Vision & Applications" },
       { href: "/capabilities", heading: "Technical Capabilities & Engineering Matrix" },
@@ -302,7 +302,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
 
     await page.waitForURL("**/about");
     await expect(page.locator("h1")).toContainText(
-      "Engineering from Academic Foundations to Production Systems"
+      "Engineering Reliable Software & Production Systems"
     );
     expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
   });
@@ -513,7 +513,8 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     expect(aboutBody).toContain("Arabic");
     expect(aboutBody).toContain("English");
     expect(aboutBody).toContain("German");
-    expect(aboutBody).toContain("Engineering Interests & Broader Pursuits");
+    expect(aboutBody).toContain("How I Work");
+    expect(aboutBody).toContain("Areas of Interest");
     expect(aboutBody.toLowerCase()).toContain("community focus");
     expect(aboutBody.toLowerCase()).toContain("personal focus");
     expect(aboutBody.toLowerCase()).toContain("technical focus");
@@ -599,13 +600,13 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.goto("/about");
     await switchLanguage(page, "العربية");
     await page.waitForURL("**/ar/about");
-    await expect(page.locator("h1")).toContainText("الهندسة من الأسس الأكاديمية إلى الأنظمة الإنتاجية");
+    await expect(page.locator("h1")).toContainText("هندسة البرمجيات وبناء الأنظمة الإنتاجية");
 
     // 2. From /ar/about -> /about
     // Use negative-lookahead regex: /^(?!.*\/ar\/).*\/about/ matches /about but NOT /ar/about
     await switchLanguage(page, "English");
     await page.waitForURL(/^(?!.*\/ar\/).*\/about/);
-    await expect(page.locator("h1")).toContainText("Engineering from Academic Foundations to Production Systems");
+    await expect(page.locator("h1")).toContainText("Engineering Reliable Software & Production Systems");
 
     // 3. From project detail /projects/real-time-object-detection -> /ar/projects/real-time-object-detection
     await page.goto("/projects/real-time-object-detection");
@@ -627,7 +628,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.goto("/ar");
 
     const routes = [
-      { href: "/ar/about", heading: "الهندسة من الأسس الأكاديمية إلى الأنظمة الإنتاجية" },
+      { href: "/ar/about", heading: "هندسة البرمجيات وبناء الأنظمة الإنتاجية" },
       { href: "/ar/experience", heading: "الخبرات العملية والمسار التشغيلي" },
       { href: "/ar/projects", heading: "المشاريع عبر الأنظمة، والرؤية، والتطبيقات" },
       { href: "/ar/capabilities", heading: "القدرات التقنية ومصفوفة الهندسة" },
@@ -974,7 +975,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await switchLanguage(page, "Deutsch");
     await page.waitForURL("**/de/about");
     expect(page.url()).toContain("/de/about");
-    await expect(page.locator("h1")).toContainText("Vom akademischen Fundament zu produktiven Systemen");
+    await expect(page.locator("h1")).toContainText("Software-Engineering & zuverlässige Produktivsysteme");
     await expect(page.locator("html")).toHaveAttribute("lang", "de");
     await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
 
@@ -1012,7 +1013,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.goto("/de");
 
     const routes = [
-      { href: "/de/about", heading: "Vom akademischen Fundament zu produktiven Systemen" },
+      { href: "/de/about", heading: "Software-Engineering & zuverlässige Produktivsysteme" },
       { href: "/de/experience", heading: "Berufserfahrung & Operative Praxis" },
       { href: "/de/projects", heading: "Entwicklungsprojekte in Systemen, Vision & Web" },
       { href: "/de/capabilities", heading: "Technische Kenntnisse & Kompetenzmatrix" },
@@ -2432,7 +2433,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     await page.click('header nav a[href="/about"]');
     await page.waitForURL("**/about");
     await expect(page.locator("h1")).toContainText(
-      "Engineering from Academic Foundations to Production Systems"
+      "Engineering Reliable Software & Production Systems"
     );
     await expect(transitionContainer).toBeVisible();
     await expect(transitionContainer).toHaveAttribute("data-navigation-state", "idle");
@@ -2517,6 +2518,186 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
     // Verify zero page runtime errors throughout test execution
     expect(pageErrors, "No page runtime exceptions during navigation suite").toHaveLength(0);
     expect(consoleErrors, "No console errors during navigation suite").toHaveLength(0);
+  });
+
+  test.describe("Stage 2: Professional Storytelling, About Hierarchy & Capabilities UX", () => {
+    test("TC-STAGE2-01: About page information hierarchy and simplified headings across EN, AR, DE", async ({
+      page,
+    }) => {
+      // 1. English About Page (/about)
+      await page.goto("/about");
+      const enBody = await page.innerText("body");
+      expect(enBody).toContain("Core Engineering Focus");
+      expect(enBody).toContain("Deputy Director of the Development Department");
+      expect(enBody).toContain("Co-Founder & Director of Quality Assurance");
+      expect(enBody).toContain("How I Work");
+      expect(enBody.toUpperCase()).toContain("ENGINEERING PRACTICE & METHODS");
+      expect(enBody).toContain("Areas of Interest");
+      expect(enBody).toContain("Academic Foundation & Communication");
+      expect(enBody).toContain("B.Sc. in Computer Science");
+      expect(enBody).toContain("Object-Tracking Algorithm on Linux Using Python and OpenCV");
+      expect(enBody.toUpperCase()).toContain("LANGUAGES & COMMUNICATION");
+      expect(enBody).toContain("Request References & Details");
+
+      // Verify sequence of section headings in DOM order
+      const enHeadings = await page
+        .locator("h1, h2, h3")
+        .evaluateAll((elements) => elements.map((e) => e.textContent?.trim() || ""));
+      const h1Idx = enHeadings.findIndex((h) => h.includes("Engineering Reliable Software"));
+      const coreFocusIdx = enHeadings.findIndex((h) => h.includes("Core Engineering Focus"));
+      const howIWorkIdx = enHeadings.findIndex((h) => h === "How I Work");
+      const areasOfIntIdx = enHeadings.findIndex((h) => h === "Areas of Interest");
+      const academicFoundIdx = enHeadings.findIndex((h) =>
+        h.includes("Academic Foundation & Communication")
+      );
+      expect(h1Idx).toBeGreaterThanOrEqual(0);
+      expect(coreFocusIdx).toBeGreaterThan(h1Idx);
+      expect(howIWorkIdx).toBeGreaterThan(coreFocusIdx);
+      expect(areasOfIntIdx).toBeGreaterThan(howIWorkIdx);
+      expect(academicFoundIdx).toBeGreaterThan(areasOfIntIdx);
+
+      // 2. Arabic About Page (/ar/about)
+      await page.goto("/ar/about");
+      const arBody = await page.innerText("body");
+      expect(arBody).toContain("التركيز الهندسي الأساسي");
+      expect(arBody).toContain("نائب مدير إدارة التطوير");
+      expect(arBody).toContain("كيف أعمل");
+      expect(arBody).toContain("منهجية العمل والممارسة الهندسية");
+      expect(arBody).toContain("مجالات اهتمامي");
+      expect(arBody).toContain("الأسس الأكاديمية والتواصل");
+      expect(arBody).toContain("بكالوريوس في علوم الحاسوب");
+      expect(arBody).toContain("خوارزمية تتبع الأجسام على نظام لينكس باستخدام Python و OpenCV");
+      expect(arBody).toContain("طلب المراجع وبيانات التواصل الرسمية");
+
+      // Verify sequence of Arabic headings in DOM order
+      const arHeadings = await page
+        .locator("h1, h2, h3")
+        .evaluateAll((elements) => elements.map((e) => e.textContent?.trim() || ""));
+      const arH1Idx = arHeadings.findIndex((h) => h.includes("هندسة البرمجيات وبناء الأنظمة"));
+      const arCoreFocusIdx = arHeadings.findIndex((h) => h.includes("التركيز الهندسي الأساسي"));
+      const arHowIWorkIdx = arHeadings.findIndex((h) => h === "كيف أعمل");
+      const arAreasOfIntIdx = arHeadings.findIndex((h) => h === "مجالات اهتمامي");
+      const arAcademicFoundIdx = arHeadings.findIndex((h) =>
+        h.includes("الأسس الأكاديمية والتواصل")
+      );
+      expect(arH1Idx).toBeGreaterThanOrEqual(0);
+      expect(arCoreFocusIdx).toBeGreaterThan(arH1Idx);
+      expect(arHowIWorkIdx).toBeGreaterThan(arCoreFocusIdx);
+      expect(arAreasOfIntIdx).toBeGreaterThan(arHowIWorkIdx);
+      expect(arAcademicFoundIdx).toBeGreaterThan(arAreasOfIntIdx);
+
+      // 3. German About Page (/de/about)
+      await page.goto("/de/about");
+      const deBody = await page.innerText("body");
+      expect(deBody).toContain("Ingenieurschwerpunkte");
+      expect(deBody).toContain("Stellvertretender Leiter der Entwicklungsabteilung");
+      expect(deBody).toContain("Meine Arbeitsweise");
+      expect(deBody.toUpperCase()).toContain("INGENIEURPRAXIS & METHODEN");
+      expect(deBody).toContain("Interessengebiete");
+      expect(deBody).toContain("Akademisches Fundament & Kommunikation");
+      expect(deBody).toContain("B.Sc. in Informatik");
+      expect(deBody).toContain("Objektverfolgungsalgorithmus unter Linux mit Python und OpenCV");
+      expect(deBody).toContain("Offizielle Referenzen anfordern");
+    });
+
+    test("TC-STAGE2-02: Homepage Capabilities preview bespoke structure and direct detail navigation", async ({
+      page,
+    }) => {
+      // 1. English Homepage (/)
+      await page.goto("/");
+      const enPreview = page.locator('section[aria-labelledby="heading-capabilities-preview"]');
+      await expect(enPreview).toBeVisible();
+      await expect(enPreview.locator("h2#heading-capabilities-preview")).toContainText(
+        "Technical Competencies & Capabilities"
+      );
+
+      // Verify 5 domain cards exist with direct detail links
+      const expectedEnAnchors = [
+        "/capabilities#skills-programming",
+        "/capabilities#skills-data",
+        "/capabilities#skills-systems",
+        "/capabilities#skills-automation",
+        "/capabilities#skills-qa",
+      ];
+
+      for (const anchor of expectedEnAnchors) {
+        const link = enPreview.locator(`a[href="${anchor}"]`);
+        await expect(link).toBeVisible();
+        const box = await link.boundingBox();
+        expect(box).not.toBeNull();
+        expect(box!.height).toBeGreaterThanOrEqual(40);
+      }
+
+      // Verify secondary credentials bar direct links and hit area
+      const certsLink = enPreview.locator('a[href="/capabilities#heading-certs"]');
+      await expect(certsLink).toBeVisible();
+      const certsBox = await certsLink.boundingBox();
+      expect(certsBox).not.toBeNull();
+      expect(certsBox!.height).toBeGreaterThanOrEqual(40);
+
+      const membersLink = enPreview.locator('a[href="/capabilities#heading-memberships"]');
+      await expect(membersLink).toBeVisible();
+      const membersBox = await membersLink.boundingBox();
+      expect(membersBox).not.toBeNull();
+      expect(membersBox!.height).toBeGreaterThanOrEqual(40);
+
+      // Test clicking direct domain link navigates to /capabilities#skills-programming
+      await enPreview.locator('a[href="/capabilities#skills-programming"]').click();
+      await page.waitForURL("**/capabilities#skills-programming");
+      const targetCard = page.locator("#skills-programming");
+      await expect(targetCard).toBeVisible();
+
+      // Verify scroll margin on target card prevents sticky header overlap
+      const scrollMarginTop = await targetCard.evaluate(
+        (el) => window.getComputedStyle(el).scrollMarginTop
+      );
+      expect(scrollMarginTop).not.toBe("0px");
+      expect(scrollMarginTop).not.toBe("auto");
+
+      // 2. Arabic Homepage (/ar)
+      await page.goto("/ar");
+      const arPreview = page.locator('section[aria-labelledby="heading-capabilities-preview"]');
+      await expect(arPreview).toBeVisible();
+      await expect(arPreview.locator("h2#heading-capabilities-preview")).toContainText(
+        "القدرات التقنية ومصفوفة الكفاءات"
+      );
+
+      const expectedArAnchors = [
+        "/ar/capabilities#skills-programming",
+        "/ar/capabilities#skills-data",
+        "/ar/capabilities#skills-systems",
+        "/ar/capabilities#skills-automation",
+        "/ar/capabilities#skills-qa",
+      ];
+      for (const anchor of expectedArAnchors) {
+        const link = arPreview.locator(`a[href="${anchor}"]`);
+        await expect(link).toBeVisible();
+      }
+      await expect(arPreview.locator('a[href="/ar/capabilities#heading-certs"]')).toBeVisible();
+      await expect(arPreview.locator('a[href="/ar/capabilities#heading-memberships"]')).toBeVisible();
+
+      // 3. German Homepage (/de)
+      await page.goto("/de");
+      const dePreview = page.locator('section[aria-labelledby="heading-capabilities-preview"]');
+      await expect(dePreview).toBeVisible();
+      await expect(dePreview.locator("h2#heading-capabilities-preview")).toContainText(
+        "Technische Kompetenzen & Fähigkeiten"
+      );
+
+      const expectedDeAnchors = [
+        "/de/capabilities#skills-programming",
+        "/de/capabilities#skills-data",
+        "/de/capabilities#skills-systems",
+        "/de/capabilities#skills-automation",
+        "/de/capabilities#skills-qa",
+      ];
+      for (const anchor of expectedDeAnchors) {
+        const link = dePreview.locator(`a[href="${anchor}"]`);
+        await expect(link).toBeVisible();
+      }
+      await expect(dePreview.locator('a[href="/de/capabilities#heading-certs"]')).toBeVisible();
+      await expect(dePreview.locator('a[href="/de/capabilities#heading-memberships"]')).toBeVisible();
+    });
   });
 });
 
