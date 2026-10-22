@@ -227,12 +227,6 @@
   gap: var(--space-3);
   box-shadow: var(--shadow-subtle);
   position: relative;
-  transition: border-color var(--duration-fast) var(--ease-standard),
-              transform var(--duration-fast) var(--ease-standard);
-}
-
-.experienceCard:hover {
-  border-color: var(--color-brand-border);
 }
 
 .experienceCard .techPills {
@@ -290,10 +284,6 @@
   border-color: color-mix(in srgb, var(--color-brand) 25%, var(--color-border));
   border-top: 3px solid var(--color-brand);
   box-shadow: var(--shadow-subtle), 0 0 24px -12px color-mix(in srgb, var(--color-brand) 20%, transparent);
-}
-
-.progressionHighlightCard:hover {
-  border-color: color-mix(in srgb, var(--color-brand) 45%, var(--color-border));
 }
 
 .progressionBadge {
@@ -478,6 +468,12 @@
 
 :global([dir="rtl"]) .progressionCtaLink:hover {
   transform: translateX(-2px);
+}
+
+.progressionCtaLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 

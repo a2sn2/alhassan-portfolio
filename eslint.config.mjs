@@ -12,7 +12,6 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "docs/**",
-    ".pr24-preview/**",
     "next-env.d.ts",
   ]),
 ]);
