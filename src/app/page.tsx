@@ -123,7 +123,7 @@ export default function HomePage() {
                 <div className={styles.roleHeader}>
                   <span className={styles.roleCompany}>{asaasRole.company}</span>
                   <span className={styles.rolePeriod}>
-                    <bdi>{asaasRole.period}</bdi>
+                    <bdi dir="ltr">{asaasRole.period}</bdi>
                   </span>
                 </div>
                 <h3 className={styles.roleTitle}>{asaasRole.role}</h3>
@@ -154,7 +154,7 @@ export default function HomePage() {
 
               <div className={styles.progressionTimelineBar}>
                 <span className={styles.progressionDateStart}>
-                  <bdi>Sep 2025</bdi>
+                  <bdi dir="ltr">Sep 2025</bdi>
                 </span>
                 <div className={styles.progressionBarLine} aria-hidden="true">
                   <span className={styles.progressionBarDot} />
@@ -167,44 +167,47 @@ export default function HomePage() {
                   />
                 </div>
                 <span className={styles.progressionDateEnd}>
-                  <bdi>Present</bdi>
+                  <bdi dir="ltr">Present</bdi>
                 </span>
               </div>
 
-              <div className={styles.homeStagesList}>
-                {jaibExperienceJourney.stages.map((stage) => {
-                  const roleItem = experienceContent.items.find(
-                    (i) => i.id === stage.roleId
-                  );
-                  return (
-                    <div
-                      key={stage.roleId}
-                      className={cn(
-                        styles.homeStageItem,
-                        stage.isCurrent && styles.homeStageItemCurrent
-                      )}
-                    >
-                      <span
+              <div className={styles.homeProgressionStepper}>
+                <div className={styles.homeStepperLine} aria-hidden="true" />
+                <div className={styles.homeStagesList}>
+                  {jaibExperienceJourney.stages.map((stage) => {
+                    const roleItem = experienceContent.items.find(
+                      (i) => i.id === stage.roleId
+                    );
+                    return (
+                      <div
+                        key={stage.roleId}
                         className={cn(
-                          styles.homeStageDot,
-                          stage.isCurrent && styles.homeStageDotCurrent
+                          styles.homeStageItem,
+                          stage.isCurrent && styles.homeStageItemCurrent
                         )}
-                        aria-hidden="true"
-                      />
-                      <span className={styles.homeStageNum}>
-                        {stage.stageNumber}
-                      </span>
-                      <span className={styles.homeStageTitle}>
-                        {roleItem ? roleItem.role : stage.shortTitle.en}
-                      </span>
-                      {stage.isCurrent && (
-                        <span className={styles.homeStageCurrentTag}>
-                          {jaibExperienceJourney.currentBadge.en}
+                      >
+                        <span
+                          className={cn(
+                            styles.homeStageDot,
+                            stage.isCurrent && styles.homeStageDotCurrent
+                          )}
+                          aria-hidden="true"
+                        />
+                        <span className={styles.homeStageNum}>
+                          {stage.stageNumber}
                         </span>
-                      )}
-                    </div>
-                  );
-                })}
+                        <span className={styles.homeStageTitle}>
+                          {roleItem ? roleItem.role : stage.shortTitle.en}
+                        </span>
+                        {stage.isCurrent && (
+                          <span className={styles.homeStageCurrentTag}>
+                            {jaibExperienceJourney.currentBadge.en}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
               <p className={styles.progressionSummary}>
@@ -230,7 +233,7 @@ export default function HomePage() {
                     {foundationRole.company}
                   </span>
                   <span className={styles.rolePeriod}>
-                    <bdi>{foundationRole.period}</bdi>
+                    <bdi dir="ltr">{foundationRole.period}</bdi>
                   </span>
                 </div>
                 <h3 className={styles.roleTitle}>{foundationRole.role}</h3>

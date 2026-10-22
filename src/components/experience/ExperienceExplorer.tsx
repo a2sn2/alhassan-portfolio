@@ -169,7 +169,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                   <span className={styles.roleTabRole}>{item.role}</span>
                   <span className={styles.roleTabCompany}>{item.company}</span>
                   <span className={styles.roleTabPeriod}>
-                    <bdi>{item.period}</bdi>
+                    <bdi dir="ltr">{item.period}</bdi>
                   </span>
                 </button>
               );
@@ -200,7 +200,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                       {journey.label[locale]}
                     </span>
                     <span className={styles.progressionPeriod}>
-                      <bdi>{journey.period[locale]}</bdi>
+                      <bdi dir="ltr">{journey.period[locale]}</bdi>
                     </span>
                   </div>
                 </div>
@@ -266,7 +266,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                               )}
                             </div>
                             <span className={styles.stagePeriodText}>
-                              <bdi>{item.period}</bdi>
+                              <bdi dir="ltr">{item.period}</bdi>
                             </span>
                           </div>
                         </button>
@@ -382,7 +382,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                 </span>
                 <span>·</span>
                 <span className={styles.panelPeriod}>
-                  <bdi>{selectedItem.period}</bdi>
+                  <bdi dir="ltr">{selectedItem.period}</bdi>
                 </span>
                 <span>·</span>
                 <span className={styles.panelLocation}>
@@ -470,7 +470,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                     <span className={styles.mobileRole}>{item.role}</span>
                     <span className={styles.mobileCompany}>{item.company}</span>
                     <span className={styles.mobilePeriod}>
-                      <bdi>{item.period}</bdi>
+                      <bdi dir="ltr">{item.period}</bdi>
                     </span>
                   </div>
                   <svg
@@ -580,7 +580,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                     {journey.label[locale]} · {journey.sublabel[locale]}
                   </span>
                   <span className={styles.mobilePeriod}>
-                    <bdi>{journey.period[locale]}</bdi>
+                    <bdi dir="ltr">{journey.period[locale]}</bdi>
                   </span>
                 </div>
                 <svg
@@ -651,7 +651,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                               )}
                             </span>
                             <span className={styles.mobileStagePeriod}>
-                              <bdi>{stageItem.period}</bdi>
+                              <bdi dir="ltr">{stageItem.period}</bdi>
                             </span>
                           </span>
                         </button>
@@ -668,7 +668,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                         </h4>
                         <div className={styles.mobileActiveMeta}>
                           <span className={styles.panelPeriod}>
-                            <bdi>{activeMobileRole.period}</bdi>
+                            <bdi dir="ltr">{activeMobileRole.period}</bdi>
                           </span>
                           <span>·</span>
                           <span className={styles.panelLocation}>

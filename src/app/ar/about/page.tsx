@@ -35,15 +35,19 @@ export default function ArabicAboutPage() {
         {/* Page Header */}
         <Reveal>
           <header className={styles.header}>
-            <div className={styles.introMarkRow}>
-              <ProfileIdentityMark locale="ar" priority />
-              <div className={styles.introMeta}>
-                <span className={styles.kicker}>{aboutContentAr.kicker}</span>
-                <span className={styles.signatureName}>الحسن بليغ الشامي</span>
+            <div className={styles.heroGrid}>
+              <div className={styles.heroContent}>
+                <div className={styles.identityKickerGroup}>
+                  <span className={styles.kicker}>{aboutContentAr.kicker}</span>
+                  <span className={styles.signatureName}>الحسن بليغ الشامي</span>
+                </div>
+                <h1 className={styles.title}>{aboutContentAr.title}</h1>
+                <p className={styles.description}>{aboutContentAr.description}</p>
+              </div>
+              <div className={styles.heroPortraitWrap}>
+                <ProfileIdentityMark locale="ar" variant="editorial" priority />
               </div>
             </div>
-            <h1 className={styles.title}>{aboutContentAr.title}</h1>
-            <p className={styles.description}>{aboutContentAr.description}</p>
           </header>
         </Reveal>
 
