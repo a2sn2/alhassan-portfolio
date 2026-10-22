@@ -33,15 +33,19 @@ export default function AboutPage() {
         {/* Page Header */}
         <Reveal>
           <header className={styles.header}>
-            <div className={styles.introMarkRow}>
-              <ProfileIdentityMark locale="en" priority />
-              <div className={styles.introMeta}>
-                <span className={styles.kicker}>{aboutContent.kicker}</span>
-                <span className={styles.signatureName}>ALHassan Baligh ALShami</span>
+            <div className={styles.heroGrid}>
+              <div className={styles.heroContent}>
+                <div className={styles.identityKickerGroup}>
+                  <span className={styles.kicker}>{aboutContent.kicker}</span>
+                  <span className={styles.signatureName}>ALHassan Baligh ALShami</span>
+                </div>
+                <h1 className={styles.title}>{aboutContent.title}</h1>
+                <p className={styles.description}>{aboutContent.description}</p>
+              </div>
+              <div className={styles.heroPortraitWrap}>
+                <ProfileIdentityMark locale="en" variant="editorial" priority />
               </div>
             </div>
-            <h1 className={styles.title}>{aboutContent.title}</h1>
-            <p className={styles.description}>{aboutContent.description}</p>
           </header>
         </Reveal>
 

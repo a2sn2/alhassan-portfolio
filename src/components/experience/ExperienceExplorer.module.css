@@ -89,6 +89,12 @@
   color: var(--color-text-muted);
 }
 
+.roleTabPeriod bdi {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
 /* Grouped Jaib Career Progression Block */
 .progressionBlock {
   display: flex;
@@ -154,6 +160,12 @@
   color: var(--color-text-muted);
 }
 
+.progressionPeriod bdi {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
 /* Stepper Track & Stages */
 .progressionStepper {
   position: relative;
@@ -163,12 +175,13 @@
 
 .stepperTrack {
   position: absolute;
-  inset-inline-start: 18px;
+  inset-inline-start: 24px;
   top: 14px;
   bottom: 14px;
   width: 2px;
   background-color: var(--color-border);
   border-radius: 1px;
+  z-index: 0;
 }
 
 .stepperFill {
@@ -219,6 +232,8 @@
   flex-shrink: 0;
   margin-top: 5px;
   transition: all 180ms var(--ease-standard);
+  position: relative;
+  z-index: 2;
 }
 
 .stageNodeDotPassed {
@@ -286,6 +301,12 @@
   font-family: var(--font-geist-mono), monospace;
   font-size: 10px;
   color: var(--color-text-muted);
+}
+
+.stagePeriodText bdi {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
 }
 
 /* Detail Panel */
@@ -467,6 +488,12 @@
   color: var(--color-brand);
 }
 
+.panelPeriod bdi {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
 .panelLocation {
   color: var(--color-text-muted);
 }
@@ -601,6 +628,12 @@
   color: var(--color-text-muted);
 }
 
+.mobilePeriod bdi {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
 .mobileIcon {
   color: var(--color-brand);
   transition: transform var(--duration-fast) var(--ease-standard);
@@ -724,6 +757,12 @@
   font-family: var(--font-geist-mono), monospace;
   font-size: 10px;
   color: var(--color-text-muted);
+}
+
+.mobileStagePeriod bdi {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
 }
 
 .mobileActiveDetail {

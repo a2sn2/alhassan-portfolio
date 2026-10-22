@@ -35,15 +35,19 @@ export default function GermanAboutPage() {
         {/* Page Header */}
         <Reveal>
           <header className={styles.header}>
-            <div className={styles.introMarkRow}>
-              <ProfileIdentityMark locale="de" priority />
-              <div className={styles.introMeta}>
-                <span className={styles.kicker}>{aboutContentDe.kicker}</span>
-                <span className={styles.signatureName}>ALHassan Baligh ALShami</span>
+            <div className={styles.heroGrid}>
+              <div className={styles.heroContent}>
+                <div className={styles.identityKickerGroup}>
+                  <span className={styles.kicker}>{aboutContentDe.kicker}</span>
+                  <span className={styles.signatureName}>ALHassan Baligh ALShami</span>
+                </div>
+                <h1 className={styles.title}>{aboutContentDe.title}</h1>
+                <p className={styles.description}>{aboutContentDe.description}</p>
+              </div>
+              <div className={styles.heroPortraitWrap}>
+                <ProfileIdentityMark locale="de" variant="editorial" priority />
               </div>
             </div>
-            <h1 className={styles.title}>{aboutContentDe.title}</h1>
-            <p className={styles.description}>{aboutContentDe.description}</p>
           </header>
         </Reveal>
 
