@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { ExperienceExplorer } from "@/components/experience/ExperienceExplorer";
 import { experienceContent, siteMetadata } from "@/content";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "./experience.module.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,13 @@ export const metadata: Metadata = {
     title: `Professional Experience | ${siteMetadata.author.name}`,
     description: experienceContent.description,
     url: `${siteMetadata.siteUrl}/experience`,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Professional Experience | ${siteMetadata.author.name}`,
+    description: experienceContent.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

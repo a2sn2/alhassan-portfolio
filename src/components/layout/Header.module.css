@@ -624,3 +624,26 @@
     display: flex;
   }
 }
+
+/* Small-screen mobile identity adaptation (<= 350px) */
+@media (max-width: 350px) {
+  .langSwitchMobile {
+    display: none;
+  }
+
+  .brandRole {
+    display: none;
+  }
+
+  .brandTitle {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 11.5px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    max-height: 28px;
+    overflow: hidden;
+  }
+}

@@ -7,6 +7,7 @@ import {
   credentialsContentAr,
   siteMetadataAr,
 } from "@/content/ar";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../capabilities/capabilities.module.css";
 
 export const metadata: Metadata = {
@@ -26,6 +27,13 @@ export const metadata: Metadata = {
     description: skillsContentAr.description,
     url: `${siteMetadataAr.siteUrl}/ar/capabilities`,
     locale: siteMetadataAr.locale,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `القدرات والشهادات | ${siteMetadataAr.author.name}`,
+    description: skillsContentAr.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

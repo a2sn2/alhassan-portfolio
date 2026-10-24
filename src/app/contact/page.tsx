@@ -6,6 +6,7 @@ import { contactContent, siteMetadata } from "@/content";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "./contact.module.css";
 
 export const metadata: Metadata = {
@@ -24,6 +25,13 @@ export const metadata: Metadata = {
     title: `Contact & Official CV Downloads | ${siteMetadata.author.name}`,
     description: contactContent.description,
     url: `${siteMetadata.siteUrl}/contact`,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Contact & Official CV Downloads | ${siteMetadata.author.name}`,
+    description: contactContent.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

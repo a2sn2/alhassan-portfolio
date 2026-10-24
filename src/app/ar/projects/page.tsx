@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { ProjectExplorer } from "@/components/projects/ProjectExplorer";
 import { projectsContentAr } from "@/content/ar/projects";
 import { siteMetadataAr } from "@/content/ar/siteMetadata";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../projects/projects.module.css";
 
 export const metadata: Metadata = {
@@ -23,6 +24,13 @@ export const metadata: Metadata = {
     description: projectsContentAr.description,
     url: "/ar/projects",
     locale: siteMetadataAr.locale,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "المشاريع البرمجية والأنظمة التقنية | الحسن بليغ الشامي",
+    description: projectsContentAr.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

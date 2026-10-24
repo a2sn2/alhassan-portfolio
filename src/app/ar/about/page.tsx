@@ -6,6 +6,7 @@ import { aboutContentAr } from "@/content/ar/about";
 import { siteMetadataAr } from "@/content/ar/siteMetadata";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
 import { Reveal } from "@/components/ui/Reveal";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../about/about.module.css";
 
 export const metadata: Metadata = {
@@ -25,6 +26,13 @@ export const metadata: Metadata = {
     description: aboutContentAr.description,
     url: "/ar/about",
     locale: siteMetadataAr.locale,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "نبذة عن المسيرة الهندسية والملف الشخصي | الحسن بليغ الشامي",
+    description: aboutContentAr.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

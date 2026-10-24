@@ -6,6 +6,7 @@ import { contactContentAr, siteMetadataAr } from "@/content/ar";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../contact/contact.module.css";
 
 export const metadata: Metadata = {
@@ -25,6 +26,13 @@ export const metadata: Metadata = {
     description: contactContentAr.description,
     url: `${siteMetadataAr.siteUrl}/ar/contact`,
     locale: siteMetadataAr.locale,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `التواصل وتحميل السيرة الذاتية | ${siteMetadataAr.author.name}`,
+    description: contactContentAr.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

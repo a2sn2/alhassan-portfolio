@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { ProjectExplorer } from "@/components/projects/ProjectExplorer";
 import { projectsContent, siteMetadata } from "@/content";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "./projects.module.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,13 @@ export const metadata: Metadata = {
     title: `Engineering Projects | ${siteMetadata.author.name}`,
     description: projectsContent.description,
     url: `${siteMetadata.siteUrl}/projects`,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Engineering Projects | ${siteMetadata.author.name}`,
+    description: projectsContent.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

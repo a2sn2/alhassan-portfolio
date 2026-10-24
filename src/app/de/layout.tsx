@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteMetadataDe } from "@/content/de/siteMetadata";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadataDe.siteUrl),
@@ -27,11 +28,14 @@ export const metadata: Metadata = {
     title: siteMetadataDe.defaultTitle,
     description: siteMetadataDe.defaultDescription,
     siteName: `${siteMetadataDe.author.name} — Portfolio`,
+    images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: siteMetadataDe.defaultTitle,
     description: siteMetadataDe.defaultDescription,
+    creator: "@a2sn4",
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 
