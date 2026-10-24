@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import { Container } from "@/components/ui/Container";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { Brandmark } from "@/components/ui/Brandmark";
 import { identityContent, navigationContent, socialLinks } from "@/content";
 import { identityContentAr, navigationContentAr } from "@/content/ar";
 import { identityContentDe, navigationContentDe } from "@/content/de";
@@ -222,11 +223,7 @@ export function Header() {
             onClick={handleLinkClick}
           >
             <div className={styles.brandmark} aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m18 16 4-4-4-4" />
-                <path d="m6 8-4 4 4 4" />
-                <path d="m14.5 4-5 16" />
-              </svg>
+              <Brandmark size={22} />
             </div>
             <div className={styles.brandTextGroup}>
               <span className={styles.brandTitle}>{identity.fullName}</span>
