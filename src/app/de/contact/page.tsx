@@ -6,6 +6,7 @@ import { contactContentDe, siteMetadataDe } from "@/content/de";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../contact/contact.module.css";
 
 export const metadata: Metadata = {
@@ -25,6 +26,13 @@ export const metadata: Metadata = {
     description: contactContentDe.description,
     url: `${siteMetadataDe.siteUrl}/de/contact`,
     locale: siteMetadataDe.locale,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Kontakt & Offizielle Lebenslauf-Downloads | ${siteMetadataDe.author.name}`,
+    description: contactContentDe.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

@@ -6,6 +6,7 @@ import { aboutContentDe } from "@/content/de/about";
 import { siteMetadataDe } from "@/content/de/siteMetadata";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
 import { Reveal } from "@/components/ui/Reveal";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../about/about.module.css";
 
 export const metadata: Metadata = {
@@ -25,6 +26,13 @@ export const metadata: Metadata = {
     description: aboutContentDe.description,
     url: "/de/about",
     locale: siteMetadataDe.locale,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Über mich — Werdegang & Profil | ALHassan Baligh ALShami",
+    description: aboutContentDe.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

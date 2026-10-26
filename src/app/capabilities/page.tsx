@@ -7,6 +7,7 @@ import {
   credentialsContent,
   siteMetadata,
 } from "@/content";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "./capabilities.module.css";
 
 export const metadata: Metadata = {
@@ -25,6 +26,13 @@ export const metadata: Metadata = {
     title: `Capabilities & Credentials | ${siteMetadata.author.name}`,
     description: skillsContent.description,
     url: `${siteMetadata.siteUrl}/capabilities`,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Capabilities & Credentials | ${siteMetadata.author.name}`,
+    description: skillsContent.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

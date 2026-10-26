@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { ExperienceExplorer } from "@/components/experience/ExperienceExplorer";
 import { experienceContentDe } from "@/content/de/experience";
 import { siteMetadataDe } from "@/content/de/siteMetadata";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../experience/experience.module.css";
 
 export const metadata: Metadata = {
@@ -23,6 +24,13 @@ export const metadata: Metadata = {
     description: experienceContentDe.description,
     url: "/de/experience",
     locale: siteMetadataDe.locale,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Berufserfahrung & Praktischer Werdegang | ALHassan Baligh ALShami",
+    description: experienceContentDe.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

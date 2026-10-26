@@ -8,6 +8,7 @@ import {
   getAllProjectSlugsAr,
   siteMetadataAr,
 } from "@/content/ar";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 
 interface ProjectDetailPageProps {
   params: Promise<{
@@ -50,6 +51,13 @@ export async function generateMetadata({
       description: project.tagline,
       url: `${siteMetadataAr.siteUrl}/ar/projects/${project.slug}`,
       locale: siteMetadataAr.locale,
+      images: [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} — دراسة حالة | ${siteMetadataAr.author.name}`,
+      description: project.tagline,
+      images: [DEFAULT_TWITTER_IMAGE],
     },
   };
 }

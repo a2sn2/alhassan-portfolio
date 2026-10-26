@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { ProjectExplorer } from "@/components/projects/ProjectExplorer";
 import { projectsContentDe } from "@/content/de/projects";
 import { siteMetadataDe } from "@/content/de/siteMetadata";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../projects/projects.module.css";
 
 export const metadata: Metadata = {
@@ -23,6 +24,13 @@ export const metadata: Metadata = {
     description: projectsContentDe.description,
     url: "/de/projects",
     locale: siteMetadataDe.locale,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ingenieurprojekte & Technische Systeme | ALHassan Baligh ALShami",
+    description: projectsContentDe.description,
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 

@@ -13,6 +13,8 @@ import { socialLinks } from "@/content/social";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -68,21 +70,14 @@ export const metadata: Metadata = {
     siteName: `${identityContent.fullName} — Portfolio`,
     title: siteMetadata.defaultTitle,
     description: siteMetadata.defaultDescription,
-    images: [
-      {
-        url: "/images/og-preview.png",
-        width: 1200,
-        height: 630,
-        alt: `${identityContent.fullName} — Software Engineer Portfolio`,
-      },
-    ],
+    images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: siteMetadata.defaultTitle,
     description: siteMetadata.defaultDescription,
     creator: "@a2sn4",
-    images: ["/images/og-preview.png"],
+    images: [DEFAULT_TWITTER_IMAGE],
   },
   robots: {
     index: true,

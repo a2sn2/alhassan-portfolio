@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteMetadataAr } from "@/content/ar/siteMetadata";
+import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadataAr.siteUrl),
@@ -27,11 +28,14 @@ export const metadata: Metadata = {
     title: siteMetadataAr.defaultTitle,
     description: siteMetadataAr.defaultDescription,
     siteName: `${siteMetadataAr.author.name} — معرض الأعمال`,
+    images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: siteMetadataAr.defaultTitle,
     description: siteMetadataAr.defaultDescription,
+    creator: "@a2sn4",
+    images: [DEFAULT_TWITTER_IMAGE],
   },
 };
 
