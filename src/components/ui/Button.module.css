@@ -26,16 +26,16 @@
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
-/* JAIB Canonical Primary Red Action */
+/* Primary Action */
 .primary {
   background-color: var(--color-brand);
   color: #FFFFFF;
   border-color: var(--color-brand);
-  box-shadow: 0 6px 18px rgba(228, 18, 45, 0.22);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-brand) 24%, transparent);
 }
 
 .primary:hover {
@@ -43,14 +43,14 @@
   border-color: var(--color-brand-hover);
   color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(228, 18, 45, 0.28);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--color-brand) 30%, transparent);
 }
 
 .primary:active {
   background-color: var(--color-brand-pressed);
 }
 
-/* JAIB Canonical Secondary / Neutral Action */
+/* Secondary / Neutral Action */
 .secondary {
   background-color: var(--color-surface-primary);
   color: var(--color-text-primary);
@@ -61,7 +61,7 @@
 .secondary:hover {
   background-color: var(--color-surface-hover);
   border-color: var(--color-brand-border);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   transform: translateY(-2px);
 }
 
@@ -74,7 +74,7 @@
 }
 
 .ghost:hover {
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   background-color: var(--color-surface-muted);
 }
 
