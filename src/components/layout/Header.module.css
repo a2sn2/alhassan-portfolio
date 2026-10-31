@@ -639,6 +639,11 @@
 
 /* Mobile identity adaptation (<= 480px) — consistent 2-line title wrap and high-clarity brand */
 @media (max-width: 480px) {
+  .header {
+    background-color: var(--color-canvas);
+    border-bottom-color: var(--color-border);
+  }
+
   .brandRole {
     display: none;
   }
