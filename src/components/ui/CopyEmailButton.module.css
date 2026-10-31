@@ -25,11 +25,11 @@
 .copyBtn:hover {
   background-color: var(--color-surface-hover);
   border-color: var(--color-brand-border);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .copyBtn:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -40,9 +40,9 @@
 }
 
 .copied {
-  border-color: var(--color-brand);
+  border-color: var(--color-brand-border);
   background-color: color-mix(in srgb, var(--color-brand) 10%, transparent);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .copyIcon {

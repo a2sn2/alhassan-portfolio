@@ -1,33 +1,39 @@
 :root {
   /* ==========================================================================
-     JAIB Visual Identity — Canonical Color System (Light Theme Default)
+     Direction B — Independent Personal Identity (Light Theme Default)
      ========================================================================== */
-  --color-canvas: #F3F2F7;
+  --color-canvas: #F7F6F3;
   --color-surface-primary: #FFFFFF;
-  --color-surface-muted: #EAE9EE;
+  --color-surface-muted: #EEECE6;
   --color-surface-elevated: #FFFFFF;
-  --color-surface-hover: #F7F6FA;
+  --color-surface-hover: #F2F0EA;
 
-  --color-text-primary: #2C2C2E;
-  --color-text-secondary: #666670;
-  --color-text-tertiary: #AEAEB2;
+  --color-text-primary: #28282A;
+  --color-text-secondary: #5E6068;
+  --color-text-tertiary: #6F7077;
   --color-text-inverse: #FFFFFF;
 
-  --color-border: #E5E5EA;
-  --color-border-subtle: #ECEBF0;
-  --color-border-strong: #D9D9DE;
+  --color-border: #E4E1D9;
+  --color-border-subtle: #ECE9E2;
+  --color-border-strong: #D5D1C7;
 
-  /* Canonical Brand Red (#E4122D) */
-  --color-brand: #E4122D;
-  --color-brand-hover: #CE1028;
-  --color-brand-pressed: #B90E24;
-  --color-brand-subtle: rgba(228, 18, 45, 0.08);
-  --color-brand-border: rgba(228, 18, 45, 0.22);
-  --color-legacy-red: #C2192F;
-  --color-icon-ink: #07343E;
+  /* Direction B Personal Burgundy (#A82C3C) */
+  --color-brand: #A82C3C;
+  --color-brand-hover: #942634;
+  --color-brand-pressed: #7F1F2B;
+  --color-brand-subtle: rgba(168, 44, 60, 0.08);
+  --color-brand-border: rgba(168, 44, 60, 0.22);
+  --color-brand-text: #A82C3C;
+  --color-legacy-red: #A82C3C;
+  --color-icon-ink: #28282A;
 
-  --color-focus: #E4122D;
-  --color-error: #E4122D;
+  /* Adaptive Personal Brandmark Tokens */
+  --color-brandmark-bg: var(--color-brand);
+  --color-brandmark-fg: #FFFFFF;
+  --color-brandmark-shadow: color-mix(in srgb, var(--color-brandmark-bg) 28%, transparent);
+
+  --color-focus: #A82C3C;
+  --color-error: #A82C3C;
   --color-success: #28A745;
 
   /* Backward Compatibility Aliases */
@@ -39,9 +45,9 @@
   --color-accent-hover: var(--color-brand-hover);
 
   /* Elevation Shadows */
-  --shadow-subtle: 0 2px 8px rgba(20, 20, 25, 0.04);
-  --shadow-card: 0 16px 40px rgba(25, 25, 30, 0.07);
-  --shadow-elevated: 0 20px 50px rgba(25, 25, 30, 0.12);
+  --shadow-subtle: 0 2px 8px rgba(30, 25, 20, 0.04);
+  --shadow-card: 0 14px 36px rgba(30, 25, 20, 0.06);
+  --shadow-elevated: 0 20px 48px rgba(30, 25, 20, 0.10);
 
   /* ==========================================================================
      Typography Stack & Harmonic Fluid Scale
@@ -120,34 +126,44 @@
 }
 
 /* ==========================================================================
-   JAIB Visual Identity — Dark Theme Overrides
+   Direction B — Independent Personal Identity (Dark Theme Overrides)
    ========================================================================== */
 html[data-theme="dark"] {
-  --color-canvas: #121316;
-  --color-surface-primary: #1A1B20;
-  --color-surface-muted: #202126;
-  --color-surface-elevated: #26272D;
-  --color-surface-hover: #24252C;
+  --color-canvas: #101114;
+  --color-surface-primary: #17181D;
+  --color-surface-muted: #1E1F25;
+  --color-surface-elevated: #24252D;
+  --color-surface-hover: #22232B;
 
-  --color-text-primary: #F4F4F5;
-  --color-text-secondary: #A6A7AD;
-  --color-text-tertiary: #7D7F86;
-  --color-text-inverse: #121316;
+  --color-text-primary: #F4F4F6;
+  --color-text-secondary: #A3A4AC;
+  --color-text-tertiary: #8E9099;
+  --color-text-inverse: #101114;
 
-  --color-border: #2A2C31;
-  --color-border-subtle: #1E2024;
-  --color-border-strong: #34363D;
+  --color-border: #282930;
+  --color-border-subtle: #1F2026;
+  --color-border-strong: #353742;
 
-  --color-brand: #E4122D;
-  --color-brand-hover: #F02B44;
-  --color-brand-pressed: #CE1028;
-  --color-brand-subtle: rgba(228, 18, 45, 0.14);
-  --color-brand-border: rgba(228, 18, 45, 0.28);
-  --color-icon-ink: #A6A7AD;
+  /* Direction B Luminous Burgundy in Dark Theme */
+  --color-brand: #B83B4C;
+  --color-brand-hover: #CB4557;
+  --color-brand-pressed: #A82C3C;
+  --color-brand-subtle: rgba(184, 59, 76, 0.14);
+  --color-brand-border: rgba(184, 59, 76, 0.28);
+  --color-brand-text: #E06C7D;
+  --color-icon-ink: #A3A4AC;
 
-  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --shadow-card: 0 18px 50px rgba(0, 0, 0, 0.24);
-  --shadow-elevated: 0 24px 60px rgba(0, 0, 0, 0.38);
+  /* Adaptive Personal Brandmark Tokens */
+  --color-brandmark-bg: var(--color-brand);
+  --color-brandmark-fg: #FFFFFF;
+  --color-brandmark-shadow: color-mix(in srgb, var(--color-brandmark-bg) 28%, transparent);
+
+  --color-focus: #E06C7D;
+  --color-error: #B83B4C;
+
+  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-card: 0 16px 44px rgba(0, 0, 0, 0.45);
+  --shadow-elevated: 0 22px 55px rgba(0, 0, 0, 0.55);
 }
 
 /* ==========================================================================

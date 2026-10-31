@@ -37,6 +37,28 @@ html[data-scroll-behavior="smooth"] {
   scroll-margin-top: calc(4.25rem + 1.5rem);
 }
 
+@media (max-width: 350px) {
+  :is(
+    main,
+    section,
+    article,
+    h1,
+    h2,
+    h3,
+    h4,
+    [data-scroll-target],
+    [id^="tab-"],
+    [id^="panel-"],
+    [id^="heading-"],
+    [id^="tier-"],
+    [id^="ahd-"],
+    [id^="skills-"],
+    [id="progression-ahd-jaib"]
+  )[id] {
+    scroll-margin-top: calc(108px + 1rem);
+  }
+}
+
 
 body {
   min-height: 100vh;

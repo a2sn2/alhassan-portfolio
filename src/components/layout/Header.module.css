@@ -32,12 +32,12 @@
   width: 38px;
   height: 38px;
   border-radius: 11px;
-  background-color: var(--color-brand);
+  background-color: var(--color-brandmark-bg, var(--color-brand));
   display: grid;
   place-items: center;
-  box-shadow: 0 4px 14px rgba(228, 18, 45, 0.28);
+  box-shadow: 0 4px 14px var(--color-brandmark-shadow, color-mix(in srgb, var(--color-brandmark-bg, var(--color-brand)) 28%, transparent));
   flex-shrink: 0;
-  color: #FFFFFF;
+  color: var(--color-brandmark-fg, #FFFFFF);
   font-weight: var(--weight-bold);
   font-size: 16px;
   letter-spacing: -0.02em;
@@ -99,12 +99,12 @@
 }
 
 .navLink:hover {
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   background-color: var(--color-surface-hover);
 }
 
 .navLinkActive {
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   font-weight: var(--weight-semibold);
   background-color: color-mix(in srgb, var(--color-brand) 8%, transparent);
 }
@@ -116,12 +116,12 @@
   left: 20%;
   right: 20%;
   height: 2px;
-  background-color: var(--color-brand);
+  background-color: var(--color-brand-text, var(--color-brand));
   border-radius: 2px;
 }
 
 .navLink:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -142,13 +142,13 @@
 }
 
 .searchTrigger:hover {
-  border-color: var(--color-brand);
+  border-color: var(--color-brand-border);
   color: var(--color-text-primary);
   background-color: var(--color-surface-hover);
 }
 
 .searchTrigger:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -181,13 +181,13 @@
 
 .langTrigger:hover,
 .langTriggerActive {
-  border-color: var(--color-brand);
-  color: var(--color-brand);
+  border-color: var(--color-brand-border);
+  color: var(--color-brand-text, var(--color-brand));
   background-color: var(--color-surface-hover);
 }
 
 .langTrigger:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -255,12 +255,12 @@
 
 .langOption:hover {
   background-color: var(--color-surface-hover);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .langOptionActive {
   background-color: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface-primary));
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   font-weight: var(--weight-semibold);
 }
 
@@ -284,7 +284,7 @@
 
 .langOptionActive .langOptionBadge {
   background: color-mix(in srgb, var(--color-brand) 20%, transparent);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 /* Mobile Language Switcher */
@@ -314,11 +314,11 @@
 .langSwitchMobile:hover {
   background-color: var(--color-surface-hover);
   border-color: var(--color-brand-border);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .langSwitchMobile:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -362,11 +362,11 @@
 .searchTriggerMobile:hover {
   background-color: var(--color-surface-hover);
   border-color: var(--color-brand-border);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .searchTriggerMobile:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -394,7 +394,7 @@
 .menuToggle:hover {
   background-color: var(--color-surface-hover);
   border-color: var(--color-brand-border);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .menuToggle:active {
@@ -402,7 +402,7 @@
 }
 
 .menuToggle:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -502,18 +502,18 @@
 .drawerLink:hover {
   background-color: var(--color-surface-hover);
   border-color: var(--color-brand-border);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   transform: translateX(4px);
 }
 
 .drawerLinkActive {
-  border-color: var(--color-brand);
+  border-color: var(--color-brand-border);
   background-color: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface-primary));
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .drawerLink:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -521,7 +521,7 @@
   font-family: var(--font-geist-mono), monospace;
   font-size: var(--text-xs);
   font-weight: var(--weight-bold);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   letter-spacing: 0.05em;
 }
 
@@ -586,18 +586,18 @@
 .drawerLangBtn:hover {
   background-color: var(--color-surface-hover);
   border-color: var(--color-brand-border);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .drawerLangBtnActive {
   background-color: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface-primary));
-  border-color: var(--color-brand);
-  color: var(--color-brand);
+  border-color: var(--color-brand-border);
+  color: var(--color-brand-text, var(--color-brand));
   font-weight: var(--weight-semibold);
 }
 
 .drawerLangBtn:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -639,6 +639,11 @@
 
 /* Mobile identity adaptation (<= 480px) — consistent 2-line title wrap and high-clarity brand */
 @media (max-width: 480px) {
+  .header {
+    background-color: var(--color-canvas);
+    border-bottom-color: var(--color-border);
+  }
+
   .brandRole {
     display: none;
   }
