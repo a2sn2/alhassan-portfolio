@@ -13,15 +13,53 @@ import {
 } from "@/content/de";
 import { jaibExperienceJourney } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { FlagshipBlueprint } from "@/components/projects/FlagshipBlueprint";
 import { getSkillGroupAnchor } from "@/utils/skills";
 import { formatProjectCategory } from "@/utils/categories";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "../home.module.css";
 
+const domainEvidenceMapDe: Record<
+  string,
+  { label: string; projectTitle: string; href: string }
+> = {
+  "skills-programming": {
+    label: "Belegter Nachweis:",
+    projectTitle: "FoundationKit (.NET 10) & ROBOCAM",
+    href: "/de/projects/foundationkit-dotnet",
+  },
+  "skills-data": {
+    label: "Belegter Nachweis:",
+    projectTitle: "FoundationKit (EF Core / SQL) & Objekterkennung",
+    href: "/de/projects/real-time-object-detection",
+  },
+  "skills-systems": {
+    label: "Belegter Nachweis:",
+    projectTitle: "MikroTik-Hotspot-Portal (RouterOS & RADIUS)",
+    href: "/de/projects/mikrotik-hotspot-portal",
+  },
+  "skills-automation": {
+    label: "Belegter Nachweis:",
+    projectTitle: "Pumpstation-Analytik & SPS-Telemetrie",
+    href: "/de/projects/pump-station-analytics",
+  },
+  "skills-qa": {
+    label: "Belegter Nachweis:",
+    projectTitle: "Asaas AI QA & Jaib-Finanzplattform",
+    href: "/de/experience#asaas-ai-qa",
+  },
+};
+
 export default function GermanHomePage() {
   const featuredProjects = projectItemsDe.filter(
     (p) => p.presentationTier === "featured"
+  );
+  const flagshipProject =
+    featuredProjects.find((p) => p.id === "foundationkit-dotnet") ||
+    featuredProjects[0];
+  const supportingProjects = featuredProjects.filter(
+    (p) => p.id !== flagshipProject?.id
   );
   const asaasRole = experienceContentDe.items.find((i) => i.id === "asaas-ai-qa");
   const foundationRole = experienceContentDe.items.find(
@@ -49,55 +87,120 @@ export default function GermanHomePage() {
             </Link>
           </div>
 
-          <div className={styles.projectsGrid}>
-            {featuredProjects.map((project, index) => (
-              <Reveal
-                as="article"
-                key={project.id}
-                delay={index * 50}
-                className={styles.projectCard}
-              >
-                <div className={styles.cardHeader}>
-                  <Badge variant="category">{formatProjectCategory(project.category, "de")}</Badge>
-                  {project.badge && (
-                    <Badge variant="tech">{project.badge}</Badge>
-                  )}
-                </div>
-
-                <h3 className={styles.projectTitle}>{project.title}</h3>
-                <p className={styles.projectTagline}>{project.tagline}</p>
-
-                {project.result && (
-                  <div className={styles.projectSnippet}>
-                    <strong>Ergebnis:</strong> {project.result}
+          <div className={styles.featuredShowcaseWrap}>
+            {/* Flagship Engineering Showcase */}
+            {flagshipProject && (
+              <Reveal as="article" delay={0} className={styles.flagshipShowcase}>
+                <div className={styles.flagshipContent}>
+                  <div className={styles.cardHeader}>
+                    <Badge variant="category">{formatProjectCategory(flagshipProject.category, "de")}</Badge>
+                    <Badge variant="tech">Pre-Production · .NET 10</Badge>
                   </div>
-                )}
 
-                <div className={styles.techPills}>
-                  {project.technologies.slice(0, 3).map((tech) => (
-                    <span key={tech} className={styles.techPill}>
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span className={styles.techPill}>
-                      +{project.technologies.length - 3}
-                    </span>
+                  <h3 className={styles.flagshipTitle}>{flagshipProject.title}</h3>
+                  <p className={styles.flagshipTagline}>{flagshipProject.tagline}</p>
+
+                  {flagshipProject.result && (
+                    <div className={styles.projectSnippet}>
+                      <strong>Verifiziertes Ergebnis:</strong> {flagshipProject.result}
+                    </div>
                   )}
+
+                  {flagshipProject.implementationHighlights && (
+                    <ul className={styles.flagshipHighlights}>
+                      {flagshipProject.implementationHighlights.slice(0, 3).map((hl, i) => (
+                        <li key={i} className={styles.flagshipHighlightItem}>
+                          <span className={styles.flagshipHighlightBullet} aria-hidden="true">▸</span>
+                          <span>{hl}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <div className={styles.techPills}>
+                    {flagshipProject.technologies.map((tech) => (
+                      <span key={tech} className={styles.techPill}>
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className={styles.flagshipFooter}>
+                    <Link
+                      href={`/de/projects/${flagshipProject.slug}`}
+                      className={styles.flagshipCta}
+                      aria-label={`Architektur & Fallstudie für ${flagshipProject.title} erkunden`}
+                    >
+                      <span>Architektur & Fallstudie erkunden</span>
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
                 </div>
 
-                <div className={styles.cardFooter}>
-                  <Link
-                    href={`/de/projects/${project.slug}`}
-                    className={styles.caseStudyLink}
-                    aria-label={`Fallstudie für ${project.title} lesen`}
-                  >
-                    <span>Fallstudie erkunden</span>
-                    <span aria-hidden="true">→</span>
-                  </Link>
+                <div className={styles.flagshipVisual}>
+                  <FlagshipBlueprint locale="de" />
                 </div>
               </Reveal>
-            ))}
+            )}
+
+            {/* Supporting Engineering Work */}
+            <div className={styles.supportingSection}>
+              <div className={styles.supportingHeader}>
+                <span className={styles.supportingKicker}>Ergänzende Ingenieurarbeiten</span>
+                <span className={styles.supportingSub}>[ 02 — 04 ]</span>
+              </div>
+
+              <div className={styles.supportingProjectsGrid}>
+                {supportingProjects.map((project, index) => (
+                  <Reveal
+                    as="article"
+                    key={project.id}
+                    delay={(index + 1) * 60}
+                    className={styles.projectCard}
+                  >
+                    <div className={styles.cardHeader}>
+                      <Badge variant="category">{formatProjectCategory(project.category, "de")}</Badge>
+                      {project.badge && (
+                        <Badge variant="tech">{project.badge}</Badge>
+                      )}
+                    </div>
+
+                    <h3 className={styles.projectTitle}>{project.title}</h3>
+                    <p className={styles.projectTagline}>{project.tagline}</p>
+
+                    {project.result && (
+                      <div className={styles.projectSnippet}>
+                        <strong>Ergebnis:</strong> {project.result}
+                      </div>
+                    )}
+
+                    <div className={styles.techPills}>
+                      {project.technologies.slice(0, 3).map((tech) => (
+                        <span key={tech} className={styles.techPill}>
+                          {tech}
+                        </span>
+                      ))}
+                      {project.technologies.length > 3 && (
+                        <span className={styles.techPill}>
+                          +{project.technologies.length - 3}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className={styles.cardFooter}>
+                      <Link
+                        href={`/de/projects/${project.slug}`}
+                        className={styles.caseStudyLink}
+                        aria-label={`Fallstudie für ${project.title} lesen`}
+                      >
+                        <span>Fallstudie erkunden</span>
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
           </div>
         </Container>
       </section>
@@ -275,6 +378,7 @@ export default function GermanHomePage() {
               const anchor = getSkillGroupAnchor(group, index);
               const cardClass = `${styles.domainCard} ${styles[`domainCard${index + 1}`] || ""}`.trim();
               const displaySkills = group.skills.slice(0, 5);
+              const evidence = group.id ? domainEvidenceMapDe[group.id] : undefined;
 
               return (
                 <Reveal key={group.category} delay={index * 40} className={cardClass}>
@@ -288,6 +392,16 @@ export default function GermanHomePage() {
                         </span>
                       ))}
                     </div>
+
+                    {evidence && (
+                      <div className={styles.domainEvidenceRow}>
+                        <span className={styles.domainEvidenceLabel}>{evidence.label}</span>
+                        <Link href={evidence.href} className={styles.domainEvidenceLink}>
+                          <span>{evidence.projectTitle}</span>
+                          <span aria-hidden="true">→</span>
+                        </Link>
+                      </div>
+                    )}
                   </div>
                   <Link
                     href={`/de/capabilities#${anchor}`}

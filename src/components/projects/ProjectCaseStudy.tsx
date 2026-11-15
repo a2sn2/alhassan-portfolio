@@ -4,6 +4,7 @@ import styles from "./ProjectCaseStudy.module.css";
 import { ProjectItem } from "@/contracts/projects";
 import { formatProjectCategory } from "@/utils/categories";
 import { projectEvidenceMap } from "@/content/evidence";
+import { FlagshipBlueprint } from "./FlagshipBlueprint";
 
 interface ProjectCaseStudyProps {
   project: ProjectItem;
@@ -382,6 +383,11 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                 <div className={styles.architectureBlock} dir="ltr">
                   {project.architecture}
                 </div>
+                {project.slug === "foundationkit-dotnet" && (
+                  <div style={{ marginTop: "var(--space-4)" }}>
+                    <FlagshipBlueprint locale={locale} />
+                  </div>
+                )}
               </section>
             )}
 

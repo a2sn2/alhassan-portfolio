@@ -104,29 +104,139 @@ export default function GermanContactPage() {
           {/* Official CV Downloads Column */}
           <Reveal delay={100} className={styles.cvColumn}>
             <h2 className={styles.sectionTitle}>Offizielle mehrsprachige Lebenslauf-Pakete</h2>
-            <div className={styles.cvGrid}>
-              {contactContentDe.cvDocuments.map((doc) => (
-                <a
-                  key={doc.filename}
-                  href={doc.href}
-                  download={doc.filename}
-                  className={styles.cvCard}
-                >
-                  <div className={styles.cvInfo}>
-                    <div className={styles.cvHeaderRow}>
-                      <span className={styles.cvLanguage}>{doc.language}</span>
-                      <span className={styles.cvFormatBadge}>{doc.format}</span>
-                    </div>
-                    <span className={styles.cvFilename}>
-                      {doc.filename} {doc.filesize && `(${doc.filesize})`}
-                    </span>
-                  </div>
-                  <div className={styles.cvDownloadAction}>
-                    <span>Herunterladen</span>
-                    <span aria-hidden="true">↓</span>
-                  </div>
-                </a>
-              ))}
+
+            <div className={styles.cvGroupContainer}>
+              {/* 1. German CV Group */}
+              <div className={styles.cvGroupCard}>
+                <div className={styles.cvGroupHeader}>
+                  <span className={styles.cvGroupTitle}>
+                    <span aria-hidden="true">🇩🇪</span>
+                    <span>Deutscher Lebenslauf</span>
+                  </span>
+                  <span className={styles.cvGroupBadge}>2 Versionen verfügbar</span>
+                </div>
+                <div className={styles.cvVariantsList}>
+                  {contactContentDe.cvDocuments
+                    .filter((d) => d.language === "German")
+                    .map((doc) => {
+                      const isStandard = doc.format === "Standard";
+                      const title = isStandard
+                        ? "Standard-Lebenslauf (PDF)"
+                        : "ATS-optimierter Lebenslauf (PDF)";
+                      return (
+                        <a
+                          key={doc.filename}
+                          href={doc.href}
+                          download={doc.filename}
+                          className={styles.cvVariantItem}
+                          aria-label={`Deutschen ${doc.format}-Lebenslauf herunterladen (${doc.filesize} PDF)`}
+                        >
+                          <div className={styles.cvVariantInfo}>
+                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <div className={styles.cvVariantMeta}>
+                              <span className={styles.cvFormatBadge}>{doc.format} PDF</span>
+                              <span className={styles.cvVariantSize}>
+                                <bdi>{doc.filesize}</bdi>
+                              </span>
+                            </div>
+                          </div>
+                          <div className={styles.cvDownloadAction}>
+                            <span>PDF herunterladen</span>
+                            <span aria-hidden="true">↓</span>
+                          </div>
+                        </a>
+                      );
+                    })}
+                </div>
+              </div>
+
+              {/* 2. English CV Group */}
+              <div className={styles.cvGroupCard}>
+                <div className={styles.cvGroupHeader}>
+                  <span className={styles.cvGroupTitle}>
+                    <span aria-hidden="true">🇬🇧</span>
+                    <span>English Curriculum Vitae</span>
+                  </span>
+                  <span className={styles.cvGroupBadge}>2 Ausgaben</span>
+                </div>
+                <div className={styles.cvVariantsList}>
+                  {contactContentDe.cvDocuments
+                    .filter((d) => d.language === "English")
+                    .map((doc) => {
+                      const isStandard = doc.format === "Standard";
+                      const title = isStandard
+                        ? "Standard Curriculum Vitae (PDF)"
+                        : "ATS-Optimized Curriculum Vitae (PDF)";
+                      return (
+                        <a
+                          key={doc.filename}
+                          href={doc.href}
+                          download={doc.filename}
+                          className={styles.cvVariantItem}
+                          aria-label={`Download English ${doc.format} CV (${doc.filesize} PDF)`}
+                        >
+                          <div className={styles.cvVariantInfo}>
+                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <div className={styles.cvVariantMeta}>
+                              <span className={styles.cvFormatBadge}>{doc.format} PDF</span>
+                              <span className={styles.cvVariantSize}>
+                                <bdi>{doc.filesize}</bdi>
+                              </span>
+                            </div>
+                          </div>
+                          <div className={styles.cvDownloadAction}>
+                            <span>PDF herunterladen</span>
+                            <span aria-hidden="true">↓</span>
+                          </div>
+                        </a>
+                      );
+                    })}
+                </div>
+              </div>
+
+              {/* 3. Arabic CV Group */}
+              <div className={styles.cvGroupCard}>
+                <div className={styles.cvGroupHeader}>
+                  <span className={styles.cvGroupTitle}>
+                    <span aria-hidden="true">🇾🇪</span>
+                    <span>السيرة الذاتية باللغة العربية (Arabisch)</span>
+                  </span>
+                  <span className={styles.cvGroupBadge}>2 Versionen</span>
+                </div>
+                <div className={styles.cvVariantsList}>
+                  {contactContentDe.cvDocuments
+                    .filter((d) => d.language === "Arabic")
+                    .map((doc) => {
+                      const isStandard = doc.format === "Standard";
+                      const title = isStandard
+                        ? "السيرة الذاتية القياسية (PDF)"
+                        : "سيرة ذاتية متوافقة مع ATS (PDF)";
+                      return (
+                        <a
+                          key={doc.filename}
+                          href={doc.href}
+                          download={doc.filename}
+                          className={styles.cvVariantItem}
+                          aria-label={`Download Arabic ${doc.format} CV (${doc.filesize} PDF)`}
+                        >
+                          <div className={styles.cvVariantInfo}>
+                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <div className={styles.cvVariantMeta}>
+                              <span className={styles.cvFormatBadge}>{doc.format} PDF</span>
+                              <span className={styles.cvVariantSize}>
+                                <bdi>{doc.filesize}</bdi>
+                              </span>
+                            </div>
+                          </div>
+                          <div className={styles.cvDownloadAction}>
+                            <span>PDF herunterladen</span>
+                            <span aria-hidden="true">↓</span>
+                          </div>
+                        </a>
+                      );
+                    })}
+                </div>
+              </div>
             </div>
 
             <div className={styles.noticeCard}>

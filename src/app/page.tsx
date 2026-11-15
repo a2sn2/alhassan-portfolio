@@ -14,13 +14,51 @@ import {
   jaibExperienceJourney,
 } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
+import { FlagshipBlueprint } from "@/components/projects/FlagshipBlueprint";
 import { getSkillGroupAnchor } from "@/utils/skills";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
 import styles from "./home.module.css";
 
+const domainEvidenceMapEn: Record<
+  string,
+  { label: string; projectTitle: string; href: string }
+> = {
+  "skills-programming": {
+    label: "Verified Proof:",
+    projectTitle: "FoundationKit (.NET 10) & ROBOCAM",
+    href: "/projects/foundationkit-dotnet",
+  },
+  "skills-data": {
+    label: "Verified Proof:",
+    projectTitle: "FoundationKit (EF Core / SQL) & Object Detection",
+    href: "/projects/real-time-object-detection",
+  },
+  "skills-systems": {
+    label: "Verified Proof:",
+    projectTitle: "MikroTik Hotspot Portal (RouterOS & RADIUS)",
+    href: "/projects/mikrotik-hotspot-portal",
+  },
+  "skills-automation": {
+    label: "Verified Proof:",
+    projectTitle: "Pump Station Analytics & PLC Telemetry",
+    href: "/projects/pump-station-analytics",
+  },
+  "skills-qa": {
+    label: "Verified Proof:",
+    projectTitle: "Asaas AI QA & Jaib Financial Operations",
+    href: "/experience#asaas-ai-qa",
+  },
+};
+
 export default function HomePage() {
   const featuredProjects = getFeaturedProjects();
+  const flagshipProject =
+    featuredProjects.find((p) => p.id === "foundationkit-dotnet") ||
+    featuredProjects[0];
+  const supportingProjects = featuredProjects.filter(
+    (p) => p.id !== flagshipProject?.id
+  );
   const asaasRole = experienceContent.items.find((i) => i.id === "asaas-ai-qa");
   const foundationRole = experienceContent.items.find(
     (i) => i.id === "water-sanitation-corp"
@@ -47,55 +85,120 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className={styles.projectsGrid}>
-            {featuredProjects.map((project, index) => (
-              <Reveal
-                as="article"
-                key={project.id}
-                delay={index * 50}
-                className={styles.projectCard}
-              >
-                <div className={styles.cardHeader}>
-                  <Badge variant="category">{project.category}</Badge>
-                  {project.badge && (
-                    <Badge variant="tech">{project.badge}</Badge>
-                  )}
-                </div>
-
-                <h3 className={styles.projectTitle}>{project.title}</h3>
-                <p className={styles.projectTagline}>{project.tagline}</p>
-
-                {project.result && (
-                  <div className={styles.projectSnippet}>
-                    <strong>Outcome:</strong> {project.result}
+          <div className={styles.featuredShowcaseWrap}>
+            {/* Flagship Engineering Showcase */}
+            {flagshipProject && (
+              <Reveal as="article" delay={0} className={styles.flagshipShowcase}>
+                <div className={styles.flagshipContent}>
+                  <div className={styles.cardHeader}>
+                    <Badge variant="category">{flagshipProject.category}</Badge>
+                    <Badge variant="tech">Pre-production · .NET 10</Badge>
                   </div>
-                )}
 
-                <div className={styles.techPills}>
-                  {project.technologies.slice(0, 3).map((tech) => (
-                    <span key={tech} className={styles.techPill}>
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span className={styles.techPill}>
-                      +{project.technologies.length - 3}
-                    </span>
+                  <h3 className={styles.flagshipTitle}>{flagshipProject.title}</h3>
+                  <p className={styles.flagshipTagline}>{flagshipProject.tagline}</p>
+
+                  {flagshipProject.result && (
+                    <div className={styles.projectSnippet}>
+                      <strong>Outcome:</strong> {flagshipProject.result}
+                    </div>
                   )}
+
+                  {flagshipProject.implementationHighlights && (
+                    <ul className={styles.flagshipHighlights}>
+                      {flagshipProject.implementationHighlights.slice(0, 3).map((hl, i) => (
+                        <li key={i} className={styles.flagshipHighlightItem}>
+                          <span className={styles.flagshipHighlightBullet} aria-hidden="true">▸</span>
+                          <span>{hl}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <div className={styles.techPills}>
+                    {flagshipProject.technologies.map((tech) => (
+                      <span key={tech} className={styles.techPill}>
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className={styles.flagshipFooter}>
+                    <Link
+                      href={`/projects/${flagshipProject.slug}`}
+                      className={styles.flagshipCta}
+                      aria-label={`Explore Architecture & Case Study for ${flagshipProject.title}`}
+                    >
+                      <span>Explore Architecture & Case Study</span>
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
                 </div>
 
-                <div className={styles.cardFooter}>
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className={styles.caseStudyLink}
-                    aria-label={`Read case study for ${project.title}`}
-                  >
-                    <span>Explore Case Study</span>
-                    <span aria-hidden="true">→</span>
-                  </Link>
+                <div className={styles.flagshipVisual}>
+                  <FlagshipBlueprint locale="en" />
                 </div>
               </Reveal>
-            ))}
+            )}
+
+            {/* Supporting Engineering Work */}
+            <div className={styles.supportingSection}>
+              <div className={styles.supportingHeader}>
+                <span className={styles.supportingKicker}>Supporting Engineering Projects</span>
+                <span className={styles.supportingSub}>[ 02 — 04 ]</span>
+              </div>
+
+              <div className={styles.supportingProjectsGrid}>
+                {supportingProjects.map((project, index) => (
+                  <Reveal
+                    as="article"
+                    key={project.id}
+                    delay={(index + 1) * 60}
+                    className={styles.projectCard}
+                  >
+                    <div className={styles.cardHeader}>
+                      <Badge variant="category">{project.category}</Badge>
+                      {project.badge && (
+                        <Badge variant="tech">{project.badge}</Badge>
+                      )}
+                    </div>
+
+                    <h3 className={styles.projectTitle}>{project.title}</h3>
+                    <p className={styles.projectTagline}>{project.tagline}</p>
+
+                    {project.result && (
+                      <div className={styles.projectSnippet}>
+                        <strong>Outcome:</strong> {project.result}
+                      </div>
+                    )}
+
+                    <div className={styles.techPills}>
+                      {project.technologies.slice(0, 3).map((tech) => (
+                        <span key={tech} className={styles.techPill}>
+                          {tech}
+                        </span>
+                      ))}
+                      {project.technologies.length > 3 && (
+                        <span className={styles.techPill}>
+                          +{project.technologies.length - 3}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className={styles.cardFooter}>
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className={styles.caseStudyLink}
+                        aria-label={`Read case study for ${project.title}`}
+                      >
+                        <span>Explore Case Study</span>
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
           </div>
         </Container>
       </section>
@@ -273,6 +376,7 @@ export default function HomePage() {
               const anchor = getSkillGroupAnchor(group, index);
               const cardClass = `${styles.domainCard} ${styles[`domainCard${index + 1}`] || ""}`.trim();
               const displaySkills = group.skills.slice(0, 5);
+              const evidence = group.id ? domainEvidenceMapEn[group.id] : undefined;
 
               return (
                 <Reveal key={group.category} delay={index * 40} className={cardClass}>
@@ -286,6 +390,16 @@ export default function HomePage() {
                         </span>
                       ))}
                     </div>
+
+                    {evidence && (
+                      <div className={styles.domainEvidenceRow}>
+                        <span className={styles.domainEvidenceLabel}>{evidence.label}</span>
+                        <Link href={evidence.href} className={styles.domainEvidenceLink}>
+                          <span>{evidence.projectTitle}</span>
+                          <span aria-hidden="true">→</span>
+                        </Link>
+                      </div>
+                    )}
                   </div>
                   <Link
                     href={`/capabilities#${anchor}`}
