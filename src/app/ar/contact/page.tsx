@@ -106,34 +106,145 @@ export default function ArabicContactPage() {
           {/* Official CV Downloads Column */}
           <Reveal delay={100} className={styles.cvColumn}>
             <h2 className={styles.sectionTitle}>حزم السيرة الذاتية الرسمية متعددة اللغات</h2>
-            <div className={styles.cvGrid}>
-              {contactContentAr.cvDocuments.map((doc) => (
-                <a
-                  key={doc.filename}
-                  href={doc.href}
-                  download={doc.filename}
-                  className={styles.cvCard}
-                >
-                  <div className={styles.cvInfo}>
-                    <div className={styles.cvHeaderRow}>
-                      <span className={styles.cvLanguage}>{doc.language}</span>
-                      <span className={styles.cvFormatBadge}>
-                        <bdi>{doc.format}</bdi>
-                      </span>
-                    </div>
-                    <span className={styles.cvFilename}>
-                      <bdi>{doc.filename}</bdi>{" "}
-                      {doc.filesize && (
-                        <bdi>({doc.filesize})</bdi>
-                      )}
-                    </span>
-                  </div>
-                  <div className={styles.cvDownloadAction}>
-                    <span>تحميل</span>
-                    <span aria-hidden="true">↓</span>
-                  </div>
-                </a>
-              ))}
+
+            <div className={styles.cvGroupContainer}>
+              {/* 1. Arabic CV Group */}
+              <div className={styles.cvGroupCard}>
+                <div className={styles.cvGroupHeader}>
+                  <span className={styles.cvGroupTitle}>
+                    <span aria-hidden="true">🇾🇪</span>
+                    <span>السيرة الذاتية باللغة العربية</span>
+                  </span>
+                  <span className={styles.cvGroupBadge}>نسختان متاحتان</span>
+                </div>
+                <div className={styles.cvVariantsList}>
+                  {contactContentAr.cvDocuments
+                    .filter((d) => d.language === "Arabic")
+                    .map((doc) => {
+                      const isStandard = doc.format === "Standard";
+                      const title = isStandard
+                        ? "السيرة الذاتية القياسية (PDF)"
+                        : "سيرة ذاتية متوافقة مع ATS (PDF)";
+                      return (
+                        <a
+                          key={doc.filename}
+                          href={doc.href}
+                          download={doc.filename}
+                          className={styles.cvVariantItem}
+                          aria-label={`تحميل السيرة الذاتية باللغة العربية ${doc.format} (${doc.filesize} PDF)`}
+                        >
+                          <div className={styles.cvVariantInfo}>
+                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <div className={styles.cvVariantMeta}>
+                              <span className={styles.cvFormatBadge}>
+                                <bdi>{doc.format} PDF</bdi>
+                              </span>
+                              <span className={styles.cvVariantSize}>
+                                <bdi>{doc.filesize}</bdi>
+                              </span>
+                            </div>
+                          </div>
+                          <div className={styles.cvDownloadAction}>
+                            <span>تحميل PDF</span>
+                            <span aria-hidden="true">↓</span>
+                          </div>
+                        </a>
+                      );
+                    })}
+                </div>
+              </div>
+
+              {/* 2. English CV Group */}
+              <div className={styles.cvGroupCard}>
+                <div className={styles.cvGroupHeader}>
+                  <span className={styles.cvGroupTitle}>
+                    <span aria-hidden="true">🇬🇧</span>
+                    <span>السيرة الذاتية بالإنجليزية (English)</span>
+                  </span>
+                  <span className={styles.cvGroupBadge}>نسختان متاحتان</span>
+                </div>
+                <div className={styles.cvVariantsList}>
+                  {contactContentAr.cvDocuments
+                    .filter((d) => d.language === "English")
+                    .map((doc) => {
+                      const isStandard = doc.format === "Standard";
+                      const title = isStandard
+                        ? "Standard Curriculum Vitae (PDF)"
+                        : "ATS-Optimized Curriculum Vitae (PDF)";
+                      return (
+                        <a
+                          key={doc.filename}
+                          href={doc.href}
+                          download={doc.filename}
+                          className={styles.cvVariantItem}
+                          aria-label={`Download English ${doc.format} CV (${doc.filesize} PDF)`}
+                        >
+                          <div className={styles.cvVariantInfo}>
+                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <div className={styles.cvVariantMeta}>
+                              <span className={styles.cvFormatBadge}>
+                                <bdi>{doc.format} PDF</bdi>
+                              </span>
+                              <span className={styles.cvVariantSize}>
+                                <bdi>{doc.filesize}</bdi>
+                              </span>
+                            </div>
+                          </div>
+                          <div className={styles.cvDownloadAction}>
+                            <span>تحميل PDF</span>
+                            <span aria-hidden="true">↓</span>
+                          </div>
+                        </a>
+                      );
+                    })}
+                </div>
+              </div>
+
+              {/* 3. German CV Group */}
+              <div className={styles.cvGroupCard}>
+                <div className={styles.cvGroupHeader}>
+                  <span className={styles.cvGroupTitle}>
+                    <span aria-hidden="true">🇩🇪</span>
+                    <span>السيرة الذاتية بالألمانية (Deutsch)</span>
+                  </span>
+                  <span className={styles.cvGroupBadge}>نسختان متاحتان</span>
+                </div>
+                <div className={styles.cvVariantsList}>
+                  {contactContentAr.cvDocuments
+                    .filter((d) => d.language === "German")
+                    .map((doc) => {
+                      const isStandard = doc.format === "Standard";
+                      const title = isStandard
+                        ? "Standard-Lebenslauf (PDF)"
+                        : "ATS-optimierter Lebenslauf (PDF)";
+                      return (
+                        <a
+                          key={doc.filename}
+                          href={doc.href}
+                          download={doc.filename}
+                          className={styles.cvVariantItem}
+                          aria-label={`Download German ${doc.format} CV (${doc.filesize} PDF)`}
+                        >
+                          <div className={styles.cvVariantInfo}>
+                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <div className={styles.cvVariantMeta}>
+                              <span className={styles.cvFormatBadge}>
+                                <bdi>{doc.format} PDF</bdi>
+                              </span>
+                              <span className={styles.cvVariantSize}>
+                                <bdi>{doc.filesize}</bdi>
+                              </span>
+                            </div>
+                          </div>
+                          <div className={styles.cvDownloadAction}>
+                            <span>تحميل PDF</span>
+                            <span aria-hidden="true">↓</span>
+                          </div>
+                        </a>
+                      );
+                    })}
+                </div>
+              </div>
             </div>
 
             <div className={styles.noticeCard}>
