@@ -14,6 +14,7 @@ import {
 import { jaibExperienceJourney } from "@/content";
 import { ProofSection } from "@/components/sections/ProofSection";
 import { FlagshipBlueprint } from "@/components/projects/FlagshipBlueprint";
+import { BidiText } from "@/components/ui/BidiText";
 import { getSkillGroupAnchor } from "@/utils/skills";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/utils/cn";
@@ -21,32 +22,40 @@ import styles from "../home.module.css";
 
 const domainEvidenceMapAr: Record<
   string,
-  { label: string; projectTitle: string; href: string }
+  { label: string; links: Array<{ title: string; href: string }> }
 > = {
   "skills-programming": {
     label: "إثبات موثّق:",
-    projectTitle: "FoundationKit (.NET 10) & ROBOCAM",
-    href: "/ar/projects/foundationkit-dotnet",
+    links: [
+      { title: "FoundationKit (.NET 10)", href: "/ar/projects/foundationkit-dotnet" },
+      { title: "ROBOCAM Controller", href: "/ar/projects/robocam-controller" },
+    ],
   },
   "skills-data": {
     label: "إثبات موثّق:",
-    projectTitle: "FoundationKit (EF Core / SQL) والتعرف اللحظي",
-    href: "/ar/projects/real-time-object-detection",
+    links: [
+      { title: "التعرف اللحظي على الأجسام", href: "/ar/projects/real-time-object-detection" },
+      { title: "FoundationKit (EF Core / SQL)", href: "/ar/projects/foundationkit-dotnet" },
+    ],
   },
   "skills-systems": {
     label: "إثبات موثّق:",
-    projectTitle: "بوابة MikroTik Hotspot (RouterOS و RADIUS)",
-    href: "/ar/projects/mikrotik-hotspot-portal",
+    links: [
+      { title: "بوابة MikroTik Hotspot (RouterOS و RADIUS)", href: "/ar/projects/mikrotik-hotspot-portal" },
+    ],
   },
   "skills-automation": {
     label: "إثبات موثّق:",
-    projectTitle: "تحليلات محطات الضخ وتليمترية PLC",
-    href: "/ar/projects/pump-station-analytics",
+    links: [
+      { title: "تحليلات محطات الضخ وتليمترية PLC", href: "/ar/projects/pump-station-analytics" },
+    ],
   },
   "skills-qa": {
     label: "إثبات موثّق:",
-    projectTitle: "ضمان جودة Asaas AI وعمليات جيب المالية",
-    href: "/ar/experience#asaas-ai-qa",
+    links: [
+      { title: "ضمان جودة Asaas AI", href: "/ar/experience#asaas-ai-qa" },
+      { title: "عمليات جيب المالية", href: "/ar/experience#ahd-financial-deputy" },
+    ],
   },
 };
 
@@ -96,12 +105,16 @@ export default function ArabicHomePage() {
                     <Badge variant="tech">قيد المعاينة · .NET 10</Badge>
                   </div>
 
-                  <h3 className={styles.flagshipTitle}>{flagshipProject.title}</h3>
-                  <p className={styles.flagshipTagline}>{flagshipProject.tagline}</p>
+                  <h3 className={styles.flagshipTitle}>
+                    <BidiText text={flagshipProject.title} locale="ar" />
+                  </h3>
+                  <p className={styles.flagshipTagline}>
+                    <BidiText text={flagshipProject.tagline} locale="ar" />
+                  </p>
 
                   {flagshipProject.result && (
                     <div className={styles.projectSnippet}>
-                      <strong>النتيجة المعتمدة:</strong> {flagshipProject.result}
+                      <strong>النتيجة المعتمدة:</strong> <BidiText text={flagshipProject.result} locale="ar" />
                     </div>
                   )}
 
@@ -110,7 +123,7 @@ export default function ArabicHomePage() {
                       {flagshipProject.implementationHighlights.slice(0, 3).map((hl, i) => (
                         <li key={i} className={styles.flagshipHighlightItem}>
                           <span className={styles.flagshipHighlightBullet} aria-hidden="true">▸</span>
-                          <span>{hl}</span>
+                          <span><BidiText text={hl} locale="ar" /></span>
                         </li>
                       ))}
                     </ul>
@@ -137,7 +150,11 @@ export default function ArabicHomePage() {
                 </div>
 
                 <div className={styles.flagshipVisual}>
-                  <FlagshipBlueprint locale="ar" />
+                  <FlagshipBlueprint
+                    locale="ar"
+                    variant="preview"
+                    caseStudyHref={`/ar/projects/${flagshipProject.slug}`}
+                  />
                 </div>
               </Reveal>
             )}
@@ -164,8 +181,12 @@ export default function ArabicHomePage() {
                       )}
                     </div>
 
-                    <h3 className={styles.projectTitle}>{project.title}</h3>
-                    <p className={styles.projectTagline}>{project.tagline}</p>
+                    <h3 className={styles.projectTitle}>
+                      <BidiText text={project.title} locale="ar" />
+                    </h3>
+                    <p className={styles.projectTagline}>
+                      <BidiText text={project.tagline} locale="ar" />
+                    </p>
 
                     {project.result && (
                       <div className={styles.projectSnippet}>
@@ -395,10 +416,19 @@ export default function ArabicHomePage() {
                     {evidence && (
                       <div className={styles.domainEvidenceRow}>
                         <span className={styles.domainEvidenceLabel}>{evidence.label}</span>
-                        <Link href={evidence.href} className={styles.domainEvidenceLink}>
-                          <span>{evidence.projectTitle}</span>
-                          <span aria-hidden="true">←</span>
-                        </Link>
+                        <div className={styles.domainEvidenceLinks}>
+                          {evidence.links.map((item, linkIdx) => (
+                            <React.Fragment key={item.href}>
+                              {linkIdx > 0 && (
+                                <span className={styles.domainEvidenceSep} aria-hidden="true">·</span>
+                              )}
+                              <Link href={item.href} className={styles.domainEvidenceLink}>
+                                <span><BidiText text={item.title} locale="ar" /></span>
+                                <span aria-hidden="true">←</span>
+                              </Link>
+                            </React.Fragment>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -458,6 +488,32 @@ export default function ArabicHomePage() {
 
       {/* 5. Proof & Verification Section */}
       <ProofSection content={proofContentAr} locale="ar" />
+
+      {/* 6. Concise Closing Editorial Contact Band */}
+      <section className={styles.closingCtaSection} aria-labelledby="heading-closing-contact">
+        <Container>
+          <div className={styles.closingCtaRow}>
+            <div className={styles.closingCtaCopy}>
+              <h2 id="heading-closing-contact" className={styles.closingCtaTitle}>
+                التواصل الهندسي المباشر ونسخ السيرة الذاتية
+              </h2>
+              <p className={styles.closingCtaText}>
+                للاستفسارات المهنية وفرص هندسة البرمجيات والتعاون المعماري، أو لتحميل حزم السيرة الذاتية الرسمية متعددة اللغات.
+              </p>
+            </div>
+            <div className={styles.closingCtaActions}>
+              <Link href="/ar/contact" className={styles.flagshipCta}>
+                <span>التواصل المباشر</span>
+                <span aria-hidden="true">←</span>
+              </Link>
+              <Link href="/ar/contact#cv-downloads" className={styles.closingSecondaryLink}>
+                <span>تحميل السيرة الذاتية الرسمية</span>
+                <span aria-hidden="true">↓</span>
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </section>
 
     </div>
   );

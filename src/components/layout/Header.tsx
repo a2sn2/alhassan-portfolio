@@ -22,6 +22,8 @@ export function Header() {
   const drawerRef = useRef<HTMLDivElement>(null);
   const langSelectorRef = useRef<HTMLDivElement>(null);
   const langTriggerRef = useRef<HTMLButtonElement>(null);
+  const langMenuRef = useRef<HTMLDivElement>(null);
+  const pendingLangFocusIndexRef = useRef<number | null>(null);
 
   const isGerman = pathname === "/de" || pathname.startsWith("/de/");
   const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
@@ -139,12 +141,13 @@ export function Header() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
-  // Close language popover on Escape key or click outside
+  // Close language popover on Escape key, click outside, or focus leaving selector
   useEffect(() => {
     if (!isLangOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        e.preventDefault();
         setIsLangOpen(false);
         langTriggerRef.current?.focus();
       }
@@ -156,13 +159,84 @@ export function Header() {
       }
     };
 
+    const handleFocusOut = (e: FocusEvent) => {
+      const nextTarget = e.relatedTarget as Node | null;
+      if (nextTarget && langSelectorRef.current && !langSelectorRef.current.contains(nextTarget)) {
+        setIsLangOpen(false);
+      }
+    };
+
+    const selectorNode = langSelectorRef.current;
     window.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
+    selectorNode?.addEventListener("focusout", handleFocusOut);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
+      selectorNode?.removeEventListener("focusout", handleFocusOut);
     };
   }, [isLangOpen]);
+
+  const focusLangMenuItem = (index: number) => {
+    const items = langMenuRef.current?.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]');
+    if (!items || items.length === 0) return;
+    const bounded = ((index % items.length) + items.length) % items.length;
+    items[bounded]?.focus();
+  };
+
+  useEffect(() => {
+    if (!isLangOpen || pendingLangFocusIndexRef.current === null) return;
+    const targetIdx = pendingLangFocusIndexRef.current;
+    pendingLangFocusIndexRef.current = null;
+    const timer = window.setTimeout(() => {
+      focusLangMenuItem(targetIdx);
+    }, 20);
+    return () => window.clearTimeout(timer);
+  }, [isLangOpen]);
+
+  const handleLangTriggerKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (isLangOpen) {
+        focusLangMenuItem(0);
+      } else {
+        pendingLangFocusIndexRef.current = 0;
+        setIsLangOpen(true);
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (isLangOpen) {
+        focusLangMenuItem(2);
+      } else {
+        pendingLangFocusIndexRef.current = 2;
+        setIsLangOpen(true);
+      }
+    }
+  };
+
+  const handleLangMenuKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const items = Array.from(
+      langMenuRef.current?.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]') ?? []
+    );
+    if (items.length === 0) return;
+    const currentIndex = items.findIndex((item) => item === document.activeElement);
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      focusLangMenuItem(currentIndex < 0 ? 0 : currentIndex + 1);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      focusLangMenuItem(currentIndex < 0 ? items.length - 1 : currentIndex - 1);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      focusLangMenuItem(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      focusLangMenuItem(items.length - 1);
+    } else if (e.key === "Tab") {
+      setIsLangOpen(false);
+    }
+  };
 
   // Lock background scroll when drawer is open
   useEffect(() => {
@@ -294,8 +368,10 @@ export function Header() {
                   type="button"
                   className={cn(styles.langTrigger, isLangOpen && styles.langTriggerActive)}
                   onClick={() => setIsLangOpen((prev) => !prev)}
+                  onKeyDown={handleLangTriggerKeyDown}
                   aria-expanded={isLangOpen}
                   aria-haspopup="menu"
+                  aria-controls="desktop-lang-menu"
                   aria-label={
                     isGerman
                       ? "Sprache wählen (Deutsch aktiv)"
@@ -334,8 +410,12 @@ export function Header() {
                 </button>
 
                 <div
+                  ref={langMenuRef}
+                  id="desktop-lang-menu"
                   className={cn(styles.langPopover, isLangOpen && styles.langPopoverOpen)}
                   role="menu"
+                  onKeyDown={handleLangMenuKeyDown}
+                  aria-hidden={!isLangOpen}
                   aria-label={
                     isGerman
                       ? "Sprachauswahl"
@@ -348,6 +428,7 @@ export function Header() {
                     href={getLocaleHref("en")}
                     onClick={handleLangOptionClick("en")}
                     role="menuitem"
+                    tabIndex={isLangOpen ? 0 : -1}
                     className={cn(styles.langOption, currentLocale === "en" && styles.langOptionActive)}
                     aria-current={currentLocale === "en" ? "true" : undefined}
                     lang="en"
@@ -360,6 +441,7 @@ export function Header() {
                     href={getLocaleHref("ar")}
                     onClick={handleLangOptionClick("ar")}
                     role="menuitem"
+                    tabIndex={isLangOpen ? 0 : -1}
                     className={cn(styles.langOption, currentLocale === "ar" && styles.langOptionActive)}
                     aria-current={currentLocale === "ar" ? "true" : undefined}
                     lang="ar"
@@ -372,6 +454,7 @@ export function Header() {
                     href={getLocaleHref("de")}
                     onClick={handleLangOptionClick("de")}
                     role="menuitem"
+                    tabIndex={isLangOpen ? 0 : -1}
                     className={cn(styles.langOption, currentLocale === "de" && styles.langOptionActive)}
                     aria-current={currentLocale === "de" ? "true" : undefined}
                     lang="de"

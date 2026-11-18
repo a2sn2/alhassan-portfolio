@@ -44,7 +44,7 @@ export default function ProjectsPage() {
         </header>
 
         {/* Project Explorer with Category Filters */}
-        <div style={{ marginTop: "var(--space-10)" }}>
+        <div className={styles.explorerWrap}>
           <ProjectExplorer
             items={projectsContent.items}
             categories={projectsContent.categories}

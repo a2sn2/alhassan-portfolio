@@ -1,10 +1,11 @@
 import React from "react";
-import Link from "next/link";
 import styles from "./ProjectCaseStudy.module.css";
 import { ProjectItem } from "@/contracts/projects";
 import { formatProjectCategory } from "@/utils/categories";
 import { projectEvidenceMap } from "@/content/evidence";
 import { FlagshipBlueprint } from "./FlagshipBlueprint";
+import { BackToProjectsLink } from "./BackToProjectsLink";
+import { BidiText } from "@/components/ui/BidiText";
 
 interface ProjectCaseStudyProps {
   project: ProjectItem;
@@ -266,16 +267,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
   return (
     <article className={styles.caseStudy}>
       <div className={styles.backLinkRow}>
-        <Link href={backHref} className={styles.backLink}>
-          <span aria-hidden="true">{isAr ? "→" : "←"}</span>
-          <span>
-            {isDe
-              ? "Zurück zu allen Projekten"
-              : isAr
-              ? "العودة إلى كافة المشاريع"
-              : "Back to All Projects"}
-          </span>
-        </Link>
+        <BackToProjectsLink
+          baseHref={backHref}
+          locale={locale}
+          className={styles.backLink}
+          filterClassName={styles.filterReturnLink}
+          variant="top"
+        />
       </div>
 
       <header className={styles.header}>
@@ -289,8 +287,12 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
           {project.badge && <span className={styles.periodBadge}>· {project.badge}</span>}
         </div>
 
-        <h1 className={styles.title}>{project.title}</h1>
-        <p className={styles.tagline}>{project.tagline}</p>
+        <h1 className={styles.title}>
+          <BidiText text={project.title} locale={locale} />
+        </h1>
+        <p className={styles.tagline}>
+          <BidiText text={project.tagline} locale={locale} />
+        </p>
       </header>
 
       {isRichCaseStudy ? (
@@ -330,7 +332,9 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                       : "The Problem & Engineering Context"}
                   </span>
                 </h2>
-                <p className={styles.sectionText}>{project.problem}</p>
+                <p className={styles.sectionText}>
+                  <BidiText text={project.problem} locale={locale} />
+                </p>
               </section>
             )}
 
@@ -405,7 +409,9 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                       : "Engineered Solution"}
                   </span>
                 </h2>
-                <p className={styles.sectionText}>{project.solution}</p>
+                <p className={styles.sectionText}>
+                  <BidiText text={project.solution} locale={locale} />
+                </p>
               </section>
             )}
 
@@ -426,7 +432,7 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                 <ul className={styles.highlightsList}>
                   {project.implementationHighlights.map((highlight, idx) => (
                     <li key={idx} className={styles.highlightItem}>
-                      {highlight}
+                      <BidiText text={highlight} locale={locale} />
                     </li>
                   ))}
                 </ul>
@@ -479,7 +485,9 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                       ? "المُخرَج المعتمد"
                       : "Verified Deliverable"}
                   </span>
-                  <p className={styles.resultText}>{project.result}</p>
+                  <p className={styles.resultText}>
+                    <BidiText text={project.result} locale={locale} />
+                  </p>
                 </div>
               </section>
             )}
@@ -498,21 +506,20 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   <span aria-hidden="true">↗</span>
                 </a>
               )}
-              <Link href={backHref} className={styles.backLink}>
-                <span>
-                  {isDe
-                    ? "← Weitere Ingenieurprojekte erkunden"
-                    : isAr
-                    ? "← استكشاف المزيد من المشاريع الهندسية"
-                    : "← Explore more engineering projects"}
-                </span>
-              </Link>
+              <BackToProjectsLink
+                baseHref={backHref}
+                locale={locale}
+                className={styles.backLink}
+                variant="bottom"
+              />
             </div>
           </div>
         </div>
       ) : (
-        /* Concise Project Profile for Basic Evidence Tier */
+        /* Concise Project Profile for Basic Evidence Tier (Structured engineering metadata without duplicating tagline) */
         <div className={styles.contentLayoutSingle}>
+          {renderProjectRecord()}
+
           <section className={styles.storySection}>
             <h2 className={styles.sectionTitle}>
               <span>
@@ -523,10 +530,56 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                   : "Project Scope & Summary"}
               </span>
             </h2>
-            <div className={styles.overviewCard}>
-              <p className={styles.sectionText}>{project.tagline}</p>
-            </div>
+            <dl className={styles.scopeFactsGrid}>
+              <div className={styles.scopeFactItem}>
+                <dt className={styles.scopeFactLabel}>
+                  {isDe ? "Fachbereich" : isAr ? "المجال الهندسي" : "Engineering Domain"}
+                </dt>
+                <dd className={styles.scopeFactValue}>
+                  {formatProjectCategory(project.category, locale)}
+                </dd>
+              </div>
+              {project.badge && (
+                <div className={styles.scopeFactItem}>
+                  <dt className={styles.scopeFactLabel}>
+                    {isDe ? "Systemklassifizierung" : isAr ? "التصنيف التقني" : "System Focus"}
+                  </dt>
+                  <dd className={styles.scopeFactValue}>{project.badge}</dd>
+                </div>
+              )}
+              <div className={styles.scopeFactItem}>
+                <dt className={styles.scopeFactLabel}>
+                  {isDe ? "Dokumentationstiefe" : isAr ? "مستوى التوثيق" : "Profile Depth"}
+                </dt>
+                <dd className={styles.scopeFactValue}>
+                  {isDe
+                    ? "Kompaktes verifiziertes Projektprofil"
+                    : isAr
+                    ? "ملف مشروع هندسي موجز وموثّق"
+                    : "Concise Verified Technical Profile"}
+                </dd>
+              </div>
+            </dl>
           </section>
+
+          {project.result && (
+            <section className={styles.storySection}>
+              <h2 className={styles.sectionTitle}>
+                <span>
+                  {isDe
+                    ? "Ergebnisse & Umfang"
+                    : isAr
+                    ? "النتائج المعتمدة"
+                    : "Verified Deliverable"}
+                </span>
+              </h2>
+              <div className={styles.resultCallout}>
+                <p className={styles.resultText}>
+                  <BidiText text={project.result} locale={locale} />
+                </p>
+              </div>
+            </section>
+          )}
 
           {project.technologies && project.technologies.length > 0 && (
             <section className={styles.storySection}>
@@ -549,8 +602,6 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
             </section>
           )}
 
-          {renderProjectRecord()}
-
           <div className={styles.actionsRow}>
             {project.githubUrl && (
               <a
@@ -563,15 +614,13 @@ export function ProjectCaseStudy({ project, locale = "en" }: ProjectCaseStudyPro
                 <span aria-hidden="true">↗</span>
               </a>
             )}
-            <Link href={backHref} className={styles.backLink}>
-              <span>
-                {isDe
-                  ? "← Weitere Ingenieurprojekte erkunden"
-                  : isAr
-                  ? "← استكشاف المزيد من المشاريع الهندسية"
-                  : "← Explore more engineering projects"}
-              </span>
-            </Link>
+            <BackToProjectsLink
+              baseHref={backHref}
+              locale={locale}
+              className={styles.backLink}
+              filterClassName={styles.filterReturnLink}
+              variant="bottom"
+            />
           </div>
         </div>
       )}

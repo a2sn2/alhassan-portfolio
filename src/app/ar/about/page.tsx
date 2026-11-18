@@ -63,11 +63,33 @@ export default function ArabicAboutPage() {
         <div className={styles.narrativeLayout} style={{ marginTop: "var(--space-10)" }}>
           {/* Main Editorial Story */}
           <Reveal delay={60} className={styles.storyColumn}>
-            {aboutContentAr.paragraphs.map((para, index) => (
-              <p key={index} className={styles.storyParagraph}>
-                {para}
-              </p>
-            ))}
+            {aboutContentAr.paragraphs.map((para, index) => {
+              const editorialChapters = [
+                "01 / المنهجية الهندسية",
+                "02 / الأنظمة والقيادة التشغيلية",
+                "03 / الشمولية التقنية عبر الطبقات",
+              ];
+              return (
+                <div key={index} className={styles.storyBlock}>
+                  {editorialChapters[index] && (
+                    <h2 className={styles.storyHeading}>{editorialChapters[index]}</h2>
+                  )}
+                  <p className={styles.storyParagraph}>{para}</p>
+                </div>
+              );
+            })}
+            <div className={styles.storyEvidenceCue}>
+              <span>السجلات الداعمة:</span>
+              <Link href="/ar/projects" className={styles.storyCueLink}>
+                <span>استكشف 17 مشروعاً</span>
+                <span aria-hidden="true">←</span>
+              </Link>
+              <span aria-hidden="true">·</span>
+              <Link href="/ar/capabilities" className={styles.storyCueLink}>
+                <span>القدرات والشهادات</span>
+                <span aria-hidden="true">←</span>
+              </Link>
+            </div>
           </Reveal>
 
           {/* Core Specializations & Practice Focus Sidebar */}

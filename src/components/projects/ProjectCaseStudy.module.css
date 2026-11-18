@@ -7,6 +7,10 @@
 
 .backLinkRow {
   margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
 }
 
 .backLink {
@@ -21,7 +25,32 @@
 }
 
 .backLink:hover {
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
+}
+
+.filterReturnLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-brand-border);
+  background-color: var(--color-brand-subtle);
+  color: var(--color-brand-text, var(--color-brand));
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.filterReturnLink:hover {
+  background-color: color-mix(in srgb, var(--color-brand) 14%, transparent);
+}
+
+.filterReturnLink:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 .header {
@@ -43,7 +72,7 @@
   font-family: var(--font-geist-mono), monospace;
   font-size: 11px;
   font-weight: var(--weight-semibold);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   background-color: color-mix(in srgb, var(--color-brand) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
   padding: 3px 10px;
@@ -94,6 +123,40 @@
   box-shadow: var(--shadow-subtle);
 }
 
+.scopeFactsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.scopeFactItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border);
+}
+
+.scopeFactLabel {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10.5px;
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-tertiary);
+}
+
+.scopeFactValue {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
 .stickyRail {
   position: sticky;
   top: 5.5rem;
@@ -109,7 +172,7 @@
   font-weight: var(--weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   margin-bottom: var(--space-1);
 }
 
@@ -122,7 +185,7 @@
 }
 
 .railLink:hover {
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .bodyContent {
@@ -151,7 +214,7 @@
 .sectionNumber {
   font-family: var(--font-geist-mono), monospace;
   font-size: var(--text-sm);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .sectionText {
@@ -168,7 +231,7 @@
   font-family: var(--font-geist-mono), monospace;
   font-size: var(--text-xs);
   line-height: 1.6;
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   box-shadow: var(--shadow-subtle);
 }
 
@@ -215,7 +278,7 @@
 .resultTitle {
   font-size: var(--text-base);
   font-weight: var(--weight-bold);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .resultText {
@@ -279,7 +342,7 @@
   font-size: 11px;
   font-weight: var(--weight-bold);
   letter-spacing: 0.08em;
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .recordSlug {
@@ -333,7 +396,7 @@
   gap: 4px;
   font-family: var(--font-geist-mono), monospace;
   font-size: 12px;
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis;

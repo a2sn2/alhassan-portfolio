@@ -151,7 +151,7 @@
   font-family: var(--font-geist-mono), monospace;
   font-size: 13px;
   font-weight: var(--weight-bold);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .ledgerMainCell {
@@ -202,14 +202,14 @@
   gap: 4px;
   font-family: var(--font-geist-mono), monospace;
   font-size: 11px;
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   letter-spacing: 0.03em;
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   text-decoration: none;
-  padding: 4px 10px;
+  padding: 5px 10px;
   border-radius: var(--radius-sm);
-  background-color: color-mix(in srgb, var(--color-brand) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  background-color: color-mix(in srgb, var(--color-brand) 10%, var(--color-surface-primary));
+  border: 1px solid color-mix(in srgb, var(--color-brand) 28%, transparent);
   transition: all var(--duration-fast) var(--ease-standard);
   white-space: nowrap;
 }
@@ -231,7 +231,7 @@
 }
 
 .certActionLink:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -242,8 +242,8 @@
   padding: 3px 8px;
   border-radius: var(--radius-sm);
   background-color: var(--color-surface-muted);
-  border: 1px solid var(--color-border-subtle);
-  color: var(--color-text-tertiary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
   white-space: nowrap;
 }
 
@@ -274,7 +274,7 @@
 .membershipRole {
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .membershipDesc {

@@ -107,6 +107,10 @@ export function HeroSection({ content }: HeroSectionProps) {
                 )}
               </h1>
 
+              {content.role && (
+                <p className={styles.heroRoleLine}>{content.role}</p>
+              )}
+
               <p className={styles.heroLead}>{content.headline}</p>
 
               <p className={styles.heroBioBrief}>{content.bioBrief}</p>

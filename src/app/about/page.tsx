@@ -61,11 +61,33 @@ export default function AboutPage() {
         <div className={styles.narrativeLayout} style={{ marginTop: "var(--space-10)" }}>
           {/* Main Editorial Story */}
           <Reveal delay={60} className={styles.storyColumn}>
-            {aboutContent.paragraphs.map((para, index) => (
-              <p key={index} className={styles.storyParagraph}>
-                {para}
-              </p>
-            ))}
+            {aboutContent.paragraphs.map((para, index) => {
+              const editorialChapters = [
+                "01 / Engineering Approach",
+                "02 / Systems & Operational Leadership",
+                "03 / Cross-Stack Engineering Breadth",
+              ];
+              return (
+                <div key={index} className={styles.storyBlock}>
+                  {editorialChapters[index] && (
+                    <h2 className={styles.storyHeading}>{editorialChapters[index]}</h2>
+                  )}
+                  <p className={styles.storyParagraph}>{para}</p>
+                </div>
+              );
+            })}
+            <div className={styles.storyEvidenceCue}>
+              <span>Supporting records:</span>
+              <Link href="/projects" className={styles.storyCueLink}>
+                <span>Explore 17 Projects</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <span aria-hidden="true">·</span>
+              <Link href="/capabilities" className={styles.storyCueLink}>
+                <span>Capabilities &amp; Certifications</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
           </Reveal>
 
           {/* Core Specializations & Practice Focus Sidebar */}

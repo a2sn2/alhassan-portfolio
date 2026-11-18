@@ -31,7 +31,7 @@ export const proofContentAr: ProofContent = {
       quote:
         "حزم سيرة ذاتية موحدة ثلاثية اللغات بالإنجليزية والعربية والألمانية بنسختين عادية ومتوافقة مع أنظمة ATS.",
       metric: "ثلاثية اللغات (AR/EN/DE)",
-      url: "/ar/about",
+      url: "/ar/contact#cv-downloads",
       type: "publication",
     },
     {

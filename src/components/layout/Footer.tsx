@@ -85,7 +85,7 @@ export function Footer() {
                   LinkedIn
                 </a>
               )}
-              <Link href={contactHref} className={styles.link}>
+              <Link href={`${contactHref}#cv-downloads`} className={styles.link}>
                 {downloadCvLabel}
               </Link>
             </div>

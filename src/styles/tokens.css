@@ -10,7 +10,8 @@
 
   --color-text-primary: #28282A;
   --color-text-secondary: #5E6068;
-  --color-text-tertiary: #6F7077;
+  --color-text-tertiary: #5D5E65;
+  --color-text-muted: var(--color-text-tertiary);
   --color-text-inverse: #FFFFFF;
 
   --color-border: #E4E1D9;
@@ -23,7 +24,7 @@
   --color-brand-pressed: #7F1F2B;
   --color-brand-subtle: rgba(168, 44, 60, 0.08);
   --color-brand-border: rgba(168, 44, 60, 0.22);
-  --color-brand-text: #A82C3C;
+  --color-brand-text: #9E2434;
   --color-legacy-red: #A82C3C;
   --color-icon-ink: #28282A;
 
@@ -136,8 +137,9 @@ html[data-theme="dark"] {
   --color-surface-hover: #22232B;
 
   --color-text-primary: #F4F4F6;
-  --color-text-secondary: #A3A4AC;
-  --color-text-tertiary: #8E9099;
+  --color-text-secondary: #A8A9B2;
+  --color-text-tertiary: #9B9DA6;
+  --color-text-muted: var(--color-text-tertiary);
   --color-text-inverse: #101114;
 
   --color-border: #282930;
@@ -150,15 +152,15 @@ html[data-theme="dark"] {
   --color-brand-pressed: #A82C3C;
   --color-brand-subtle: rgba(184, 59, 76, 0.14);
   --color-brand-border: rgba(184, 59, 76, 0.28);
-  --color-brand-text: #E06C7D;
-  --color-icon-ink: #A3A4AC;
+  --color-brand-text: #EE8595;
+  --color-icon-ink: #A8A9B2;
 
   /* Adaptive Personal Brandmark Tokens */
   --color-brandmark-bg: var(--color-brand);
   --color-brandmark-fg: #FFFFFF;
   --color-brandmark-shadow: color-mix(in srgb, var(--color-brandmark-bg) 28%, transparent);
 
-  --color-focus: #E06C7D;
+  --color-focus: #EE8595;
   --color-error: #B83B4C;
 
   --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.25);

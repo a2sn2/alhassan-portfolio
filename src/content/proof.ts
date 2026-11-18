@@ -31,7 +31,7 @@ export const proofContent: ProofContent = {
       quote:
         "Standardized multi-lingual CV packages available in German, English, and Arabic across Standard and ATS editions.",
       metric: "Trilingual (DE/EN/AR)",
-      url: "/about",
+      url: "/contact#cv-downloads",
       type: "publication",
     },
     {

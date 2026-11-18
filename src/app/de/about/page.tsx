@@ -63,11 +63,33 @@ export default function GermanAboutPage() {
         <div className={styles.narrativeLayout} style={{ marginTop: "var(--space-10)" }}>
           {/* Main Editorial Story */}
           <Reveal delay={60} className={styles.storyColumn}>
-            {aboutContentDe.paragraphs.map((para, index) => (
-              <p key={index} className={styles.storyParagraph}>
-                {para}
-              </p>
-            ))}
+            {aboutContentDe.paragraphs.map((para, index) => {
+              const editorialChapters = [
+                "01 / Ingenieuransatz",
+                "02 / Systeme & Operative Leitung",
+                "03 / Technologische Breite",
+              ];
+              return (
+                <div key={index} className={styles.storyBlock}>
+                  {editorialChapters[index] && (
+                    <h2 className={styles.storyHeading}>{editorialChapters[index]}</h2>
+                  )}
+                  <p className={styles.storyParagraph}>{para}</p>
+                </div>
+              );
+            })}
+            <div className={styles.storyEvidenceCue}>
+              <span>Belegende Nachweise:</span>
+              <Link href="/de/projects" className={styles.storyCueLink}>
+                <span>17 Projekte ansehen</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <span aria-hidden="true">·</span>
+              <Link href="/de/capabilities" className={styles.storyCueLink}>
+                <span>Kompetenzen &amp; Zertifikate</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
           </Reveal>
 
           {/* Core Specializations & Practice Focus Sidebar */}

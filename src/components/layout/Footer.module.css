@@ -63,11 +63,11 @@
 }
 
 .link:hover {
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
 }
 
 .link:focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
