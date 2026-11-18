@@ -51,11 +51,17 @@ export default function ContactPage() {
             </div>
             <h1 className={styles.title}>{contactContent.title}</h1>
             <p className={styles.description}>{contactContent.description}</p>
+            <div className={styles.cvQuickJumpRow}>
+              <a href="#cv-downloads" className={styles.cvQuickJump}>
+                <span>Jump to Official CV Downloads (EN · DE · AR)</span>
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
           </header>
         </Reveal>
 
         {/* Channels & CV Packages Layout */}
-        <div className={styles.layout} style={{ marginTop: "var(--space-10)" }}>
+        <div className={styles.layout}>
           {/* Direct Channels Column */}
           <Reveal delay={60} className={styles.channelsColumn}>
             <h2 className={styles.sectionTitle}>Direct Communication Channels</h2>
@@ -98,8 +104,9 @@ export default function ContactPage() {
           </Reveal>
 
           {/* Official CV Downloads Column */}
-          <Reveal delay={100} className={styles.cvColumn}>
-            <h2 className={styles.sectionTitle}>Official Multi-Language CV Packages</h2>
+          <section id="cv-downloads" tabIndex={-1} className={styles.cvColumn} aria-labelledby="heading-cv-downloads">
+            <Reveal delay={100} className={styles.cvColumn}>
+              <h2 id="heading-cv-downloads" className={styles.sectionTitle}>Official Multi-Language CV Packages</h2>
 
             <div className={styles.cvGroupContainer}>
               {/* 1. English CV Group */}
@@ -239,7 +246,8 @@ export default function ContactPage() {
               <span className={styles.noticeTitle}>References Policy</span>
               <p className={styles.noticeText}>{contactContent.referencesNote}</p>
             </div>
-          </Reveal>
+            </Reveal>
+          </section>
         </div>
       </Container>
 

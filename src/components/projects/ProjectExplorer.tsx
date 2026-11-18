@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useSyncExternalStore, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./ProjectExplorer.module.css";
 import { ProjectItem, ProjectCategory } from "@/contracts/projects";
 import { Badge } from "@/components/ui/Badge";
+import { BidiText } from "@/components/ui/BidiText";
 import { cn } from "@/utils/cn";
 import { formatProjectCategory } from "@/utils/categories";
 import { projectEvidenceMap } from "@/content/evidence";
@@ -15,12 +16,62 @@ interface ProjectExplorerProps {
   categories: ProjectCategory[];
 }
 
+function subscribeCategoryUrl(callback: () => void) {
+  window.addEventListener("popstate", callback);
+  window.addEventListener("project-category-change", callback);
+  return () => {
+    window.removeEventListener("popstate", callback);
+    window.removeEventListener("project-category-change", callback);
+  };
+}
+
+function getServerCategory(): ProjectCategory {
+  return "All";
+}
+
 export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
-  const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>("All");
+  const getClientCategory = useCallback((): ProjectCategory => {
+    const params = new URLSearchParams(window.location.search);
+    const urlCat = params.get("category") as ProjectCategory | null;
+    if (urlCat && categories.includes(urlCat)) {
+      return urlCat;
+    }
+    return "All";
+  }, [categories]);
+
+  const selectedCategory = useSyncExternalStore(
+    subscribeCategoryUrl,
+    getClientCategory,
+    getServerCategory
+  );
+
   const pathname = usePathname();
   const isGerman = pathname === "/de" || pathname.startsWith("/de/");
   const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
   const currentLocale = isGerman ? "de" : isArabic ? "ar" : "en";
+
+  const handleSelectCategory = (cat: ProjectCategory) => {
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (cat === "All") {
+        url.searchParams.delete("category");
+        try {
+          sessionStorage.removeItem("portfolio:lastProjectCategory");
+        } catch {
+          // Ignore storage restrictions
+        }
+      } else {
+        url.searchParams.set("category", cat);
+        try {
+          sessionStorage.setItem("portfolio:lastProjectCategory", cat);
+        } catch {
+          // Ignore storage restrictions
+        }
+      }
+      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+      window.dispatchEvent(new Event("project-category-change"));
+    }
+  };
 
   const getCategoryLabel = (cat: ProjectCategory) => {
     return formatProjectCategory(cat, currentLocale);
@@ -113,7 +164,7 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
               key={cat}
               type="button"
               className={cn(styles.filterBtn, isActive && styles.filterBtnActive)}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => handleSelectCategory(cat)}
               aria-pressed={isActive}
             >
               {getCategoryLabel(cat)} ({count})
@@ -157,44 +208,120 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
           </div>
 
           <div className={styles.selectedGrid}>
-            {selectedProjects.map((project, idx) => (
+            {selectedProjects.map((project, idx) => {
+              const evidenceRecord = projectEvidenceMap[project.slug];
+              const evidenceStatusLabel =
+                evidenceRecord?.status === "verified"
+                  ? isGerman
+                    ? "Verifiziert · Quellcode-belegt"
+                    : isArabic
+                    ? "موثّق · مدعوم بالمصدر"
+                    : "Verified · Source-backed"
+                  : evidenceRecord?.status === "partial"
+                  ? isGerman
+                    ? "Ausgewähltes Quellarchiv"
+                    : isArabic
+                    ? "أرشيف مصدري جزئي"
+                    : "Selected Source Archive"
+                  : isGerman
+                  ? "Dokumentiertes Profil"
+                  : isArabic
+                  ? "ملف هندسي موثّق"
+                  : "Documented Profile";
+
+              const archStages = project.architecture
+                ? project.architecture.split("→").map((s) => s.trim()).slice(0, 4)
+                : [];
+
+              const plateSignals: Array<{ index: string; label: string; value: string; ltr?: boolean }> = [
+                {
+                  index: "01",
+                  label: isGerman ? "Nachweis" : isArabic ? "التوثيق" : "Evidence",
+                  value: evidenceStatusLabel,
+                },
+                {
+                  index: "02",
+                  label:
+                    archStages.length > 0
+                      ? isGerman
+                        ? "Architekturfluss"
+                        : isArabic
+                        ? "تدفق البنية"
+                        : "Architecture Flow"
+                      : isGerman
+                      ? "Fokus"
+                      : isArabic
+                      ? "النطاق"
+                      : "System Scope",
+                  value:
+                    archStages.length > 0
+                      ? archStages.join(" → ")
+                      : project.badge || getCategoryLabel(project.category),
+                  ltr: archStages.length > 0,
+                },
+                {
+                  index: "03",
+                  label: isGerman ? "Quellreferenz" : isArabic ? "المرجع المصدري" : "Source Record",
+                  value:
+                    project.repository?.repositoryName ||
+                    `docs/evidence/projects/${project.slug}`,
+                  ltr: true,
+                },
+              ];
+
+              return (
               <article
                 key={project.id}
                 className={cn(styles.projectCard, styles.selectedCard)}
               >
-                {/* Technical profile plate derived solely from verified technologies */}
+                {/* Technical profile plate showing non-duplicated evidence & architecture signals */}
                 <div className={styles.techPlate} aria-hidden="true">
                   <div className={styles.techPlateHeader}>
                     <span className={styles.techPlateIndex}>
                       {isGerman
-                        ? `PROJEKTPROFIL // 0${idx + 1}`
+                        ? `ARCHITEKTURPROFIL // 0${idx + 1}`
                         : isArabic
-                        ? `ملف المشروع // 0${idx + 1}`
-                        : `PROJECT PROFILE // 0${idx + 1}`}
+                        ? `ملف البنية // 0${idx + 1}`
+                        : `SYSTEM SPEC // 0${idx + 1}`}
                     </span>
                     <span className={styles.techPlateCategory}>{getCategoryLabel(project.category)}</span>
                   </div>
                   <div className={styles.techPlateBody}>
                     <div className={styles.techMatrix}>
-                      {project.technologies.map((tech, i) => (
-                        <div key={tech} className={styles.techMatrixCell}>
-                          <span className={styles.techMatrixIndex}>0{i + 1}</span>
-                          <span className={styles.techMatrixName}>
-                            <bdi>{tech}</bdi>
-                          </span>
+                      {plateSignals.map((signal) => (
+                        <div key={signal.index} className={styles.techMatrixCell}>
+                          <span className={styles.techMatrixIndex}>{signal.index}</span>
+                          <div className={styles.techMatrixTextGroup}>
+                            <span className={styles.techMatrixLabel}>{signal.label}</span>
+                            <span className={styles.techMatrixName}>
+                              {signal.ltr ? (
+                                <bdi dir="ltr">{signal.value}</bdi>
+                              ) : (
+                                <BidiText text={signal.value} locale={currentLocale} />
+                              )}
+                            </span>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className={styles.techPlateFooter}>
                     <span className={styles.techPlateStatus}>
-                      {isGerman
-                        ? "TECHNOLOGIE-STACK"
+                      {project.evidenceDepth === "rich"
+                        ? isGerman
+                          ? "VOLLSTÄNDIGE FALLSTUDIE"
+                          : isArabic
+                          ? "دراسة حالة مفصّلة"
+                          : "FULL CASE STUDY"
+                        : isGerman
+                        ? "KOMPAKTES PROJEKTPROFIL"
                         : isArabic
-                        ? "الحزمة التقنية"
-                        : "TECHNICAL STACK"}
+                        ? "ملف مشروع موجز"
+                        : "CONCISE SYSTEM PROFILE"}
                     </span>
-                    <span className={styles.techPlateTicks}>+ +</span>
+                    <span className={styles.techPlateTicks}>
+                      <bdi dir="ltr">{project.period || "VERIFIED"}</bdi>
+                    </span>
                   </div>
                 </div>
 
@@ -206,8 +333,12 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                   </div>
 
                   <div className={styles.selectedTitleGroup}>
-                    <h3 className={styles.selectedTitle}>{project.title}</h3>
-                    <p className={styles.selectedTagline}>{project.tagline}</p>
+                    <h3 className={styles.selectedTitle}>
+                      <BidiText text={project.title} locale={currentLocale} />
+                    </h3>
+                    <p className={styles.selectedTagline}>
+                      <BidiText text={project.tagline} locale={currentLocale} />
+                    </p>
                   </div>
 
                   {project.result && (
@@ -219,7 +350,9 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                           ? "مخرجات المشروع:"
                           : "Project Outcome:"}
                       </span>
-                      <p className={styles.outcomeText}>{project.result}</p>
+                      <p className={styles.outcomeText}>
+                        <BidiText text={project.result} locale={currentLocale} />
+                      </p>
                     </div>
                   )}
 
@@ -283,7 +416,8 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                   </div>
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}
@@ -334,8 +468,12 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                 </div>
 
                 <div className={styles.coreTitleGroup}>
-                  <h3 className={styles.coreTitle}>{project.title}</h3>
-                  <p className={styles.coreTagline}>{project.tagline}</p>
+                  <h3 className={styles.coreTitle}>
+                    <BidiText text={project.title} locale={currentLocale} />
+                  </h3>
+                  <p className={styles.coreTagline}>
+                    <BidiText text={project.tagline} locale={currentLocale} />
+                  </p>
                 </div>
 
                 <div className={styles.techPills}>
@@ -464,8 +602,12 @@ export function ProjectExplorer({ items, categories }: ProjectExplorerProps) {
                   className={cn(styles.projectCard, styles.archiveRow)}
                 >
                   <div className={styles.archiveProjectCell}>
-                    <h3 className={styles.archiveTitle}>{project.title}</h3>
-                    <p className={styles.archiveTagline}>{project.tagline}</p>
+                    <h3 className={styles.archiveTitle}>
+                      <BidiText text={project.title} locale={currentLocale} />
+                    </h3>
+                    <p className={styles.archiveTagline}>
+                      <BidiText text={project.tagline} locale={currentLocale} />
+                    </p>
                   </div>
 
                   <div className={styles.archiveDomainCell}>

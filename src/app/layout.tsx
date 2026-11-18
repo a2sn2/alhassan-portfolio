@@ -146,7 +146,7 @@ export default function RootLayout({
         <SkipLink targetId="main-content" />
         <CommandPalette />
         <Header />
-        <main id="main-content" className="main-content">
+        <main id="main-content" tabIndex={-1} className="main-content">
           <NavigationTransition>
             {children}
           </NavigationTransition>

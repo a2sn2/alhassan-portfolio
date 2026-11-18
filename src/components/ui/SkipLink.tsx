@@ -23,8 +23,36 @@ export function SkipLink({
     ? "الانتقال إلى المحتوى الرئيسي"
     : "Skip to main content";
 
+  const handleActivate = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    e.preventDefault();
+    if (!target.hasAttribute("tabindex")) {
+      target.setAttribute("tabindex", "-1");
+    }
+
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (typeof window !== "undefined" && window.history.replaceState) {
+      window.history.replaceState(null, "", `#${targetId}`);
+    }
+
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({
+      behavior: prefersReduced ? "auto" : "smooth",
+      block: "start",
+    });
+  };
+
   return (
-    <a href={`#${targetId}`} className={styles.skipLink}>
+    <a
+      href={`#${targetId}`}
+      className={styles.skipLink}
+      onClick={handleActivate}
+    >
       {label ?? defaultLabel}
     </a>
   );

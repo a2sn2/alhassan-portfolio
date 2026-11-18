@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import styles from "./ExperienceExplorer.module.css";
 import { ExperienceItem } from "@/contracts/experience";
@@ -20,6 +20,9 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
     [items[0]?.id || ""]: true,
   });
   const [isJaibMobileOpen, setIsJaibMobileOpen] = useState<boolean>(false);
+
+  const desktopTabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const mobileJaibTabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   const pathname = usePathname();
   const isGerman = pathname === "/de" || pathname.startsWith("/de/");
@@ -57,7 +60,13 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
             document.getElementById(`tab-${hash}`) ||
             document.getElementById("ahd-jaib");
           if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
+            const prefersReduced = window.matchMedia(
+              "(prefers-reduced-motion: reduce)"
+            ).matches;
+            el.scrollIntoView({
+              behavior: prefersReduced ? "auto" : "smooth",
+              block: "start",
+            });
           }
         });
       }
@@ -70,15 +79,15 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
 
   const selectedItem = items.find((item) => item.id === selectedId) || items[0];
 
-  const handleSelect = (id: string) => {
+  const handleSelect = useCallback((id: string) => {
     setSelectedId(id);
     if (jaibExperienceJourney.roleIds.includes(id)) {
       setIsJaibMobileOpen(true);
     }
-    if (window.history.replaceState) {
+    if (typeof window !== "undefined" && window.history.replaceState) {
       window.history.replaceState(null, "", `#${id}`);
     }
-  };
+  }, []);
 
   const toggleMobile = (id: string) => {
     setOpenMobileIds((prev) => ({
@@ -110,28 +119,86 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
     return groups;
   }, [items]);
 
-  // Grouped items for mobile view
-  const mobileLayoutGroups = useMemo(() => {
-    const groups: Array<
-      | { type: "single"; item: ExperienceItem }
-      | { type: "jaib-journey"; journey: typeof jaibExperienceJourney }
-    > = [];
-
-    let jaibAdded = false;
-
-    for (const item of items) {
-      if (jaibExperienceJourney.roleIds.includes(item.id)) {
-        if (!jaibAdded) {
-          groups.push({ type: "jaib-journey", journey: jaibExperienceJourney });
-          jaibAdded = true;
-        }
+  // Flat ordered tab IDs matching exact visual top-to-bottom sequence on desktop
+  const orderedDesktopTabIds = useMemo(() => {
+    const ids: string[] = [];
+    for (const group of desktopTimelineGroups) {
+      if (group.type === "single") {
+        ids.push(group.item.id);
       } else {
-        groups.push({ type: "single", item });
+        for (const stage of group.journey.stages) {
+          if (items.some((i) => i.id === stage.roleId)) {
+            ids.push(stage.roleId);
+          }
+        }
       }
     }
+    return ids;
+  }, [desktopTimelineGroups, items]);
 
-    return groups;
-  }, [items]);
+  const orderedJaibStageIds = useMemo(
+    () =>
+      jaibExperienceJourney.stages
+        .map((s) => s.roleId)
+        .filter((id) => items.some((i) => i.id === id)),
+    [items]
+  );
+
+  // WAI-ARIA Vertical Tabs keyboard navigation (ArrowUp, ArrowDown, Home, End)
+  const handleDesktopTabKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>, currentId: string) => {
+      const idx = orderedDesktopTabIds.indexOf(currentId);
+      if (idx === -1) return;
+
+      let nextIndex: number | null = null;
+      if (e.key === "ArrowDown") {
+        nextIndex = (idx + 1) % orderedDesktopTabIds.length;
+      } else if (e.key === "ArrowUp") {
+        nextIndex = (idx - 1 + orderedDesktopTabIds.length) % orderedDesktopTabIds.length;
+      } else if (e.key === "Home") {
+        nextIndex = 0;
+      } else if (e.key === "End") {
+        nextIndex = orderedDesktopTabIds.length - 1;
+      }
+
+      if (nextIndex !== null) {
+        e.preventDefault();
+        const nextId = orderedDesktopTabIds[nextIndex];
+        handleSelect(nextId);
+        desktopTabRefs.current[nextId]?.focus();
+      }
+    },
+    [orderedDesktopTabIds, handleSelect]
+  );
+
+  const handleMobileJaibTabKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>, currentId: string) => {
+      const idx = orderedJaibStageIds.indexOf(currentId);
+      if (idx === -1) return;
+
+      let nextIndex: number | null = null;
+      if (e.key === "ArrowDown") {
+        nextIndex = (idx + 1) % orderedJaibStageIds.length;
+      } else if (e.key === "ArrowUp") {
+        nextIndex = (idx - 1 + orderedJaibStageIds.length) % orderedJaibStageIds.length;
+      } else if (e.key === "Home") {
+        nextIndex = 0;
+      } else if (e.key === "End") {
+        nextIndex = orderedJaibStageIds.length - 1;
+      }
+
+      if (nextIndex !== null) {
+        e.preventDefault();
+        const nextId = orderedJaibStageIds[nextIndex];
+        handleSelect(nextId);
+        mobileJaibTabRefs.current[nextId]?.focus();
+      }
+    },
+    [orderedJaibStageIds, handleSelect]
+  );
+
+  // Grouped items for mobile view
+  const mobileLayoutGroups = desktopTimelineGroups;
 
   return (
     <div className={styles.explorer}>
@@ -140,6 +207,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
         <div
           className={styles.timelineNav}
           role="tablist"
+          aria-orientation="vertical"
           aria-label={
             isGerman
               ? "Zeitstrahl der beruflichen Positionen"
@@ -155,16 +223,21 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
               return (
                 <button
                   key={item.id}
+                  ref={(el) => {
+                    desktopTabRefs.current[item.id] = el;
+                  }}
                   id={`tab-${item.id}`}
                   type="button"
                   role="tab"
                   aria-selected={isSelected}
                   aria-controls={`panel-${item.id}`}
+                  tabIndex={isSelected ? 0 : -1}
                   className={cn(
                     styles.roleTab,
                     isSelected && styles.roleTabSelected
                   )}
                   onClick={() => handleSelect(item.id)}
+                  onKeyDown={(e) => handleDesktopTabKeyDown(e, item.id)}
                 >
                   <span className={styles.roleTabRole}>{item.role}</span>
                   <span className={styles.roleTabCompany}>{item.company}</span>
@@ -230,17 +303,22 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                       return (
                         <button
                           key={stage.roleId}
+                          ref={(el) => {
+                            desktopTabRefs.current[stage.roleId] = el;
+                          }}
                           id={`tab-${stage.roleId}`}
                           type="button"
                           role="tab"
                           aria-selected={isSelected}
                           aria-controls={`panel-${stage.roleId}`}
+                          tabIndex={isSelected ? 0 : -1}
                           className={cn(
                             styles.stageButton,
                             isSelected && styles.stageButtonSelected,
                             stage.isCurrent && styles.stageButtonCurrent
                           )}
                           onClick={() => handleSelect(stage.roleId)}
+                          onKeyDown={(e) => handleDesktopTabKeyDown(e, stage.roleId)}
                         >
                           <span
                             className={cn(
@@ -284,10 +362,11 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
             id={`panel-${selectedItem.id}`}
             role="tabpanel"
             aria-labelledby={`tab-${selectedItem.id}`}
+            tabIndex={0}
             className={styles.detailPanel}
             key={selectedItem.id}
           >
-            {/* Restrained Contextual Strip for Jaib Progression */}
+            {/* Concise, single-source Contextual Strip for Jaib Progression (no duplicate stage selector buttons) */}
             {isJaibActive && (
               <div
                 className={styles.contextualStrip}
@@ -316,47 +395,20 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                   </span>
                 </div>
 
-                <div
-                  className={styles.contextualStepper}
-                  role="navigation"
-                  aria-label="Career progression stages"
-                >
+                <div className={styles.contextualProgressBar} aria-hidden="true">
                   {jaibExperienceJourney.stages.map((stage, sIdx) => {
-                    const isStageCurrent = selectedId === stage.roleId;
                     const isPassed =
                       activeJaibStageIndex >= 0 && activeJaibStageIndex >= sIdx;
-
+                    const isStageCurrent = selectedId === stage.roleId;
                     return (
-                      <React.Fragment key={stage.roleId}>
-                        {sIdx > 0 && (
-                          <span
-                            className={cn(
-                              styles.contextualConnector,
-                              activeJaibStageIndex >= sIdx &&
-                                styles.contextualConnectorActive
-                            )}
-                            aria-hidden="true"
-                          />
+                      <span
+                        key={stage.roleId}
+                        className={cn(
+                          styles.contextualSegment,
+                          isPassed && styles.contextualSegmentPassed,
+                          isStageCurrent && styles.contextualSegmentCurrent
                         )}
-                        <button
-                          type="button"
-                          className={cn(
-                            styles.contextualNode,
-                            isStageCurrent && styles.contextualNodeSelected,
-                            isPassed && styles.contextualNodePassed
-                          )}
-                          onClick={() => handleSelect(stage.roleId)}
-                          aria-current={isStageCurrent ? "step" : undefined}
-                        >
-                          <span
-                            className={styles.contextualDot}
-                            aria-hidden="true"
-                          />
-                          <span className={styles.contextualLabel}>
-                            {stage.shortTitle[locale]}
-                          </span>
-                        </button>
-                      </React.Fragment>
+                      />
                     );
                   })}
                 </div>
@@ -428,7 +480,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                   <div className={styles.techPills}>
                     {selectedItem.technologies.map((tech) => (
                       <span key={tech} className={styles.techPill}>
-                        <bdi>{tech}</bdi>
+                        <bdi dir="ltr">{tech}</bdi>
                       </span>
                     ))}
                   </div>
@@ -533,7 +585,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                         <div className={styles.techPills}>
                           {item.technologies.map((tech) => (
                             <span key={tech} className={styles.techPill}>
-                              <bdi>{tech}</bdi>
+                              <bdi dir="ltr">{tech}</bdi>
                             </span>
                           ))}
                         </div>
@@ -608,25 +660,32 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                   <div
                     className={styles.mobileStepper}
                     role="tablist"
+                    aria-orientation="vertical"
                     aria-label={`${journey.organization[locale]} stages`}
                   >
                     {journey.stages.map((stage) => {
                       const stageItem = items.find((i) => i.id === stage.roleId);
                       if (!stageItem) return null;
-                      const isSelected = selectedId === stage.roleId;
+                      const isSelected = activeMobileRole?.id === stage.roleId;
 
                       return (
                         <button
                           key={stage.roleId}
+                          ref={(el) => {
+                            mobileJaibTabRefs.current[stage.roleId] = el;
+                          }}
                           id={stage.roleId}
                           type="button"
                           role="tab"
                           aria-selected={isSelected}
+                          aria-controls="mobile-jaib-panel"
+                          tabIndex={isSelected ? 0 : -1}
                           className={cn(
                             styles.mobileStageBtn,
                             isSelected && styles.mobileStageBtnActive
                           )}
                           onClick={() => handleSelect(stage.roleId)}
+                          onKeyDown={(e) => handleMobileJaibTabKeyDown(e, stage.roleId)}
                         >
                           <span
                             className={cn(
@@ -661,7 +720,12 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
 
                   {/* Active Role Detail Inside Journey */}
                   {activeMobileRole && (
-                    <div className={styles.mobileActiveDetail}>
+                    <div
+                      id="mobile-jaib-panel"
+                      role="tabpanel"
+                      aria-labelledby={activeMobileRole.id}
+                      className={styles.mobileActiveDetail}
+                    >
                       <div className={styles.mobileActiveHeader}>
                         <h4 className={styles.mobileActiveRole}>
                           {activeMobileRole.role}
@@ -719,7 +783,7 @@ export function ExperienceExplorer({ items }: ExperienceExplorerProps) {
                             <div className={styles.techPills}>
                               {activeMobileRole.technologies.map((tech) => (
                                 <span key={tech} className={styles.techPill}>
-                                  <bdi>{tech}</bdi>
+                                  <bdi dir="ltr">{tech}</bdi>
                                 </span>
                               ))}
                             </div>

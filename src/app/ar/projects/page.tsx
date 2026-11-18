@@ -46,7 +46,7 @@ export default function ArabicProjectsPage() {
         </header>
 
         {/* Project Explorer with Category Filters */}
-        <div style={{ marginTop: "var(--space-10)" }}>
+        <div className={styles.explorerWrap}>
           <ProjectExplorer
             items={projectsContentAr.items}
             categories={projectsContentAr.categories}

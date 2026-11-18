@@ -5,6 +5,7 @@ import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 import { contactContentAr, siteMetadataAr } from "@/content/ar";
 import { ProfileIdentityMark } from "@/components/media/ProfileIdentityMark";
 import { Reveal } from "@/components/ui/Reveal";
+import { BidiText } from "@/components/ui/BidiText";
 import { cn } from "@/utils/cn";
 import { DEFAULT_OG_IMAGE, DEFAULT_TWITTER_IMAGE } from "@/utils/metadata";
 import styles from "../../contact/contact.module.css";
@@ -52,11 +53,17 @@ export default function ArabicContactPage() {
             </div>
             <h1 className={styles.title}>{contactContentAr.title}</h1>
             <p className={styles.description}>{contactContentAr.description}</p>
+            <div className={styles.cvQuickJumpRow}>
+              <a href="#cv-downloads" className={styles.cvQuickJump}>
+                <span>الانتقال مباشرة إلى تحميل السيرة الذاتية</span>
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
           </header>
         </Reveal>
 
         {/* Channels & CV Packages Layout */}
-        <div className={styles.layout} style={{ marginTop: "var(--space-10)" }}>
+        <div className={styles.layout}>
           {/* Direct Channels Column */}
           <Reveal delay={60} className={styles.channelsColumn}>
             <h2 className={styles.sectionTitle}>قنوات التواصل المباشرة</h2>
@@ -104,8 +111,9 @@ export default function ArabicContactPage() {
           </Reveal>
 
           {/* Official CV Downloads Column */}
-          <Reveal delay={100} className={styles.cvColumn}>
-            <h2 className={styles.sectionTitle}>حزم السيرة الذاتية الرسمية متعددة اللغات</h2>
+          <section id="cv-downloads" tabIndex={-1} className={styles.cvColumn} aria-labelledby="heading-cv-downloads">
+            <Reveal delay={100} className={styles.cvColumn}>
+              <h2 id="heading-cv-downloads" className={styles.sectionTitle}>حزم السيرة الذاتية الرسمية متعددة اللغات</h2>
 
             <div className={styles.cvGroupContainer}>
               {/* 1. Arabic CV Group */}
@@ -134,7 +142,9 @@ export default function ArabicContactPage() {
                           aria-label={`تحميل السيرة الذاتية باللغة العربية ${doc.format} (${doc.filesize} PDF)`}
                         >
                           <div className={styles.cvVariantInfo}>
-                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <span className={styles.cvVariantTitle}>
+                              <BidiText text={title} locale="ar" />
+                            </span>
                             <div className={styles.cvVariantMeta}>
                               <span className={styles.cvFormatBadge}>
                                 <bdi>{doc.format} PDF</bdi>
@@ -180,7 +190,9 @@ export default function ArabicContactPage() {
                           aria-label={`Download English ${doc.format} CV (${doc.filesize} PDF)`}
                         >
                           <div className={styles.cvVariantInfo}>
-                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <span className={styles.cvVariantTitle}>
+                              <BidiText text={title} locale="ar" />
+                            </span>
                             <div className={styles.cvVariantMeta}>
                               <span className={styles.cvFormatBadge}>
                                 <bdi>{doc.format} PDF</bdi>
@@ -226,7 +238,9 @@ export default function ArabicContactPage() {
                           aria-label={`Download German ${doc.format} CV (${doc.filesize} PDF)`}
                         >
                           <div className={styles.cvVariantInfo}>
-                            <span className={styles.cvVariantTitle}>{title}</span>
+                            <span className={styles.cvVariantTitle}>
+                              <BidiText text={title} locale="ar" />
+                            </span>
                             <div className={styles.cvVariantMeta}>
                               <span className={styles.cvFormatBadge}>
                                 <bdi>{doc.format} PDF</bdi>
@@ -251,7 +265,8 @@ export default function ArabicContactPage() {
               <span className={styles.noticeTitle}>سياسة المعرفين المهنيين</span>
               <p className={styles.noticeText}>{contactContentAr.referencesNote}</p>
             </div>
-          </Reveal>
+            </Reveal>
+          </section>
         </div>
       </Container>
 

@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useId, useMemo } from "react";
+import React, { useState, useEffect, useRef, useId, useMemo, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./CommandPalette.module.css";
 import { navigationContent, projectItems, contactContent, socialLinks } from "@/content";
 import { navigationContentAr, projectItemsAr, contactContentAr } from "@/content/ar";
 import { navigationContentDe, projectItemsDe, contactContentDe } from "@/content/de";
+import { BidiText } from "@/components/ui/BidiText";
 import { cn } from "@/utils/cn";
 import { formatProjectCategory } from "@/utils/categories";
 
@@ -14,25 +15,84 @@ interface PaletteItem {
   category: string;
   title: string;
   description: string;
-  action: () => void;
+  keywords?: string;
   meta?: string;
+  actionKind: "route" | "external" | "theme";
+  href?: string;
 }
 
+const FOCUSABLE_SELECTOR =
+  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export function CommandPalette() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openedPathname, setOpenedPathname] = useState<string | null>(null);
+  const [restoreFocusOnClose, setRestoreFocusOnClose] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
+  const isOpen = openedPathname === pathname;
+  const dialogRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const listboxId = useId();
+  const headingId = useId();
 
   const isGerman = pathname === "/de" || pathname.startsWith("/de/");
   const isArabic = pathname === "/ar" || pathname.startsWith("/ar/");
+  const locale: "en" | "ar" | "de" = isGerman ? "de" : isArabic ? "ar" : "en";
 
-  // Define palette items from verified content
+  const closePalette = useCallback((restoreFocus = true) => {
+    setRestoreFocusOnClose(restoreFocus);
+    setOpenedPathname(null);
+    setQuery("");
+    setSelectedIndex(0);
+  }, []);
+
+  const openPalette = useCallback(() => {
+    setRestoreFocusOnClose(false);
+    setOpenedPathname(pathname);
+    setQuery("");
+    setSelectedIndex(0);
+  }, [pathname]);
+
+  const executeItem = useCallback(
+    (item: PaletteItem) => {
+      if (item.actionKind === "route" && item.href) {
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("navigation-start", { detail: { href: item.href } })
+          );
+        }
+        closePalette(false);
+        router.push(item.href);
+        return;
+      }
+
+      if (item.actionKind === "external" && item.href) {
+        window.open(item.href, "_blank", "noopener,noreferrer");
+        closePalette(true);
+        return;
+      }
+
+      if (item.actionKind === "theme") {
+        const current = document.documentElement.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        try {
+          localStorage.setItem("theme", next);
+        } catch {
+          // Ignore
+        }
+        closePalette(true);
+      }
+    },
+    [closePalette, router]
+  );
+
+  // Define palette items from complete canonical content (all 17 projects + all 6 CV editions)
   const allItems: PaletteItem[] = useMemo(() => {
     const categoryNav = isGerman
       ? "Navigation"
@@ -44,11 +104,16 @@ export function CommandPalette() {
       : isArabic
       ? "دراسات الحالة المميزة"
       : "Featured Case Studies";
-    const categoryDocs = isGerman
-      ? "Dokumente & Nachweise"
+    const categoryAllProjects = isGerman
+      ? "Weitere Ingenieurprojekte"
       : isArabic
-      ? "المستندات والإثباتات"
-      : "Documents & Proof";
+      ? "مشاريع هندسية وأرشيف الأعمال"
+      : "Engineering Projects & Archive";
+    const categoryDocs = isGerman
+      ? "Lebensläufe & Dokumente (Standard / ATS)"
+      : isArabic
+      ? "ملفات السيرة الذاتية (القياسية و ATS)"
+      : "CV Downloads (Standard & ATS PDF)";
     const categoryActions = isGerman
       ? "Aktionen & Profile"
       : isArabic
@@ -82,55 +147,60 @@ export function CommandPalette() {
           : isArabic
           ? `الانتقال إلى ${item.label}`
           : `Navigate to ${item.label}`),
+      keywords: `${item.href} ${item.label}`,
       meta: `0${item.chapterIndex}`,
-      action: () => {
-        if (typeof window !== "undefined") {
-          window.dispatchEvent(new CustomEvent("navigation-start", { detail: { href: item.href } }));
-        }
-        router.push(item.href);
-        setIsOpen(false);
-      },
+      actionKind: "route",
+      href: item.href,
     }));
 
-    const projectNav: PaletteItem[] = projectSource
+    const featuredProjectNav: PaletteItem[] = projectSource
       .filter((p) => p.presentationTier === "featured")
       .map((proj) => ({
         id: `proj-${proj.slug}`,
         category: categoryFeatured,
         title: proj.title,
         description: proj.tagline,
-        meta: formatProjectCategory(proj.category, isGerman ? "de" : isArabic ? "ar" : "en"),
-        action: () => {
-          const target = isGerman
-            ? `/de/projects/${proj.slug}`
-            : isArabic
-            ? `/ar/projects/${proj.slug}`
-            : `/projects/${proj.slug}`;
-          if (typeof window !== "undefined") {
-            window.dispatchEvent(new CustomEvent("navigation-start", { detail: { href: target } }));
-          }
-          router.push(target);
-          setIsOpen(false);
-        },
+        keywords: `${proj.slug} ${proj.category} ${proj.technologies.join(" ")}`,
+        meta: formatProjectCategory(proj.category, locale),
+        actionKind: "route",
+        href: isGerman
+          ? `/de/projects/${proj.slug}`
+          : isArabic
+          ? `/ar/projects/${proj.slug}`
+          : `/projects/${proj.slug}`,
       }));
 
-    const docItems: PaletteItem[] = docSource
-      .filter((doc) => doc.format === "Standard")
-      .map((doc) => ({
-        id: `doc-${doc.language}`,
-        category: categoryDocs,
-        title: isGerman
-          ? `Lebenslauf herunterladen — ${doc.language}`
+    const otherProjectNav: PaletteItem[] = projectSource
+      .filter((p) => p.presentationTier !== "featured")
+      .map((proj) => ({
+        id: `proj-${proj.slug}`,
+        category: categoryAllProjects,
+        title: proj.title,
+        description: proj.tagline,
+        keywords: `${proj.slug} ${proj.category} ${proj.technologies.join(" ")}`,
+        meta: formatProjectCategory(proj.category, locale),
+        actionKind: "route",
+        href: isGerman
+          ? `/de/projects/${proj.slug}`
           : isArabic
-          ? `تحميل السيرة الذاتية — ${doc.language}`
-          : `Download CV — ${doc.language}`,
-        description: `${doc.label} (${doc.filesize || "PDF"})`,
-        meta: "PDF",
-        action: () => {
-          window.open(doc.href, "_blank");
-          setIsOpen(false);
-        },
+          ? `/ar/projects/${proj.slug}`
+          : `/projects/${proj.slug}`,
       }));
+
+    const docItems: PaletteItem[] = docSource.map((doc) => ({
+      id: `doc-${doc.language}-${doc.format}`,
+      category: categoryDocs,
+      title: isGerman
+        ? `Lebenslauf (${doc.format}) — ${doc.language}`
+        : isArabic
+        ? `السيرة الذاتية (${doc.format}) — ${doc.language}`
+        : `CV (${doc.format} PDF) — ${doc.language}`,
+      description: `${doc.label} (${doc.filesize || "PDF"})`,
+      keywords: `cv resume lebenslauf السيرة ${doc.format} ${doc.language} ${doc.filename} pdf ats standard`,
+      meta: `${doc.format} PDF`,
+      actionKind: "external",
+      href: doc.href,
+    }));
 
     const actionItems: PaletteItem[] = [
       {
@@ -146,18 +216,9 @@ export function CommandPalette() {
           : isArabic
           ? "التبديل بين الوضع الليلي والنهاري"
           : "Switch visual theme between light and dark",
+        keywords: "theme dark light mode design مظهر ليلي نهاري",
         meta: isGerman ? "Design" : isArabic ? "المظهر" : "Theme",
-        action: () => {
-          const current = document.documentElement.getAttribute("data-theme");
-          const next = current === "dark" ? "light" : "dark";
-          document.documentElement.setAttribute("data-theme", next);
-          try {
-            localStorage.setItem("theme", next);
-          } catch {
-            // Ignore
-          }
-          setIsOpen(false);
-        },
+        actionKind: "theme",
       },
       ...socialLinks.map((s) => ({
         id: `social-${s.platform}`,
@@ -168,60 +229,96 @@ export function CommandPalette() {
           ? `ملف ${s.platform}`
           : `${s.platform} Profile`,
         description: s.url,
+        keywords: `${s.platform} ${s.username || ""} ${s.url}`,
         meta: isGerman ? "Extern" : isArabic ? "رابط خارجي" : "External",
-        action: () => {
-          window.open(s.url, "_blank", "noopener,noreferrer");
-          setIsOpen(false);
-        },
+        actionKind: "external" as const,
+        href: s.url,
       })),
     ];
 
-    return [...navItems, ...projectNav, ...docItems, ...actionItems];
-  }, [router, isArabic, isGerman]);
+    return [...navItems, ...featuredProjectNav, ...docItems, ...otherProjectNav, ...actionItems];
+  }, [isArabic, isGerman, locale]);
 
-  // Filter items by query
+  // Filter items by query across title, description, category, meta, and keywords
   const filteredItems = useMemo(() => {
-    if (!query.trim()) return allItems;
-    const lower = query.toLowerCase();
+    const trimmed = query.trim();
+    if (!trimmed) {
+      // Show curated overview when query is empty (keep list focused and fast)
+      return allItems.filter(
+        (item) =>
+          item.id.startsWith("nav-") ||
+          item.id.startsWith("proj-foundationkit") ||
+          item.id.startsWith("proj-real-time-object-detection") ||
+          item.id.startsWith("proj-robocam") ||
+          item.id.startsWith("proj-pump-station") ||
+          item.id.startsWith("doc-") ||
+          item.id.startsWith("action-") ||
+          item.id.startsWith("social-")
+      );
+    }
+    const lower = trimmed.toLowerCase();
     return allItems.filter(
       (item) =>
         item.title.toLowerCase().includes(lower) ||
         item.description.toLowerCase().includes(lower) ||
-        item.category.toLowerCase().includes(lower)
+        item.category.toLowerCase().includes(lower) ||
+        (item.meta && item.meta.toLowerCase().includes(lower)) ||
+        (item.keywords && item.keywords.toLowerCase().includes(lower))
     );
   }, [allItems, query]);
 
-  // Handle open / close lifecycle
-  const openPalette = () => {
-    previousFocusRef.current = document.activeElement as HTMLElement;
-    setIsOpen(true);
-    setQuery("");
-    setSelectedIndex(0);
-  };
-
-  const closePalette = () => {
-    setIsOpen(false);
-    setQuery("");
-    setSelectedIndex(0);
-    // Return focus to previously focused element
-    setTimeout(() => {
-      previousFocusRef.current?.focus();
-    }, 10);
-  };
-
-  // Listen for custom open event and keyboard shortcut (Ctrl+K / Cmd+K)
+  // Listen for custom open event, Ctrl+K / Cmd+K, Escape, and modal Tab focus trap
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         if (isOpen) {
-          closePalette();
+          closePalette(true);
         } else {
           openPalette();
         }
-      } else if (e.key === "Escape" && isOpen) {
+        return;
+      }
+
+      if (!isOpen) return;
+
+      if (e.key === "Escape") {
         e.preventDefault();
-        closePalette();
+        closePalette(true);
+        return;
+      }
+
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusables = Array.from(
+          dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+        ).filter((el) => el.offsetParent !== null && !el.hasAttribute("disabled"));
+
+        if (focusables.length === 0) {
+          e.preventDefault();
+          return;
+        }
+
+        const firstEl = focusables[0];
+        const lastEl = focusables[focusables.length - 1];
+        const activeEl = document.activeElement as HTMLElement | null;
+
+        if (!activeEl || !dialogRef.current.contains(activeEl)) {
+          e.preventDefault();
+          (e.shiftKey ? lastEl : firstEl).focus();
+          return;
+        }
+
+        if (e.shiftKey) {
+          if (activeEl === firstEl) {
+            e.preventDefault();
+            lastEl.focus();
+          }
+        } else {
+          if (activeEl === lastEl) {
+            e.preventDefault();
+            firstEl.focus();
+          }
+        }
       }
     };
 
@@ -236,23 +333,52 @@ export function CommandPalette() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("open-command-palette", handleCustomOpen);
     };
-  }, [isOpen]);
+  }, [isOpen, openPalette, closePalette]);
 
-  // Auto-focus input when opened
+  // Lock background scroll, capture opener focus, apply inert to background landmarks, and auto-focus input
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      const timer = setTimeout(() => {
-        inputRef.current?.focus();
-      }, 50);
-      return () => {
-        clearTimeout(timer);
-        document.body.style.overflow = "";
-      };
-    } else {
-      document.body.style.overflow = "";
+    if (!isOpen) {
+      if (restoreFocusOnClose) {
+        const target = previousFocusRef.current;
+        if (target && target.isConnected) {
+          requestAnimationFrame(() => {
+            if (target.isConnected) {
+              target.focus();
+            }
+          });
+        }
+      }
+      return;
     }
-  }, [isOpen]);
+
+    if (document.activeElement instanceof HTMLElement) {
+      previousFocusRef.current = document.activeElement;
+    }
+
+    const backgroundNodes = Array.from(
+      document.querySelectorAll<HTMLElement>("header, main, footer, a[href='#main-content']")
+    );
+    const previousInert = backgroundNodes.map((node) => node.hasAttribute("inert"));
+
+    backgroundNodes.forEach((node) => {
+      node.setAttribute("inert", "");
+    });
+    document.body.style.overflow = "hidden";
+
+    const timer = window.setTimeout(() => {
+      inputRef.current?.focus();
+    }, 30);
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = "";
+      backgroundNodes.forEach((node, idx) => {
+        if (!previousInert[idx]) {
+          node.removeAttribute("inert");
+        }
+      });
+    };
+  }, [isOpen, restoreFocusOnClose]);
 
   // Safe selected index to avoid out-of-bounds selection
   const safeSelectedIndex =
@@ -260,7 +386,6 @@ export function CommandPalette() {
       ? selectedIndex
       : 0;
 
-  // Handle keyboard navigation within the listbox
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
     setSelectedIndex(0);
@@ -278,7 +403,7 @@ export function CommandPalette() {
     } else if (e.key === "Enter") {
       e.preventDefault();
       if (filteredItems[safeSelectedIndex]) {
-        filteredItems[safeSelectedIndex].action();
+        executeItem(filteredItems[safeSelectedIndex]);
       }
     }
   };
@@ -294,30 +419,40 @@ export function CommandPalette() {
 
   if (!isOpen) return null;
 
-  // Group filtered items by category
   const categories = Array.from(new Set(filteredItems.map((i) => i.category)));
+
+  const dialogLabel = isGerman
+    ? "Portfolio-Navigator & Befehlspalette"
+    : isArabic
+    ? "المستكشف ولوحة الأوامر"
+    : "Portfolio Navigator & Command Palette";
+
+  const closeLabel = isGerman
+    ? "Suchdialog schließen"
+    : isArabic
+    ? "إغلاق نافذة البحث"
+    : "Close search dialog";
 
   return (
     <div
       className={styles.backdrop}
       onClick={(e) => {
-        if (e.target === e.currentTarget) closePalette();
+        if (e.target === e.currentTarget) closePalette(true);
       }}
       role="presentation"
     >
       <div
+        ref={dialogRef}
         className={styles.palette}
         role="dialog"
         aria-modal="true"
-        aria-label={
-          isGerman
-            ? "Portfolio-Navigator & Befehlspalette"
-            : isArabic
-            ? "المستكشف ولوحة الأوامر"
-            : "Portfolio Navigator & Command Palette"
-        }
+        aria-labelledby={headingId}
         dir={isArabic ? "rtl" : "ltr"}
       >
+        <span id={headingId} className={styles.srOnly}>
+          {dialogLabel}
+        </span>
+
         <div className={styles.searchBar}>
           <svg
             className={styles.searchIcon}
@@ -340,10 +475,17 @@ export function CommandPalette() {
             className={styles.input}
             placeholder={
               isGerman
-                ? "Seiten, Projekte, Nachweise, Aktionen suchen..."
+                ? "Seiten, alle 17 Projekte, Standard-/ATS-CV suchen..."
                 : isArabic
-                ? "ابحث في الأقسام، والمشاريع، والمستندات..."
-                : "Search pages, projects, credentials, actions..."
+                ? "ابحث في الصفحات، جميع المشاريع (17)، ونسخ السيرة..."
+                : "Search pages, all 17 projects, Standard/ATS CVs..."
+            }
+            aria-label={
+              isGerman
+                ? "Portfolio durchsuchen"
+                : isArabic
+                ? "البحث في معرض الأعمال"
+                : "Search portfolio"
             }
             value={query}
             onChange={handleInputChange}
@@ -356,12 +498,38 @@ export function CommandPalette() {
               filteredItems[safeSelectedIndex] ? `item-${filteredItems[safeSelectedIndex].id}` : undefined
             }
           />
-          <kbd className={styles.kbdHint}>ESC</kbd>
+          <kbd className={styles.kbdHint} aria-hidden="true">
+            ESC
+          </kbd>
+          <button
+            ref={closeBtnRef}
+            type="button"
+            className={styles.closeBtn}
+            onClick={() => closePalette(true)}
+            aria-label={closeLabel}
+            title={closeLabel}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
         </div>
 
         <ul
           id={listboxId}
           ref={listRef}
+          tabIndex={-1}
           className={styles.resultsList}
           role="listbox"
           aria-label={
@@ -375,10 +543,10 @@ export function CommandPalette() {
           {filteredItems.length === 0 ? (
             <li className={styles.noResults} role="status">
               {isGerman
-                ? `Keine passenden Seiten, Projekte oder Aktionen für "${query}" gefunden.`
+                ? `Keine passenden Seiten, Projekte oder Dokumente für „${query}“ gefunden.`
                 : isArabic
-                ? `لم يتم العثور على صفحات أو مشاريع مطابقة لـ "${query}".`
-                : `No matching pages, projects, or actions found for "${query}".`}
+                ? `لم يتم العثور على صفحات أو مشاريع أو مستندات مطابقة لـ "${query}".`
+                : `No matching pages, projects, or documents found for "${query}".`}
             </li>
           ) : (
             categories.map((cat) => {
@@ -398,7 +566,7 @@ export function CommandPalette() {
                           role="option"
                           aria-selected={isSelected}
                           className={cn(styles.item, isSelected && styles.itemActive)}
-                          onClick={() => item.action()}
+                          onClick={() => executeItem(item)}
                           onMouseEnter={() => setSelectedIndex(overallIndex)}
                         >
                           <div className={styles.itemMain}>
@@ -418,8 +586,12 @@ export function CommandPalette() {
                               <polyline points="9 18 15 12 9 6" />
                             </svg>
                             <div className={styles.itemText}>
-                              <span className={styles.itemTitle}>{item.title}</span>
-                              <span className={styles.itemDesc}>{item.description}</span>
+                              <span className={styles.itemTitle}>
+                                <BidiText text={item.title} locale={locale} />
+                              </span>
+                              <span className={styles.itemDesc}>
+                                <BidiText text={item.description} locale={locale} />
+                              </span>
                             </div>
                           </div>
                           {item.meta && <span className={styles.itemMeta}>{item.meta}</span>}

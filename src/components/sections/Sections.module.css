@@ -161,6 +161,17 @@
   display: inline-block;
 }
 
+.heroRoleLine {
+  display: none;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-brand-text, var(--color-brand));
+  margin-top: -4px;
+}
+
 .heroLead {
   font-size: var(--text-xl);
   color: var(--color-text-secondary);
@@ -263,11 +274,6 @@
   border: 1px solid var(--color-border);
   padding: clamp(1.75rem, 3vw, 2.5rem);
   box-shadow: var(--shadow-subtle);
-  transition: border-color var(--duration-fast) var(--ease-standard);
-}
-
-.heroFieldMap:hover {
-  border-color: var(--color-brand-border);
 }
 
 .fieldMapFrame {
@@ -349,16 +355,11 @@
   border-bottom: none;
   padding-inline-end: clamp(1rem, 1.5vw, 1.5rem);
   border-inline-end: 1px dashed var(--color-border-subtle);
-  transition: transform var(--duration-fast) var(--ease-standard);
 }
 
 .fieldMapNode:last-child {
   padding-inline-end: 0;
   border-inline-end: none;
-}
-
-.fieldMapNode:hover {
-  transform: translateX(2px);
 }
 
 .nodeIndicatorRow {
@@ -435,15 +436,6 @@
   flex-direction: column;
   gap: var(--space-6);
   box-shadow: var(--shadow-card);
-  transition: border-color var(--duration-base) var(--ease-standard),
-              transform var(--duration-base) var(--ease-standard),
-              box-shadow var(--duration-base) var(--ease-standard);
-}
-
-.projectCard:hover {
-  border-color: var(--color-brand-border);
-  box-shadow: var(--shadow-elevated);
-  transform: translateY(-2px);
 }
 
 .projectHeader {
@@ -489,7 +481,7 @@
 .detailLabel {
   font-family: var(--font-sans);
   font-size: 11px;
-  color: var(--color-brand);
+  color: var(--color-brand-text, var(--color-brand));
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: var(--weight-bold);
@@ -728,6 +720,7 @@
   .heroPrimaryRow {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     gap: var(--space-5);
   }
 
@@ -743,11 +736,12 @@
     order: 2;
   }
 
-  .heroLead {
+  .heroRoleLine {
     order: 3;
+    display: block;
   }
 
-  .heroBioBrief {
+  .heroLead {
     order: 4;
   }
 
@@ -757,18 +751,22 @@
 
   .heroPortraitContainer {
     order: 6;
-    max-width: min(280px, 75vw);
+    max-width: min(240px, 68vw);
     width: 100%;
     margin-inline: auto;
-    margin-block: var(--space-2);
+    margin-block: var(--space-1);
+  }
+
+  .heroBioBrief {
+    order: 7;
   }
 
   .heroMobileFocusRail {
-    order: 7;
+    order: 8;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
-    margin-top: var(--space-3);
+    margin-top: var(--space-2);
     padding-top: var(--space-3);
     border-top: 1px solid var(--color-border-subtle);
   }
@@ -827,26 +825,48 @@
 
 @media (max-width: 480px) {
   .heroSection {
-    padding-top: clamp(2rem, 5.5vw, 2.75rem);
-    padding-bottom: clamp(2rem, 5.5vw, 2.75rem);
+    padding-top: clamp(1rem, 3.5vw, 1.5rem);
+    padding-bottom: clamp(1.75rem, 5vw, 2.25rem);
   }
 
   .heroPrimaryRow {
-    gap: var(--space-4);
+    gap: 0.65rem;
+  }
+
+  .heroMeta {
+    gap: 0.4rem;
+  }
+
+  .locationBadge {
+    padding: 0.25rem 0.6rem;
+    font-size: 11px;
   }
 
   .heroPortraitContainer {
-    max-width: min(240px, 70vw);
+    max-width: min(215px, 64vw);
+    margin-block: 2px;
   }
 
   .heroHeading {
-    font-size: clamp(1.85rem, 7.5vw, 2.35rem);
-    line-height: 1.1;
+    font-size: clamp(1.65rem, 7vw, 2.15rem);
+    line-height: 1.08;
   }
 
   .heroLead {
-    font-size: var(--text-base);
-    line-height: var(--leading-normal);
+    font-size: 0.9375rem;
+    line-height: 1.42;
+  }
+
+  .heroActions {
+    gap: var(--space-2);
+    padding-top: 2px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    padding: 0.625rem 1rem;
+    font-size: var(--text-xs);
+    min-height: 44px;
   }
 
   .heroBioBrief {
@@ -865,6 +885,21 @@
 
   .proofCard {
     padding: var(--space-4);
+  }
+}
+
+@media (max-width: 360px) {
+  .heroPortraitContainer {
+    max-width: 192px;
+  }
+
+  .heroActions {
+    gap: 6px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    padding: 0.55rem 0.85rem;
   }
 }
 

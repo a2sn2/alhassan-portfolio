@@ -22,32 +22,40 @@ import styles from "../home.module.css";
 
 const domainEvidenceMapDe: Record<
   string,
-  { label: string; projectTitle: string; href: string }
+  { label: string; links: Array<{ title: string; href: string }> }
 > = {
   "skills-programming": {
     label: "Belegter Nachweis:",
-    projectTitle: "FoundationKit (.NET 10) & ROBOCAM",
-    href: "/de/projects/foundationkit-dotnet",
+    links: [
+      { title: "FoundationKit (.NET 10)", href: "/de/projects/foundationkit-dotnet" },
+      { title: "ROBOCAM Controller", href: "/de/projects/robocam-controller" },
+    ],
   },
   "skills-data": {
     label: "Belegter Nachweis:",
-    projectTitle: "FoundationKit (EF Core / SQL) & Objekterkennung",
-    href: "/de/projects/real-time-object-detection",
+    links: [
+      { title: "Echtzeit-Objekterkennung", href: "/de/projects/real-time-object-detection" },
+      { title: "FoundationKit (EF Core / SQL)", href: "/de/projects/foundationkit-dotnet" },
+    ],
   },
   "skills-systems": {
     label: "Belegter Nachweis:",
-    projectTitle: "MikroTik-Hotspot-Portal (RouterOS & RADIUS)",
-    href: "/de/projects/mikrotik-hotspot-portal",
+    links: [
+      { title: "MikroTik-Hotspot-Portal (RouterOS & RADIUS)", href: "/de/projects/mikrotik-hotspot-portal" },
+    ],
   },
   "skills-automation": {
     label: "Belegter Nachweis:",
-    projectTitle: "Pumpstation-Analytik & SPS-Telemetrie",
-    href: "/de/projects/pump-station-analytics",
+    links: [
+      { title: "Pumpstation-Analytik & SPS-Telemetrie", href: "/de/projects/pump-station-analytics" },
+    ],
   },
   "skills-qa": {
     label: "Belegter Nachweis:",
-    projectTitle: "Asaas AI QA & Jaib-Finanzplattform",
-    href: "/de/experience#asaas-ai-qa",
+    links: [
+      { title: "Asaas AI QA-Leitung", href: "/de/experience#asaas-ai-qa" },
+      { title: "Jaib-Finanzplattform", href: "/de/experience#ahd-financial-deputy" },
+    ],
   },
 };
 
@@ -138,7 +146,11 @@ export default function GermanHomePage() {
                 </div>
 
                 <div className={styles.flagshipVisual}>
-                  <FlagshipBlueprint locale="de" />
+                  <FlagshipBlueprint
+                    locale="de"
+                    variant="preview"
+                    caseStudyHref={`/de/projects/${flagshipProject.slug}`}
+                  />
                 </div>
               </Reveal>
             )}
@@ -396,10 +408,19 @@ export default function GermanHomePage() {
                     {evidence && (
                       <div className={styles.domainEvidenceRow}>
                         <span className={styles.domainEvidenceLabel}>{evidence.label}</span>
-                        <Link href={evidence.href} className={styles.domainEvidenceLink}>
-                          <span>{evidence.projectTitle}</span>
-                          <span aria-hidden="true">→</span>
-                        </Link>
+                        <div className={styles.domainEvidenceLinks}>
+                          {evidence.links.map((item, linkIdx) => (
+                            <React.Fragment key={item.href}>
+                              {linkIdx > 0 && (
+                                <span className={styles.domainEvidenceSep} aria-hidden="true">·</span>
+                              )}
+                              <Link href={item.href} className={styles.domainEvidenceLink}>
+                                <span>{item.title}</span>
+                                <span aria-hidden="true">→</span>
+                              </Link>
+                            </React.Fragment>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -459,6 +480,32 @@ export default function GermanHomePage() {
 
       {/* 5. Proof & Verification Section */}
       <ProofSection content={proofContentDe} locale="de" />
+
+      {/* 6. Concise Closing Editorial Contact Band */}
+      <section className={styles.closingCtaSection} aria-labelledby="heading-closing-contact">
+        <Container>
+          <div className={styles.closingCtaRow}>
+            <div className={styles.closingCtaCopy}>
+              <h2 id="heading-closing-contact" className={styles.closingCtaTitle}>
+                Direkter Kontakt &amp; Offizielle Lebensläufe
+              </h2>
+              <p className={styles.closingCtaText}>
+                Kontaktieren Sie mich direkt für Software-Engineering-Positionen und Architekturprojekte oder laden Sie die offiziellen Standard- und ATS-Lebensläufe herunter.
+              </p>
+            </div>
+            <div className={styles.closingCtaActions}>
+              <Link href="/de/contact" className={styles.flagshipCta}>
+                <span>Direkt kontaktieren</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link href="/de/contact#cv-downloads" className={styles.closingSecondaryLink}>
+                <span>Lebensläufe herunterladen</span>
+                <span aria-hidden="true">↓</span>
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </section>
 
     </div>
   );

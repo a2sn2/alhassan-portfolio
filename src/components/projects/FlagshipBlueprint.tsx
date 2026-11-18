@@ -1,17 +1,30 @@
 import React from "react";
+import Link from "next/link";
 import styles from "./FlagshipBlueprint.module.css";
 
 interface FlagshipBlueprintProps {
   locale?: "en" | "ar" | "de";
+  variant?: "full" | "preview";
+  caseStudyHref?: string;
   className?: string;
 }
 
 export function FlagshipBlueprint({
   locale = "en",
+  variant = "full",
+  caseStudyHref,
   className,
 }: FlagshipBlueprintProps) {
   const isAr = locale === "ar";
   const isDe = locale === "de";
+  const isPreview = variant === "preview";
+  const resolvedCaseStudyHref =
+    caseStudyHref ||
+    (isAr
+      ? "/ar/projects/foundationkit-dotnet"
+      : isDe
+      ? "/de/projects/foundationkit-dotnet"
+      : "/projects/foundationkit-dotnet");
 
   const labels = {
     specPrefix: "SPEC-2026.04",
@@ -48,27 +61,44 @@ export function FlagshipBlueprint({
     metricCodeGenLabel: isAr ? "محرك التوليد:" : isDe ? "Generierung:" : "Code Generation:",
     metricCodeGenVal: isAr ? "منضبط حتمياً" : isDe ? "Deterministisch" : "Deterministic",
     footerTarget: ".NET 10 LTS Ready",
+    inspectFullLabel: isAr
+      ? "استعراض المخطط المعماري الكامل"
+      : isDe
+      ? "Vollständiges Architekturdiagramm ansehen"
+      : "Inspect Full Architecture Diagram",
   };
 
   const busContractNode = isAr ? (
-    <>⚡ نقل البيانات عبر عقود <bdi dir="ltr">OpenAPI 3.0</bdi></>
+    <>
+      <span aria-hidden="true">⚡</span> نقل البيانات عبر عقود <bdi dir="ltr">OpenAPI 3.0</bdi>
+    </>
   ) : isDe ? (
-    <bdi dir="ltr">⚡ OpenAPI 3.0 Datentransportvertrag</bdi>
+    <>
+      <span aria-hidden="true">⚡</span> <bdi dir="ltr">OpenAPI 3.0 Datentransportvertrag</bdi>
+    </>
   ) : (
-    <bdi dir="ltr">⚡ OpenAPI 3.0 Transport Contract</bdi>
+    <>
+      <span aria-hidden="true">⚡</span> <bdi dir="ltr">OpenAPI 3.0 Transport Contract</bdi>
+    </>
   );
 
   const busRuntimeNode = isAr ? (
-    <>🔌 وسيط التشغيل وتكامل <bdi dir="ltr">EF Core Pipeline</bdi></>
+    <>
+      <span aria-hidden="true">🔌</span> وسيط التشغيل وتكامل <bdi dir="ltr">EF Core Pipeline</bdi>
+    </>
   ) : isDe ? (
-    <bdi dir="ltr">🔌 Runtime-Hosting & EF Core Pipeline</bdi>
+    <>
+      <span aria-hidden="true">🔌</span> <bdi dir="ltr">Runtime-Hosting &amp; EF Core Pipeline</bdi>
+    </>
   ) : (
-    <bdi dir="ltr">🔌 Runtime Hosting & EF Core Pipeline</bdi>
+    <>
+      <span aria-hidden="true">🔌</span> <bdi dir="ltr">Runtime Hosting &amp; EF Core Pipeline</bdi>
+    </>
   );
 
   return (
     <div
-      className={`${styles.blueprintContainer} ${className || ""}`}
+      className={`${styles.blueprintContainer} ${isPreview ? styles.blueprintPreview : ""} ${className || ""}`}
       aria-label={labels.specTitle}
     >
       <div className={styles.blueprintHeader}>
@@ -83,6 +113,61 @@ export function FlagshipBlueprint({
           <span>{labels.statusBadge}</span>
         </div>
       </div>
+
+      {/* Compact Mobile Architecture Summary for Homepage Preview */}
+      {isPreview && (
+        <div className={styles.mobileCompactSummary}>
+          <ol className={styles.compactTierList}>
+            <li className={styles.compactTierRow}>
+              <span className={styles.tierNumber}>
+                <bdi dir="ltr">{labels.tier1Num}</bdi>
+              </span>
+              <div className={styles.compactTierBody}>
+                <span className={styles.compactTierName}>{labels.tier1Title}</span>
+                <span className={styles.compactTierNodes}>
+                  <bdi dir="ltr">{labels.nodeStudio}</bdi> · <bdi dir="ltr">{labels.nodeClient}</bdi> · <bdi dir="ltr">{labels.nodePostman}</bdi>
+                </span>
+              </div>
+            </li>
+            <li className={styles.compactFlowRow}>
+              <span className={styles.compactFlowBadge}>{busContractNode}</span>
+            </li>
+            <li className={styles.compactTierRow}>
+              <span className={styles.tierNumber}>
+                <bdi dir="ltr">{labels.tier2Num}</bdi>
+              </span>
+              <div className={styles.compactTierBody}>
+                <span className={styles.compactTierName}>{labels.tier2Title}</span>
+                <span className={styles.compactTierNodes}>
+                  <bdi dir="ltr">{labels.nodePackages}</bdi> · <bdi dir="ltr">{labels.nodeComposer}</bdi> · <bdi dir="ltr">{labels.nodeDomain}</bdi>
+                </span>
+              </div>
+            </li>
+            <li className={styles.compactFlowRow}>
+              <span className={styles.compactFlowBadge}>{busRuntimeNode}</span>
+            </li>
+            <li className={styles.compactTierRow}>
+              <span className={styles.tierNumber}>
+                <bdi dir="ltr">{labels.tier3Num}</bdi>
+              </span>
+              <div className={styles.compactTierBody}>
+                <span className={styles.compactTierName}>{labels.tier3Title}</span>
+                <span className={styles.compactTierNodes}>
+                  <bdi dir="ltr">{labels.nodeHost}</bdi> · <bdi dir="ltr">{labels.nodePersistence}</bdi>
+                </span>
+              </div>
+            </li>
+          </ol>
+
+          <Link
+            href={`${resolvedCaseStudyHref}#architecture`}
+            className={styles.compactInspectLink}
+          >
+            <span>{labels.inspectFullLabel}</span>
+            <span aria-hidden="true">{isAr ? "←" : "→"}</span>
+          </Link>
+        </div>
+      )}
 
       <div className={styles.architectureCanvas}>
         {/* Tier 1: Client & Tooling */}
@@ -116,12 +201,12 @@ export function FlagshipBlueprint({
         </div>
 
         {/* Connector Bus 1 */}
-        <div className={styles.connectorBus} aria-hidden="true">
-          <span className={styles.connectorLine} />
+        <div className={styles.connectorBus}>
+          <span className={styles.connectorLine} aria-hidden="true" />
           <span className={styles.connectorLabel}>
             {busContractNode}
           </span>
-          <span className={styles.connectorLine} />
+          <span className={styles.connectorLine} aria-hidden="true" />
         </div>
 
         {/* Tier 2: Core Platform & Clean Architecture */}
@@ -155,12 +240,12 @@ export function FlagshipBlueprint({
         </div>
 
         {/* Connector Bus 2 */}
-        <div className={styles.connectorBus} aria-hidden="true">
-          <span className={styles.connectorLine} />
+        <div className={styles.connectorBus}>
+          <span className={styles.connectorLine} aria-hidden="true" />
           <span className={styles.connectorLabel}>
             {busRuntimeNode}
           </span>
-          <span className={styles.connectorLine} />
+          <span className={styles.connectorLine} aria-hidden="true" />
         </div>
 
         {/* Tier 3: Runtime & Persistence */}

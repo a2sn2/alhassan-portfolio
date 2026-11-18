@@ -31,7 +31,7 @@ export const proofContentDe: ProofContent = {
       quote:
         "Standardisierte dreisprachige Lebenslauf-Pakete auf Deutsch, Englisch und Arabisch in Standard- und ATS-Versionen.",
       metric: "Dreisprachig (DE/EN/AR)",
-      url: "/de/about",
+      url: "/de/contact#cv-downloads",
       type: "publication",
     },
     {

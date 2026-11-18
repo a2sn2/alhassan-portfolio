@@ -52,11 +52,17 @@ export default function GermanContactPage() {
             </div>
             <h1 className={styles.title}>{contactContentDe.title}</h1>
             <p className={styles.description}>{contactContentDe.description}</p>
+            <div className={styles.cvQuickJumpRow}>
+              <a href="#cv-downloads" className={styles.cvQuickJump}>
+                <span>Direkt zu den Lebenslauf-Downloads</span>
+                <span aria-hidden="true">↓</span>
+              </a>
+            </div>
           </header>
         </Reveal>
 
         {/* Channels & CV Packages Layout */}
-        <div className={styles.layout} style={{ marginTop: "var(--space-10)" }}>
+        <div className={styles.layout}>
           {/* Direct Channels Column */}
           <Reveal delay={60} className={styles.channelsColumn}>
             <h2 className={styles.sectionTitle}>Direkte Kommunikationskanäle</h2>
@@ -102,8 +108,9 @@ export default function GermanContactPage() {
           </Reveal>
 
           {/* Official CV Downloads Column */}
-          <Reveal delay={100} className={styles.cvColumn}>
-            <h2 className={styles.sectionTitle}>Offizielle mehrsprachige Lebenslauf-Pakete</h2>
+          <section id="cv-downloads" tabIndex={-1} className={styles.cvColumn} aria-labelledby="heading-cv-downloads">
+            <Reveal delay={100} className={styles.cvColumn}>
+              <h2 id="heading-cv-downloads" className={styles.sectionTitle}>Offizielle mehrsprachige Lebenslauf-Pakete</h2>
 
             <div className={styles.cvGroupContainer}>
               {/* 1. German CV Group */}
@@ -243,7 +250,8 @@ export default function GermanContactPage() {
               <span className={styles.noticeTitle}>Referenzen</span>
               <p className={styles.noticeText}>{contactContentDe.referencesNote}</p>
             </div>
-          </Reveal>
+            </Reveal>
+          </section>
         </div>
       </Container>
 

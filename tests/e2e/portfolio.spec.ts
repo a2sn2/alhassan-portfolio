@@ -1620,7 +1620,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
         expectedTargets: [
           "/projects",
           "/capabilities",
-          "/about",
+          "/contact#cv-downloads",
           "/contact",
         ],
       },
@@ -1633,7 +1633,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
         expectedTargets: [
           "/ar/projects",
           "/ar/capabilities",
-          "/ar/about",
+          "/ar/contact#cv-downloads",
           "/ar/contact",
         ],
       },
@@ -1646,7 +1646,7 @@ test.describe("Multi-Page Portfolio Architecture & User Experience", () => {
         expectedTargets: [
           "/de/projects",
           "/de/capabilities",
-          "/de/about",
+          "/de/contact#cv-downloads",
           "/de/contact",
         ],
       },
